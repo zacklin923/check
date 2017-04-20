@@ -47,14 +47,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="easyui-accordion" style="width:100%;" data-options="fillSpace:true,fit: true,animate: true,selected:false">
 	<div title="快件信息" data-options="iconCls:'icon-add'" style="overflow:auto;padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-	        <li><span><a href="<%=path %>/jsp/system/users.jsp" target="right">用户管理</a></span></li>
-			<li><span><a href="<%=path %>/branches!queryOfFenye?cz=yes" target="right">二级站点登记</a></span></li>
-			<li><span><a href="<%=path %>/zmn!queryOfFenye?cz=yes" target="right">哲盟职能用户</a></span></li>
-			<li><span><a href="<%=path %>/zmd!queryOfFenye?cz=yes" target="right">哲盟数据检查</a></span></li>
-			<li><span><a href="<%=path %>/pdachange!queryOfFenye?cz=yes" target="right">巴枪条码变更</a></span></li>
-			<li><span><a href="<%=path %>/hitches!queryOfFenye?cz=yes" target="right">哲盟异常登记</a></span></li>
-			<li><span><a href="<%=path %>/bqq!queryOfFenye?cz=yes" target="right">公司BQQ登记</a></span></li>
-			<li><span><a href="<%=path %>/project!queryOfFenye?cz=yes" target="right">系统开发登记</a></span></li>
+	        <li><span><a href="<%=path %>/user" target="right">用户管理</a></span></li>
+	        <li><span><a href="<%=path %>/user" target="right">客户查询</a></span></li>
         </ul>
 	</div>
 	<div title="故障报修登记" data-options="iconCls:'icon-large-smartart'" style="padding:10px;">

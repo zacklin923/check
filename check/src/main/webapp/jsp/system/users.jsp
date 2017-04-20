@@ -106,24 +106,21 @@ function excel_export(){
 }
 </script>
 <table id="dg" class="easyui-datagrid" border="true"
-		url="/quota/api/users"
+		url="<%=path %>/api/user"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
-		rownumbers="true" fitColumns="true" 
+		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
-			<th field="uNum" width="50" sortable="true">账号</th>
-			<th field="uPass" width="50">密码</th>
-			<th field="uName" width="50" sortable="true">用户名</th>
-			<th field="uJob" width="50">职责</th>
-			<th field="csGroup" width="50">部门</th>
-			<th field="uStartTime" width="50" sortable="true">创建时间</th>
-			<th field="roleName" width="50">角色</th>
-			<th field="uMail" width="50">邮箱</th>
-			<th field="uState" width="50">状态</th>
+			<th field="stuNum" width="100" sortable="true">账号</th>
+			<th field="pass" width="100">密码</th>
+			<th field="stuName" width="100" sortable="true">用户名</th>
+			<th field="ownBarCode" width="100">条码</th>
+			<th field="note" width="150">备注</th>
+			<th field="createTime" width="200" sortable="true">创建时间</th>
 		</tr>
 	</thead>
 </table>
@@ -163,7 +160,7 @@ function excel_export(){
 </div>
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
-		closed="true" buttons="#dlg-buttons">
+		closed="true" buttons="#dlg-buttons" modal="true">
 	<div class="ftitle">用户信息</div>
 	<hr>
 	<form id="fm" method="post" >
