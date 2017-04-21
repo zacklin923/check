@@ -28,12 +28,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
 <body style="margin: 0px;padding: 0px;background-color:#F9BE00;" >
-	<div style="margin-left: 30px;margin-top: 25px;">
-		<img alt="" src="framework/image/logo2-transparent.png" height="50" border="0"/>
+	<div style="margin-left: 20px;margin-top: 15px;">
+		<img alt="" src="framework/image/logo2-transparent.png" height="33" width="100" border="0"/>
 	</div>
-	<center style="margin-top: -52px;">
-		<span style="color: #3E3A38;font-size: 40px;font-weight: bold;font-family: Microsoft YaHei;"><a href="welcom.jsp" target="right" style="text-decoration: none;color:#3E3A38;">IT基础数据管理系统</a></span>
-	</center>
+	<div style="margin-top: -44px;margin-left: 148px;">
+		<span style="color: #3E3A38;font-size: 37px;font-weight: bold;font-family: Microsoft YaHei;">大客户查件系统</span>
+	</div>
+	<div style="margin-top: -17px;">
 	<c:choose>
 		<c:when test="${user==null}">
 			<a href="login.jsp" target="_parent" style="font-size: 14px;font-weight: bold;color: red;float: right;margin-right: 30px;">登录</a>
@@ -46,16 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<span style="float: right;font-size: 14px;font-weight: bold;color: #282828;">登陆者：</span>
 		</c:otherwise>
 	</c:choose>
+	</div>
 	
-	<span style="position: absolute;right: 30px;top: 10px;font-weight: lighter;color:#282828;">提醒：
-		<br/>
-		<a href="<%=path %>/information!query" target="right" style="text-decoration: none;">
-			1、今天您还有<span style="color: red;">${suminfo }</span>张表没有操作.
-		</a>
-		<br/>
-		<a href="<%=path %>/handle!queryOfFenye?cz=yes" target="right" style="text-decoration: none;">
-			2、您有<span style="color: red;">${dainfo }</span>个新的故障报修单，请尽快处理！
-		</a>
-	</span>
 </body>
 </html>

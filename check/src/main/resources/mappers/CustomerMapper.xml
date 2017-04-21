@@ -242,4 +242,44 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
     where BAR_CODE = #{barCode,jdbcType=VARCHAR}
   </update>
+  <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select * from
+  	(
+	  	select t1.*,rownum rn from
+	  	(
+		  	select * from CUSTOMER
+		  	<where>
+		  		<if test="str1!=null and str1!=''">
+		  			BAR_CODE in (${str1})
+		  		</if>
+		  	</where>
+		  	<if test="sort!=null and order!=null">
+		  		order by ${sort} ${order},CREATE_TIME desc
+		  	</if>
+		  	<if test="sort==null or order==null">
+		  		order by CREATE_TIME desc
+		  	</if>
+	  	) t1
+	  	<where>
+	  		<if test="end!=null">
+	  			rownum &lt;= #{end}
+		  	</if>
+	  	</where>
+  	)
+  	<where>
+  		<if test="start!=null">
+  			rn > #{start}
+	  	</if>
+  	</where>
+  </select>
+  <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select count(*) from CUSTOMER
+  	<where>
+  		<if test="str1!=null and str1!=''">
+  			BAR_CODE in (${str1})
+  		</if>
+  	</where>
+  	<where>
+  	</where>
+  </select>
 </mapper>

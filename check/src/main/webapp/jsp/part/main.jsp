@@ -17,15 +17,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	
   </head>
-<frameset rows="100px,0px,*" frameborder="no" bordercolor="#E6E6E6" style="border-style: solid">
+<frameset rows="60px,0px,*" frameborder="no" bordercolor="#E6E6E6" style="border-style: solid">
 	<frame name="top" src="<%=path%>/jsp/part/top.jsp" noresize="noresize" scrolling="no"/>
 	<frame name="top_center" src="<%=path%>/  left_center.jsp" noresize="noresize" scrolling="no"/>
-	<frameset cols="250px,0px,*">
+	<frameset cols="200px,0px,*">
 		<frame name="left" src="<%=path%>/jsp/part/left.jsp" noresize="noresize" scrolling="no"/>
 		<frame name="left_center" src="<%=path%>/jsp/part/left_center.jsp" noresize="noresize" scrolling="no" marginwidth="0"/>
-		<frameset rows="*,50px">
+		<frameset rows="*,40px">
 			<frame name="right" src="<%=path%>/jsp/part/welcom.jsp" noresize="noresize"/>
-			<frame name="bottom" src="<%=path%>/jsp/part/bottom.jsp" noresize="noresize"/>
+			<frame name="bottom" src="<%=path%>/jsp/part/bottom.jsp" noresize="noresize" scrolling="no"/>
 		</frameset> 
 	</frameset>
 </frameset>
