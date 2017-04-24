@@ -76,7 +76,7 @@
 	</session-config>
 	
 	<welcome-file-list>
-		<welcome-file>/jsp/part/main.jsp</welcome-file>
+		<welcome-file>/jsp/system/login.jsp</welcome-file>
 	</welcome-file-list>
 	
 </web-app>

@@ -17,10 +17,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-	
 	<script type="text/javascript" src="<%=path %>/framework/js/myjs.js"></script>
 	<link rel="stylesheet" type="text/css" href="<%=path %>/framework/css/mycss.css">
 
@@ -37,13 +33,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div style="margin-top: -17px;">
 	<c:choose>
 		<c:when test="${user==null}">
-			<a href="login.jsp" target="_parent" style="font-size: 14px;font-weight: bold;color: red;float: right;margin-right: 30px;">登录</a>
+			<a href="<%=path%>/jsp/system/login.jsp" target="_parent" style="font-size: 14px;font-weight: bold;color: red;float: right;margin-right: 30px;">登录</a>
 			<span style="font-size: 14px;font-weight: bold;color: #0052A3;float: right;margin-right: 0px;">您还没有登录，请先</span>
 		</c:when>
 		<c:otherwise>
-			<a onclick="return confirm('确定注销吗?')" href="<%=path %>/login!logout" target="_parent" style="float: right;margin-right: 30px;font-size: 14px;font-weight: bold;color: red;">注销</a>
-			<span style="font-size: 14px;font-weight: bold;color: #0052A3;float: right;margin-right: 30px;">${user.UName }</span>
-			<span style="float: right;font-size: 14px;font-weight: bold;color: red;margin-right: 5px;">${user.r.RName }</span>
+			<a onclick="return confirm('确定注销吗?')" href="<%=path %>/logout" target="_parent" style="float: right;margin-right: 30px;font-size: 14px;font-weight: bold;color: red;">注销</a>
+			<span style="font-size: 14px;font-weight: bold;color: #0052A3;float: right;margin-right: 30px;">${user.stuName }</span>
+			<span style="float: right;font-size: 14px;font-weight: bold;color: red;margin-right: 5px;"></span>
 			<span style="float: right;font-size: 14px;font-weight: bold;color: #282828;">登陆者：</span>
 		</c:otherwise>
 	</c:choose>
