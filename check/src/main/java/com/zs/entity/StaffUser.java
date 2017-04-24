@@ -17,6 +17,9 @@ public class StaffUser {
 
     private Date createTime;
 
+    //---------------
+    private String licence;
+    
     public String getStuNum() {
         return stuNum;
     }
@@ -65,4 +68,13 @@ public class StaffUser {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	public String getLicence() {
+		return licence;
+	}
+
+	public void setLicence(String licence) {
+		this.licence = licence;
+	}
+    
 }

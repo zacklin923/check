@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.StaffRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.StaffRole" >
+    <id column="STR_ID" property="strId" jdbcType="DECIMAL" />
+    <result column="STR_NAME" property="strName" jdbcType="VARCHAR" />
+    <result column="STR_DESC" property="strDesc" jdbcType="VARCHAR" />
+    <result column="POWERS" property="powers" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    STR_ID, STR_NAME, STR_DESC, POWERS, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.StaffRoleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from STAFF_ROLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from STAFF_ROLE
+    where STR_ID = #{strId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from STAFF_ROLE
+    where STR_ID = #{strId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.StaffRoleExample" >
+    delete from STAFF_ROLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.StaffRole" >
+    insert into STAFF_ROLE (STR_ID, STR_NAME, STR_DESC, 
+      POWERS, CREATE_TIME)
+    values (#{strId,jdbcType=DECIMAL}, #{strName,jdbcType=VARCHAR}, #{strDesc,jdbcType=VARCHAR}, 
+      #{powers,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.StaffRole" >
+    insert into STAFF_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="strId != null" >
+        STR_ID,
+      </if>
+      <if test="strName != null" >
+        STR_NAME,
+      </if>
+      <if test="strDesc != null" >
+        STR_DESC,
+      </if>
+      <if test="powers != null" >
+        POWERS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="strId != null" >
+        #{strId,jdbcType=DECIMAL},
+      </if>
+      <if test="strName != null" >
+        #{strName,jdbcType=VARCHAR},
+      </if>
+      <if test="strDesc != null" >
+        #{strDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="powers != null" >
+        #{powers,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.StaffRoleExample" resultType="java.lang.Integer" >
+    select count(*) from STAFF_ROLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update STAFF_ROLE
+    <set >
+      <if test="record.strId != null" >
+        STR_ID = #{record.strId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.strName != null" >
+        STR_NAME = #{record.strName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.strDesc != null" >
+        STR_DESC = #{record.strDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.powers != null" >
+        POWERS = #{record.powers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update STAFF_ROLE
+    set STR_ID = #{record.strId,jdbcType=DECIMAL},
+      STR_NAME = #{record.strName,jdbcType=VARCHAR},
+      STR_DESC = #{record.strDesc,jdbcType=VARCHAR},
+      POWERS = #{record.powers,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.StaffRole" >
+    update STAFF_ROLE
+    <set >
+      <if test="strName != null" >
+        STR_NAME = #{strName,jdbcType=VARCHAR},
+      </if>
+      <if test="strDesc != null" >
+        STR_DESC = #{strDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="powers != null" >
+        POWERS = #{powers,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where STR_ID = #{strId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.StaffRole" >
+    update STAFF_ROLE
+    set STR_NAME = #{strName,jdbcType=VARCHAR},
+      STR_DESC = #{strDesc,jdbcType=VARCHAR},
+      POWERS = #{powers,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where STR_ID = #{strId,jdbcType=DECIMAL}
+  </update>
+  <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select * from
+  	(
+	  	select t1.*,rownum rn from
+	  	(
+		  	select * from STAFF_ROLE
+		  	<where>
+		  	</where>
+		  	<if test="sort!=null and order!=null">
+		  		order by ${sort} ${order},CREATE_TIME desc
+		  	</if>
+		  	<if test="sort==null or order==null">
+		  		order by CREATE_TIME desc
+		  	</if>
+	  	) t1
+	  	<where>
+	  		<if test="end!=null">
+	  			rownum &lt;= #{end}
+		  	</if>
+	  	</where>
+  	)
+  	<where>
+  		<if test="start!=null">
+  			rn > #{start}
+	  	</if>
+  	</where>
+  </select>
+  <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select count(*) from STAFF_ROLE
+  	<where>
+  	</where>
+  </select>
+</mapper>

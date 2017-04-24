@@ -14,8 +14,8 @@ import com.zs.entity.other.Result;
 
 public abstract class BaseRestController<T>{
 	
-	public final String SUCCESS="success";
-	public final String ERROR="error";
+	public static final String SUCCESS="success";
+	public static final String ERROR="error";
 	
 	/**
 	 * 状态码
