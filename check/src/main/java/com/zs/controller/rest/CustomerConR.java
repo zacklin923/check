@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zs.entity.Customer;
+import com.zs.entity.StaffRole;
+import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
@@ -26,7 +28,8 @@ public class CustomerConR extends BaseRestController<Customer>{
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
-			accept.setStr1("'1','2','3'");
+			StaffUser user=(StaffUser) req.getSession().getAttribute("user"); 
+			accept.setStr1(user.getOwnBarCode());
 			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 			return customerSer.queryFenye(accept);
 		}

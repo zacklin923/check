@@ -241,10 +241,18 @@
   	<where>
   	</where>
   </select>
-  <select id="queryforId" resultType="BaseResultMap" parameterType="java.lang.String">
+  <select id="queryforId" resultMap="BaseResultMap" parameterType="java.lang.String">
   	select * from STAFF_POWER
   	<where>
   	stp_id in (#{id})
   	</where>
+  </select>
+  <select id="selectByUrlAndMethod" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select *
+    from STAFF_POWER
+    <where>
+    	and STP_METHOD = #{method}
+   		and STP_URL = #{url}
+    </where>
   </select>
 </mapper>

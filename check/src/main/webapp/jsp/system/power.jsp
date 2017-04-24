@@ -41,12 +41,16 @@ function save(){
 			return $(this).form('validate');
 		},
 		success:function(data){
-			var json = eval('('+data+')');
-			if(json.result=='success'){
-				$('#dg').datagrid('reload');
-				$("#dlg").dialog("close");
+			if(data){
+				var json = eval('('+data+')');
+				if(json.result=='success'){
+					$('#dg').datagrid('reload');
+					$("#dlg").dialog("close");
+				}else{
+					alert("错误:"+json.code);
+				}
 			}else{
-				alert("错误:"+json.code);
+				alert("错误");
 			}
 		}
 	});

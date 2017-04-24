@@ -11,4 +11,5 @@ public interface PowerSer extends BaseService<StaffPower>{
 	
 	public List<StaffPower> queryforId(String id);
 	
+	public StaffPower selectByUrlAndMethod(String url,String method);
 }

@@ -17,10 +17,13 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.google.gson.Gson;
+import com.zs.controller.rest.BaseRestController.Code;
+import com.zs.entity.StaffPower;
 import com.zs.entity.StaffRole;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.Result;
+import com.zs.service.PowerSer;
 import com.zs.service.UserSer;
 
 
@@ -35,6 +38,8 @@ public class RoleInter extends HandlerInterceptorAdapter{
 	private Gson gson=new Gson();
 	@Resource
 	private UserSer userSer;
+	@Resource
+	private PowerSer powerSer;
 	private Logger log=Logger.getLogger(RoleInter.class);
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
@@ -68,14 +73,35 @@ public class RoleInter extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		init(request, response);
-		if (url.equals("/quota/projectIncome")) {
-			return true;
-		}else if (url.equals("/quota/jsp/test/data/treegrid2_data.json")) {
-			return true;
-		}else if (url.contains("/quota/api/projectIncome")) {
+		//例外列表
+		if (url.contains("framework")
+				|| url.contains("file")
+				|| url.contains("login")
+				|| url.contains("logout")) {
 			return true;
 		}
-		return true;
+		if (user==null) {
+			resp.sendRedirect("jsp/part/error1.jsp");
+			return false;
+		}else if(role==null){
+			resp.sendRedirect("jsp/part/error2.jsp");
+			return false;
+		}
+		if (method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("POST")) {
+			url=url.substring(0, url.lastIndexOf("/"))+"/";
+		}
+		StaffPower power=powerSer.selectByUrlAndMethod(url, method);
+		if (power!=null) {
+			boolean isPass=role.getPowers().contains(""+power.getStpId());
+			if (isPass==false) {
+				resp.sendRedirect("jsp/part/error2.jsp");
+			}
+			return isPass;
+		}else{
+			log.error("没有这个权限   "+url+"  "+method);
+		}
+		resp.sendRedirect("jsp/part/error2.jsp");
+		return false;
 	}
 
 	

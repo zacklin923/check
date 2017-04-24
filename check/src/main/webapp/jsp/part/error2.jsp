@@ -28,6 +28,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   	<h1>错误代码：300</h1>
 	<p>您的权限不够，请联系管理员。</p>
-	<a href="<%=path %>/welcom.jsp" target="right">返回首页</a>
+	<a href="<%=path %>/jsp/part/welcom.jsp" target="right">返回首页</a>
   </body>
 </html>
