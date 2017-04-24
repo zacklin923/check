@@ -31,7 +31,7 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${user.licence }");
-		url="/quota/api/users/"+row.uNum;
+		url="<%=path%>/api/power/"+row.stpId;
 	}
 }
 function save(){
@@ -53,7 +53,7 @@ function save(){
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var uNum=row.uNum;
+	var id=row.stpId;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
@@ -61,10 +61,9 @@ function deleteObj(){
 			function(data){
 				if(data){
 					$.ajax({
-						url:"/quota/api/users/"+uNum,
+						url:"<%=path%>/api/power/"+id,
 						type:"delete",
 						success:function(data){
-							console.log(data);
 							if(data.result=='success'){
 								$('#dg').datagrid('reload');
 							}else{
@@ -79,7 +78,7 @@ function deleteObj(){
 }
 function excel_export(){
 	$("#search").form("submit",{
-		url:"/quota/api/users/excelExport",
+		url:"<%=path%>/api/power/excelExport",
 		method:"get",
 		onSubmit: function(){   
 	        // do some check   
@@ -107,6 +106,7 @@ function excel_export(){
 			<th field="stpId" width="100" sortable="true">编号</th>
 			<th field="stpName" width="100">名字</th>
 			<th field="stpUrl" width="100" sortable="true">url</th>
+			<th field="stpMethod" width="100" sortable="true">method</th>
 			<th field="createTime" width="200" sortable="true">创建时间</th>
 		</tr>
 	</thead>
@@ -135,9 +135,7 @@ function excel_export(){
     		<div>
     			用户名：<input name ="str2" />
     		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
    		</div>
-   		${licence }/${user.licence }
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">
@@ -165,6 +163,10 @@ function excel_export(){
 		<div class="fitem">
 			<label>URL:</label>
 			<input name="stpUrl" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>method:</label>
+			<input name="stpMethod" class="easyui-validatebox" required="true">
 		</div>
 	</form>
 </div>
