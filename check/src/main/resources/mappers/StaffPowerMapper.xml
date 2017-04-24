@@ -5,6 +5,8 @@
     <id column="STP_ID" property="stpId" jdbcType="DECIMAL" />
     <result column="STP_NAME" property="stpName" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="STP_URL" property="stpUrl" jdbcType="VARCHAR" />
+    <result column="STP_METHOD" property="stpMethod" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    STP_ID, STP_NAME, CREATE_TIME
+    STP_ID, STP_NAME, CREATE_TIME, STP_URL, STP_METHOD
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.StaffPowerExample" >
     select
@@ -99,10 +101,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zs.entity.StaffPower" >
-    insert into STAFF_POWER (STP_ID, STP_NAME, CREATE_TIME
-      )
-    values (#{stpId,jdbcType=DECIMAL}, #{stpName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+    insert into STAFF_POWER (STP_ID, STP_NAME, CREATE_TIME, 
+      STP_URL, STP_METHOD)
+    values (#{stpId,jdbcType=DECIMAL}, #{stpName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{stpUrl,jdbcType=VARCHAR}, #{stpMethod,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.StaffPower" >
     insert into STAFF_POWER
@@ -116,6 +118,12 @@
       <if test="createTime != null" >
         CREATE_TIME,
       </if>
+      <if test="stpUrl != null" >
+        STP_URL,
+      </if>
+      <if test="stpMethod != null" >
+        STP_METHOD,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="stpId != null" >
@@ -126,6 +134,12 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stpUrl != null" >
+        #{stpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="stpMethod != null" >
+        #{stpMethod,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -147,6 +161,12 @@
       <if test="record.createTime != null" >
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.stpUrl != null" >
+        STP_URL = #{record.stpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stpMethod != null" >
+        STP_METHOD = #{record.stpMethod,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -156,7 +176,9 @@
     update STAFF_POWER
     set STP_ID = #{record.stpId,jdbcType=DECIMAL},
       STP_NAME = #{record.stpName,jdbcType=VARCHAR},
-      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      STP_URL = #{record.stpUrl,jdbcType=VARCHAR},
+      STP_METHOD = #{record.stpMethod,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -170,13 +192,21 @@
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="stpUrl != null" >
+        STP_URL = #{stpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="stpMethod != null" >
+        STP_METHOD = #{stpMethod,jdbcType=VARCHAR},
+      </if>
     </set>
     where STP_ID = #{stpId,jdbcType=DECIMAL}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zs.entity.StaffPower" >
     update STAFF_POWER
     set STP_NAME = #{stpName,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      STP_URL = #{stpUrl,jdbcType=VARCHAR},
+      STP_METHOD = #{stpMethod,jdbcType=VARCHAR}
     where STP_ID = #{stpId,jdbcType=DECIMAL}
   </update>
   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">

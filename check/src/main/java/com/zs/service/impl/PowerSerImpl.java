@@ -3,16 +3,16 @@ package com.zs.service.impl;
 import java.util.List;
 
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import com.zs.dao.StaffPowerMapper;
 import com.zs.entity.StaffPower;
-import com.zs.entity.StaffPowerExample;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.service.PowerSer;
+import com.zs.tools.Trans;
 
+@Transactional
 @Service("powerSer")
 public class PowerSerImpl implements PowerSer{
 
@@ -42,23 +42,19 @@ public class PowerSerImpl implements PowerSer{
 	}
 
 	public Integer add(StaffPower obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return powerMapper.insertSelective(obj);
 	}
 
 	public Integer update(StaffPower obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return powerMapper.updateByPrimaryKeySelective(obj);
 	}
 
 	public Integer delete(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return powerMapper.deleteByPrimaryKey(Trans.toBigDecimal(id));
 	}
 
 	public StaffPower get(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return powerMapper.selectByPrimaryKey(Trans.toBigDecimal(id));
 	}
 
 	

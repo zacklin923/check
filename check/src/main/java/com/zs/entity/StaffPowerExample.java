@@ -295,6 +295,146 @@ public class StaffPowerExample {
             addCriterion("CREATE_TIME not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andStpUrlIsNull() {
+            addCriterion("STP_URL is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlIsNotNull() {
+            addCriterion("STP_URL is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlEqualTo(String value) {
+            addCriterion("STP_URL =", value, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlNotEqualTo(String value) {
+            addCriterion("STP_URL <>", value, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlGreaterThan(String value) {
+            addCriterion("STP_URL >", value, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("STP_URL >=", value, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlLessThan(String value) {
+            addCriterion("STP_URL <", value, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlLessThanOrEqualTo(String value) {
+            addCriterion("STP_URL <=", value, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlLike(String value) {
+            addCriterion("STP_URL like", value, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlNotLike(String value) {
+            addCriterion("STP_URL not like", value, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlIn(List<String> values) {
+            addCriterion("STP_URL in", values, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlNotIn(List<String> values) {
+            addCriterion("STP_URL not in", values, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlBetween(String value1, String value2) {
+            addCriterion("STP_URL between", value1, value2, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpUrlNotBetween(String value1, String value2) {
+            addCriterion("STP_URL not between", value1, value2, "stpUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodIsNull() {
+            addCriterion("STP_METHOD is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodIsNotNull() {
+            addCriterion("STP_METHOD is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodEqualTo(String value) {
+            addCriterion("STP_METHOD =", value, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodNotEqualTo(String value) {
+            addCriterion("STP_METHOD <>", value, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodGreaterThan(String value) {
+            addCriterion("STP_METHOD >", value, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodGreaterThanOrEqualTo(String value) {
+            addCriterion("STP_METHOD >=", value, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodLessThan(String value) {
+            addCriterion("STP_METHOD <", value, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodLessThanOrEqualTo(String value) {
+            addCriterion("STP_METHOD <=", value, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodLike(String value) {
+            addCriterion("STP_METHOD like", value, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodNotLike(String value) {
+            addCriterion("STP_METHOD not like", value, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodIn(List<String> values) {
+            addCriterion("STP_METHOD in", values, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodNotIn(List<String> values) {
+            addCriterion("STP_METHOD not in", values, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodBetween(String value1, String value2) {
+            addCriterion("STP_METHOD between", value1, value2, "stpMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andStpMethodNotBetween(String value1, String value2) {
+            addCriterion("STP_METHOD not between", value1, value2, "stpMethod");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

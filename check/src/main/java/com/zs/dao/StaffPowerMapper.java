@@ -2,7 +2,6 @@ package com.zs.dao;
 
 import com.zs.entity.StaffPower;
 import com.zs.entity.StaffPowerExample;
-import com.zs.entity.StaffRole;
 import com.zs.entity.other.EasyUIAccept;
 
 import java.math.BigDecimal;
@@ -31,7 +30,7 @@ public interface StaffPowerMapper {
     int updateByPrimaryKeySelective(StaffPower record);
 
     int updateByPrimaryKey(StaffPower record);
-    //-----------------------------
+	//-----------------------------
     List<StaffPower> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);

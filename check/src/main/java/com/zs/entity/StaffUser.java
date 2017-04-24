@@ -76,5 +76,11 @@ public class StaffUser {
 	public void setLicence(String licence) {
 		this.licence = licence;
 	}
+
+	@Override
+	public String toString() {
+		return "StaffUser [stuNum=" + stuNum + ", pass=" + pass + ", stuName=" + stuName + ", ownBarCode=" + ownBarCode
+				+ ", note=" + note + ", createTime=" + createTime + ", licence=" + licence + "]";
+	}
     
 }
