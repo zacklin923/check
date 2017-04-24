@@ -21,6 +21,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  * ajax添加头信息
  * */
 $.ajaxSetup({ 
-	headers : {"licence":"${licence}"}
+	headers : {"licence":"${user.licence}"}
 });
 </script>

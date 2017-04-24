@@ -16,15 +16,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
+<!-- 
 $(function(){  
     $("#csId").combotree({  
-            url:'/quota/api/users/cs', 
+            url:'/check/api/users/cs', 
             method:'get'
         });  
     });  
 	$.ajax({
 		type:"GET",
-		url:"/quota/api/users/role",
+		url:"/check/api/users/role",
 		data:"",
 		success:function(data){
 			str="";
@@ -35,12 +36,14 @@ $(function(){
 		}
 	});
 var url;
+-->
 function addObj(){
 	$("#dlg").dialog("open").dialog("setTitle","新建");	
 	$("#fm").form("clear");
 	$("#fm input[name='_method']").val("post");
 	$("#fm input[name='_header']").val("${user.licence }");
-	url="/quota/api/users";
+	url="/check/api/role";
+	obtain(url);
 }
 
 function updateObj(){
@@ -50,7 +53,7 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${user.licence }");
-		url="/quota/api/users/"+row.uNum;
+		url="/check/api/users/"+row.uNum;
 	}
 }
 function save(){
@@ -104,8 +107,28 @@ function excel_export(){
 	    } 
 	});
 }
+
+function obtain(url){
+	$.ajax({
+		type:"get",
+		url:url,
+		success: function(data){
+			console.log(data);
+			str="";
+			for(var i = 0; i < data.length; i++) {
+				if(data[i].rp=="succ"){
+					str=str+"<input style='height:15px;' checked='checked'  name='per"+data[i].pId+"' type='checkbox' value='"+data[i].pId+"' />";
+				}else{
+					str=str+"<input style='height:15px;' name='per"+data[i].pId+"' type='checkbox' value='"+data[i].pId+"' />";
+				}
+				str=str+"<span>"+data[i].pId+"."+data[i].pName+"</span></br>";
+			}
+			$("#permission").html(str);
+		}
+	});
+}
 </script>
-<table id="dg" class="easyui-datagrid" border="true"
+<table id="dg" class="easyui-datagrid" border="true" title="快件信息>角色管理"
 		url="<%=path %>/api/role"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -124,9 +147,9 @@ function excel_export(){
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加用户</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑用户</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除用户</a>
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加角色</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑角色</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除角色</a>
 	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
@@ -141,10 +164,7 @@ function excel_export(){
    		</div>
    		<div class="searchBar-input">
     		<div>
-	    		账号：<input name ="str1" />
-    		</div>
-    		<div>
-    			用户名：<input name ="str2" />
+	    		角色名：<input name ="str1" />
     		</div>
     		<input type="hidden" name="_header" value="${licence }"/>
    		</div>
