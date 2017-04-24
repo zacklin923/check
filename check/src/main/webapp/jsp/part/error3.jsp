@@ -28,6 +28,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   	<h1>错误代码：301</h1>
 	<p>您输入的字符太长。输入内容最长不能超过255个字节。</p>
-	<a href="<%=path %>/welcom.jsp" target="right">返回首页</a>
+	<a href="<%=path %>/jsp/part/welcom.jsp" target="right">返回首页</a>
   </body>
 </html>

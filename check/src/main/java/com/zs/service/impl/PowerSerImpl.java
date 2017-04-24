@@ -62,6 +62,10 @@ public class PowerSerImpl implements PowerSer{
 		return null;
 	}
 
+	public StaffPower selectByUrlAndMethod(String url, String method) {
+		return powerMapper.selectByUrlAndMethod(url, method);
+	}
+
 	
 
 }
