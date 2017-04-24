@@ -43,7 +43,8 @@ function addObj(){
 	$("#fm input[name='_method']").val("post");
 	$("#fm input[name='_header']").val("${user.licence }");
 	url="<%=path %>/api/role";
-	obtain(url);
+	purl ="<%=path %>/api/power/all";
+	obtain(purl,"");
 }
 
 function updateObj(){
@@ -53,7 +54,9 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${user.licence }");
-		url="<%=path %>/api/users/"+row.uNum;
+		url="<%=path %>/api/role";
+		purl ="<%=path %>/api/power/all";
+		obtain(purl,row.powers);
 	}
 }
 function save(){
@@ -64,14 +67,23 @@ function save(){
 			return $(this).form('validate');
 		},
 		success:function(data){
-			console.log("提交:"+data);
-			$('#dg').datagrid('reload');
+			if(data){
+				var json = eval('('+data+')');
+				if(json.result=='success'){
+					$('#dg').datagrid('reload');
+					$("#dlg").dialog("close");					
+				}else{
+					alert("错误:"+json.code);
+				}
+			}else{
+				alert("错误");
+			}
 		}
 	});
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var uNum=row.uNum;
+	var uNum=row.strId;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
@@ -79,11 +91,14 @@ function deleteObj(){
 			function(data){
 				if(data){
 					$.ajax({
-						url:"/quota/api/users/"+uNum,
+						url:"<%=path %>/api/role/"+uNum,
 						type:"delete",
 						success:function(data){
-							console.log(data);
-							$('#dg').datagrid('reload');
+							if(data.result=='success'){
+								$('#dg').datagrid('reload');
+							}else{
+								alert("错误:"+data.code);
+							}
 						}
 					});
 				}
@@ -108,20 +123,28 @@ function excel_export(){
 	});
 }
 
-function obtain(url){
+function obtain(url,power){
 	$.ajax({
 		type:"get",
 		url:url,
 		success: function(data){
 			console.log(data);
-			str="";
-			for(var i = 0; i < data.length; i++) {
-				if(data[i].rp=="succ"){
-					str=str+"<input style='height:15px;' checked='checked'  name='per"+data[i].pId+"' type='checkbox' value='"+data[i].pId+"' />";
-				}else{
-					str=str+"<input style='height:15px;' name='per"+data[i].pId+"' type='checkbox' value='"+data[i].pId+"' />";
+			var arr = new Array();
+			arr = power.split(",");
+			var str="";
+			var str2="";
+			for(var i = 0; i < data.rows.length; i++) {
+				for(var j = 0; j < arr.length; j++) {
+					if(data.rows[i].stpId==arr[j]){
+						str=str+"<input style='height:15px;' checked='checked'  name='powers' type='checkbox' value='"+data.rows[i].stpId+"' />";
+						str2 = "a";
+					}
 				}
-				str=str+"<span>"+data[i].pId+"."+data[i].pName+"</span></br>";
+				if(str2==""){
+					str=str+"<input style='height:15px;' name='powers' type='checkbox' value='"+data.rows[i].stpId+"' />";
+				}
+				str=str+"<span>"+data.rows[i].stpId+"."+data.rows[i].stpName+"</span></br>";
+				str2="";
 			}
 			$("#permission").html(str);
 		}
@@ -138,6 +161,7 @@ function obtain(url){
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
+			<th field="strId" width="100" style="display: none;">角色名</th>
 			<th field="strName" width="100" sortable="true">角色名</th>
 			<th field="strDesc" width="100">角色描述</th>
 			<th field="powers" width="100" sortable="true">权限id序列</th>
@@ -184,6 +208,7 @@ function obtain(url){
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${user.licence }"/>
+		<input type="hidden" name="strId">
 		<div class="fitem">
 			<label>角色名:</label>
 			<input name="strName" class="easyui-validatebox" required="true">
