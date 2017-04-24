@@ -32,6 +32,7 @@ public class LoginAndOutConR{
 			}else {
 				if (user.getPass().equals(upass)) {
 				    //---------存一下在session相关信息--------------
+					user.setLicence("111");
 					request.getSession().setAttribute("user", user);//待定
 					result=new Result<String>(BaseRestController.SUCCESS, Code.SUCCESS, "登录成功");
 				}else {

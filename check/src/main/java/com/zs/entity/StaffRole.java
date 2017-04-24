@@ -3,6 +3,8 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class StaffRole {
     private BigDecimal strId;
 
@@ -45,7 +47,7 @@ public class StaffRole {
     public void setPowers(String powers) {
         this.powers = powers == null ? null : powers.trim();
     }
-
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

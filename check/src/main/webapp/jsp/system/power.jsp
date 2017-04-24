@@ -16,57 +16,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-$(function(){  
-    $("#csId").combotree({  
-            url:'/quota/api/users/cs', 
-            method:'get'
-        });  
-    });  
-	$.ajax({
-		type:"GET",
-		url:"/quota/api/users/role",
-		data:"",
-		success:function(data){
-			str="";
-			for(var i = 0; i < data.length; i++) {
-				str=str+"<option value='"+data[i].rId+"'>"+data[i].rName+"</option>"
-			}
-			$("#roleId").html(str);
-		}
-	});
 var url;
-function newUser(){
-	$("#dlg").dialog("open").dialog("setTitle","新建用户");	
+function addObj(){
+	$("#dlg").dialog("open").dialog("setTitle","新建");	
 	$("#fm").form("clear");
 	$("#fm input[name='_method']").val("post");
-	$("#fm input[name='_header']").val("${licence }");
-	url="/quota/api/users";
+	$("#fm input[name='_header']").val("${user.licence }");
+	url="<%=path%>/api/power";
 }
-
-function editUser(){
+function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
-		$("#dlg").dialog("open").dialog("setTitle","编辑用户");
+		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${licence }");
+		$("#fm input[name='_header']").val("${user.licence }");
 		url="/quota/api/users/"+row.uNum;
 	}
 }
-function saveUser(){
-	console.log($("#fm").serializeArray());
+function save(){
 	$("#fm").form("submit",{
 		url:url,		
 		onSubmit:function(){
 			return $(this).form('validate');
 		},
 		success:function(data){
-			console.log("提交:"+data);
-			$('#dg').datagrid('reload');
+			var json = eval('('+data+')');
+			if(json.result=='success'){
+				$('#dg').datagrid('reload');
+				$("#dlg").dialog("close");
+			}else{
+				alert("错误:"+json.code);
+			}
 		}
 	});
 }
-function destoryUser(){
+function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
 	var uNum=row.uNum;
 	if(row){
@@ -80,7 +65,11 @@ function destoryUser(){
 						type:"delete",
 						success:function(data){
 							console.log(data);
-							$('#dg').datagrid('reload');
+							if(data.result=='success'){
+								$('#dg').datagrid('reload');
+							}else{
+								alert("错误:"+data.code);
+							}
 						}
 					});
 				}
@@ -124,9 +113,9 @@ function excel_export(){
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加用户</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑用户</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destoryUser()">删除用户</a>
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加权限</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑权限</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除权限</a>
 	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
@@ -148,6 +137,7 @@ function excel_export(){
     		</div>
     		<input type="hidden" name="_header" value="${licence }"/>
    		</div>
+   		${licence }/${user.licence }
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">
@@ -159,51 +149,27 @@ function excel_export(){
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">用户信息</div>
+	<div class="ftitle">权限信息</div>
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
 		<div class="fitem">
-			<label>账号:</label>
-			<input name="uNum" class="easyui-validatebox" required="true">
+			<label>权限id:</label>
+			<input name="stpId" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>密码:</label>
-			<input name="uPass" class="easyui-validatebox" required="true">
+			<label>权限名字:</label>
+			<input name="stpName" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>同户名:</label>
-			<input name="uName" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>职位:</label>
-			<input name="uJob" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>部门:</label>
-			<input id="csId" name="csId" class="easyui-combotree"/>
-		</div>
-		<div class="fitem">
-			<label>角色:</label>
-			<select name="rId" id="roleId">
-			</select>
-		</div>
-		<div class="fitem">
-			<label>邮箱:</label>
-			<input name="uMail" class="easyui-validatebox" validType="email" required="true">
-		</div>
-		<div class="fitem">
-			<label>在职情况:</label>
-			<select name="uState">
-				<option value="在职">在职</option>
-				<option value="离职">离职</option>
-			</select>
+			<label>URL:</label>
+			<input name="stpUrl" class="easyui-validatebox" required="true">
 		</div>
 	</form>
 </div>
 <div id="dlg-buttons">
-	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">提交</a>
+	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
 
