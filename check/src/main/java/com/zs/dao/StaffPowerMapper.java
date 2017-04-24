@@ -34,4 +34,6 @@ public interface StaffPowerMapper {
     List<StaffPower> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);
+    
+    List<StaffPower> queryforId(@Param("id") String id);
 }
