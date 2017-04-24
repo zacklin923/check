@@ -42,7 +42,7 @@ function addObj(){
 	$("#fm").form("clear");
 	$("#fm input[name='_method']").val("post");
 	$("#fm input[name='_header']").val("${user.licence }");
-	url="/check/api/role";
+	url="<%=path %>/api/role";
 	obtain(url);
 }
 
@@ -53,7 +53,7 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${user.licence }");
-		url="/check/api/users/"+row.uNum;
+		url="<%=path %>/api/users/"+row.uNum;
 	}
 }
 function save(){
@@ -93,7 +93,7 @@ function deleteObj(){
 }
 function excel_export(){
 	$("#search").form("submit",{
-		url:"/quota/api/users/excelExport",
+		url:"<%=path %>/api/users/excelExport",
 		method:"get",
 		onSubmit: function(){   
 	        // do some check   
@@ -192,9 +192,7 @@ function obtain(url){
 			<label>角色描述:</label>
 			<input name="strDesc" class="easyui-validatebox" required="true">
 		</div>
-		<div class="fitem">
-			<label>权限id序列:</label>
-			<input name="powers" class="easyui-validatebox" required="true">
+		<div id="permission">
 		</div>
 	</form>
 </div>

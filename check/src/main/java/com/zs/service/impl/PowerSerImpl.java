@@ -57,6 +57,11 @@ public class PowerSerImpl implements PowerSer{
 		return powerMapper.selectByPrimaryKey(Trans.toBigDecimal(id));
 	}
 
+	public List<StaffPower> queryforId(String id) {
+		
+		return null;
+	}
+
 	
 
 }
