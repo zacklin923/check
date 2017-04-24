@@ -36,4 +36,6 @@ public interface StaffPowerMapper {
     int getCount(EasyUIAccept accept);
     
     List<StaffPower> queryforId(@Param("id") String id);
+    
+    StaffPower selectByUrlAndMethod(@Param("url")String url,@Param("method")String method);
 }

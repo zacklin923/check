@@ -55,4 +55,11 @@ public class StaffPower {
     public void setStpMethod(String stpMethod) {
         this.stpMethod = stpMethod == null ? null : stpMethod.trim();
     }
+
+	@Override
+	public String toString() {
+		return "StaffPower [stpId=" + stpId + ", stpName=" + stpName + ", createTime=" + createTime + ", stpUrl="
+				+ stpUrl + ", stpMethod=" + stpMethod + "]";
+	}
+    
 }
