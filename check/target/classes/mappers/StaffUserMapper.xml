@@ -8,6 +8,7 @@
     <result column="OWN_BAR_CODE" property="ownBarCode" jdbcType="VARCHAR" />
     <result column="NOTE" property="note" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <association column="STR_ID" property="role" select="com.zs.dao.StaffRoleMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >

@@ -1,5 +1,6 @@
 package com.zs.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -512,6 +513,66 @@ public class StaffUserExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("CREATE_TIME not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleIsNull() {
+            addCriterion("STU_ROLE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleIsNotNull() {
+            addCriterion("STU_ROLE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleEqualTo(BigDecimal value) {
+            addCriterion("STU_ROLE =", value, "stuRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleNotEqualTo(BigDecimal value) {
+            addCriterion("STU_ROLE <>", value, "stuRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleGreaterThan(BigDecimal value) {
+            addCriterion("STU_ROLE >", value, "stuRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("STU_ROLE >=", value, "stuRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleLessThan(BigDecimal value) {
+            addCriterion("STU_ROLE <", value, "stuRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("STU_ROLE <=", value, "stuRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleIn(List<BigDecimal> values) {
+            addCriterion("STU_ROLE in", values, "stuRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleNotIn(List<BigDecimal> values) {
+            addCriterion("STU_ROLE not in", values, "stuRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("STU_ROLE between", value1, value2, "stuRole");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuRoleNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("STU_ROLE not between", value1, value2, "stuRole");
             return (Criteria) this;
         }
     }

@@ -1,5 +1,6 @@
 package com.zs.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,9 +18,12 @@ public class StaffUser {
 
     private Date createTime;
 
-    //---------------
+    private BigDecimal stuRole;
+
+	//---------------
+    private StaffRole role;
     private String licence;
-    
+	
     public String getStuNum() {
         return stuNum;
     }
@@ -59,14 +63,21 @@ public class StaffUser {
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
     }
-
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public BigDecimal getStuRole() {
+        return stuRole;
+    }
+
+    public void setStuRole(BigDecimal stuRole) {
+        this.stuRole = stuRole;
     }
 
 	public String getLicence() {
@@ -77,10 +88,20 @@ public class StaffUser {
 		this.licence = licence;
 	}
 
+	public StaffRole getRole() {
+		return role;
+	}
+
+	public void setRole(StaffRole role) {
+		this.role = role;
+	}
+
 	@Override
 	public String toString() {
 		return "StaffUser [stuNum=" + stuNum + ", pass=" + pass + ", stuName=" + stuName + ", ownBarCode=" + ownBarCode
-				+ ", note=" + note + ", createTime=" + createTime + ", licence=" + licence + "]";
+				+ ", note=" + note + ", createTime=" + createTime + ", stuRole=" + stuRole + ", role=" + role
+				+ ", licence=" + licence + "]";
 	}
-    
+
+	
 }

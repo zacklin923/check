@@ -49,7 +49,6 @@ public class PowerConR extends BaseRestController<StaffPower>{
 	@RequestMapping(value="",method=RequestMethod.POST)
 	@Override
 	public Result<Integer> doAdd(StaffPower obj, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("1111111111111111111");
 		if (obj!=null) {
 			return new Result<Integer>(SUCCESS, Code.SUCCESS, powerSer.add(obj));
 		}

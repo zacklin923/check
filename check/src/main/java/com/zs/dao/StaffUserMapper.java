@@ -29,7 +29,7 @@ public interface StaffUserMapper {
     int updateByPrimaryKeySelective(StaffUser record);
 
     int updateByPrimaryKey(StaffUser record);
-    //-----------------------------
+	//-----------------------------
     List<StaffUser> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);
