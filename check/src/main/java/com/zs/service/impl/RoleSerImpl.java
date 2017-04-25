@@ -49,8 +49,13 @@ public class RoleSerImpl implements RoleSer{
 	}
 
 	public StaffRole get(String id) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public List<StaffRole> queryAll() {
+		EasyUIAccept accept = new EasyUIAccept();
+		List<StaffRole> list=roleMapper.queryFenye(accept);
+		return list;
 	}
 
 }

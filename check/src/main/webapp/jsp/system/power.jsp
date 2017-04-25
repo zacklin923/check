@@ -108,8 +108,8 @@ function excel_export(){
 	<thead>
 		<tr>
 			<th field="stpId" width="100" sortable="true">编号</th>
-			<th field="stpName" width="100">名字</th>
-			<th field="stpUrl" width="100" sortable="true">url</th>
+			<th field="stpName" width="150">名字</th>
+			<th field="stpUrl" width="200" sortable="true">url</th>
 			<th field="stpMethod" width="100" sortable="true">method</th>
 			<th field="createTime" width="200" sortable="true">创建时间</th>
 		</tr>

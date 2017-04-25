@@ -35,6 +35,12 @@ public class CustomerSerImpl implements CustomerSer{
 		}
 		return null;
 	}
+	
+	public List<Customer> queryFenye() {
+		EasyUIAccept accept = new EasyUIAccept();
+		List<Customer> list=customerMapper.queryFenye(accept);
+		return list;
+	}
 
 	public Integer add(Customer obj) {
 		// TODO Auto-generated method stub

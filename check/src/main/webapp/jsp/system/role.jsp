@@ -16,27 +16,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-<!-- 
-$(function(){  
-    $("#csId").combotree({  
-            url:'/check/api/users/cs', 
-            method:'get'
-        });  
-    });  
-	$.ajax({
-		type:"GET",
-		url:"/check/api/users/role",
-		data:"",
-		success:function(data){
-			str="";
-			for(var i = 0; i < data.length; i++) {
-				str=str+"<option value='"+data[i].rId+"'>"+data[i].rName+"</option>"
-			}
-			$("#roleId").html(str);
-		}
-	});
-var url;
--->
 function addObj(){
 	$("#dlg").dialog("open").dialog("setTitle","新建");	
 	$("#fm").form("clear");
@@ -54,13 +33,12 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${user.licence }");
-		url="<%=path %>/api/role";
+		url="<%=path %>/api/role/"+row.stpId;
 		purl ="<%=path %>/api/power/all";
 		obtain(purl,row.powers);
 	}
 }
 function save(){
-	console.log($("#fm").serializeArray());
 	$("#fm").form("submit",{
 		url:url,		
 		onSubmit:function(){
@@ -106,29 +84,12 @@ function deleteObj(){
 		);
 	}
 }
-function excel_export(){
-	$("#search").form("submit",{
-		url:"<%=path %>/api/users/excelExport",
-		method:"get",
-		onSubmit: function(){   
-	        // do some check   
-	        // return false to prevent submit;   
-	    },   
-	    success:function(data){   
-			if(data!=null){
-		    	var d = eval('('+data+')');
-		    	window.location.href=d.data;
-			}
-	    } 
-	});
-}
 
 function obtain(url,power){
 	$.ajax({
 		type:"get",
 		url:url,
 		success: function(data){
-			console.log(data);
 			var arr = new Array();
 			arr = power.split(",");
 			var str="";
@@ -161,11 +122,11 @@ function obtain(url,power){
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
-			<th field="strId" width="100" style="display: none;">角色名</th>
+			<th field="strId" width="80" style="display: none;">角色名</th>
 			<th field="strName" width="100" sortable="true">角色名</th>
 			<th field="strDesc" width="100">角色描述</th>
-			<th field="powers" width="100" sortable="true">权限id序列</th>
-			<th field="createTime" width="100">创建时间</th>
+			<th field="powers" width="300">权限id序列</th>
+			<th field="createTime" width="200">创建时间</th>
 		</tr>
 	</thead>
 </table>

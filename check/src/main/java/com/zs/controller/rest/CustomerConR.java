@@ -1,5 +1,7 @@
 package com.zs.controller.rest;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,4 +74,8 @@ public class CustomerConR extends BaseRestController<Customer>{
 		return null;
 	}
 
+	@RequestMapping(value="/all",method=RequestMethod.GET)
+	public List<Customer> quertAll(){
+		return customerSer.queryFenye();
+	}
 }
