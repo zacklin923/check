@@ -1096,63 +1096,63 @@ public class SourceZmExample {
             return (Criteria) this;
         }
 
-        public Criteria andFeeIsNull() {
-            addCriterion("FEE is null");
+        public Criteria andGoodsCostIsNull() {
+            addCriterion("GOODS_COST is null");
             return (Criteria) this;
         }
 
-        public Criteria andFeeIsNotNull() {
-            addCriterion("FEE is not null");
+        public Criteria andGoodsCostIsNotNull() {
+            addCriterion("GOODS_COST is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFeeEqualTo(BigDecimal value) {
-            addCriterion("FEE =", value, "fee");
+        public Criteria andGoodsCostEqualTo(BigDecimal value) {
+            addCriterion("GOODS_COST =", value, "goodsCost");
             return (Criteria) this;
         }
 
-        public Criteria andFeeNotEqualTo(BigDecimal value) {
-            addCriterion("FEE <>", value, "fee");
+        public Criteria andGoodsCostNotEqualTo(BigDecimal value) {
+            addCriterion("GOODS_COST <>", value, "goodsCost");
             return (Criteria) this;
         }
 
-        public Criteria andFeeGreaterThan(BigDecimal value) {
-            addCriterion("FEE >", value, "fee");
+        public Criteria andGoodsCostGreaterThan(BigDecimal value) {
+            addCriterion("GOODS_COST >", value, "goodsCost");
             return (Criteria) this;
         }
 
-        public Criteria andFeeGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("FEE >=", value, "fee");
+        public Criteria andGoodsCostGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("GOODS_COST >=", value, "goodsCost");
             return (Criteria) this;
         }
 
-        public Criteria andFeeLessThan(BigDecimal value) {
-            addCriterion("FEE <", value, "fee");
+        public Criteria andGoodsCostLessThan(BigDecimal value) {
+            addCriterion("GOODS_COST <", value, "goodsCost");
             return (Criteria) this;
         }
 
-        public Criteria andFeeLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("FEE <=", value, "fee");
+        public Criteria andGoodsCostLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("GOODS_COST <=", value, "goodsCost");
             return (Criteria) this;
         }
 
-        public Criteria andFeeIn(List<BigDecimal> values) {
-            addCriterion("FEE in", values, "fee");
+        public Criteria andGoodsCostIn(List<BigDecimal> values) {
+            addCriterion("GOODS_COST in", values, "goodsCost");
             return (Criteria) this;
         }
 
-        public Criteria andFeeNotIn(List<BigDecimal> values) {
-            addCriterion("FEE not in", values, "fee");
+        public Criteria andGoodsCostNotIn(List<BigDecimal> values) {
+            addCriterion("GOODS_COST not in", values, "goodsCost");
             return (Criteria) this;
         }
 
-        public Criteria andFeeBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("FEE between", value1, value2, "fee");
+        public Criteria andGoodsCostBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("GOODS_COST between", value1, value2, "goodsCost");
             return (Criteria) this;
         }
 
-        public Criteria andFeeNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("FEE not between", value1, value2, "fee");
+        public Criteria andGoodsCostNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("GOODS_COST not between", value1, value2, "goodsCost");
             return (Criteria) this;
         }
 

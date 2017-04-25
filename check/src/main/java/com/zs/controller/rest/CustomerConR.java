@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.zs.entity.Customer;
 import com.zs.entity.StaffRole;
@@ -77,5 +78,11 @@ public class CustomerConR extends BaseRestController<Customer>{
 	@RequestMapping(value="/all",method=RequestMethod.GET)
 	public List<Customer> quertAll(){
 		return customerSer.queryFenye();
+	}
+
+	@Override
+	public Result<String> excelImport(MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

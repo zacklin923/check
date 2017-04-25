@@ -3,6 +3,9 @@ package com.zs.controller.rest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
@@ -91,4 +94,14 @@ public abstract class BaseRestController<T>{
 	 * @return
 	 */
 	public abstract Result<String> excelExport(EasyUIAccept accept,HttpServletRequest req,HttpServletResponse resp);
+	
+	
+	/**
+	 * 导入数据
+	 * @param accept
+	 * @param req
+	 * @param resp
+	 * @return
+	 */
+	public abstract Result<String> excelImport(MultipartFile file,HttpServletRequest req,HttpServletResponse resp);
 }
