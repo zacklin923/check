@@ -46,7 +46,7 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${user.licence }");
-		url="<%=path %>/api/user/"+row.stpId;
+		url="<%=path %>/api/user/"+row.stuNum;
 	}
 }
 function save(){
@@ -72,7 +72,7 @@ function save(){
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var uNum=row.strId;
+	var uNum=row.stuNum;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
@@ -80,7 +80,7 @@ function deleteObj(){
 			function(data){
 				if(data){
 					$.ajax({
-						url:"<%=path %>/api/user"+uNum,
+						url:"<%=path %>/api/user/"+uNum,
 						type:"delete",
 						success:function(data){
 							if(data.result=='success'){
@@ -96,24 +96,44 @@ function deleteObj(){
 	}
 }
 function obc(){
-	$("#obc").dialog("open");
 	$.ajax({
 		type:"GET",
 		url:"<%=path %>/api/customer/all",
 		data:"",
 		success:function(data){
-			console.log(data);
+			var ostr = $("#obcNums").val();
+			var oarr = ostr.split(",");
 			str="";
+			var str2="";
 			for(var i = 0; i < data.length; i++) {
-				str=str+"<div style='width:82px;height:20px;float:left;border:1px solid #B1B3B8;margin:5px;font-size:18px;text-align:center;'>"
-				+data[i].barCode+"</div>"
+				str=str+"<div style='width:100px;height:25px;float:left;border:1px solid #B1B3B8;margin:5px;font-size:18px;'>";
+				for(var j = 0 ; j < oarr.length; j++){
+					if(data[i].barCode==oarr[j]){
+						str =str+"<input style='width:20px;height:20px;' checked='checked' type='checkbox' name='obcNum'  value='"+data[i].barCode+"' />";
+						str2 = "a";
+					}
+				}
+				if(str2==""){
+					str =str+"<input style='width:20px;height:20px;' type='checkbox' name='obcNum'  value='"+data[i].barCode+"' />";
+				}
+				str=str+data[i].barCode+"</div>"
+				str2="";
 			}
 			$("#numOption").html(str);
 		}
 	});
+	$("#obc").dialog("open");
 }
 
 function obcSave(){
+	var id = document.getElementsByName('obcNum');
+    var value = new Array();
+    for(var i = 0; i < id.length; i++){
+     if(id[i].checked)
+     value.push(id[i].value);
+    }
+    $("#obcNums").val(value);
+    $("#obc").dialog("close");
 }
 </script>
 <table id="dg" class="easyui-datagrid" border="true"
@@ -197,7 +217,7 @@ function obcSave(){
 		</div>
 		<div class="fitem">
 			<label>条码:</label>
-			<input name="ownBarCode" class="easyui-validatebox" required="true" onclick="obc()">
+			<input id="obcNums" name="ownBarCode" class="easyui-validatebox"  onclick="obc()">
 		</div>
 		<div class="fitem">
 			<label>角色:</label>
@@ -206,12 +226,12 @@ function obcSave(){
 		</div>
 		<div class="fitem">
 			<label>备注:</label>
-			<input name="note" class="easyui-validatebox" required="true">
+			<input name="note" >
 		</div>
 	</form>
 </div>
 <div id="dlg-buttons">
-	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">提交</a>
+	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
 

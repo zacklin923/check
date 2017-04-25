@@ -44,18 +44,16 @@ public class UserSerImpl implements UserSer{
 	}
 
 	public Integer add(StaffUser obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return userMapper.insertSelective(obj);
 	}
 
 	public Integer update(StaffUser obj) {
 		// TODO Auto-generated method stub
-		return null;
+		return userMapper.updateByPrimaryKeySelective(obj);
 	}
 
 	public Integer delete(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return userMapper.deleteByPrimaryKey(id);
 	}
 
 	public StaffUser get(String id) {
