@@ -1,6 +1,8 @@
 package com.zs.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 
 import javax.annotation.Resource;
 
@@ -34,18 +36,16 @@ public class RoleSerImpl implements RoleSer{
 	}
 
 	public Integer add(StaffRole obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return roleMapper.insertSelective(obj);
 	}
 
 	public Integer update(StaffRole obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return roleMapper.updateByPrimaryKeySelective(obj);
 	}
 
 	public Integer delete(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		BigDecimal b = new BigDecimal(id);
+		return roleMapper.deleteByPrimaryKey(b);
 	}
 
 	public StaffRole get(String id) {

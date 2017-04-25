@@ -50,28 +50,32 @@ public class RoleConR extends BaseRestController<StaffRole>{
 	@RequestMapping(value="",method=RequestMethod.POST)
 	@Override
 	public Result<Integer> doAdd(StaffRole obj, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("---进入添加方法");
-		log.info(obj.getStrName());
-		log.info(obj.getPowers());
-		log.info(obj.getStrDesc());
-		return new Result<Integer>(ERROR,  Code.ERROR, 1);
+		if(obj!=null){
+			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.add(obj));
+		}
+		return new Result<Integer>(SUCCESS,  Code.ERROR, null);
 	}
 
+	@RequestMapping(value="",method=RequestMethod.PUT)
 	@Override
 	public Result<Integer> doUpdate(StaffRole obj, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
+		if(obj!=null){
+			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.update(obj));
+		}
+		return new Result<Integer>(SUCCESS,  Code.ERROR, null);
 	}
 
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
-	public Result<Integer> doDeleteFalse(String id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
+	public Result<Integer> doDeleteFalse(@PathVariable("id")String id, HttpServletRequest req, HttpServletResponse resp) {
+		if(id!=null&&!id.equals("")){
+			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.delete(id));
+		}
+		return new Result<Integer>(SUCCESS,  Code.ERROR, null);
 	}
 
 	@Override
 	public Result<Integer> doDeleteTrue(String id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

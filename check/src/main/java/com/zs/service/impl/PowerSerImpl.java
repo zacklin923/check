@@ -58,8 +58,7 @@ public class PowerSerImpl implements PowerSer{
 	}
 
 	public List<StaffPower> queryforId(String id) {
-		
-		return null;
+		return powerMapper.queryforId(id);
 	}
 
 	public StaffPower selectByUrlAndMethod(String url, String method) {
