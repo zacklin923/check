@@ -6,18 +6,15 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zs.entity.StaffPower;
 import com.zs.entity.StaffRole;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
-import com.zs.service.PowerSer;
 import com.zs.service.RoleSer;
 import com.zs.tools.ColumnName;
 
@@ -27,9 +24,6 @@ public class RoleConR extends BaseRestController<StaffRole>{
 
 	@Resource
 	private RoleSer roleSer;
-	@Resource
-	private PowerSer powerSer;
-	private Logger log = Logger.getLogger(this.getClass());
 	
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
@@ -56,7 +50,7 @@ public class RoleConR extends BaseRestController<StaffRole>{
 		return new Result<Integer>(SUCCESS,  Code.ERROR, null);
 	}
 
-	@RequestMapping(value="",method=RequestMethod.PUT)
+	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	@Override
 	public Result<Integer> doUpdate(StaffRole obj, HttpServletRequest req, HttpServletResponse resp) {
 		if(obj!=null){
@@ -85,9 +79,9 @@ public class RoleConR extends BaseRestController<StaffRole>{
 		return null;
 	}
 
-	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public List<StaffPower> queryPower(@PathVariable("id")String id){
-		return powerSer.queryforId(id);
+	@RequestMapping(value="/all",method=RequestMethod.GET)
+	public List<StaffRole> queryAll(){
+		return roleSer.queryAll();
 	}
 	
 }

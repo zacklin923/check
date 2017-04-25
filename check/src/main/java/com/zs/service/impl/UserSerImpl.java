@@ -1,11 +1,14 @@
 package com.zs.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.zs.dao.StaffRoleMapper;
 import com.zs.dao.StaffUserMapper;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
@@ -17,6 +20,9 @@ public class UserSerImpl implements UserSer{
 
 	@Resource
 	private StaffUserMapper userMapper;
+	@Resource
+	private StaffRoleMapper roleMapper;
+	private Gson g = new Gson();
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -27,6 +33,10 @@ public class UserSerImpl implements UserSer{
 				accept.setEnd(page*size);
 			}
 			List list=userMapper.queryFenye(accept);
+			for (int i = 0; i < list.size(); i++) {
+				StaffUser su = (StaffUser) list.get(i);
+				su.setRole(roleMapper.selectByPrimaryKey(su.getStuRole()));
+			}
 			int rows=userMapper.getCount(accept);
 			return new EasyUIPage(rows, list);
 		}

@@ -221,7 +221,7 @@
 		  		order by ${sort} ${order},CREATE_TIME desc
 		  	</if>
 		  	<if test="sort==null or order==null">
-		  		order by CREATE_TIME desc
+		  		order by stp_id asc
 		  	</if>
 	  	) t1
 	  	<where>
