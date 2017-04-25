@@ -1,5 +1,8 @@
 package com.zs.controller.rest;
 
+import java.io.IOException;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.StaffUser;
@@ -16,6 +21,7 @@ import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
 import com.zs.service.UserSer;
 import com.zs.tools.ColumnName;
+import com.zs.tools.ExcelImport;
 
 @RestController
 @RequestMapping("/api/user")
@@ -76,6 +82,26 @@ public class UserConR extends BaseRestController<StaffUser>{
 	@Override
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@RequestMapping("/user/file")
+	@Override
+	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		if (!file.isEmpty()) {
+			System.out.println(file.getOriginalFilename());
+			try {
+				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
+				for (int i = 0; i < list.size(); i++) {
+					for (int j = 0; j < list.get(i).length; j++) {
+						System.out.print(list.get(i)[j]+" ");
+					}
+					System.out.println();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		return null;
 	}
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.StaffPower;
@@ -80,6 +81,12 @@ public class PowerConR extends BaseRestController<StaffPower>{
 
 	@Override
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+		return null;
+	}
+
+	@Override
+	public Result<String> excelImport(MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
