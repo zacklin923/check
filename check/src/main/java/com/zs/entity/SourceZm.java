@@ -34,7 +34,7 @@ public class SourceZm {
 
     private BigDecimal courierCompany;
 
-    private BigDecimal fee;
+    private BigDecimal goodsCost;
 
     private String goods;
 
@@ -160,12 +160,12 @@ public class SourceZm {
         this.courierCompany = courierCompany;
     }
 
-    public BigDecimal getFee() {
-        return fee;
+    public BigDecimal getGoodsCost() {
+        return goodsCost;
     }
 
-    public void setFee(BigDecimal fee) {
-        this.fee = fee;
+    public void setGoodsCost(BigDecimal goodsCost) {
+        this.goodsCost = goodsCost;
     }
 
     public String getGoods() {

@@ -16,24 +16,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-$(function(){  
-    $("#csId").combotree({  
-            url:'/quota/api/users/cs', 
-            method:'get'
-        });  
-    });  
-	$.ajax({
-		type:"GET",
-		url:"/quota/api/users/role",
-		data:"",
-		success:function(data){
-			str="";
-			for(var i = 0; i < data.length; i++) {
-				str=str+"<option value='"+data[i].rId+"'>"+data[i].rName+"</option>"
-			}
-			$("#roleId").html(str);
-		}
-	});
 var url;
 function newUser(){
 	$("#dlg").dialog("open").dialog("setTitle","新建用户");	

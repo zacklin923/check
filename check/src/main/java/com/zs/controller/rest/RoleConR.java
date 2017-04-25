@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.zs.entity.StaffRole;
 import com.zs.entity.other.EasyUIAccept;
@@ -82,6 +83,12 @@ public class RoleConR extends BaseRestController<StaffRole>{
 	@RequestMapping(value="/all",method=RequestMethod.GET)
 	public List<StaffRole> queryAll(){
 		return roleSer.queryAll();
+	}
+
+	@Override
+	public Result<String> excelImport(MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

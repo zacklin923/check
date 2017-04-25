@@ -87,6 +87,7 @@ public class RoleInter extends HandlerInterceptorAdapter{
 			resp.sendRedirect("jsp/part/error2.jsp");
 			return false;
 		}
+		log.error(url+"  "+method);
 		if (method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE")) {
 			url=url.substring(0, url.lastIndexOf("/"))+"/";
 		}
@@ -100,7 +101,7 @@ public class RoleInter extends HandlerInterceptorAdapter{
 		}else{
 			log.error("没有这个权限   "+url+"  "+method);
 		}
-		resp.sendRedirect("jsp/part/error2.jsp");
+		resp.sendRedirect("/jsp/part/error2.jsp");
 		return false;
 	}
 
