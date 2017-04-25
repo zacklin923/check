@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.SourceImportMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.SourceImport" >
+    <id column="COURIER_NUMBER" property="courierNumber" jdbcType="DECIMAL" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="CTM_NAME" property="ctmName" jdbcType="VARCHAR" />
+    <result column="CTM_BAR_CODE" property="ctmBarCode" jdbcType="DECIMAL" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="ORDER_NUMBER" property="orderNumber" jdbcType="DECIMAL" />
+    <result column="ADDRESSEE" property="addressee" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="SHOP_NUMBER" property="shopNumber" jdbcType="VARCHAR" />
+    <result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
+    <result column="COURIER_COMPANY" property="courierCompany" jdbcType="DECIMAL" />
+    <result column="FEE" property="fee" jdbcType="DECIMAL" />
+    <result column="GOODS" property="goods" jdbcType="VARCHAR" />
+    <result column="NUMBER_TYPE" property="numberType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    COURIER_NUMBER, SEND_TIME, CTM_NAME, CTM_BAR_CODE, PROVINCE, ADDRESS, ORDER_NUMBER, 
+    ADDRESSEE, PHONE, SHOP_NUMBER, WEIGHT, COURIER_COMPANY, FEE, GOODS, NUMBER_TYPE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceImportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from SOURCE_IMPORT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SOURCE_IMPORT
+    where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from SOURCE_IMPORT
+    where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.SourceImportExample" >
+    delete from SOURCE_IMPORT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.SourceImport" >
+    insert into SOURCE_IMPORT (COURIER_NUMBER, SEND_TIME, CTM_NAME, 
+      CTM_BAR_CODE, PROVINCE, ADDRESS, 
+      ORDER_NUMBER, ADDRESSEE, PHONE, 
+      SHOP_NUMBER, WEIGHT, COURIER_COMPANY, 
+      FEE, GOODS, NUMBER_TYPE
+      )
+    values (#{courierNumber,jdbcType=DECIMAL}, #{sendTime,jdbcType=TIMESTAMP}, #{ctmName,jdbcType=VARCHAR}, 
+      #{ctmBarCode,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{orderNumber,jdbcType=DECIMAL}, #{addressee,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{shopNumber,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=DECIMAL}, 
+      #{fee,jdbcType=DECIMAL}, #{goods,jdbcType=VARCHAR}, #{numberType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.SourceImport" >
+    insert into SOURCE_IMPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="courierNumber != null" >
+        COURIER_NUMBER,
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME,
+      </if>
+      <if test="ctmName != null" >
+        CTM_NAME,
+      </if>
+      <if test="ctmBarCode != null" >
+        CTM_BAR_CODE,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="orderNumber != null" >
+        ORDER_NUMBER,
+      </if>
+      <if test="addressee != null" >
+        ADDRESSEE,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="shopNumber != null" >
+        SHOP_NUMBER,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+      <if test="courierCompany != null" >
+        COURIER_COMPANY,
+      </if>
+      <if test="fee != null" >
+        FEE,
+      </if>
+      <if test="goods != null" >
+        GOODS,
+      </if>
+      <if test="numberType != null" >
+        NUMBER_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="courierNumber != null" >
+        #{courierNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctmName != null" >
+        #{ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmBarCode != null" >
+        #{ctmBarCode,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="addressee != null" >
+        #{addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNumber != null" >
+        #{shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="courierCompany != null" >
+        #{courierCompany,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="goods != null" >
+        #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="numberType != null" >
+        #{numberType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.SourceImportExample" resultType="java.lang.Integer" >
+    select count(*) from SOURCE_IMPORT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update SOURCE_IMPORT
+    <set >
+      <if test="record.courierNumber != null" >
+        COURIER_NUMBER = #{record.courierNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sendTime != null" >
+        SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ctmName != null" >
+        CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmBarCode != null" >
+        CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=DECIMAL},
+      </if>
+      <if test="record.province != null" >
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNumber != null" >
+        ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="record.addressee != null" >
+        ADDRESSEE = #{record.addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        PHONE = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopNumber != null" >
+        SHOP_NUMBER = #{record.shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null" >
+        WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.courierCompany != null" >
+        COURIER_COMPANY = #{record.courierCompany,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fee != null" >
+        FEE = #{record.fee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goods != null" >
+        GOODS = #{record.goods,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numberType != null" >
+        NUMBER_TYPE = #{record.numberType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update SOURCE_IMPORT
+    set COURIER_NUMBER = #{record.courierNumber,jdbcType=DECIMAL},
+      SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+      CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=DECIMAL},
+      PROVINCE = #{record.province,jdbcType=VARCHAR},
+      ADDRESS = #{record.address,jdbcType=VARCHAR},
+      ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL},
+      ADDRESSEE = #{record.addressee,jdbcType=VARCHAR},
+      PHONE = #{record.phone,jdbcType=VARCHAR},
+      SHOP_NUMBER = #{record.shopNumber,jdbcType=VARCHAR},
+      WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      COURIER_COMPANY = #{record.courierCompany,jdbcType=DECIMAL},
+      FEE = #{record.fee,jdbcType=DECIMAL},
+      GOODS = #{record.goods,jdbcType=VARCHAR},
+      NUMBER_TYPE = #{record.numberType,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.SourceImport" >
+    update SOURCE_IMPORT
+    <set >
+      <if test="sendTime != null" >
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctmName != null" >
+        CTM_NAME = #{ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmBarCode != null" >
+        CTM_BAR_CODE = #{ctmBarCode,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null" >
+        ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="addressee != null" >
+        ADDRESSEE = #{addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNumber != null" >
+        SHOP_NUMBER = #{shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="courierCompany != null" >
+        COURIER_COMPANY = #{courierCompany,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        FEE = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="goods != null" >
+        GOODS = #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="numberType != null" >
+        NUMBER_TYPE = #{numberType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.SourceImport" >
+    update SOURCE_IMPORT
+    set SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      CTM_NAME = #{ctmName,jdbcType=VARCHAR},
+      CTM_BAR_CODE = #{ctmBarCode,jdbcType=DECIMAL},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+      ADDRESSEE = #{addressee,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      SHOP_NUMBER = #{shopNumber,jdbcType=VARCHAR},
+      WEIGHT = #{weight,jdbcType=DECIMAL},
+      COURIER_COMPANY = #{courierCompany,jdbcType=DECIMAL},
+      FEE = #{fee,jdbcType=DECIMAL},
+      GOODS = #{goods,jdbcType=VARCHAR},
+      NUMBER_TYPE = #{numberType,jdbcType=VARCHAR}
+    where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
+  </update>
+</mapper>
