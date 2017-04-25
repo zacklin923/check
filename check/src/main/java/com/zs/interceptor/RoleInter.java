@@ -87,7 +87,7 @@ public class RoleInter extends HandlerInterceptorAdapter{
 			resp.sendRedirect("jsp/part/error2.jsp");
 			return false;
 		}
-		if (method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("POST")) {
+		if (method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE")) {
 			url=url.substring(0, url.lastIndexOf("/"))+"/";
 		}
 		StaffPower power=powerSer.selectByUrlAndMethod(url, method);
