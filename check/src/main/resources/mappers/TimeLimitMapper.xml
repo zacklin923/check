@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.TimeLimitMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.TimeLimit" >
+    <id column="ORDER_NUMBER" property="orderNumber" jdbcType="DECIMAL" />
+    <result column="BEGIN_PROVINCE" property="beginProvince" jdbcType="VARCHAR" />
+    <result column="END_PROVINCE" property="endProvince" jdbcType="VARCHAR" />
+    <result column="HOUR_COST" property="hourCost" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ORDER_NUMBER, BEGIN_PROVINCE, END_PROVINCE, HOUR_COST
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.TimeLimitExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from TIME_LIMIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from TIME_LIMIT
+    where ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from TIME_LIMIT
+    where ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.TimeLimitExample" >
+    delete from TIME_LIMIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.TimeLimit" >
+    insert into TIME_LIMIT (ORDER_NUMBER, BEGIN_PROVINCE, END_PROVINCE, 
+      HOUR_COST)
+    values (#{orderNumber,jdbcType=DECIMAL}, #{beginProvince,jdbcType=VARCHAR}, #{endProvince,jdbcType=VARCHAR}, 
+      #{hourCost,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.TimeLimit" >
+    insert into TIME_LIMIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderNumber != null" >
+        ORDER_NUMBER,
+      </if>
+      <if test="beginProvince != null" >
+        BEGIN_PROVINCE,
+      </if>
+      <if test="endProvince != null" >
+        END_PROVINCE,
+      </if>
+      <if test="hourCost != null" >
+        HOUR_COST,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="beginProvince != null" >
+        #{beginProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="endProvince != null" >
+        #{endProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="hourCost != null" >
+        #{hourCost,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.TimeLimitExample" resultType="java.lang.Integer" >
+    select count(*) from TIME_LIMIT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TIME_LIMIT
+    <set >
+      <if test="record.orderNumber != null" >
+        ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="record.beginProvince != null" >
+        BEGIN_PROVINCE = #{record.beginProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endProvince != null" >
+        END_PROVINCE = #{record.endProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hourCost != null" >
+        HOUR_COST = #{record.hourCost,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TIME_LIMIT
+    set ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL},
+      BEGIN_PROVINCE = #{record.beginProvince,jdbcType=VARCHAR},
+      END_PROVINCE = #{record.endProvince,jdbcType=VARCHAR},
+      HOUR_COST = #{record.hourCost,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.TimeLimit" >
+    update TIME_LIMIT
+    <set >
+      <if test="beginProvince != null" >
+        BEGIN_PROVINCE = #{beginProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="endProvince != null" >
+        END_PROVINCE = #{endProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="hourCost != null" >
+        HOUR_COST = #{hourCost,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.TimeLimit" >
+    update TIME_LIMIT
+    set BEGIN_PROVINCE = #{beginProvince,jdbcType=VARCHAR},
+      END_PROVINCE = #{endProvince,jdbcType=VARCHAR},
+      HOUR_COST = #{hourCost,jdbcType=DECIMAL}
+    where ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL}
+  </update>
+</mapper>
