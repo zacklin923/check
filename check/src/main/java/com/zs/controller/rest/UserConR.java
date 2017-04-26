@@ -85,7 +85,7 @@ public class UserConR extends BaseRestController<StaffUser>{
 		return null;
 	}
 
-	@RequestMapping("/user/file")
+	@RequestMapping("/file")
 	@Override
 	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
 		if (!file.isEmpty()) {
