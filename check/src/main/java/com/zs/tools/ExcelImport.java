@@ -151,10 +151,10 @@ public class ExcelImport {
 			case HSSFCell.CELL_TYPE_NUMERIC:// 数字类型
 				if (HSSFDateUtil.isCellDateFormatted(cell)) {// 处理日期格式、时间格式
 					SimpleDateFormat sdf = null;
-					if (cell.getCellStyle().getDataFormat() == HSSFDataFormat.getBuiltinFormat("yyyy-MM-dd hh:mm")) {
-						sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					} else {// 日期
+					if (cell.getCellStyle().getDataFormat() == HSSFDataFormat.getBuiltinFormat("yyyy-MM-dd")) {
 						sdf = new SimpleDateFormat("yyyy-MM-dd");
+					} else {// 日期
+						sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					}
 					Date date = cell.getDateCellValue();
 					result = sdf.format(date);
