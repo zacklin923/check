@@ -54,9 +54,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <li><span><a href="<%=path %>/power" target="right">权限管理</a></span></li>
         </ul>
 	</div>
-	<div title="测试" data-options="iconCls:'icon-large-smartart'" style="padding:10px;">
+	<div title="数据导入" data-options="iconCls:'icon-large-smartart'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-       		<li><span><a href="<%=path %>/jsp/test/test.jsp" target="right">测试导入</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/importdata/import.jsp" target="right">数据源导入</a></span></li>
         </ul>
 	</div>
 	<div title="数据统计报表" data-options="iconCls:'icon-large-shapes'" style="padding:10px;">
