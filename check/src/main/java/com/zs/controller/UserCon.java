@@ -22,5 +22,5 @@ public class UserCon extends BaseController{
 	public String gotoQuery() {
 		return "/system/users";
 	}
-
+	
 }
