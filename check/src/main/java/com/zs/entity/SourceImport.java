@@ -3,6 +3,8 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class SourceImport {
     private BigDecimal courierNumber;
 
@@ -44,6 +46,7 @@ public class SourceImport {
         this.courierNumber = courierNumber;
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getSendTime() {
         return sendTime;
     }
@@ -155,7 +158,8 @@ public class SourceImport {
     public void setNumberType(String numberType) {
         this.numberType = numberType == null ? null : numberType.trim();
     }
-
+    
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -163,4 +167,32 @@ public class SourceImport {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	public SourceImport(BigDecimal courierNumber, Date sendTime, String ctmName, BigDecimal ctmBarCode, String province,
+			String address, BigDecimal orderNumber, String addressee, String phone, String shopNumber,
+			BigDecimal weight, BigDecimal courierCompany, BigDecimal fee, String goods, String numberType,
+			Date createTime) {
+		super();
+		this.courierNumber = courierNumber;
+		this.sendTime = sendTime;
+		this.ctmName = ctmName;
+		this.ctmBarCode = ctmBarCode;
+		this.province = province;
+		this.address = address;
+		this.orderNumber = orderNumber;
+		this.addressee = addressee;
+		this.phone = phone;
+		this.shopNumber = shopNumber;
+		this.weight = weight;
+		this.courierCompany = courierCompany;
+		this.fee = fee;
+		this.goods = goods;
+		this.numberType = numberType;
+		this.createTime = createTime;
+	}
+
+	public SourceImport() {
+		super();
+	}
+    
 }
