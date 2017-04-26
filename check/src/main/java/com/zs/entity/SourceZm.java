@@ -40,6 +40,10 @@ public class SourceZm {
 
     private BigDecimal orderNumber;
 
+    private String goodsState;
+
+    private Date createTime;
+
     public BigDecimal getCourierNumber() {
         return courierNumber;
     }
@@ -182,5 +186,21 @@ public class SourceZm {
 
     public void setOrderNumber(BigDecimal orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    public String getGoodsState() {
+        return goodsState;
+    }
+
+    public void setGoodsState(String goodsState) {
+        this.goodsState = goodsState == null ? null : goodsState.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

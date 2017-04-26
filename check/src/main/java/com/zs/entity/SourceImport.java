@@ -34,6 +34,8 @@ public class SourceImport {
 
     private String numberType;
 
+    private Date createTime;
+
     public BigDecimal getCourierNumber() {
         return courierNumber;
     }
@@ -154,26 +156,11 @@ public class SourceImport {
         this.numberType = numberType == null ? null : numberType.trim();
     }
 
-	public SourceImport(BigDecimal courierNumber, Date sendTime, String ctmName, BigDecimal ctmBarCode, String province,
-			String address, BigDecimal orderNumber, String addressee, String phone, String shopNumber,
-			BigDecimal weight, BigDecimal courierCompany, BigDecimal fee, String goods, String numberType) {
-		super();
-		this.courierNumber = courierNumber;
-		this.sendTime = sendTime;
-		this.ctmName = ctmName;
-		this.ctmBarCode = ctmBarCode;
-		this.province = province;
-		this.address = address;
-		this.orderNumber = orderNumber;
-		this.addressee = addressee;
-		this.phone = phone;
-		this.shopNumber = shopNumber;
-		this.weight = weight;
-		this.courierCompany = courierCompany;
-		this.fee = fee;
-		this.goods = goods;
-		this.numberType = numberType;
-	}
-    
-    
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }

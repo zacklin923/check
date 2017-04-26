@@ -22,6 +22,7 @@
     <result column="GOODS" property="goods" jdbcType="VARCHAR" />
     <result column="GOODS_COST" property="goodsCost" jdbcType="DECIMAL" />
     <result column="FEE" property="fee" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -84,7 +85,7 @@
   <sql id="Base_Column_List" >
     COURIER_NUMBER, SEND_TIME, CTM_NAME, CTM_BAR_CODE, PROVINCE, ADDRESS, DELIVERY_STATE, 
     SIGNATORY, ADDRESSEE, SIGN_TIME, ABNORMAL_CAUSE, IS_TIME_OUT, ORDER_NUMBER, SHOP_NUMBER, 
-    PHONE, WEIGHT, COURIER_COMPANY, GOODS, GOODS_COST, FEE
+    PHONE, WEIGHT, COURIER_COMPANY, GOODS, GOODS_COST, FEE, CREATE_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceThirdPartyExample" >
     select
@@ -124,14 +125,16 @@
       SIGN_TIME, ABNORMAL_CAUSE, IS_TIME_OUT, 
       ORDER_NUMBER, SHOP_NUMBER, PHONE, 
       WEIGHT, COURIER_COMPANY, GOODS, 
-      GOODS_COST, FEE)
+      GOODS_COST, FEE, CREATE_TIME
+      )
     values (#{courierNumber,jdbcType=DECIMAL}, #{sendTime,jdbcType=TIMESTAMP}, #{ctmName,jdbcType=VARCHAR}, 
       #{ctmBarCode,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{deliveryState,jdbcType=VARCHAR}, #{signatory,jdbcType=VARCHAR}, #{addressee,jdbcType=VARCHAR}, 
       #{signTime,jdbcType=TIMESTAMP}, #{abnormalCause,jdbcType=VARCHAR}, #{isTimeOut,jdbcType=DECIMAL}, 
       #{orderNumber,jdbcType=DECIMAL}, #{shopNumber,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=DECIMAL}, #{goods,jdbcType=VARCHAR}, 
-      #{goodsCost,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL})
+      #{goodsCost,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.SourceThirdParty" >
     insert into SOURCE_THIRD_PARTY
@@ -196,6 +199,9 @@
       <if test="fee != null" >
         FEE,
       </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courierNumber != null" >
@@ -257,6 +263,9 @@
       </if>
       <if test="fee != null" >
         #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -329,6 +338,9 @@
       <if test="record.fee != null" >
         FEE = #{record.fee,jdbcType=DECIMAL},
       </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -355,7 +367,8 @@
       COURIER_COMPANY = #{record.courierCompany,jdbcType=DECIMAL},
       GOODS = #{record.goods,jdbcType=VARCHAR},
       GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
-      FEE = #{record.fee,jdbcType=DECIMAL}
+      FEE = #{record.fee,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -420,6 +433,9 @@
       <if test="fee != null" >
         FEE = #{fee,jdbcType=DECIMAL},
       </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
   </update>
@@ -443,7 +459,8 @@
       COURIER_COMPANY = #{courierCompany,jdbcType=DECIMAL},
       GOODS = #{goods,jdbcType=VARCHAR},
       GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
-      FEE = #{fee,jdbcType=DECIMAL}
+      FEE = #{fee,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
     where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
   </update>
 </mapper>
