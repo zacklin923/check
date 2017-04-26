@@ -20,6 +20,8 @@
     <result column="GOODS_COST" property="goodsCost" jdbcType="DECIMAL" />
     <result column="GOODS" property="goods" jdbcType="VARCHAR" />
     <result column="ORDER_NUMBER" property="orderNumber" jdbcType="DECIMAL" />
+    <result column="GOODS_STATE" property="goodsState" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -82,7 +84,7 @@
   <sql id="Base_Column_List" >
     COURIER_NUMBER, LARGE_AREA, SLICE_AREA, FENBU, CTM_BAR_CODE, CTM_NAME, SEND_TIME, 
     PROVINCE, ADDRESS, SHOP_NUMBER, ADDRESSEE, PHONE, TIME_OUT, WEIGHT, COURIER_COMPANY, 
-    GOODS_COST, GOODS, ORDER_NUMBER
+    GOODS_COST, GOODS, ORDER_NUMBER, GOODS_STATE, CREATE_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceZmExample" >
     select
@@ -121,15 +123,15 @@
       SEND_TIME, PROVINCE, ADDRESS, 
       SHOP_NUMBER, ADDRESSEE, PHONE, 
       TIME_OUT, WEIGHT, COURIER_COMPANY, 
-      GOODS_COST, GOODS, ORDER_NUMBER
-      )
+      GOODS_COST, GOODS, ORDER_NUMBER, 
+      GOODS_STATE, CREATE_TIME)
     values (#{courierNumber,jdbcType=DECIMAL}, #{largeArea,jdbcType=VARCHAR}, #{sliceArea,jdbcType=VARCHAR}, 
       #{fenbu,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=DECIMAL}, #{ctmName,jdbcType=VARCHAR}, 
       #{sendTime,jdbcType=TIMESTAMP}, #{province,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{shopNumber,jdbcType=VARCHAR}, #{addressee,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{timeOut,jdbcType=TIMESTAMP}, #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=DECIMAL}, 
-      #{goodsCost,jdbcType=DECIMAL}, #{goods,jdbcType=VARCHAR}, #{orderNumber,jdbcType=DECIMAL}
-      )
+      #{goodsCost,jdbcType=DECIMAL}, #{goods,jdbcType=VARCHAR}, #{orderNumber,jdbcType=DECIMAL}, 
+      #{goodsState,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.SourceZm" >
     insert into SOURCE_ZM
@@ -188,6 +190,12 @@
       <if test="orderNumber != null" >
         ORDER_NUMBER,
       </if>
+      <if test="goodsState != null" >
+        GOODS_STATE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courierNumber != null" >
@@ -243,6 +251,12 @@
       </if>
       <if test="orderNumber != null" >
         #{orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsState != null" >
+        #{goodsState,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -309,6 +323,12 @@
       <if test="record.orderNumber != null" >
         ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL},
       </if>
+      <if test="record.goodsState != null" >
+        GOODS_STATE = #{record.goodsState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -333,7 +353,9 @@
       COURIER_COMPANY = #{record.courierCompany,jdbcType=DECIMAL},
       GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
       GOODS = #{record.goods,jdbcType=VARCHAR},
-      ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL}
+      ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL},
+      GOODS_STATE = #{record.goodsState,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -392,6 +414,12 @@
       <if test="orderNumber != null" >
         ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
       </if>
+      <if test="goodsState != null" >
+        GOODS_STATE = #{goodsState,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
   </update>
@@ -413,7 +441,9 @@
       COURIER_COMPANY = #{courierCompany,jdbcType=DECIMAL},
       GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
       GOODS = #{goods,jdbcType=VARCHAR},
-      ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL}
+      ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+      GOODS_STATE = #{goodsState,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
     where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
   </update>
 </mapper>

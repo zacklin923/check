@@ -44,6 +44,8 @@ public class SourceThirdParty {
 
     private BigDecimal fee;
 
+    private Date createTime;
+
     public BigDecimal getCourierNumber() {
         return courierNumber;
     }
@@ -202,5 +204,13 @@ public class SourceThirdParty {
 
     public void setFee(BigDecimal fee) {
         this.fee = fee;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }
