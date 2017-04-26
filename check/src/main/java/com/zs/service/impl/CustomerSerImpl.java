@@ -43,18 +43,15 @@ public class CustomerSerImpl implements CustomerSer{
 	}
 
 	public Integer add(Customer obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return customerMapper.insertSelective(obj);
 	}
 
 	public Integer update(Customer obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return customerMapper.updateByPrimaryKeySelective(obj);
 	}
 
 	public Integer delete(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return customerMapper.deleteByPrimaryKey(id);
 	}
 
 	public Customer get(String id) {

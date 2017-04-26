@@ -48,7 +48,7 @@ public class RoleConR extends BaseRestController<StaffRole>{
 		if(obj!=null){
 			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.add(obj));
 		}
-		return new Result<Integer>(SUCCESS,  Code.ERROR, null);
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
@@ -57,7 +57,7 @@ public class RoleConR extends BaseRestController<StaffRole>{
 		if(obj!=null){
 			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.update(obj));
 		}
-		return new Result<Integer>(SUCCESS,  Code.ERROR, null);
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
@@ -66,7 +66,7 @@ public class RoleConR extends BaseRestController<StaffRole>{
 		if(id!=null&&!id.equals("")){
 			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.delete(id));
 		}
-		return new Result<Integer>(SUCCESS,  Code.ERROR, null);
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@Override
