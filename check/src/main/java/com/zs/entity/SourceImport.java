@@ -133,4 +133,29 @@ public class SourceImport extends SourceImportKey {
     public void setIsPushed(BigDecimal isPushed) {
         this.isPushed = isPushed;
     }
+
+	public SourceImport(String ctmBarCode, String ctmName, String shopNumber, String address, String addressee,
+			String phone, String courierCompany, String goods, BigDecimal goodsCost, String orderNumber,
+			String numberType, Date createTime, BigDecimal isPushed) {
+		super();
+		this.ctmBarCode = ctmBarCode;
+		this.ctmName = ctmName;
+		this.shopNumber = shopNumber;
+		this.address = address;
+		this.addressee = addressee;
+		this.phone = phone;
+		this.courierCompany = courierCompany;
+		this.goods = goods;
+		this.goodsCost = goodsCost;
+		this.orderNumber = orderNumber;
+		this.numberType = numberType;
+		this.createTime = createTime;
+		this.isPushed = isPushed;
+	}
+
+	public SourceImport() {
+		super();
+	}
+    
+    
 }
