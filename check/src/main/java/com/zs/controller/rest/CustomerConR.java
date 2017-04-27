@@ -22,7 +22,7 @@ import com.zs.tools.ColumnName;
 
 @RestController
 @RequestMapping("/api/customer")
-public class CustomerConR extends BaseRestController<Customer>{
+public class CustomerConR extends BaseRestController<Customer,String>{
 
 	@Resource
 	private CustomerSer customerSer;

@@ -15,7 +15,7 @@ import com.zs.entity.other.Result;
  * @author 张顺，2017-4-15
  */
 
-public abstract class BaseRestController<T>{
+public abstract class BaseRestController<T,ID_TYPE>{
 	
 	public static final String SUCCESS="success";
 	public static final String ERROR="error";
@@ -53,7 +53,7 @@ public abstract class BaseRestController<T>{
 	 * @param resp
 	 * @return
 	 */
-	public abstract Result<T> doGet(String id, HttpServletRequest req, HttpServletResponse resp);
+	public abstract Result<T> doGet(ID_TYPE id, HttpServletRequest req, HttpServletResponse resp);
 	/**
 	 * 添加一条
 	 * @param obj
@@ -77,7 +77,7 @@ public abstract class BaseRestController<T>{
 	 * @param resp
 	 * @return
 	 */
-	public abstract Result<Integer> doDeleteFalse(String id, HttpServletRequest req, HttpServletResponse resp);
+	public abstract Result<Integer> doDeleteFalse(ID_TYPE id, HttpServletRequest req, HttpServletResponse resp);
 	/**
 	 * 真删除一条
 	 * @param id
@@ -85,7 +85,7 @@ public abstract class BaseRestController<T>{
 	 * @param resp
 	 * @return
 	 */
-	public abstract Result<Integer> doDeleteTrue(String id, HttpServletRequest req, HttpServletResponse resp);
+	public abstract Result<Integer> doDeleteTrue(ID_TYPE id, HttpServletRequest req, HttpServletResponse resp);
 	/**
 	 * 导出数据
 	 * @param accept

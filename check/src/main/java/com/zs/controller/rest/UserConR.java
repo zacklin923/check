@@ -25,7 +25,7 @@ import com.zs.tools.ExcelImport;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserConR extends BaseRestController<StaffUser>{
+public class UserConR extends BaseRestController<StaffUser,String>{
 
 	@Resource
 	private UserSer userSer;

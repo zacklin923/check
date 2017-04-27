@@ -21,7 +21,7 @@ import com.zs.tools.ColumnName;
 
 @RestController
 @RequestMapping("/api/power")
-public class PowerConR extends BaseRestController<StaffPower>{
+public class PowerConR extends BaseRestController<StaffPower,String>{
 
 	@Resource
 	private PowerSer powerSer;

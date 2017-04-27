@@ -52,6 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <li><span><a href="<%=path %>/customer" target="right">客户查询</a></span></li>
 	        <li><span><a href="<%=path %>/role" target="right">角色管理</a></span></li>
 	        <li><span><a href="<%=path %>/power" target="right">权限管理</a></span></li>
+	        <li><span><a href="<%=path %>/timeLimit" target="right">时效控制信息管理</a></span></li>
         </ul>
 	</div>
 	<div title="数据导入" data-options="iconCls:'icon-large-smartart'" style="padding:10px;">
