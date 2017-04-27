@@ -1,47 +1,46 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zs.dao.SourceZmMapper" >
-  <resultMap id="BaseResultMap" type="com.zs.entity.SourceZm" >
-    <id column="COURIER_NUMBER" property="courierNumber" jdbcType="DECIMAL" />
-    <result column="LARGE_AREA" property="largeArea" jdbcType="VARCHAR" />
-    <result column="SLICE_AREA" property="sliceArea" jdbcType="VARCHAR" />
-    <result column="FENBU" property="fenbu" jdbcType="VARCHAR" />
-    <result column="CTM_BAR_CODE" property="ctmBarCode" jdbcType="DECIMAL" />
-    <result column="CTM_NAME" property="ctmName" jdbcType="VARCHAR" />
-    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
-    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
-    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
-    <result column="SHOP_NUMBER" property="shopNumber" jdbcType="VARCHAR" />
-    <result column="ADDRESSEE" property="addressee" jdbcType="VARCHAR" />
-    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
-    <result column="TIME_OUT" property="timeOut" jdbcType="TIMESTAMP" />
-    <result column="WEIGHT" property="weight" jdbcType="DECIMAL" />
-    <result column="COURIER_COMPANY" property="courierCompany" jdbcType="DECIMAL" />
-    <result column="GOODS_COST" property="goodsCost" jdbcType="DECIMAL" />
-    <result column="GOODS" property="goods" jdbcType="VARCHAR" />
-    <result column="ORDER_NUMBER" property="orderNumber" jdbcType="DECIMAL" />
-    <result column="GOODS_STATE" property="goodsState" jdbcType="VARCHAR" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zs.dao.SourceZmMapper">
+  <resultMap id="BaseResultMap" type="com.zs.entity.SourceZm">
+    <id column="COURIER_NUMBER" jdbcType="VARCHAR" property="courierNumber" />
+    <id column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="LARGE_AREA" jdbcType="VARCHAR" property="largeArea" />
+    <result column="SLICE_AREA" jdbcType="VARCHAR" property="sliceArea" />
+    <result column="FENBU" jdbcType="VARCHAR" property="fenbu" />
+    <result column="CTM_BAR_CODE" jdbcType="VARCHAR" property="ctmBarCode" />
+    <result column="CTM_NAME" jdbcType="VARCHAR" property="ctmName" />
+    <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="PROVINCE" jdbcType="VARCHAR" property="province" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="SHOP_NUMBER" jdbcType="VARCHAR" property="shopNumber" />
+    <result column="ADDRESSEE" jdbcType="VARCHAR" property="addressee" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="WEIGHT" jdbcType="DECIMAL" property="weight" />
+    <result column="COURIER_COMPANY" jdbcType="VARCHAR" property="courierCompany" />
+    <result column="GOODS_COST" jdbcType="DECIMAL" property="goodsCost" />
+    <result column="GOODS" jdbcType="VARCHAR" property="goods" />
+    <result column="ORDER_NUMBER" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -52,25 +51,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -81,43 +80,904 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    COURIER_NUMBER, LARGE_AREA, SLICE_AREA, FENBU, CTM_BAR_CODE, CTM_NAME, SEND_TIME, 
-    PROVINCE, ADDRESS, SHOP_NUMBER, ADDRESSEE, PHONE, TIME_OUT, WEIGHT, COURIER_COMPANY, 
-    GOODS_COST, GOODS, ORDER_NUMBER, GOODS_STATE, CREATE_TIME
+  <sql id="Base_Column_List">
+    COURIER_NUMBER, CREATE_DATE, LARGE_AREA, SLICE_AREA, FENBU, CTM_BAR_CODE, CTM_NAME, 
+    SEND_TIME, PROVINCE, ADDRESS, SHOP_NUMBER, ADDRESSEE, PHONE, WEIGHT, COURIER_COMPANY, 
+    GOODS_COST, GOODS, ORDER_NUMBER, CREATE_TIME
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceZmExample" >
+  <select id="selectByExample" parameterType="com.zs.entity.SourceZmExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
     from SOURCE_ZM
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+  <select id="selectByPrimaryKey" parameterType="com.zs.entity.SourceZmKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SOURCE_ZM
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.zs.entity.SourceZmKey">
+    delete from SOURCE_ZM
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.SourceZmExample">
+    delete from SOURCE_ZM
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.SourceZm">
+    insert into SOURCE_ZM (COURIER_NUMBER, CREATE_DATE, LARGE_AREA, 
+      SLICE_AREA, FENBU, CTM_BAR_CODE, 
+      CTM_NAME, SEND_TIME, PROVINCE, 
+      ADDRESS, SHOP_NUMBER, ADDRESSEE, 
+      PHONE, WEIGHT, COURIER_COMPANY, 
+      GOODS_COST, GOODS, ORDER_NUMBER, 
+      CREATE_TIME)
+    values (#{courierNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{largeArea,jdbcType=VARCHAR}, 
+      #{sliceArea,jdbcType=VARCHAR}, #{fenbu,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, 
+      #{ctmName,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{province,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{shopNumber,jdbcType=VARCHAR}, #{addressee,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=VARCHAR}, 
+      #{goodsCost,jdbcType=DECIMAL}, #{goods,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.SourceZm">
+    insert into SOURCE_ZM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courierNumber != null">
+        COURIER_NUMBER,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="largeArea != null">
+        LARGE_AREA,
+      </if>
+      <if test="sliceArea != null">
+        SLICE_AREA,
+      </if>
+      <if test="fenbu != null">
+        FENBU,
+      </if>
+      <if test="ctmBarCode != null">
+        CTM_BAR_CODE,
+      </if>
+      <if test="ctmName != null">
+        CTM_NAME,
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME,
+      </if>
+      <if test="province != null">
+        PROVINCE,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="shopNumber != null">
+        SHOP_NUMBER,
+      </if>
+      <if test="addressee != null">
+        ADDRESSEE,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="weight != null">
+        WEIGHT,
+      </if>
+      <if test="courierCompany != null">
+        COURIER_COMPANY,
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST,
+      </if>
+      <if test="goods != null">
+        GOODS,
+      </if>
+      <if test="orderNumber != null">
+        ORDER_NUMBER,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courierNumber != null">
+        #{courierNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="largeArea != null">
+        #{largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="sliceArea != null">
+        #{sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="fenbu != null">
+        #{fenbu,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmBarCode != null">
+        #{ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmName != null">
+        #{ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNumber != null">
+        #{shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="addressee != null">
+        #{addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="courierCompany != null">
+        #{courierCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null">
+        #{goodsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="goods != null">
+        #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.SourceZmExample" resultType="java.lang.Integer">
+    select count(*) from SOURCE_ZM
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update SOURCE_ZM
+    <set>
+      <if test="record.courierNumber != null">
+        COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.largeArea != null">
+        LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sliceArea != null">
+        SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fenbu != null">
+        FENBU = #{record.fenbu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmBarCode != null">
+        CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmName != null">
+        CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendTime != null">
+        SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.province != null">
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopNumber != null">
+        SHOP_NUMBER = #{record.shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addressee != null">
+        ADDRESSEE = #{record.addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        PHONE = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null">
+        WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.courierCompany != null">
+        COURIER_COMPANY = #{record.courierCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsCost != null">
+        GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goods != null">
+        GOODS = #{record.goods,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNumber != null">
+        ORDER_NUMBER = #{record.orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update SOURCE_ZM
+    set COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
+      FENBU = #{record.fenbu,jdbcType=VARCHAR},
+      CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
+      CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+      PROVINCE = #{record.province,jdbcType=VARCHAR},
+      ADDRESS = #{record.address,jdbcType=VARCHAR},
+      SHOP_NUMBER = #{record.shopNumber,jdbcType=VARCHAR},
+      ADDRESSEE = #{record.addressee,jdbcType=VARCHAR},
+      PHONE = #{record.phone,jdbcType=VARCHAR},
+      WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      COURIER_COMPANY = #{record.courierCompany,jdbcType=VARCHAR},
+      GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
+      GOODS = #{record.goods,jdbcType=VARCHAR},
+      ORDER_NUMBER = #{record.orderNumber,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.SourceZm">
+    update SOURCE_ZM
+    <set>
+      <if test="largeArea != null">
+        LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="sliceArea != null">
+        SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="fenbu != null">
+        FENBU = #{fenbu,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmBarCode != null">
+        CTM_BAR_CODE = #{ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmName != null">
+        CTM_NAME = #{ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="province != null">
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNumber != null">
+        SHOP_NUMBER = #{shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="addressee != null">
+        ADDRESSEE = #{addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="courierCompany != null">
+        COURIER_COMPANY = #{courierCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="goods != null">
+        GOODS = #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null">
+        ORDER_NUMBER = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.SourceZm">
+    update SOURCE_ZM
+    set LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
+      SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},
+      FENBU = #{fenbu,jdbcType=VARCHAR},
+      CTM_BAR_CODE = #{ctmBarCode,jdbcType=VARCHAR},
+      CTM_NAME = #{ctmName,jdbcType=VARCHAR},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      SHOP_NUMBER = #{shopNumber,jdbcType=VARCHAR},
+      ADDRESSEE = #{addressee,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      WEIGHT = #{weight,jdbcType=DECIMAL},
+      COURIER_COMPANY = #{courierCompany,jdbcType=VARCHAR},
+      GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
+      GOODS = #{goods,jdbcType=VARCHAR},
+      ORDER_NUMBER = #{orderNumber,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+  </update>
+  <resultMap id="BaseResultMap" type="com.zs.entity.SourceZm">
+    <id column="COURIER_NUMBER" jdbcType="VARCHAR" property="courierNumber" />
+    <id column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="LARGE_AREA" jdbcType="VARCHAR" property="largeArea" />
+    <result column="SLICE_AREA" jdbcType="VARCHAR" property="sliceArea" />
+    <result column="FENBU" jdbcType="VARCHAR" property="fenbu" />
+    <result column="CTM_BAR_CODE" jdbcType="VARCHAR" property="ctmBarCode" />
+    <result column="CTM_NAME" jdbcType="VARCHAR" property="ctmName" />
+    <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="PROVINCE" jdbcType="VARCHAR" property="province" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="SHOP_NUMBER" jdbcType="VARCHAR" property="shopNumber" />
+    <result column="ADDRESSEE" jdbcType="VARCHAR" property="addressee" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="WEIGHT" jdbcType="DECIMAL" property="weight" />
+    <result column="COURIER_COMPANY" jdbcType="VARCHAR" property="courierCompany" />
+    <result column="GOODS_COST" jdbcType="DECIMAL" property="goodsCost" />
+    <result column="GOODS" jdbcType="VARCHAR" property="goods" />
+    <result column="ORDER_NUMBER" jdbcType="VARCHAR" property="orderNumber" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    COURIER_NUMBER, CREATE_DATE, LARGE_AREA, SLICE_AREA, FENBU, CTM_BAR_CODE, CTM_NAME, 
+    SEND_TIME, PROVINCE, ADDRESS, SHOP_NUMBER, ADDRESSEE, PHONE, WEIGHT, COURIER_COMPANY, 
+    GOODS_COST, GOODS, ORDER_NUMBER, CREATE_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.zs.entity.SourceZmExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from SOURCE_ZM
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.zs.entity.SourceZmKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SOURCE_ZM
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.zs.entity.SourceZmKey">
+    delete from SOURCE_ZM
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.SourceZmExample">
+    delete from SOURCE_ZM
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.SourceZm">
+    insert into SOURCE_ZM (COURIER_NUMBER, CREATE_DATE, LARGE_AREA, 
+      SLICE_AREA, FENBU, CTM_BAR_CODE, 
+      CTM_NAME, SEND_TIME, PROVINCE, 
+      ADDRESS, SHOP_NUMBER, ADDRESSEE, 
+      PHONE, WEIGHT, COURIER_COMPANY, 
+      GOODS_COST, GOODS, ORDER_NUMBER, 
+      CREATE_TIME)
+    values (#{courierNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{largeArea,jdbcType=VARCHAR}, 
+      #{sliceArea,jdbcType=VARCHAR}, #{fenbu,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, 
+      #{ctmName,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{province,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{shopNumber,jdbcType=VARCHAR}, #{addressee,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=VARCHAR}, 
+      #{goodsCost,jdbcType=DECIMAL}, #{goods,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.SourceZm">
+    insert into SOURCE_ZM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courierNumber != null">
+        COURIER_NUMBER,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="largeArea != null">
+        LARGE_AREA,
+      </if>
+      <if test="sliceArea != null">
+        SLICE_AREA,
+      </if>
+      <if test="fenbu != null">
+        FENBU,
+      </if>
+      <if test="ctmBarCode != null">
+        CTM_BAR_CODE,
+      </if>
+      <if test="ctmName != null">
+        CTM_NAME,
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME,
+      </if>
+      <if test="province != null">
+        PROVINCE,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="shopNumber != null">
+        SHOP_NUMBER,
+      </if>
+      <if test="addressee != null">
+        ADDRESSEE,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="weight != null">
+        WEIGHT,
+      </if>
+      <if test="courierCompany != null">
+        COURIER_COMPANY,
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST,
+      </if>
+      <if test="goods != null">
+        GOODS,
+      </if>
+      <if test="orderNumber != null">
+        ORDER_NUMBER,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courierNumber != null">
+        #{courierNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="largeArea != null">
+        #{largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="sliceArea != null">
+        #{sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="fenbu != null">
+        #{fenbu,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmBarCode != null">
+        #{ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmName != null">
+        #{ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNumber != null">
+        #{shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="addressee != null">
+        #{addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="courierCompany != null">
+        #{courierCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null">
+        #{goodsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="goods != null">
+        #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.SourceZmExample" resultType="java.lang.Integer">
+    select count(*) from SOURCE_ZM
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update SOURCE_ZM
+    <set>
+      <if test="record.courierNumber != null">
+        COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.largeArea != null">
+        LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sliceArea != null">
+        SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fenbu != null">
+        FENBU = #{record.fenbu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmBarCode != null">
+        CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmName != null">
+        CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendTime != null">
+        SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.province != null">
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopNumber != null">
+        SHOP_NUMBER = #{record.shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addressee != null">
+        ADDRESSEE = #{record.addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        PHONE = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null">
+        WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.courierCompany != null">
+        COURIER_COMPANY = #{record.courierCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsCost != null">
+        GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goods != null">
+        GOODS = #{record.goods,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNumber != null">
+        ORDER_NUMBER = #{record.orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update SOURCE_ZM
+    set COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
+      FENBU = #{record.fenbu,jdbcType=VARCHAR},
+      CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
+      CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+      PROVINCE = #{record.province,jdbcType=VARCHAR},
+      ADDRESS = #{record.address,jdbcType=VARCHAR},
+      SHOP_NUMBER = #{record.shopNumber,jdbcType=VARCHAR},
+      ADDRESSEE = #{record.addressee,jdbcType=VARCHAR},
+      PHONE = #{record.phone,jdbcType=VARCHAR},
+      WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      COURIER_COMPANY = #{record.courierCompany,jdbcType=VARCHAR},
+      GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
+      GOODS = #{record.goods,jdbcType=VARCHAR},
+      ORDER_NUMBER = #{record.orderNumber,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.SourceZm">
+    update SOURCE_ZM
+    <set>
+      <if test="largeArea != null">
+        LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="sliceArea != null">
+        SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="fenbu != null">
+        FENBU = #{fenbu,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmBarCode != null">
+        CTM_BAR_CODE = #{ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmName != null">
+        CTM_NAME = #{ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="province != null">
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="shopNumber != null">
+        SHOP_NUMBER = #{shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="addressee != null">
+        ADDRESSEE = #{addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="courierCompany != null">
+        COURIER_COMPANY = #{courierCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCost != null">
+        GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="goods != null">
+        GOODS = #{goods,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null">
+        ORDER_NUMBER = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.SourceZm">
+    update SOURCE_ZM
+    set LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
+      SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},
+      FENBU = #{fenbu,jdbcType=VARCHAR},
+      CTM_BAR_CODE = #{ctmBarCode,jdbcType=VARCHAR},
+      CTM_NAME = #{ctmName,jdbcType=VARCHAR},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      SHOP_NUMBER = #{shopNumber,jdbcType=VARCHAR},
+      ADDRESSEE = #{addressee,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      WEIGHT = #{weight,jdbcType=DECIMAL},
+      COURIER_COMPANY = #{courierCompany,jdbcType=VARCHAR},
+      GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
+      GOODS = #{goods,jdbcType=VARCHAR},
+      ORDER_NUMBER = #{orderNumber,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+  </update>
+  <resultMap id="BaseResultMap" type="com.zs.entity.SourceZm">
+    <id column="COURIER_NUMBER" jdbcType="DECIMAL" property="courierNumber" />
+    <result column="LARGE_AREA" jdbcType="VARCHAR" property="largeArea" />
+    <result column="SLICE_AREA" jdbcType="VARCHAR" property="sliceArea" />
+    <result column="FENBU" jdbcType="VARCHAR" property="fenbu" />
+    <result column="CTM_BAR_CODE" jdbcType="DECIMAL" property="ctmBarCode" />
+    <result column="CTM_NAME" jdbcType="VARCHAR" property="ctmName" />
+    <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="PROVINCE" jdbcType="VARCHAR" property="province" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="SHOP_NUMBER" jdbcType="VARCHAR" property="shopNumber" />
+    <result column="ADDRESSEE" jdbcType="VARCHAR" property="addressee" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="TIME_OUT" jdbcType="TIMESTAMP" property="timeOut" />
+    <result column="WEIGHT" jdbcType="DECIMAL" property="weight" />
+    <result column="COURIER_COMPANY" jdbcType="DECIMAL" property="courierCompany" />
+    <result column="GOODS_COST" jdbcType="DECIMAL" property="goodsCost" />
+    <result column="GOODS" jdbcType="VARCHAR" property="goods" />
+    <result column="ORDER_NUMBER" jdbcType="DECIMAL" property="orderNumber" />
+    <result column="GOODS_STATE" jdbcType="VARCHAR" property="goodsState" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    COURIER_NUMBER, LARGE_AREA, SLICE_AREA, FENBU, CTM_BAR_CODE, CTM_NAME, SEND_TIME, 
+    PROVINCE, ADDRESS, SHOP_NUMBER, ADDRESSEE, PHONE, TIME_OUT, WEIGHT, COURIER_COMPANY, 
+    GOODS_COST, GOODS, ORDER_NUMBER, GOODS_STATE, CREATE_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.zs.entity.SourceZmExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from SOURCE_ZM
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from SOURCE_ZM
     where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
     delete from SOURCE_ZM
     where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
   </delete>
-  <delete id="deleteByExample" parameterType="com.zs.entity.SourceZmExample" >
+  <delete id="deleteByExample" parameterType="com.zs.entity.SourceZmExample">
     delete from SOURCE_ZM
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.zs.entity.SourceZm" >
+  <insert id="insert" parameterType="com.zs.entity.SourceZm">
     insert into SOURCE_ZM (COURIER_NUMBER, LARGE_AREA, SLICE_AREA, 
       FENBU, CTM_BAR_CODE, CTM_NAME, 
       SEND_TIME, PROVINCE, ADDRESS, 
@@ -133,208 +993,208 @@
       #{goodsCost,jdbcType=DECIMAL}, #{goods,jdbcType=VARCHAR}, #{orderNumber,jdbcType=DECIMAL}, 
       #{goodsState,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.zs.entity.SourceZm" >
+  <insert id="insertSelective" parameterType="com.zs.entity.SourceZm">
     insert into SOURCE_ZM
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="courierNumber != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courierNumber != null">
         COURIER_NUMBER,
       </if>
-      <if test="largeArea != null" >
+      <if test="largeArea != null">
         LARGE_AREA,
       </if>
-      <if test="sliceArea != null" >
+      <if test="sliceArea != null">
         SLICE_AREA,
       </if>
-      <if test="fenbu != null" >
+      <if test="fenbu != null">
         FENBU,
       </if>
-      <if test="ctmBarCode != null" >
+      <if test="ctmBarCode != null">
         CTM_BAR_CODE,
       </if>
-      <if test="ctmName != null" >
+      <if test="ctmName != null">
         CTM_NAME,
       </if>
-      <if test="sendTime != null" >
+      <if test="sendTime != null">
         SEND_TIME,
       </if>
-      <if test="province != null" >
+      <if test="province != null">
         PROVINCE,
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         ADDRESS,
       </if>
-      <if test="shopNumber != null" >
+      <if test="shopNumber != null">
         SHOP_NUMBER,
       </if>
-      <if test="addressee != null" >
+      <if test="addressee != null">
         ADDRESSEE,
       </if>
-      <if test="phone != null" >
+      <if test="phone != null">
         PHONE,
       </if>
-      <if test="timeOut != null" >
+      <if test="timeOut != null">
         TIME_OUT,
       </if>
-      <if test="weight != null" >
+      <if test="weight != null">
         WEIGHT,
       </if>
-      <if test="courierCompany != null" >
+      <if test="courierCompany != null">
         COURIER_COMPANY,
       </if>
-      <if test="goodsCost != null" >
+      <if test="goodsCost != null">
         GOODS_COST,
       </if>
-      <if test="goods != null" >
+      <if test="goods != null">
         GOODS,
       </if>
-      <if test="orderNumber != null" >
+      <if test="orderNumber != null">
         ORDER_NUMBER,
       </if>
-      <if test="goodsState != null" >
+      <if test="goodsState != null">
         GOODS_STATE,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         CREATE_TIME,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="courierNumber != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courierNumber != null">
         #{courierNumber,jdbcType=DECIMAL},
       </if>
-      <if test="largeArea != null" >
+      <if test="largeArea != null">
         #{largeArea,jdbcType=VARCHAR},
       </if>
-      <if test="sliceArea != null" >
+      <if test="sliceArea != null">
         #{sliceArea,jdbcType=VARCHAR},
       </if>
-      <if test="fenbu != null" >
+      <if test="fenbu != null">
         #{fenbu,jdbcType=VARCHAR},
       </if>
-      <if test="ctmBarCode != null" >
+      <if test="ctmBarCode != null">
         #{ctmBarCode,jdbcType=DECIMAL},
       </if>
-      <if test="ctmName != null" >
+      <if test="ctmName != null">
         #{ctmName,jdbcType=VARCHAR},
       </if>
-      <if test="sendTime != null" >
+      <if test="sendTime != null">
         #{sendTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="province != null" >
+      <if test="province != null">
         #{province,jdbcType=VARCHAR},
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="shopNumber != null" >
+      <if test="shopNumber != null">
         #{shopNumber,jdbcType=VARCHAR},
       </if>
-      <if test="addressee != null" >
+      <if test="addressee != null">
         #{addressee,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null" >
+      <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="timeOut != null" >
+      <if test="timeOut != null">
         #{timeOut,jdbcType=TIMESTAMP},
       </if>
-      <if test="weight != null" >
+      <if test="weight != null">
         #{weight,jdbcType=DECIMAL},
       </if>
-      <if test="courierCompany != null" >
+      <if test="courierCompany != null">
         #{courierCompany,jdbcType=DECIMAL},
       </if>
-      <if test="goodsCost != null" >
+      <if test="goodsCost != null">
         #{goodsCost,jdbcType=DECIMAL},
       </if>
-      <if test="goods != null" >
+      <if test="goods != null">
         #{goods,jdbcType=VARCHAR},
       </if>
-      <if test="orderNumber != null" >
+      <if test="orderNumber != null">
         #{orderNumber,jdbcType=DECIMAL},
       </if>
-      <if test="goodsState != null" >
+      <if test="goodsState != null">
         #{goodsState,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.zs.entity.SourceZmExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.zs.entity.SourceZmExample" resultType="java.lang.Integer">
     select count(*) from SOURCE_ZM
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update SOURCE_ZM
-    <set >
-      <if test="record.courierNumber != null" >
+    <set>
+      <if test="record.courierNumber != null">
         COURIER_NUMBER = #{record.courierNumber,jdbcType=DECIMAL},
       </if>
-      <if test="record.largeArea != null" >
+      <if test="record.largeArea != null">
         LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
       </if>
-      <if test="record.sliceArea != null" >
+      <if test="record.sliceArea != null">
         SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
       </if>
-      <if test="record.fenbu != null" >
+      <if test="record.fenbu != null">
         FENBU = #{record.fenbu,jdbcType=VARCHAR},
       </if>
-      <if test="record.ctmBarCode != null" >
+      <if test="record.ctmBarCode != null">
         CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=DECIMAL},
       </if>
-      <if test="record.ctmName != null" >
+      <if test="record.ctmName != null">
         CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
       </if>
-      <if test="record.sendTime != null" >
+      <if test="record.sendTime != null">
         SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.province != null" >
+      <if test="record.province != null">
         PROVINCE = #{record.province,jdbcType=VARCHAR},
       </if>
-      <if test="record.address != null" >
+      <if test="record.address != null">
         ADDRESS = #{record.address,jdbcType=VARCHAR},
       </if>
-      <if test="record.shopNumber != null" >
+      <if test="record.shopNumber != null">
         SHOP_NUMBER = #{record.shopNumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.addressee != null" >
+      <if test="record.addressee != null">
         ADDRESSEE = #{record.addressee,jdbcType=VARCHAR},
       </if>
-      <if test="record.phone != null" >
+      <if test="record.phone != null">
         PHONE = #{record.phone,jdbcType=VARCHAR},
       </if>
-      <if test="record.timeOut != null" >
+      <if test="record.timeOut != null">
         TIME_OUT = #{record.timeOut,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.weight != null" >
+      <if test="record.weight != null">
         WEIGHT = #{record.weight,jdbcType=DECIMAL},
       </if>
-      <if test="record.courierCompany != null" >
+      <if test="record.courierCompany != null">
         COURIER_COMPANY = #{record.courierCompany,jdbcType=DECIMAL},
       </if>
-      <if test="record.goodsCost != null" >
+      <if test="record.goodsCost != null">
         GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
       </if>
-      <if test="record.goods != null" >
+      <if test="record.goods != null">
         GOODS = #{record.goods,jdbcType=VARCHAR},
       </if>
-      <if test="record.orderNumber != null" >
+      <if test="record.orderNumber != null">
         ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL},
       </if>
-      <if test="record.goodsState != null" >
+      <if test="record.goodsState != null">
         GOODS_STATE = #{record.goodsState,jdbcType=VARCHAR},
       </if>
-      <if test="record.createTime != null" >
+      <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update SOURCE_ZM
     set COURIER_NUMBER = #{record.courierNumber,jdbcType=DECIMAL},
       LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
@@ -356,74 +1216,74 @@
       ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL},
       GOODS_STATE = #{record.goodsState,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.SourceZm" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.SourceZm">
     update SOURCE_ZM
-    <set >
-      <if test="largeArea != null" >
+    <set>
+      <if test="largeArea != null">
         LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
       </if>
-      <if test="sliceArea != null" >
+      <if test="sliceArea != null">
         SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},
       </if>
-      <if test="fenbu != null" >
+      <if test="fenbu != null">
         FENBU = #{fenbu,jdbcType=VARCHAR},
       </if>
-      <if test="ctmBarCode != null" >
+      <if test="ctmBarCode != null">
         CTM_BAR_CODE = #{ctmBarCode,jdbcType=DECIMAL},
       </if>
-      <if test="ctmName != null" >
+      <if test="ctmName != null">
         CTM_NAME = #{ctmName,jdbcType=VARCHAR},
       </if>
-      <if test="sendTime != null" >
+      <if test="sendTime != null">
         SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="province != null" >
+      <if test="province != null">
         PROVINCE = #{province,jdbcType=VARCHAR},
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         ADDRESS = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="shopNumber != null" >
+      <if test="shopNumber != null">
         SHOP_NUMBER = #{shopNumber,jdbcType=VARCHAR},
       </if>
-      <if test="addressee != null" >
+      <if test="addressee != null">
         ADDRESSEE = #{addressee,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null" >
+      <if test="phone != null">
         PHONE = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="timeOut != null" >
+      <if test="timeOut != null">
         TIME_OUT = #{timeOut,jdbcType=TIMESTAMP},
       </if>
-      <if test="weight != null" >
+      <if test="weight != null">
         WEIGHT = #{weight,jdbcType=DECIMAL},
       </if>
-      <if test="courierCompany != null" >
+      <if test="courierCompany != null">
         COURIER_COMPANY = #{courierCompany,jdbcType=DECIMAL},
       </if>
-      <if test="goodsCost != null" >
+      <if test="goodsCost != null">
         GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
       </if>
-      <if test="goods != null" >
+      <if test="goods != null">
         GOODS = #{goods,jdbcType=VARCHAR},
       </if>
-      <if test="orderNumber != null" >
+      <if test="orderNumber != null">
         ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
       </if>
-      <if test="goodsState != null" >
+      <if test="goodsState != null">
         GOODS_STATE = #{goodsState,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=DECIMAL}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zs.entity.SourceZm" >
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.SourceZm">
     update SOURCE_ZM
     set LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
       SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},

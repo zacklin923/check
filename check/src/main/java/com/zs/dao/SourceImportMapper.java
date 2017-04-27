@@ -2,9 +2,9 @@ package com.zs.dao;
 
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportExample;
+import com.zs.entity.SourceImportKey;
 import com.zs.entity.other.EasyUIAccept;
 
-import java.math.BigDecimal;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +13,7 @@ public interface SourceImportMapper {
 
     int deleteByExample(SourceImportExample example);
 
-    int deleteByPrimaryKey(BigDecimal courierNumber);
+    int deleteByPrimaryKey(SourceImportKey key);
 
     int insert(SourceImport record);
 
@@ -21,7 +21,7 @@ public interface SourceImportMapper {
 
     List<SourceImport> selectByExample(SourceImportExample example);
 
-    SourceImport selectByPrimaryKey(BigDecimal courierNumber);
+    SourceImport selectByPrimaryKey(SourceImportKey key);
 
     int updateByExampleSelective(@Param("record") SourceImport record, @Param("example") SourceImportExample example);
 
@@ -30,8 +30,7 @@ public interface SourceImportMapper {
     int updateByPrimaryKeySelective(SourceImport record);
 
     int updateByPrimaryKey(SourceImport record);
-  
-    //-----------------------------
+	//-----------------------------
     List<SourceImport> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);

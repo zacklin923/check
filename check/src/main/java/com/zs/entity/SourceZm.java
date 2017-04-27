@@ -3,16 +3,14 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class SourceZm {
-    private BigDecimal courierNumber;
-
+public class SourceZm extends SourceZmKey {
     private String largeArea;
 
     private String sliceArea;
 
     private String fenbu;
 
-    private BigDecimal ctmBarCode;
+    private String ctmBarCode;
 
     private String ctmName;
 
@@ -28,29 +26,17 @@ public class SourceZm {
 
     private String phone;
 
-    private Date timeOut;
-
     private BigDecimal weight;
 
-    private BigDecimal courierCompany;
+    private String courierCompany;
 
     private BigDecimal goodsCost;
 
     private String goods;
 
-    private BigDecimal orderNumber;
-
-    private String goodsState;
+    private String orderNumber;
 
     private Date createTime;
-
-    public BigDecimal getCourierNumber() {
-        return courierNumber;
-    }
-
-    public void setCourierNumber(BigDecimal courierNumber) {
-        this.courierNumber = courierNumber;
-    }
 
     public String getLargeArea() {
         return largeArea;
@@ -76,12 +62,12 @@ public class SourceZm {
         this.fenbu = fenbu == null ? null : fenbu.trim();
     }
 
-    public BigDecimal getCtmBarCode() {
+    public String getCtmBarCode() {
         return ctmBarCode;
     }
 
-    public void setCtmBarCode(BigDecimal ctmBarCode) {
-        this.ctmBarCode = ctmBarCode;
+    public void setCtmBarCode(String ctmBarCode) {
+        this.ctmBarCode = ctmBarCode == null ? null : ctmBarCode.trim();
     }
 
     public String getCtmName() {
@@ -140,14 +126,6 @@ public class SourceZm {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public Date getTimeOut() {
-        return timeOut;
-    }
-
-    public void setTimeOut(Date timeOut) {
-        this.timeOut = timeOut;
-    }
-
     public BigDecimal getWeight() {
         return weight;
     }
@@ -156,12 +134,12 @@ public class SourceZm {
         this.weight = weight;
     }
 
-    public BigDecimal getCourierCompany() {
+    public String getCourierCompany() {
         return courierCompany;
     }
 
-    public void setCourierCompany(BigDecimal courierCompany) {
-        this.courierCompany = courierCompany;
+    public void setCourierCompany(String courierCompany) {
+        this.courierCompany = courierCompany == null ? null : courierCompany.trim();
     }
 
     public BigDecimal getGoodsCost() {
@@ -180,20 +158,12 @@ public class SourceZm {
         this.goods = goods == null ? null : goods.trim();
     }
 
-    public BigDecimal getOrderNumber() {
+    public String getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(BigDecimal orderNumber) {
-        this.orderNumber = orderNumber;
-    }
-
-    public String getGoodsState() {
-        return goodsState;
-    }
-
-    public void setGoodsState(String goodsState) {
-        this.goodsState = goodsState == null ? null : goodsState.trim();
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber == null ? null : orderNumber.trim();
     }
 
     public Date getCreateTime() {

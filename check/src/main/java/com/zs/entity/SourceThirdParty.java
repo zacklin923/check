@@ -3,14 +3,12 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class SourceThirdParty {
-    private BigDecimal courierNumber;
-
+public class SourceThirdParty extends SourceThirdPartyKey {
     private Date sendTime;
 
     private String ctmName;
 
-    private BigDecimal ctmBarCode;
+    private String ctmBarCode;
 
     private String province;
 
@@ -28,7 +26,7 @@ public class SourceThirdParty {
 
     private BigDecimal isTimeOut;
 
-    private BigDecimal orderNumber;
+    private String orderNumber;
 
     private String shopNumber;
 
@@ -36,7 +34,7 @@ public class SourceThirdParty {
 
     private BigDecimal weight;
 
-    private BigDecimal courierCompany;
+    private String courierCompany;
 
     private String goods;
 
@@ -46,13 +44,11 @@ public class SourceThirdParty {
 
     private Date createTime;
 
-    public BigDecimal getCourierNumber() {
-        return courierNumber;
-    }
+    private String largeArea;
 
-    public void setCourierNumber(BigDecimal courierNumber) {
-        this.courierNumber = courierNumber;
-    }
+    private String sliceArea;
+
+    private String fenbu;
 
     public Date getSendTime() {
         return sendTime;
@@ -70,12 +66,12 @@ public class SourceThirdParty {
         this.ctmName = ctmName == null ? null : ctmName.trim();
     }
 
-    public BigDecimal getCtmBarCode() {
+    public String getCtmBarCode() {
         return ctmBarCode;
     }
 
-    public void setCtmBarCode(BigDecimal ctmBarCode) {
-        this.ctmBarCode = ctmBarCode;
+    public void setCtmBarCode(String ctmBarCode) {
+        this.ctmBarCode = ctmBarCode == null ? null : ctmBarCode.trim();
     }
 
     public String getProvince() {
@@ -142,12 +138,12 @@ public class SourceThirdParty {
         this.isTimeOut = isTimeOut;
     }
 
-    public BigDecimal getOrderNumber() {
+    public String getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(BigDecimal orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber == null ? null : orderNumber.trim();
     }
 
     public String getShopNumber() {
@@ -174,12 +170,12 @@ public class SourceThirdParty {
         this.weight = weight;
     }
 
-    public BigDecimal getCourierCompany() {
+    public String getCourierCompany() {
         return courierCompany;
     }
 
-    public void setCourierCompany(BigDecimal courierCompany) {
-        this.courierCompany = courierCompany;
+    public void setCourierCompany(String courierCompany) {
+        this.courierCompany = courierCompany == null ? null : courierCompany.trim();
     }
 
     public String getGoods() {
@@ -212,5 +208,29 @@ public class SourceThirdParty {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getLargeArea() {
+        return largeArea;
+    }
+
+    public void setLargeArea(String largeArea) {
+        this.largeArea = largeArea == null ? null : largeArea.trim();
+    }
+
+    public String getSliceArea() {
+        return sliceArea;
+    }
+
+    public void setSliceArea(String sliceArea) {
+        this.sliceArea = sliceArea == null ? null : sliceArea.trim();
+    }
+
+    public String getFenbu() {
+        return fenbu;
+    }
+
+    public void setFenbu(String fenbu) {
+        this.fenbu = fenbu == null ? null : fenbu.trim();
     }
 }

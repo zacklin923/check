@@ -2,7 +2,6 @@ package com.zs.dao;
 
 import com.zs.entity.Sign;
 import com.zs.entity.SignExample;
-import java.math.BigDecimal;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +10,7 @@ public interface SignMapper {
 
     int deleteByExample(SignExample example);
 
-    int deleteByPrimaryKey(BigDecimal courierNumber);
+    int deleteByPrimaryKey(String courierNumber);
 
     int insert(Sign record);
 
@@ -19,7 +18,7 @@ public interface SignMapper {
 
     List<Sign> selectByExample(SignExample example);
 
-    Sign selectByPrimaryKey(BigDecimal courierNumber);
+    Sign selectByPrimaryKey(String courierNumber);
 
     int updateByExampleSelective(@Param("record") Sign record, @Param("example") SignExample example);
 

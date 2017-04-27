@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Sign {
-    private BigDecimal courierNumber;
+    private String courierNumber;
 
     private String deliveryState;
 
@@ -18,14 +18,12 @@ public class Sign {
 
     private String goods;
 
-    private String note;
-
-    public BigDecimal getCourierNumber() {
+    public String getCourierNumber() {
         return courierNumber;
     }
 
-    public void setCourierNumber(BigDecimal courierNumber) {
-        this.courierNumber = courierNumber;
+    public void setCourierNumber(String courierNumber) {
+        this.courierNumber = courierNumber == null ? null : courierNumber.trim();
     }
 
     public String getDeliveryState() {
@@ -74,13 +72,5 @@ public class Sign {
 
     public void setGoods(String goods) {
         this.goods = goods == null ? null : goods.trim();
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note == null ? null : note.trim();
     }
 }
