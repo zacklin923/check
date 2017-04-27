@@ -244,7 +244,7 @@
   <select id="queryforId" resultMap="BaseResultMap" parameterType="java.lang.String">
   	select * from STAFF_POWER
   	<where>
-  	stp_id in ( ${id} )
+  		stp_id in ( ${id} )
   	</where>
   </select>
   <select id="selectByUrlAndMethod" resultMap="BaseResultMap" parameterType="java.lang.String">

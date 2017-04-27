@@ -25,7 +25,7 @@ import com.zs.tools.Trans;
 
 @RestController
 @RequestMapping("/api/import")
-public class SourceImportConR extends BaseRestController<SourceImport>{
+public class SourceImportConR extends BaseRestController<SourceImport,String>{
 
 	@Resource
 	private SourceImportSer sourceImportSer;

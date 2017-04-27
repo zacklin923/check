@@ -1,7 +1,6 @@
 package com.zs.controller.rest;
 
-import java.util.List;
-
+import java.math.BigDecimal;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,66 +10,60 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.zs.entity.StaffRole;
+import com.zs.entity.TimeLimit;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
-import com.zs.service.RoleSer;
+import com.zs.service.TimeLimitSer;
 import com.zs.tools.ColumnName;
 
 @RestController
-@RequestMapping("/api/role")
-public class RoleConR extends BaseRestController<StaffRole,String>{
+@RequestMapping("/api/timeLimit")
+public class TimeLimitConR extends BaseRestController<TimeLimit,BigDecimal>{
 
 	@Resource
-	private RoleSer roleSer;
-	
+	private TimeLimitSer timeLimitSer;
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-			return roleSer.queryFenye(accept);
+			return timeLimitSer.queryFenye(accept);
 		}
 		return null;
 	}
 
 	@Override
-	public Result<StaffRole> doGet(String id, HttpServletRequest req, HttpServletResponse resp) {
+	public Result<TimeLimit> doGet(BigDecimal id, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@RequestMapping(value="",method=RequestMethod.POST)
 	@Override
-	public Result<Integer> doAdd(StaffRole obj, HttpServletRequest req, HttpServletResponse resp) {
-		if(obj!=null){
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.add(obj));
-		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
+	public Result<Integer> doAdd(TimeLimit obj, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	@Override
-	public Result<Integer> doUpdate(StaffRole obj, HttpServletRequest req, HttpServletResponse resp) {
-		if(obj!=null){
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.update(obj));
-		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
+	public Result<Integer> doUpdate(TimeLimit obj, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result<Integer> doDeleteFalse(BigDecimal id, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
-	public Result<Integer> doDeleteFalse(@PathVariable("id")String id, HttpServletRequest req, HttpServletResponse resp) {
-		if(id!=null&&!id.equals("")){
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.delete(id));
-		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
-	}
-
-	@Override
-	public Result<Integer> doDeleteTrue(String id, HttpServletRequest req, HttpServletResponse resp) {
+	public Result<Integer> doDeleteTrue(@PathVariable("id") BigDecimal id, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -80,15 +73,12 @@ public class RoleConR extends BaseRestController<StaffRole,String>{
 		return null;
 	}
 
-	@RequestMapping(value="/all",method=RequestMethod.GET)
-	public List<StaffRole> queryAll(){
-		return roleSer.queryAll();
-	}
-
 	@Override
 	public Result<String> excelImport(MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+
+
 }

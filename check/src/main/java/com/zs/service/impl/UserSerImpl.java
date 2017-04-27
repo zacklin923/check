@@ -33,10 +33,6 @@ public class UserSerImpl implements UserSer{
 				accept.setEnd(page*size);
 			}
 			List list=userMapper.queryFenye(accept);
-			for (int i = 0; i < list.size(); i++) {
-				StaffUser su = (StaffUser) list.get(i);
-				su.setRole(roleMapper.selectByPrimaryKey(su.getStuRole()));
-			}
 			int rows=userMapper.getCount(accept);
 			return new EasyUIPage(rows, list);
 		}

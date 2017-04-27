@@ -1,34 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zs.dao.SignMapper">
-  <resultMap id="BaseResultMap" type="com.zs.entity.Sign">
-    <id column="COURIER_NUMBER" jdbcType="VARCHAR" property="courierNumber" />
-    <result column="DELIVERY_STATE" jdbcType="VARCHAR" property="deliveryState" />
-    <result column="SIGNATORY" jdbcType="VARCHAR" property="signatory" />
-    <result column="SIGN_TIME" jdbcType="TIMESTAMP" property="signTime" />
-    <result column="ABNORMAL_CAUSE" jdbcType="VARCHAR" property="abnormalCause" />
-    <result column="GOODS_COST" jdbcType="DECIMAL" property="goodsCost" />
-    <result column="GOODS" jdbcType="VARCHAR" property="goods" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.SignMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.Sign" >
+    <id column="COURIER_NUMBER" property="courierNumber" jdbcType="VARCHAR" />
+    <result column="DELIVERY_STATE" property="deliveryState" jdbcType="VARCHAR" />
+    <result column="SIGNATORY" property="signatory" jdbcType="VARCHAR" />
+    <result column="SIGN_TIME" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="ABNORMAL_CAUSE" property="abnormalCause" jdbcType="VARCHAR" />
+    <result column="GOODS_COST" property="goodsCost" jdbcType="DECIMAL" />
+    <result column="GOODS" property="goods" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -39,25 +39,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -68,42 +68,42 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     COURIER_NUMBER, DELIVERY_STATE, SIGNATORY, SIGN_TIME, ABNORMAL_CAUSE, GOODS_COST, 
     GOODS
   </sql>
-  <select id="selectByExample" parameterType="com.zs.entity.SignExample" resultMap="BaseResultMap">
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SignExample" >
     select
-    <if test="distinct">
+    <if test="distinct" >
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
     from SIGN
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from SIGN
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from SIGN
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.zs.entity.SignExample">
+  <delete id="deleteByExample" parameterType="com.zs.entity.SignExample" >
     delete from SIGN
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.zs.entity.Sign">
+  <insert id="insert" parameterType="com.zs.entity.Sign" >
     insert into SIGN (COURIER_NUMBER, DELIVERY_STATE, SIGNATORY, 
       SIGN_TIME, ABNORMAL_CAUSE, GOODS_COST, 
       GOODS)
@@ -111,91 +111,91 @@
       #{signTime,jdbcType=TIMESTAMP}, #{abnormalCause,jdbcType=VARCHAR}, #{goodsCost,jdbcType=DECIMAL}, 
       #{goods,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.zs.entity.Sign">
+  <insert id="insertSelective" parameterType="com.zs.entity.Sign" >
     insert into SIGN
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="courierNumber != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="courierNumber != null" >
         COURIER_NUMBER,
       </if>
-      <if test="deliveryState != null">
+      <if test="deliveryState != null" >
         DELIVERY_STATE,
       </if>
-      <if test="signatory != null">
+      <if test="signatory != null" >
         SIGNATORY,
       </if>
-      <if test="signTime != null">
+      <if test="signTime != null" >
         SIGN_TIME,
       </if>
-      <if test="abnormalCause != null">
+      <if test="abnormalCause != null" >
         ABNORMAL_CAUSE,
       </if>
-      <if test="goodsCost != null">
+      <if test="goodsCost != null" >
         GOODS_COST,
       </if>
-      <if test="goods != null">
+      <if test="goods != null" >
         GOODS,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="courierNumber != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="courierNumber != null" >
         #{courierNumber,jdbcType=VARCHAR},
       </if>
-      <if test="deliveryState != null">
+      <if test="deliveryState != null" >
         #{deliveryState,jdbcType=VARCHAR},
       </if>
-      <if test="signatory != null">
+      <if test="signatory != null" >
         #{signatory,jdbcType=VARCHAR},
       </if>
-      <if test="signTime != null">
+      <if test="signTime != null" >
         #{signTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="abnormalCause != null">
+      <if test="abnormalCause != null" >
         #{abnormalCause,jdbcType=VARCHAR},
       </if>
-      <if test="goodsCost != null">
+      <if test="goodsCost != null" >
         #{goodsCost,jdbcType=DECIMAL},
       </if>
-      <if test="goods != null">
+      <if test="goods != null" >
         #{goods,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.zs.entity.SignExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.zs.entity.SignExample" resultType="java.lang.Integer" >
     select count(*) from SIGN
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByExampleSelective" parameterType="map" >
     update SIGN
-    <set>
-      <if test="record.courierNumber != null">
+    <set >
+      <if test="record.courierNumber != null" >
         COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.deliveryState != null">
+      <if test="record.deliveryState != null" >
         DELIVERY_STATE = #{record.deliveryState,jdbcType=VARCHAR},
       </if>
-      <if test="record.signatory != null">
+      <if test="record.signatory != null" >
         SIGNATORY = #{record.signatory,jdbcType=VARCHAR},
       </if>
-      <if test="record.signTime != null">
+      <if test="record.signTime != null" >
         SIGN_TIME = #{record.signTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.abnormalCause != null">
+      <if test="record.abnormalCause != null" >
         ABNORMAL_CAUSE = #{record.abnormalCause,jdbcType=VARCHAR},
       </if>
-      <if test="record.goodsCost != null">
+      <if test="record.goodsCost != null" >
         GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
       </if>
-      <if test="record.goods != null">
+      <if test="record.goods != null" >
         GOODS = #{record.goods,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
+  <update id="updateByExample" parameterType="map" >
     update SIGN
     set COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
       DELIVERY_STATE = #{record.deliveryState,jdbcType=VARCHAR},
@@ -204,276 +204,35 @@
       ABNORMAL_CAUSE = #{record.abnormalCause,jdbcType=VARCHAR},
       GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
       GOODS = #{record.goods,jdbcType=VARCHAR}
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.Sign">
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.Sign" >
     update SIGN
-    <set>
-      <if test="deliveryState != null">
+    <set >
+      <if test="deliveryState != null" >
         DELIVERY_STATE = #{deliveryState,jdbcType=VARCHAR},
       </if>
-      <if test="signatory != null">
+      <if test="signatory != null" >
         SIGNATORY = #{signatory,jdbcType=VARCHAR},
       </if>
-      <if test="signTime != null">
+      <if test="signTime != null" >
         SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="abnormalCause != null">
+      <if test="abnormalCause != null" >
         ABNORMAL_CAUSE = #{abnormalCause,jdbcType=VARCHAR},
       </if>
-      <if test="goodsCost != null">
+      <if test="goodsCost != null" >
         GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
       </if>
-      <if test="goods != null">
+      <if test="goods != null" >
         GOODS = #{goods,jdbcType=VARCHAR},
       </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zs.entity.Sign">
-    update SIGN
-    set DELIVERY_STATE = #{deliveryState,jdbcType=VARCHAR},
-      SIGNATORY = #{signatory,jdbcType=VARCHAR},
-      SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
-      ABNORMAL_CAUSE = #{abnormalCause,jdbcType=VARCHAR},
-      GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
-      GOODS = #{goods,jdbcType=VARCHAR}
-    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-  </update>
-  <resultMap id="BaseResultMap" type="com.zs.entity.Sign">
-    <id column="COURIER_NUMBER" jdbcType="VARCHAR" property="courierNumber" />
-    <result column="DELIVERY_STATE" jdbcType="VARCHAR" property="deliveryState" />
-    <result column="SIGNATORY" jdbcType="VARCHAR" property="signatory" />
-    <result column="SIGN_TIME" jdbcType="TIMESTAMP" property="signTime" />
-    <result column="ABNORMAL_CAUSE" jdbcType="VARCHAR" property="abnormalCause" />
-    <result column="GOODS_COST" jdbcType="DECIMAL" property="goodsCost" />
-    <result column="GOODS" jdbcType="VARCHAR" property="goods" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    COURIER_NUMBER, DELIVERY_STATE, SIGNATORY, SIGN_TIME, ABNORMAL_CAUSE, GOODS_COST, 
-    GOODS
-  </sql>
-  <select id="selectByExample" parameterType="com.zs.entity.SignExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from SIGN
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from SIGN
-    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from SIGN
-    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.zs.entity.SignExample">
-    delete from SIGN
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.zs.entity.Sign">
-    insert into SIGN (COURIER_NUMBER, DELIVERY_STATE, SIGNATORY, 
-      SIGN_TIME, ABNORMAL_CAUSE, GOODS_COST, 
-      GOODS)
-    values (#{courierNumber,jdbcType=VARCHAR}, #{deliveryState,jdbcType=VARCHAR}, #{signatory,jdbcType=VARCHAR}, 
-      #{signTime,jdbcType=TIMESTAMP}, #{abnormalCause,jdbcType=VARCHAR}, #{goodsCost,jdbcType=DECIMAL}, 
-      #{goods,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.zs.entity.Sign">
-    insert into SIGN
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="courierNumber != null">
-        COURIER_NUMBER,
-      </if>
-      <if test="deliveryState != null">
-        DELIVERY_STATE,
-      </if>
-      <if test="signatory != null">
-        SIGNATORY,
-      </if>
-      <if test="signTime != null">
-        SIGN_TIME,
-      </if>
-      <if test="abnormalCause != null">
-        ABNORMAL_CAUSE,
-      </if>
-      <if test="goodsCost != null">
-        GOODS_COST,
-      </if>
-      <if test="goods != null">
-        GOODS,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="courierNumber != null">
-        #{courierNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="deliveryState != null">
-        #{deliveryState,jdbcType=VARCHAR},
-      </if>
-      <if test="signatory != null">
-        #{signatory,jdbcType=VARCHAR},
-      </if>
-      <if test="signTime != null">
-        #{signTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="abnormalCause != null">
-        #{abnormalCause,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsCost != null">
-        #{goodsCost,jdbcType=DECIMAL},
-      </if>
-      <if test="goods != null">
-        #{goods,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.zs.entity.SignExample" resultType="java.lang.Integer">
-    select count(*) from SIGN
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update SIGN
-    <set>
-      <if test="record.courierNumber != null">
-        COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="record.deliveryState != null">
-        DELIVERY_STATE = #{record.deliveryState,jdbcType=VARCHAR},
-      </if>
-      <if test="record.signatory != null">
-        SIGNATORY = #{record.signatory,jdbcType=VARCHAR},
-      </if>
-      <if test="record.signTime != null">
-        SIGN_TIME = #{record.signTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.abnormalCause != null">
-        ABNORMAL_CAUSE = #{record.abnormalCause,jdbcType=VARCHAR},
-      </if>
-      <if test="record.goodsCost != null">
-        GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
-      </if>
-      <if test="record.goods != null">
-        GOODS = #{record.goods,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update SIGN
-    set COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
-      DELIVERY_STATE = #{record.deliveryState,jdbcType=VARCHAR},
-      SIGNATORY = #{record.signatory,jdbcType=VARCHAR},
-      SIGN_TIME = #{record.signTime,jdbcType=TIMESTAMP},
-      ABNORMAL_CAUSE = #{record.abnormalCause,jdbcType=VARCHAR},
-      GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
-      GOODS = #{record.goods,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.Sign">
-    update SIGN
-    <set>
-      <if test="deliveryState != null">
-        DELIVERY_STATE = #{deliveryState,jdbcType=VARCHAR},
-      </if>
-      <if test="signatory != null">
-        SIGNATORY = #{signatory,jdbcType=VARCHAR},
-      </if>
-      <if test="signTime != null">
-        SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="abnormalCause != null">
-        ABNORMAL_CAUSE = #{abnormalCause,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsCost != null">
-        GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
-      </if>
-      <if test="goods != null">
-        GOODS = #{goods,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.zs.entity.Sign">
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.Sign" >
     update SIGN
     set DELIVERY_STATE = #{deliveryState,jdbcType=VARCHAR},
       SIGNATORY = #{signatory,jdbcType=VARCHAR},
