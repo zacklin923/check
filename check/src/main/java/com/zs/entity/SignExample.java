@@ -116,52 +116,62 @@ public class SignExample {
             return (Criteria) this;
         }
 
-        public Criteria andCourierNumberEqualTo(BigDecimal value) {
+        public Criteria andCourierNumberEqualTo(String value) {
             addCriterion("COURIER_NUMBER =", value, "courierNumber");
             return (Criteria) this;
         }
 
-        public Criteria andCourierNumberNotEqualTo(BigDecimal value) {
+        public Criteria andCourierNumberNotEqualTo(String value) {
             addCriterion("COURIER_NUMBER <>", value, "courierNumber");
             return (Criteria) this;
         }
 
-        public Criteria andCourierNumberGreaterThan(BigDecimal value) {
+        public Criteria andCourierNumberGreaterThan(String value) {
             addCriterion("COURIER_NUMBER >", value, "courierNumber");
             return (Criteria) this;
         }
 
-        public Criteria andCourierNumberGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andCourierNumberGreaterThanOrEqualTo(String value) {
             addCriterion("COURIER_NUMBER >=", value, "courierNumber");
             return (Criteria) this;
         }
 
-        public Criteria andCourierNumberLessThan(BigDecimal value) {
+        public Criteria andCourierNumberLessThan(String value) {
             addCriterion("COURIER_NUMBER <", value, "courierNumber");
             return (Criteria) this;
         }
 
-        public Criteria andCourierNumberLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andCourierNumberLessThanOrEqualTo(String value) {
             addCriterion("COURIER_NUMBER <=", value, "courierNumber");
             return (Criteria) this;
         }
 
-        public Criteria andCourierNumberIn(List<BigDecimal> values) {
+        public Criteria andCourierNumberLike(String value) {
+            addCriterion("COURIER_NUMBER like", value, "courierNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierNumberNotLike(String value) {
+            addCriterion("COURIER_NUMBER not like", value, "courierNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierNumberIn(List<String> values) {
             addCriterion("COURIER_NUMBER in", values, "courierNumber");
             return (Criteria) this;
         }
 
-        public Criteria andCourierNumberNotIn(List<BigDecimal> values) {
+        public Criteria andCourierNumberNotIn(List<String> values) {
             addCriterion("COURIER_NUMBER not in", values, "courierNumber");
             return (Criteria) this;
         }
 
-        public Criteria andCourierNumberBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andCourierNumberBetween(String value1, String value2) {
             addCriterion("COURIER_NUMBER between", value1, value2, "courierNumber");
             return (Criteria) this;
         }
 
-        public Criteria andCourierNumberNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andCourierNumberNotBetween(String value1, String value2) {
             addCriterion("COURIER_NUMBER not between", value1, value2, "courierNumber");
             return (Criteria) this;
         }
@@ -563,76 +573,6 @@ public class SignExample {
 
         public Criteria andGoodsNotBetween(String value1, String value2) {
             addCriterion("GOODS not between", value1, value2, "goods");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteIsNull() {
-            addCriterion("NOTE is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteIsNotNull() {
-            addCriterion("NOTE is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteEqualTo(String value) {
-            addCriterion("NOTE =", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteNotEqualTo(String value) {
-            addCriterion("NOTE <>", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteGreaterThan(String value) {
-            addCriterion("NOTE >", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteGreaterThanOrEqualTo(String value) {
-            addCriterion("NOTE >=", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteLessThan(String value) {
-            addCriterion("NOTE <", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteLessThanOrEqualTo(String value) {
-            addCriterion("NOTE <=", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteLike(String value) {
-            addCriterion("NOTE like", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteNotLike(String value) {
-            addCriterion("NOTE not like", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteIn(List<String> values) {
-            addCriterion("NOTE in", values, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteNotIn(List<String> values) {
-            addCriterion("NOTE not in", values, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteBetween(String value1, String value2) {
-            addCriterion("NOTE between", value1, value2, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteNotBetween(String value1, String value2) {
-            addCriterion("NOTE not between", value1, value2, "note");
             return (Criteria) this;
         }
     }

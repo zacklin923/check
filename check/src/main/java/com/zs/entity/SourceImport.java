@@ -3,56 +3,39 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-public class SourceImport {
-    private BigDecimal courierNumber;
-
-    private Date sendTime;
+public class SourceImport extends SourceImportKey {
+    private String ctmBarCode;
 
     private String ctmName;
 
-    private BigDecimal ctmBarCode;
-
-    private String province;
+    private String shopNumber;
 
     private String address;
-
-    private BigDecimal orderNumber;
 
     private String addressee;
 
     private String phone;
 
-    private String shopNumber;
-
-    private BigDecimal weight;
-
-    private BigDecimal courierCompany;
-
-    private BigDecimal fee;
+    private String courierCompany;
 
     private String goods;
+
+    private BigDecimal goodsCost;
+
+    private String orderNumber;
 
     private String numberType;
 
     private Date createTime;
 
-    public BigDecimal getCourierNumber() {
-        return courierNumber;
+    private BigDecimal isPushed;
+
+    public String getCtmBarCode() {
+        return ctmBarCode;
     }
 
-    public void setCourierNumber(BigDecimal courierNumber) {
-        this.courierNumber = courierNumber;
-    }
-
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
-    public Date getSendTime() {
-        return sendTime;
-    }
-
-    public void setSendTime(Date sendTime) {
-        this.sendTime = sendTime;
+    public void setCtmBarCode(String ctmBarCode) {
+        this.ctmBarCode = ctmBarCode == null ? null : ctmBarCode.trim();
     }
 
     public String getCtmName() {
@@ -63,20 +46,12 @@ public class SourceImport {
         this.ctmName = ctmName == null ? null : ctmName.trim();
     }
 
-    public BigDecimal getCtmBarCode() {
-        return ctmBarCode;
+    public String getShopNumber() {
+        return shopNumber;
     }
 
-    public void setCtmBarCode(BigDecimal ctmBarCode) {
-        this.ctmBarCode = ctmBarCode;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
+    public void setShopNumber(String shopNumber) {
+        this.shopNumber = shopNumber == null ? null : shopNumber.trim();
     }
 
     public String getAddress() {
@@ -85,14 +60,6 @@ public class SourceImport {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
-    }
-
-    public BigDecimal getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(BigDecimal orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public String getAddressee() {
@@ -111,36 +78,12 @@ public class SourceImport {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public String getShopNumber() {
-        return shopNumber;
-    }
-
-    public void setShopNumber(String shopNumber) {
-        this.shopNumber = shopNumber == null ? null : shopNumber.trim();
-    }
-
-    public BigDecimal getWeight() {
-        return weight;
-    }
-
-    public void setWeight(BigDecimal weight) {
-        this.weight = weight;
-    }
-
-    public BigDecimal getCourierCompany() {
+    public String getCourierCompany() {
         return courierCompany;
     }
 
-    public void setCourierCompany(BigDecimal courierCompany) {
-        this.courierCompany = courierCompany;
-    }
-
-    public BigDecimal getFee() {
-        return fee;
-    }
-
-    public void setFee(BigDecimal fee) {
-        this.fee = fee;
+    public void setCourierCompany(String courierCompany) {
+        this.courierCompany = courierCompany == null ? null : courierCompany.trim();
     }
 
     public String getGoods() {
@@ -151,6 +94,22 @@ public class SourceImport {
         this.goods = goods == null ? null : goods.trim();
     }
 
+    public BigDecimal getGoodsCost() {
+        return goodsCost;
+    }
+
+    public void setGoodsCost(BigDecimal goodsCost) {
+        this.goodsCost = goodsCost;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber == null ? null : orderNumber.trim();
+    }
+
     public String getNumberType() {
         return numberType;
     }
@@ -158,8 +117,7 @@ public class SourceImport {
     public void setNumberType(String numberType) {
         this.numberType = numberType == null ? null : numberType.trim();
     }
-    
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -168,31 +126,11 @@ public class SourceImport {
         this.createTime = createTime;
     }
 
-	public SourceImport(BigDecimal courierNumber, Date sendTime, String ctmName, BigDecimal ctmBarCode, String province,
-			String address, BigDecimal orderNumber, String addressee, String phone, String shopNumber,
-			BigDecimal weight, BigDecimal courierCompany, BigDecimal fee, String goods, String numberType,
-			Date createTime) {
-		super();
-		this.courierNumber = courierNumber;
-		this.sendTime = sendTime;
-		this.ctmName = ctmName;
-		this.ctmBarCode = ctmBarCode;
-		this.province = province;
-		this.address = address;
-		this.orderNumber = orderNumber;
-		this.addressee = addressee;
-		this.phone = phone;
-		this.shopNumber = shopNumber;
-		this.weight = weight;
-		this.courierCompany = courierCompany;
-		this.fee = fee;
-		this.goods = goods;
-		this.numberType = numberType;
-		this.createTime = createTime;
-	}
+    public BigDecimal getIsPushed() {
+        return isPushed;
+    }
 
-	public SourceImport() {
-		super();
-	}
-    
+    public void setIsPushed(BigDecimal isPushed) {
+        this.isPushed = isPushed;
+    }
 }

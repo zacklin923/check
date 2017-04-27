@@ -2,7 +2,7 @@ package com.zs.dao;
 
 import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceThirdPartyExample;
-import java.math.BigDecimal;
+import com.zs.entity.SourceThirdPartyKey;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +11,7 @@ public interface SourceThirdPartyMapper {
 
     int deleteByExample(SourceThirdPartyExample example);
 
-    int deleteByPrimaryKey(BigDecimal courierNumber);
+    int deleteByPrimaryKey(SourceThirdPartyKey key);
 
     int insert(SourceThirdParty record);
 
@@ -19,7 +19,7 @@ public interface SourceThirdPartyMapper {
 
     List<SourceThirdParty> selectByExample(SourceThirdPartyExample example);
 
-    SourceThirdParty selectByPrimaryKey(BigDecimal courierNumber);
+    SourceThirdParty selectByPrimaryKey(SourceThirdPartyKey key);
 
     int updateByExampleSelective(@Param("record") SourceThirdParty record, @Param("example") SourceThirdPartyExample example);
 

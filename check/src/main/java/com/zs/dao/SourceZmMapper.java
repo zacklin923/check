@@ -2,7 +2,7 @@ package com.zs.dao;
 
 import com.zs.entity.SourceZm;
 import com.zs.entity.SourceZmExample;
-import java.math.BigDecimal;
+import com.zs.entity.SourceZmKey;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +11,7 @@ public interface SourceZmMapper {
 
     int deleteByExample(SourceZmExample example);
 
-    int deleteByPrimaryKey(BigDecimal courierNumber);
+    int deleteByPrimaryKey(SourceZmKey key);
 
     int insert(SourceZm record);
 
@@ -19,7 +19,7 @@ public interface SourceZmMapper {
 
     List<SourceZm> selectByExample(SourceZmExample example);
 
-    SourceZm selectByPrimaryKey(BigDecimal courierNumber);
+    SourceZm selectByPrimaryKey(SourceZmKey key);
 
     int updateByExampleSelective(@Param("record") SourceZm record, @Param("example") SourceZmExample example);
 
