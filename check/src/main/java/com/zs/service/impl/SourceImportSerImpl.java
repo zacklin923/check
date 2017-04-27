@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.zs.dao.SourceImportMapper;
 import com.zs.entity.SourceImport;
+import com.zs.entity.SourceImportKey;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -63,7 +64,10 @@ public class SourceImportSerImpl implements SourceImportSer{
 		List<SourceImport> errlist = new ArrayList<SourceImport>();
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[4].equals("")){
-				SourceImport skey =importMapper.selectByPrimaryKey(Trans.toBigDecimal(list.get(i)[4]));
+				SourceImportKey sik = new SourceImportKey();
+				sik.setCourierNumber(list.get(i)[3]);
+				sik.setCreateDate(Trans.TransToDate(list.get(i)[4],"yyyy-MM-dd"));
+				SourceImport skey =importMapper.selectByPrimaryKey(sik);
 				if(skey==null){
 					
 				}else{
@@ -71,7 +75,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 				}
 			}
 			
-			SourceImport s = new SourceImport(Trans.toBigDecimal(list.get(i)[4]), Trans.toTimestamp(list.get(i)[0]), list.get(i)[1], Trans.toBigDecimal(list.get(i)[2]), list.get(i)[3], list.get(i)[5], Trans.toBigDecimal(list.get(i)[6]), list.get(i)[7], list.get(i)[8], list.get(i)[9], Trans.toBigDecimal(list.get(i)[10]), Trans.toBigDecimal(list.get(i)[11]), Trans.toBigDecimal(list.get(i)[12]),list.get(i)[13], "大客户",null);
+			SourceImport s = new SourceImport();
 			it = it +  importMapper.insertSelective(s);
 		}
 		String str="";
