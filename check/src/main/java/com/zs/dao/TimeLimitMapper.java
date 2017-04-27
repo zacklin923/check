@@ -1,7 +1,10 @@
 package com.zs.dao;
 
+import com.zs.entity.StaffPower;
 import com.zs.entity.TimeLimit;
 import com.zs.entity.TimeLimitExample;
+import com.zs.entity.other.EasyUIAccept;
+
 import java.math.BigDecimal;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +31,9 @@ public interface TimeLimitMapper {
     int updateByPrimaryKeySelective(TimeLimit record);
 
     int updateByPrimaryKey(TimeLimit record);
+    
+    //-----------------------------
+    List<TimeLimit> queryFenye(EasyUIAccept accept);
+	
+    int getCount(EasyUIAccept accept);
 }
