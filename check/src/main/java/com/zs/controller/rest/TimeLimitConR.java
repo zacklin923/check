@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.TimeLimit;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -43,15 +45,19 @@ public class TimeLimitConR extends BaseRestController<TimeLimit,BigDecimal>{
 	@RequestMapping(value="",method=RequestMethod.POST)
 	@Override
 	public Result<Integer> doAdd(TimeLimit obj, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
+		if(obj!=null){
+			return new Result<Integer>(SUCCESS,  Code.SUCCESS, timeLimitSer.add(obj));
+		}
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	@Override
 	public Result<Integer> doUpdate(TimeLimit obj, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
+		if(obj!=null){
+			return new Result<Integer>(SUCCESS,  Code.SUCCESS, timeLimitSer.update(obj));
+		}
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@Override
@@ -63,8 +69,10 @@ public class TimeLimitConR extends BaseRestController<TimeLimit,BigDecimal>{
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
 	public Result<Integer> doDeleteTrue(@PathVariable("id") BigDecimal id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
+		if(id!=null){
+			return new Result<Integer>(SUCCESS,  Code.SUCCESS, timeLimitSer.delete(id));
+		}
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@Override

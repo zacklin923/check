@@ -35,6 +35,7 @@ public abstract class BaseRestController<T,ID_TYPE>{
 		public static final int ROLE_USER_NO_PERMISSION=101;
 		public static final int ROLE_USER_NO_ROLE=102;
 		public static final int ROLE_NO_PERMISSION=103;
+		public static final int PERMISSION_NO_EXIST=104;
 	}
 	
 	

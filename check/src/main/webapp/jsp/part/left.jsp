@@ -55,21 +55,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <li><span><a href="<%=path %>/timeLimit" target="right">时效控制信息管理</a></span></li>
         </ul>
 	</div>
-	<div title="数据导入" data-options="iconCls:'icon-large-smartart'" style="padding:10px;">
+	<div title="测试" data-options="iconCls:'icon-large-smartart'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
        		<li><span><a href="<%=path %>/jsp/importdata/import.jsp" target="right">数据源导入</a></span></li>
        		<li><span><a href="<%=path %>/import" target="right">数据源查看</a></span></li>
         </ul>
 	</div>
-	<div title="数据统计报表" data-options="iconCls:'icon-large-shapes'" style="padding:10px;">
+	<div title="帮助" data-options="iconCls:'icon-large-shapes'" style="padding:10px;">
+		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
+       		<li><span><a href="<%=path %>/jsp/part/error_code.jsp" target="right">错误码说明</a></span></li>
+        </ul>
 	</div>
-	<div title="系统管理" data-options="iconCls:'icon-large-smartart'" style="padding:10px;">
-	</div>
-	
-	<div title="通讯录" data-options="iconCls:'icon-print'" style="padding:10px;">
-	</div>
-	
-	
 	
 	
 </div>

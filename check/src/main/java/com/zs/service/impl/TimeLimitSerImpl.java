@@ -43,12 +43,12 @@ public class TimeLimitSerImpl implements TimeLimitSer{
 		return limitMapper.updateByPrimaryKeySelective(obj);
 	}
 
-	public Integer delete(String id) {
-		return limitMapper.deleteByPrimaryKey(new BigDecimal(id));
+	public Integer delete(BigDecimal id) {
+		return limitMapper.deleteByPrimaryKey(id);
 	}
 
-	public TimeLimit get(String id) {
-		return limitMapper.selectByPrimaryKey(new BigDecimal(id));
+	public TimeLimit get(BigDecimal id) {
+		return limitMapper.selectByPrimaryKey(id);
 	}
 
 }

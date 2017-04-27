@@ -22,7 +22,7 @@ function addObj(){
 	$("#fm").form("clear");
 	$("#fm input[name='_method']").val("post");
 	$("#fm input[name='_header']").val("${user.licence }");
-	url="<%=path%>/api/power";
+	url="<%=path%>/api/timeLimit";
 }
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
@@ -31,7 +31,7 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${user.licence }");
-		url="<%=path%>/api/power/"+row.stpId;
+		url="<%=path%>/api/timeLimit/"+row.orderNumber;
 	}
 }
 function save(){
@@ -57,7 +57,7 @@ function save(){
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var id=row.stpId;
+	var id=row.orderNumber;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
@@ -65,7 +65,7 @@ function deleteObj(){
 			function(data){
 				if(data){
 					$.ajax({
-						url:"<%=path%>/api/power/"+id,
+						url:"<%=path%>/api/timeLimit/"+id,
 						type:"delete",
 						success:function(data){
 							if(data.result=='success'){
@@ -82,7 +82,7 @@ function deleteObj(){
 }
 function excel_export(){
 	$("#search").form("submit",{
-		url:"<%=path%>/api/power/excelExport",
+		url:"<%=path%>/api/timeLimit/excelExport",
 		method:"get",
 		onSubmit: function(){   
 	        // do some check   
@@ -110,7 +110,12 @@ function excel_export(){
 			<th field="orderNumber" width="100" sortable="true">编号</th>
 			<th field="beginProvince" width="150">始发中转站</th>
 			<th field="endProvince" width="200" sortable="true">到达省份</th>
-			<th field="hourCost" width="100" sortable="true">小时</th>
+			<th field="hourCost" width="100" sortable="true" data-options="
+				formatter:function(value,row,index){
+                    if(row.hourCost){
+						return row.hourCost.toFixed(2);
+                    }
+             	}">小时</th>
 		</tr>
 	</thead>
 </table>
@@ -150,26 +155,23 @@ function excel_export(){
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">权限信息</div>
+	<div class="ftitle">时效控制信息</div>
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
+		<input type="hidden" name="orderNumber"/>
 		<div class="fitem">
-			<label>权限id:</label>
-			<input name="stpId" class="easyui-validatebox" required="true">
+			<label>始发中转站:</label>
+			<input name="beginProvince" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>权限名字:</label>
-			<input name="stpName" class="easyui-validatebox" required="true">
+			<label>到达省份:</label>
+			<input name="endProvince" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>URL:</label>
-			<input name="stpUrl" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>method:</label>
-			<input name="stpMethod" class="easyui-validatebox" required="true">
+			<label>小时:</label>
+			<input name="hourCost" class="easyui-validatebox" required="true">
 		</div>
 	</form>
 </div>
