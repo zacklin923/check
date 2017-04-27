@@ -133,7 +133,8 @@ public class Trans {
 	}
 	
 	public static BigDecimal toBigDecimal(String str){
-		if (str!=null) {
+		if (str!=null && !str.trim().equals("")) {
+			str=str.replace("," , "");
 			return new BigDecimal(str);
 		}
 		return null;

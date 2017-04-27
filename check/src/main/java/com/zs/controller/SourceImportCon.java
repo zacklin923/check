@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/import")
 public class SourceImportCon extends BaseController{
 
-	@RequestMapping("/file")
+	@RequestMapping("")
 	@Override
 	public String gotoQuery() {
-		return "/importdata/import";
+		return "/importdata/importQuery";
 	}
 
 }

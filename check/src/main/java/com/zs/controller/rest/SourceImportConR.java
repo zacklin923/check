@@ -8,15 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.SourceImport;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
 import com.zs.service.SourceImportSer;
+import com.zs.tools.ColumnName;
 import com.zs.tools.ExcelImport;
 import com.zs.tools.Trans;
 
@@ -27,9 +30,13 @@ public class SourceImportConR extends BaseRestController<SourceImport>{
 	@Resource
 	private SourceImportSer sourceImportSer;
 
+	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+		if (accept!=null) {
+			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+			return sourceImportSer.queryFenye(accept);
+		}
 		return null;
 	}
 
@@ -73,14 +80,19 @@ public class SourceImportConR extends BaseRestController<SourceImport>{
 	@RequestMapping("")
 	@Override
 	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		String s ="";
 		if (!file.isEmpty()) {
 			try {
 				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
+				s = s + sourceImportSer.importData(list);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		if(s.equals("")){
+			return new Result<String>(SUCCESS,  Code.SUCCESS, s);
+		}
+		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 
 }
