@@ -3,6 +3,8 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class SourceImport extends SourceImportKey {
     private String ctmBarCode;
 
@@ -30,15 +32,17 @@ public class SourceImport extends SourceImportKey {
 
     private BigDecimal isPushed;
 
+
+    
     public String getCtmBarCode() {
-        return ctmBarCode;
-    }
+		return ctmBarCode;
+	}
 
-    public void setCtmBarCode(String ctmBarCode) {
-        this.ctmBarCode = ctmBarCode == null ? null : ctmBarCode.trim();
-    }
+	public void setCtmBarCode(String ctmBarCode) {
+		this.ctmBarCode = ctmBarCode;
+	}
 
-    public String getCtmName() {
+	public String getCtmName() {
         return ctmName;
     }
 
@@ -118,6 +122,7 @@ public class SourceImport extends SourceImportKey {
         this.numberType = numberType == null ? null : numberType.trim();
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -136,7 +141,7 @@ public class SourceImport extends SourceImportKey {
 
 	public SourceImport(String ctmBarCode, String ctmName, String shopNumber, String address, String addressee,
 			String phone, String courierCompany, String goods, BigDecimal goodsCost, String orderNumber,
-			String numberType, Date createTime, BigDecimal isPushed) {
+			String numberType, Date createTime, BigDecimal isPushed,String courierNumber,Date createDate) {
 		super();
 		this.ctmBarCode = ctmBarCode;
 		this.ctmName = ctmName;
@@ -151,6 +156,8 @@ public class SourceImport extends SourceImportKey {
 		this.numberType = numberType;
 		this.createTime = createTime;
 		this.isPushed = isPushed;
+		this.setCourierNumber(courierNumber);
+		this.setCreateDate(createDate);
 	}
 
 	public SourceImport() {

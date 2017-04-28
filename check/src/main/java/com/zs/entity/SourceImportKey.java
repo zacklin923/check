@@ -2,6 +2,8 @@ package com.zs.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class SourceImportKey {
     private String courierNumber;
 
@@ -15,6 +17,7 @@ public class SourceImportKey {
         this.courierNumber = courierNumber == null ? null : courierNumber.trim();
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
     public Date getCreateDate() {
         return createDate;
     }

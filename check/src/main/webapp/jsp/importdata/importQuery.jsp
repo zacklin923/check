@@ -16,6 +16,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
+function save(){
+	$("#fm").form("submit",{
+		url:"<%=path %>/api/import",		
+		onSubmit:function(){
+			return $(this).form('validate');
+		},
+		success:function(data){
+			if(data){
+				var json = eval('('+data+')');
+				if(json.result=='success'){
+					$('#dg').datagrid('reload');
+					$("#dlg").dialog("close");					
+				}else{
+					alert("错误:"+json.code);
+				}
+			}else{
+				alert("错误");
+			}
+		}
+	});
+}
 </script>
 <table id="dg" class="easyui-datagrid" border="true"
 		url="<%=path %>/api/import"
@@ -27,21 +48,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
-			<th field="sendTime" width="150" sortable="true">发货时间</th>
-			<th field="ctmName" width="50" >客户名</th>
-			<th field="ctmBarCode" width="70">客户条码</th>
-			<th field="province" width="50">省份</th>
-			<th field="courierNumber" width="115">快递单号</th>
-			<th field="address" width="330">地址</th>
+			<th field="createDate" width="100" sortable="true">创建时间</th>
+			<th field="ctmName" width="60" >客户名</th>
+			<th field="ctmBarCode" width="80">客户条码</th>
+			<th field="courierNumber" width="120">快递单号</th>
+			<th field="address" width="400">地址</th>
 			<th field="orderNumber" width="160" sortable="true">订单编号</th>
 			<th field="addressee" width="60" >收件人</th>
-			<th field="phone" width="110" >联系方式</th>
+			<th field="phone" width="120" >联系方式</th>
 			<th field="shopNumber" width="150" >商家ID</th>
-			<th field="weight" width="50" sortable="true">重量</th>
 			<th field="courierCompany" width="60" >快递公司</th>
-			<th field="fee" width="50" sortable="true">金额</th>
-			<th field="goods" width="50" >物品</th>
-			<th field="numberType" width="50">类型</th>
+			<th field="goodsCost" width="60" sortable="true">物品价值</th>
+			<th field="goods" width="60" >物品</th>
+			<th field="numberType" width="60">类型</th>
 			<th field="createTime" width="150" sortable="true">导入时间</th>
 		</tr>
 	</thead>
@@ -90,9 +109,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true" title="数据源导入">
-		<form action="<%=path %>/api/import" enctype="multipart/form-data" method="post">
+		<form id="fm"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>
-			<input type="submit"/>
+			<input type="button" value="提交" onclick="save()"/>
 		</form>
 </div>
 </body>

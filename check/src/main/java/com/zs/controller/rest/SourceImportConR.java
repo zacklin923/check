@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.SourceImport;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -21,7 +20,6 @@ import com.zs.entity.other.Result;
 import com.zs.service.SourceImportSer;
 import com.zs.tools.ColumnName;
 import com.zs.tools.ExcelImport;
-import com.zs.tools.Trans;
 
 @RestController
 @RequestMapping("/api/import")
@@ -90,8 +88,14 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 			}
 		}
 		if(s.equals("")){
-			return new Result<String>(SUCCESS,  Code.SUCCESS, s);
+//			try {
+//				resp.sendRedirect("/check/import");
+				return new Result<String>(SUCCESS,  Code.SUCCESS, s);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 		}
+		System.out.println(s);
 		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 
