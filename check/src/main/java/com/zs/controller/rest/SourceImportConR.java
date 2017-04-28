@@ -7,13 +7,16 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.zs.entity.SourceImport;
+import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
@@ -23,7 +26,7 @@ import com.zs.tools.ExcelImport;
 
 @RestController
 @RequestMapping("/api/import")
-public class SourceImportConR extends BaseRestController<SourceImport,String>{
+public class SourceImportConR extends BaseRestController<SourceImport,String[]>{
 
 	@Resource
 	private SourceImportSer sourceImportSer;
@@ -39,7 +42,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	}
 
 	@Override
-	public Result<SourceImport> doGet(String id, HttpServletRequest req, HttpServletResponse resp) {
+	public Result<SourceImport> doGet(String[] obj, HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -50,21 +53,30 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 		return null;
 	}
 
+	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	@Override
 	public Result<Integer> doUpdate(SourceImport obj, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+		System.out.println("进入-------------------------------------------对象输出");
+//		Gson g= new Gson();
+//		System.out.println("对象输出"+g.toJson(obj));
+		return new Result<Integer>(SUCCESS,  Code.SUCCESS, 1);
+		//		if(obj!=null){
+//			return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportSer.update(obj));
+//		}
+//		return new Result<Integer>(ERROR,  Code.ERROR, null);
+	}
+
+	
+	@Override
+	public Result<Integer> doDeleteFalse(String[] obj, HttpServletRequest req, HttpServletResponse resp) {
 		return null;
 	}
 
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
-	public Result<Integer> doDeleteFalse(String id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Result<Integer> doDeleteTrue(String id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+	public Result<Integer> doDeleteTrue(@PathVariable("id") String[] ids, HttpServletRequest req, HttpServletResponse resp) {
+		System.out.println(ids[0]);
+		System.out.println(ids[1]);
 		return null;
 	}
 
@@ -81,16 +93,16 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 		String s ="";
 		if (!file.isEmpty()) {
 			try {
+				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
 				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
-				s = s + sourceImportSer.importData(list);
+				s = s + sourceImportSer.importData(list,user.getStuNum());
+				if(s.equals("")){
+					return new Result<String>(SUCCESS,  Code.SUCCESS, s);
+				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
 			}
 		}
-		if(s.equals("")){
-				return new Result<String>(SUCCESS,  Code.SUCCESS, s);
-		}
-		System.out.println(s);
 		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 

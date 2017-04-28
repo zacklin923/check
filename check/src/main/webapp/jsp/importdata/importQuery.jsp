@@ -16,8 +16,74 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
+function addObj(){
+	$("#dlg").dialog("open").dialog("setTitle","新建");	
+	$("#fm").form("clear");
+	$("#fm input[name='_method']").val("post");
+	$("#fm input[name='_header']").val("${user.licence }");
+	url="<%=path %>/api/import";
+}
+
+function updateObj(){
+	var row=$("#dg").datagrid("getSelected");
+	if(row){
+		$("#dlg").dialog("open").dialog("setTitle","修改");
+		$("#fm").form("load",row);
+		$("#fm input[name='_method']").val("put");
+		$("#fm input[name='_header']").val("${user.licence }");
+		url="<%=path %>/api/import/"+row.courierNumber;
+	}
+}
 function save(){
 	$("#fm").form("submit",{
+		url:url,		
+		onSubmit:function(){
+			return $(this).form('validate');
+		},
+		success:function(data){
+			if(data){
+				var json = eval('('+data+')');
+				if(json.result=='success'){
+					$('#dg').datagrid('reload');
+					$("#dlg").dialog("close");					
+				}else{
+					alert("错误:"+json.code);
+				}
+			}else{
+				alert("错误");
+			}
+		}
+	});
+}
+function deleteObj(){
+	var row=$("#dg").datagrid("getSelected");
+	var ucode=row.courierNumber;
+	var udate=row.createDate;
+	if(row){
+		$.messager.confirm(
+			"操作提示",
+			"您确定要删除吗？",
+			function(data){
+				if(data){
+					$.ajax({
+						url:"<%=path %>/api/import/"+ucode+","+udate,
+						type:"delete",
+						success:function(data){
+							if(data.result=='success'){
+								$('#dg').datagrid('reload');
+							}else{
+								alert("错误:"+data);
+							}
+						}
+					});
+				}
+			}
+		);
+	}
+}
+
+function upload(){
+	$("#fmfile").form("submit",{
 		url:"<%=path %>/api/import",		
 		onSubmit:function(){
 			return $(this).form('validate');
@@ -28,10 +94,10 @@ function save(){
 				var json = eval('('+data+')');
 				if(json.result=='success'){
 					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");					
+					$("#fileImport").dialog("close");					
 				}else{
-					$("#dlg").dialog("close");	
-					alert("错误:"+json.code);
+					$("#fileImport").dialog("close");	
+					alert("错误:"+json.data);
 				}
 			}else{
 				alert("错误");
@@ -69,7 +135,7 @@ function save(){
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#dlg').dialog('open')">导入数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
 	</div>
@@ -107,13 +173,79 @@ function save(){
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
 	<a class="easyui-linkbutton" iconCls="icon-search">统计</a>
 	<a class="easyui-linkbutton" iconCls="icon-search">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" href="<%=path %>/api/import/123">1231</a>
 	<div class="pull-away"></div>
 </div>
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
-		closed="true" buttons="#dlg-buttons" modal="true" title="数据源导入">
-		<form id="fm"  enctype="multipart/form-data" method="post">
+		closed="true" buttons="#dlg-buttons" modal="true">
+	<div class="ftitle">导入信息</div>
+	<hr>
+	<form id="fm" method="post" >
+		<input type="hidden" name="_method" value="post"/>
+		<input type="hidden" name="_header" value="${user.licence }"/>
+		<div class="fitem">
+			<label>创建时间:</label>
+			<input name="createDate" required="true">
+		</div>
+		<div class="fitem">
+			<label>客户名:</label>
+			<input name="ctmName" required="true">
+		</div>
+		<div class="fitem">
+			<label>客户条码:</label>
+			<input name="ctmBarCode" required="true">
+		</div>
+		<div class="fitem">
+			<label>快递单号:</label>
+			<input name="courierNumber" required="true">
+		</div>
+		<div class="fitem">
+			<label>地址:</label>
+			<input name="address"  required="true">
+		</div>
+		<div class="fitem">
+			<label>订单编号:</label>
+			<input name="orderNumber"  required="true">
+		</div>
+		<div class="fitem">
+			<label>收件人:</label>
+			<input name="addressee" required="true">
+		</div>
+		<div class="fitem">
+			<label>联系方式:</label>
+			<input name="phone"  required="true">
+		</div>
+		<div class="fitem">
+			<label>商家ID:</label>
+			<input name="shopNumber" required="true">
+		</div>
+		<div class="fitem">
+			<label>快递公司:</label>
+			<input name="courierCompany" required="true">
+		</div>
+		<div class="fitem">
+			<label>物品价值:</label>
+			<input name="goodsCost" required="true">
+		</div>
+		<div class="fitem">
+			<label>物品:</label>
+			<input name="goods" required="true">
+		</div>
+		<div class="fitem">
+			<label>客户类型:</label>
+			<input name="numberType" required="true">
+		</div>
+	</form>
+</div>
+<div id="dlg-buttons">
+	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
+	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+</div>
+<div id="fileImport" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
+		closed="true" modal="true" title="数据源导入">
+		<form id="fmfile"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>
-			<input type="button" value="提交" onclick="save()"/>
+			<input type="button" value="提交" onclick="upload()"/>
 		</form>
 </div>
 </body>
