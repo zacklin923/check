@@ -7,4 +7,7 @@ import com.zs.entity.SourceImport;
 public interface SourceImportSer extends BaseService<SourceImport,String>{
 
 	public String importData(List<String[]> list);
+	
+	public void sendToZm();
+	
 }
