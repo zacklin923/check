@@ -17,6 +17,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </form>
 
 <br>
-
+<a href="<%=path%>/api/import/cs">测试推送数据到哲盟</a>
 </body>
 </html>

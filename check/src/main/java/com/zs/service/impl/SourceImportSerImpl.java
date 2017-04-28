@@ -2,6 +2,7 @@ package com.zs.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.zs.dao.SourceImportMapper;
 import com.zs.entity.SourceImport;
+import com.zs.entity.SourceImportExample;
+import com.zs.entity.SourceImportExample.Criteria;
 import com.zs.entity.SourceImportKey;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -23,6 +26,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 
 	@Resource
 	private SourceImportMapper importMapper;
+	private Gson gson=new Gson();
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -92,4 +96,25 @@ public class SourceImportSerImpl implements SourceImportSer{
 		return str;
 	}
 
+	/**张顺，2017-4-28 
+	 * 推送数据到哲盟
+	 */
+	public void sendToZm() {
+		//定时间点推送
+		/*
+		Calendar calendar=Calendar.getInstance();
+		if (calendar.get(Calendar.HOUR_OF_DAY)>=13) {
+		}else{
+		}*/
+		Calendar calendar=Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		List<SourceImport> list=importMapper.queryToZM(calendar.getTime());
+		String json=gson.toJson(list);
+		System.out.println(json);
+	}
+
+	
 }
