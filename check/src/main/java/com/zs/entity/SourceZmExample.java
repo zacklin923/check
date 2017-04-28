@@ -1385,6 +1385,76 @@ public class SourceZmExample {
             addCriterion("CREATE_TIME not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andCourierStateIsNull() {
+            addCriterion("COURIER_STATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateIsNotNull() {
+            addCriterion("COURIER_STATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateEqualTo(String value) {
+            addCriterion("COURIER_STATE =", value, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateNotEqualTo(String value) {
+            addCriterion("COURIER_STATE <>", value, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateGreaterThan(String value) {
+            addCriterion("COURIER_STATE >", value, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateGreaterThanOrEqualTo(String value) {
+            addCriterion("COURIER_STATE >=", value, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateLessThan(String value) {
+            addCriterion("COURIER_STATE <", value, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateLessThanOrEqualTo(String value) {
+            addCriterion("COURIER_STATE <=", value, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateLike(String value) {
+            addCriterion("COURIER_STATE like", value, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateNotLike(String value) {
+            addCriterion("COURIER_STATE not like", value, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateIn(List<String> values) {
+            addCriterion("COURIER_STATE in", values, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateNotIn(List<String> values) {
+            addCriterion("COURIER_STATE not in", values, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateBetween(String value1, String value2) {
+            addCriterion("COURIER_STATE between", value1, value2, "courierState");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourierStateNotBetween(String value1, String value2) {
+            addCriterion("COURIER_STATE not between", value1, value2, "courierState");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

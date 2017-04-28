@@ -21,6 +21,7 @@
     <result column="GOODS" property="goods" jdbcType="VARCHAR" />
     <result column="ORDER_NUMBER" property="orderNumber" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="COURIER_STATE" property="courierState" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -83,7 +84,7 @@
   <sql id="Base_Column_List" >
     COURIER_NUMBER, CREATE_DATE, LARGE_AREA, SLICE_AREA, FENBU, CTM_BAR_CODE, CTM_NAME, 
     SEND_TIME, PROVINCE, ADDRESS, SHOP_NUMBER, ADDRESSEE, PHONE, WEIGHT, COURIER_COMPANY, 
-    GOODS_COST, GOODS, ORDER_NUMBER, CREATE_TIME
+    GOODS_COST, GOODS, ORDER_NUMBER, CREATE_TIME, COURIER_STATE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceZmExample" >
     select
@@ -125,14 +126,14 @@
       ADDRESS, SHOP_NUMBER, ADDRESSEE, 
       PHONE, WEIGHT, COURIER_COMPANY, 
       GOODS_COST, GOODS, ORDER_NUMBER, 
-      CREATE_TIME)
+      CREATE_TIME, COURIER_STATE)
     values (#{courierNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{largeArea,jdbcType=VARCHAR}, 
       #{sliceArea,jdbcType=VARCHAR}, #{fenbu,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, 
       #{ctmName,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{province,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{shopNumber,jdbcType=VARCHAR}, #{addressee,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=VARCHAR}, 
       #{goodsCost,jdbcType=DECIMAL}, #{goods,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{courierState,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.SourceZm" >
     insert into SOURCE_ZM
@@ -194,6 +195,9 @@
       <if test="createTime != null" >
         CREATE_TIME,
       </if>
+      <if test="courierState != null" >
+        COURIER_STATE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courierNumber != null" >
@@ -252,6 +256,9 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courierState != null" >
+        #{courierState,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -321,6 +328,9 @@
       <if test="record.createTime != null" >
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.courierState != null" >
+        COURIER_STATE = #{record.courierState,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -346,7 +356,8 @@
       GOODS_COST = #{record.goodsCost,jdbcType=DECIMAL},
       GOODS = #{record.goods,jdbcType=VARCHAR},
       ORDER_NUMBER = #{record.orderNumber,jdbcType=VARCHAR},
-      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      COURIER_STATE = #{record.courierState,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -405,6 +416,9 @@
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="courierState != null" >
+        COURIER_STATE = #{courierState,jdbcType=VARCHAR},
+      </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
       and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
@@ -427,7 +441,8 @@
       GOODS_COST = #{goodsCost,jdbcType=DECIMAL},
       GOODS = #{goods,jdbcType=VARCHAR},
       ORDER_NUMBER = #{orderNumber,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      COURIER_STATE = #{courierState,jdbcType=VARCHAR}
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
       and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
   </update>
