@@ -23,12 +23,14 @@ function save(){
 			return $(this).form('validate');
 		},
 		success:function(data){
+			console.log(data);
 			if(data){
 				var json = eval('('+data+')');
 				if(json.result=='success'){
 					$('#dg').datagrid('reload');
 					$("#dlg").dialog("close");					
 				}else{
+					$("#dlg").dialog("close");	
 					alert("错误:"+json.code);
 				}
 			}else{

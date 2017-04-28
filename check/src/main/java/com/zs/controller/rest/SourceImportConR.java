@@ -88,12 +88,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 			}
 		}
 		if(s.equals("")){
-//			try {
-//				resp.sendRedirect("/check/import");
 				return new Result<String>(SUCCESS,  Code.SUCCESS, s);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
 		}
 		System.out.println(s);
 		return new Result<String>(ERROR,  Code.ERROR, s);

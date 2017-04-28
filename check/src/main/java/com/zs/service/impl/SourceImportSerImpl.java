@@ -69,7 +69,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 			}else{
 				if(!list.get(i)[3].equals("")&&!list.get(i)[0].equals("")){
 					SourceImportKey sik = new SourceImportKey();
-					sik.setCourierNumber(list.get(i)[3]);
+					sik.setCourierNumber(Trans.tostring(list.get(i)[3]));
 					sik.setCreateDate(Trans.TransToDate(list.get(i)[0],"yyyy-MM-dd"));
 					SourceImport skey =importMapper.selectByPrimaryKey(sik);
 					if(skey==null){
