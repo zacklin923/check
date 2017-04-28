@@ -139,4 +139,11 @@ public class Trans {
 		}
 		return null;
 	}
+	
+	public static String tostring(String str){
+		if(str!=null && !str.trim().equals("")){
+			str = str.trim().replace(",", "");
+		}
+		return str;
+	}
 }
