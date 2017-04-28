@@ -1,6 +1,7 @@
 package com.zs.interceptor;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.google.gson.Gson;
+import com.zs.controller.rest.BaseRestController;
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.StaffPower;
 import com.zs.entity.StaffRole;
@@ -53,6 +55,7 @@ public class RoleInter extends HandlerInterceptorAdapter{
 	private void init(HttpServletRequest request, HttpServletResponse response){
 		req=request;
 		resp=response;
+		resp.setCharacterEncoding("utf-8");
 		String lId=request.getHeader("licence");
 		method=req.getMethod();
 		//获取其他信息
@@ -95,13 +98,21 @@ public class RoleInter extends HandlerInterceptorAdapter{
 		if (power!=null) {
 			boolean isPass=role.getPowers().contains(""+power.getStpId());
 			if (isPass==false) {
-				resp.sendRedirect("jsp/part/error2.jsp");
+				Result<String> result=new Result<String>(BaseRestController.ERROR, Code.ROLE_NO_PERMISSION, "您没有权限,请联系管理员");
+				PrintWriter pw=resp.getWriter();
+				pw.print(gson.toJson(result));
+				pw.flush();
+				pw.close();
 			}
 			return isPass;
 		}else{
 			log.error("没有这个权限   "+url+"  "+method);
+			Result<String> result=new Result<String>(BaseRestController.ERROR, Code.PERMISSION_NO_EXIST, "该模块还没有设计权限，暂时不能操作");
+			PrintWriter pw=resp.getWriter();
+			pw.print(gson.toJson(result));
+			pw.flush();
+			pw.close();
 		}
-		resp.sendRedirect("/jsp/part/error2.jsp");
 		return false;
 	}
 

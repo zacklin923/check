@@ -38,6 +38,8 @@ public class SourceZm extends SourceZmKey {
 
     private Date createTime;
 
+    private String courierState;
+
     public String getLargeArea() {
         return largeArea;
     }
@@ -172,5 +174,13 @@ public class SourceZm extends SourceZmKey {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getCourierState() {
+        return courierState;
+    }
+
+    public void setCourierState(String courierState) {
+        this.courierState = courierState == null ? null : courierState.trim();
     }
 }
