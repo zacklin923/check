@@ -51,7 +51,11 @@ public class PowerConR extends BaseRestController<StaffPower,String>{
 	@Override
 	public Result<Integer> doAdd(StaffPower obj, HttpServletRequest req, HttpServletResponse resp) {
 		if (obj!=null) {
-			return new Result<Integer>(SUCCESS, Code.SUCCESS, powerSer.add(obj));
+			try {
+				return new Result<Integer>(SUCCESS, Code.SUCCESS, powerSer.add(obj));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, 4321);
+			}
 		}
 		return new Result<Integer>(ERROR, Code.ERROR, null);
 	}

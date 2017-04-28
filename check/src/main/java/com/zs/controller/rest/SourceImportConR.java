@@ -99,4 +99,9 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 
+	@RequestMapping("/cs")
+	public void test(){
+		sourceImportSer.sendToZm();
+	};
+	
 }

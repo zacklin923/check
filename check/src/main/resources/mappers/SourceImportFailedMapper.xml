@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.SourceImportFailedMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.SourceImportFailed" >
+    <id column="SIF_ID" property="sifId" jdbcType="DECIMAL" />
+    <result column="STU_NUM" property="stuNum" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="FAIL_INFO" property="failInfo" jdbcType="VARCHAR" />
+    <result column="FAIL_TYPE" property="failType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    SIF_ID, STU_NUM, CREATE_TIME, FAIL_INFO, FAIL_TYPE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceImportFailedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from SOURCE_IMPORT_FAILED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from SOURCE_IMPORT_FAILED
+    where SIF_ID = #{sifId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from SOURCE_IMPORT_FAILED
+    where SIF_ID = #{sifId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.SourceImportFailedExample" >
+    delete from SOURCE_IMPORT_FAILED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.SourceImportFailed" >
+    insert into SOURCE_IMPORT_FAILED (SIF_ID, STU_NUM, CREATE_TIME, 
+      FAIL_INFO, FAIL_TYPE)
+    values (#{sifId,jdbcType=DECIMAL}, #{stuNum,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{failInfo,jdbcType=VARCHAR}, #{failType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.SourceImportFailed" >
+    insert into SOURCE_IMPORT_FAILED
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sifId != null" >
+        SIF_ID,
+      </if>
+      <if test="stuNum != null" >
+        STU_NUM,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="failInfo != null" >
+        FAIL_INFO,
+      </if>
+      <if test="failType != null" >
+        FAIL_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sifId != null" >
+        #{sifId,jdbcType=DECIMAL},
+      </if>
+      <if test="stuNum != null" >
+        #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="failInfo != null" >
+        #{failInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="failType != null" >
+        #{failType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.SourceImportFailedExample" resultType="java.lang.Integer" >
+    select count(*) from SOURCE_IMPORT_FAILED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update SOURCE_IMPORT_FAILED
+    <set >
+      <if test="record.sifId != null" >
+        SIF_ID = #{record.sifId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stuNum != null" >
+        STU_NUM = #{record.stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.failInfo != null" >
+        FAIL_INFO = #{record.failInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.failType != null" >
+        FAIL_TYPE = #{record.failType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update SOURCE_IMPORT_FAILED
+    set SIF_ID = #{record.sifId,jdbcType=DECIMAL},
+      STU_NUM = #{record.stuNum,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      FAIL_INFO = #{record.failInfo,jdbcType=VARCHAR},
+      FAIL_TYPE = #{record.failType,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.SourceImportFailed" >
+    update SOURCE_IMPORT_FAILED
+    <set >
+      <if test="stuNum != null" >
+        STU_NUM = #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="failInfo != null" >
+        FAIL_INFO = #{failInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="failType != null" >
+        FAIL_TYPE = #{failType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SIF_ID = #{sifId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.SourceImportFailed" >
+    update SOURCE_IMPORT_FAILED
+    set STU_NUM = #{stuNum,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      FAIL_INFO = #{failInfo,jdbcType=VARCHAR},
+      FAIL_TYPE = #{failType,jdbcType=VARCHAR}
+    where SIF_ID = #{sifId,jdbcType=DECIMAL}
+  </update>
+</mapper>
