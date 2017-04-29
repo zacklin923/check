@@ -57,8 +57,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<div title="测试" data-options="iconCls:'icon-large-smartart'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-       		<li><span><a href="<%=path %>/jsp/importdata/import.jsp" target="right">数据源导入</a></span></li>
-       		<li><span><a href="<%=path %>/import" target="right">数据源查看</a></span></li>
+       		<li><span><a href="<%=path %>/import" target="right">数据源导入</a></span></li>
+       		<li><span><a href="<%=path %>/import/err" target="right">数据源导入错误</a></span></li>
        		<li><span><a href="<%=path %>/jsp/test/test.jsp" target="right">快速测试</a></span></li>
         </ul>
 	</div>
