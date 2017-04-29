@@ -11,6 +11,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>Insert title here</title>
 </head>
 <body>
+<jsp:include page="/jsp/part/common.jsp"/>
+<script type="text/javascript">
+var j="['a','b']";
+alert(isJson(j));
+</script>
 <form action="<%=path %>/api/user/file" enctype="multipart/form-data" method="post">
 	<input type="file" name="file"/>
 	<input type="submit"/>

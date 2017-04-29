@@ -27,6 +27,7 @@
     <result column="LARGE_AREA" property="largeArea" jdbcType="VARCHAR" />
     <result column="SLICE_AREA" property="sliceArea" jdbcType="VARCHAR" />
     <result column="FENBU" property="fenbu" jdbcType="VARCHAR" />
+    <result column="FBD_AREA" property="fbdArea" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -90,7 +91,7 @@
     COURIER_NUMBER, CREATE_DATE, SEND_TIME, CTM_NAME, CTM_BAR_CODE, PROVINCE, ADDRESS, 
     DELIVERY_STATE, SIGNATORY, ADDRESSEE, SIGN_TIME, ABNORMAL_CAUSE, IS_TIME_OUT, ORDER_NUMBER, 
     SHOP_NUMBER, PHONE, WEIGHT, COURIER_COMPANY, GOODS, GOODS_COST, FEE, CREATE_TIME, 
-    LARGE_AREA, SLICE_AREA, FENBU
+    LARGE_AREA, SLICE_AREA, FENBU, FBD_AREA
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceThirdPartyExample" >
     select
@@ -134,7 +135,7 @@
       PHONE, WEIGHT, COURIER_COMPANY, 
       GOODS, GOODS_COST, FEE, 
       CREATE_TIME, LARGE_AREA, SLICE_AREA, 
-      FENBU)
+      FENBU, FBD_AREA)
     values (#{courierNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{sendTime,jdbcType=TIMESTAMP}, 
       #{ctmName,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{deliveryState,jdbcType=VARCHAR}, #{signatory,jdbcType=VARCHAR}, 
@@ -143,7 +144,7 @@
       #{phone,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=VARCHAR}, 
       #{goods,jdbcType=VARCHAR}, #{goodsCost,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, 
       #{createTime,jdbcType=TIMESTAMP}, #{largeArea,jdbcType=VARCHAR}, #{sliceArea,jdbcType=VARCHAR}, 
-      #{fenbu,jdbcType=VARCHAR})
+      #{fenbu,jdbcType=VARCHAR}, #{fbdArea,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.SourceThirdParty" >
     insert into SOURCE_THIRD_PARTY
@@ -223,6 +224,9 @@
       <if test="fenbu != null" >
         FENBU,
       </if>
+      <if test="fbdArea != null" >
+        FBD_AREA,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courierNumber != null" >
@@ -299,6 +303,9 @@
       </if>
       <if test="fenbu != null" >
         #{fenbu,jdbcType=VARCHAR},
+      </if>
+      <if test="fbdArea != null" >
+        #{fbdArea,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -386,6 +393,9 @@
       <if test="record.fenbu != null" >
         FENBU = #{record.fenbu,jdbcType=VARCHAR},
       </if>
+      <if test="record.fbdArea != null" >
+        FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -417,7 +427,8 @@
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
       SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
-      FENBU = #{record.fenbu,jdbcType=VARCHAR}
+      FENBU = #{record.fenbu,jdbcType=VARCHAR},
+      FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -494,6 +505,9 @@
       <if test="fenbu != null" >
         FENBU = #{fenbu,jdbcType=VARCHAR},
       </if>
+      <if test="fbdArea != null" >
+        FBD_AREA = #{fbdArea,jdbcType=VARCHAR},
+      </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
       and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
@@ -522,7 +536,8 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
       SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},
-      FENBU = #{fenbu,jdbcType=VARCHAR}
+      FENBU = #{fenbu,jdbcType=VARCHAR},
+      FBD_AREA = #{fbdArea,jdbcType=VARCHAR}
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
       and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
   </update>

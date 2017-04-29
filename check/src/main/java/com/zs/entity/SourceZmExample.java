@@ -1455,6 +1455,76 @@ public class SourceZmExample {
             addCriterion("COURIER_STATE not between", value1, value2, "courierState");
             return (Criteria) this;
         }
+
+        public Criteria andFbdAreaIsNull() {
+            addCriterion("FBD_AREA is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaIsNotNull() {
+            addCriterion("FBD_AREA is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaEqualTo(String value) {
+            addCriterion("FBD_AREA =", value, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaNotEqualTo(String value) {
+            addCriterion("FBD_AREA <>", value, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaGreaterThan(String value) {
+            addCriterion("FBD_AREA >", value, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaGreaterThanOrEqualTo(String value) {
+            addCriterion("FBD_AREA >=", value, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaLessThan(String value) {
+            addCriterion("FBD_AREA <", value, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaLessThanOrEqualTo(String value) {
+            addCriterion("FBD_AREA <=", value, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaLike(String value) {
+            addCriterion("FBD_AREA like", value, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaNotLike(String value) {
+            addCriterion("FBD_AREA not like", value, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaIn(List<String> values) {
+            addCriterion("FBD_AREA in", values, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaNotIn(List<String> values) {
+            addCriterion("FBD_AREA not in", values, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaBetween(String value1, String value2) {
+            addCriterion("FBD_AREA between", value1, value2, "fbdArea");
+            return (Criteria) this;
+        }
+
+        public Criteria andFbdAreaNotBetween(String value1, String value2) {
+            addCriterion("FBD_AREA not between", value1, value2, "fbdArea");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

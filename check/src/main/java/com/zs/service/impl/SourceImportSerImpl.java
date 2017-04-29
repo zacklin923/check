@@ -5,20 +5,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.Resource;
-
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-
 import com.google.gson.Gson;
 import com.zs.dao.SourceImportMapper;
 import com.zs.entity.SourceImport;
-import com.zs.entity.SourceImportExample;
-import com.zs.entity.SourceImportExample.Criteria;
 import com.zs.entity.SourceImportKey;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.service.SourceImportSer;
+import com.zs.tools.HttpHelper;
 import com.zs.tools.Trans;
 
 @Service("sourceImportSer")
@@ -27,6 +26,8 @@ public class SourceImportSerImpl implements SourceImportSer{
 	@Resource
 	private SourceImportMapper importMapper;
 	private Gson gson=new Gson();
+	private final String URL_ZM="";
+	private Logger log=Logger.getLogger(getClass());
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -100,12 +101,6 @@ public class SourceImportSerImpl implements SourceImportSer{
 	 * 推送数据到哲盟
 	 */
 	public void sendToZm() {
-		//定时间点推送
-		/*
-		Calendar calendar=Calendar.getInstance();
-		if (calendar.get(Calendar.HOUR_OF_DAY)>=13) {
-		}else{
-		}*/
 		Calendar calendar=Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
@@ -113,7 +108,10 @@ public class SourceImportSerImpl implements SourceImportSer{
 		calendar.set(Calendar.MILLISECOND, 0);
 		List<SourceImport> list=importMapper.queryToZM(calendar.getTime());
 		String json=gson.toJson(list);
-		System.out.println(json);
+		List<NameValuePair> formparams=new ArrayList<NameValuePair>();
+		formparams.add(new BasicNameValuePair("data", json));
+		String result=HttpHelper.postForm(URL_ZM, formparams);
+		log.error("推送失败的单号:"+result);
 	}
 
 	

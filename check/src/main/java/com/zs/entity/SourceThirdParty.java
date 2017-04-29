@@ -50,6 +50,8 @@ public class SourceThirdParty extends SourceThirdPartyKey {
 
     private String fenbu;
 
+    private String fbdArea;
+
     public Date getSendTime() {
         return sendTime;
     }
@@ -232,5 +234,13 @@ public class SourceThirdParty extends SourceThirdPartyKey {
 
     public void setFenbu(String fenbu) {
         this.fenbu = fenbu == null ? null : fenbu.trim();
+    }
+
+    public String getFbdArea() {
+        return fbdArea;
+    }
+
+    public void setFbdArea(String fbdArea) {
+        this.fbdArea = fbdArea == null ? null : fbdArea.trim();
     }
 }

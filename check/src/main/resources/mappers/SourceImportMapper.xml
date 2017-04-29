@@ -402,6 +402,8 @@
   	</where>
   </select>
   <select id="queryToZM" resultMap="BaseResultMap" parameterType="java.util.Date">
-  	select * from SOURCE_IMPORT where CREATE_DATE = #{date}
+  	select COURIER_NUMBER, CTM_BAR_CODE
+  	from SOURCE_IMPORT 
+  	where CREATE_DATE = #{date}
   </select>
 </mapper>

@@ -76,4 +76,7 @@ $.extend($.fn.validatebox.defaults.rules, {
 		message: '必须包含{0}'
     }
 });
-
+function isJson(obj){
+	var isj = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length; 
+	return isj;
+}

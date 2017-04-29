@@ -84,10 +84,10 @@ public class RoleInter extends HandlerInterceptorAdapter{
 			return true;
 		}
 		if (user==null) {
-			resp.sendRedirect("jsp/part/error1.jsp");
+			resp.sendRedirect("/check/jsp/part/error1.jsp");
 			return false;
 		}else if(role==null){
-			resp.sendRedirect("jsp/part/error2.jsp");
+			resp.sendRedirect("/check/jsp/part/error2.jsp");
 			return false;
 		}
 		log.error(url+"  "+method);

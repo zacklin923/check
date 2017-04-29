@@ -40,6 +40,8 @@ public class SourceZm extends SourceZmKey {
 
     private String courierState;
 
+    private String fbdArea;
+
     public String getLargeArea() {
         return largeArea;
     }
@@ -182,5 +184,13 @@ public class SourceZm extends SourceZmKey {
 
     public void setCourierState(String courierState) {
         this.courierState = courierState == null ? null : courierState.trim();
+    }
+
+    public String getFbdArea() {
+        return fbdArea;
+    }
+
+    public void setFbdArea(String fbdArea) {
+        this.fbdArea = fbdArea == null ? null : fbdArea.trim();
     }
 }
