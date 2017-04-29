@@ -3,10 +3,10 @@
 <mapper namespace="com.zs.dao.SourceImportMapper" >
   <resultMap id="BaseResultMap" type="com.zs.entity.SourceImport" >
     <id column="COURIER_NUMBER" property="courierNumber" jdbcType="VARCHAR" />
-    <id column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="CTM_BAR_CODE" property="ctmBarCode" jdbcType="VARCHAR" />
     <result column="CTM_NAME" property="ctmName" jdbcType="VARCHAR" />
     <result column="SHOP_NUMBER" property="shopNumber" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
     <result column="ADDRESSEE" property="addressee" jdbcType="VARCHAR" />
     <result column="PHONE" property="phone" jdbcType="VARCHAR" />
@@ -77,7 +77,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    COURIER_NUMBER, CREATE_DATE, CTM_BAR_CODE, CTM_NAME, SHOP_NUMBER, ADDRESS, ADDRESSEE, 
+    COURIER_NUMBER, CTM_BAR_CODE, CTM_NAME, SHOP_NUMBER, CREATE_DATE, ADDRESS, ADDRESSEE, 
     PHONE, COURIER_COMPANY, GOODS, GOODS_COST, ORDER_NUMBER, NUMBER_TYPE, CREATE_TIME, 
     IS_PUSHED
   </sql>
@@ -96,17 +96,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceImportKey" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from SOURCE_IMPORT
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.zs.entity.SourceImportKey" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from SOURCE_IMPORT
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
   </delete>
   <delete id="deleteByExample" parameterType="com.zs.entity.SourceImportExample" >
     delete from SOURCE_IMPORT
@@ -115,14 +113,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zs.entity.SourceImport" >
-    insert into SOURCE_IMPORT (COURIER_NUMBER, CREATE_DATE, CTM_BAR_CODE, 
-      CTM_NAME, SHOP_NUMBER, ADDRESS, 
+    insert into SOURCE_IMPORT (COURIER_NUMBER, CTM_BAR_CODE, CTM_NAME, 
+      SHOP_NUMBER, CREATE_DATE, ADDRESS, 
       ADDRESSEE, PHONE, COURIER_COMPANY, 
       GOODS, GOODS_COST, ORDER_NUMBER, 
       NUMBER_TYPE, CREATE_TIME, IS_PUSHED
       )
-    values (#{courierNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{ctmBarCode,jdbcType=VARCHAR}, 
-      #{ctmName,jdbcType=VARCHAR}, #{shopNumber,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+    values (#{courierNumber,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, #{ctmName,jdbcType=VARCHAR}, 
+      #{shopNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, 
       #{addressee,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{courierCompany,jdbcType=VARCHAR}, 
       #{goods,jdbcType=VARCHAR}, #{goodsCost,jdbcType=DECIMAL}, #{orderNumber,jdbcType=VARCHAR}, 
       #{numberType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isPushed,jdbcType=DECIMAL}
@@ -134,9 +132,6 @@
       <if test="courierNumber != null" >
         COURIER_NUMBER,
       </if>
-      <if test="createDate != null" >
-        CREATE_DATE,
-      </if>
       <if test="ctmBarCode != null" >
         CTM_BAR_CODE,
       </if>
@@ -145,6 +140,9 @@
       </if>
       <if test="shopNumber != null" >
         SHOP_NUMBER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
       </if>
       <if test="address != null" >
         ADDRESS,
@@ -181,9 +179,6 @@
       <if test="courierNumber != null" >
         #{courierNumber,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null" >
-        #{createDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="ctmBarCode != null" >
         #{ctmBarCode,jdbcType=VARCHAR},
       </if>
@@ -192,6 +187,9 @@
       </if>
       <if test="shopNumber != null" >
         #{shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
@@ -237,9 +235,6 @@
       <if test="record.courierNumber != null" >
         COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.createDate != null" >
-        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.ctmBarCode != null" >
         CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
       </if>
@@ -248,6 +243,9 @@
       </if>
       <if test="record.shopNumber != null" >
         SHOP_NUMBER = #{record.shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.address != null" >
         ADDRESS = #{record.address,jdbcType=VARCHAR},
@@ -287,10 +285,10 @@
   <update id="updateByExample" parameterType="map" >
     update SOURCE_IMPORT
     set COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
-      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
       CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
       CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
       SHOP_NUMBER = #{record.shopNumber,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
       ADDRESS = #{record.address,jdbcType=VARCHAR},
       ADDRESSEE = #{record.addressee,jdbcType=VARCHAR},
       PHONE = #{record.phone,jdbcType=VARCHAR},
@@ -316,6 +314,9 @@
       </if>
       <if test="shopNumber != null" >
         SHOP_NUMBER = #{shopNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
       </if>
       <if test="address != null" >
         ADDRESS = #{address,jdbcType=VARCHAR},
@@ -349,13 +350,13 @@
       </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zs.entity.SourceImport" >
     update SOURCE_IMPORT
     set CTM_BAR_CODE = #{ctmBarCode,jdbcType=VARCHAR},
       CTM_NAME = #{ctmName,jdbcType=VARCHAR},
       SHOP_NUMBER = #{shopNumber,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
       ADDRESS = #{address,jdbcType=VARCHAR},
       ADDRESSEE = #{addressee,jdbcType=VARCHAR},
       PHONE = #{phone,jdbcType=VARCHAR},
@@ -367,7 +368,6 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       IS_PUSHED = #{isPushed,jdbcType=DECIMAL}
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
   </update>
   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
   	select * from
@@ -404,6 +404,6 @@
   <select id="queryToZM" resultMap="BaseResultMap" parameterType="java.util.Date">
   	select COURIER_NUMBER, CTM_BAR_CODE
   	from SOURCE_IMPORT 
-  	where CREATE_DATE = #{date}
+  	where CREATE_TIME >= #{date}
   </select>
 </mapper>

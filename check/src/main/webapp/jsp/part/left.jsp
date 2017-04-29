@@ -53,6 +53,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <li><span><a href="<%=path %>/role" target="right">角色管理</a></span></li>
 	        <li><span><a href="<%=path %>/power" target="right">权限管理</a></span></li>
 	        <li><span><a href="<%=path %>/timeLimit" target="right">时效控制信息管理</a></span></li>
+	        <li><span><a href="<%=path %>/sourceZm" target="right">哲盟返回数据</a></span></li>
+	        <li><span><a href="<%=path %>/sourceTp" target="right">哲盟返回第三方数据</a></span></li>
         </ul>
 	</div>
 	<div title="测试" data-options="iconCls:'icon-large-smartart'" style="padding:10px;">

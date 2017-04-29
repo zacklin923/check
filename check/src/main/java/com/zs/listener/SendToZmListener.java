@@ -16,9 +16,7 @@ public class SendToZmListener implements ServletContextListener{
 		ServletContext servletContext = sce.getServletContext();  
         ApplicationContext context = (ApplicationContext) servletContext.getAttribute(  
                 WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);   
-        //initialize service when spring context initialized,  
-        //建立对应的service当spring上下文初始化之后  
-        //使用spring框架中已经初始化的memberService  
+        //建立对应的service当spring上下文初始化之后  ,使用spring框架中已经初始化的memberService  
         sourceImportSer=(SourceImportSer)context.getBean("sourceImportSer");
         sendToZmThread=new SendToZmThread(sourceImportSer);
 		new Thread(sendToZmThread).start();

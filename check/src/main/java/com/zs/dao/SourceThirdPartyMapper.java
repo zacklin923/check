@@ -3,6 +3,9 @@ package com.zs.dao;
 import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceThirdPartyExample;
 import com.zs.entity.SourceThirdPartyKey;
+import com.zs.entity.StaffPower;
+import com.zs.entity.other.EasyUIAccept;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +31,8 @@ public interface SourceThirdPartyMapper {
     int updateByPrimaryKeySelective(SourceThirdParty record);
 
     int updateByPrimaryKey(SourceThirdParty record);
+    //-----------------------------
+    List<SourceThirdParty> queryFenye(EasyUIAccept accept);
+	
+    int getCount(EasyUIAccept accept);
 }

@@ -30,15 +30,23 @@ public class PowerConR extends BaseRestController<StaffPower,String>{
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
-			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-			return powerSer.queryFenye(accept);
+			try {
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return powerSer.queryFenye(accept);
+			} catch (Exception e) {
+				return null;
+			}
 		}
 		return null;
 	}
 	
 	@RequestMapping(value="/all",method=RequestMethod.GET)
 	public EasyUIPage doQuery(HttpServletRequest req, HttpServletResponse resp) {
-		return powerSer.queryFenye();
+		try {
+			return powerSer.queryFenye();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 
@@ -54,7 +62,7 @@ public class PowerConR extends BaseRestController<StaffPower,String>{
 			try {
 				return new Result<Integer>(SUCCESS, Code.SUCCESS, powerSer.add(obj));
 			} catch (Exception e) {
-				return new Result<Integer>(ERROR, Code.ERROR, 4321);
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
 			}
 		}
 		return new Result<Integer>(ERROR, Code.ERROR, null);
@@ -64,7 +72,11 @@ public class PowerConR extends BaseRestController<StaffPower,String>{
 	@Override
 	public Result<Integer> doUpdate(StaffPower obj, HttpServletRequest req, HttpServletResponse resp) {
 		if (obj!=null) {
-			return new Result<Integer>(SUCCESS, Code.SUCCESS, powerSer.update(obj));
+			try {
+				return new Result<Integer>(SUCCESS, Code.SUCCESS, powerSer.update(obj));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
 		}
 		return new Result<Integer>(ERROR, Code.ERROR, null);
 	}
@@ -78,7 +90,11 @@ public class PowerConR extends BaseRestController<StaffPower,String>{
 	@Override
 	public Result<Integer> doDeleteTrue(@PathVariable("id")String id, HttpServletRequest req, HttpServletResponse resp) {
 		if (id!=null) {
-			return new Result<Integer>(SUCCESS, Code.SUCCESS, powerSer.delete(id));
+			try {
+				return new Result<Integer>(SUCCESS, Code.SUCCESS, powerSer.delete(id));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
 		}
 		return new Result<Integer>(ERROR, Code.ERROR, null);
 	}

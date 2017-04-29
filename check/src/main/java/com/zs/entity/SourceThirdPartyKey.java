@@ -2,10 +2,12 @@ package com.zs.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class SourceThirdPartyKey {
     private String courierNumber;
 
-    private Date createDate;
+    private Date returnDate;
 
     public String getCourierNumber() {
         return courierNumber;
@@ -15,11 +17,12 @@ public class SourceThirdPartyKey {
         this.courierNumber = courierNumber == null ? null : courierNumber.trim();
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    public Date getReturnDate() {
+        return returnDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
     }
 }

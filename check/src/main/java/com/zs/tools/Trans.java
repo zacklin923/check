@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
@@ -145,5 +146,21 @@ public class Trans {
 			str = str.trim().replace(",", "");
 		}
 		return str;
+	}
+	
+	/**
+	 * 年月日时分秒毫秒转为年月日
+	 */
+	public static Date timeToDate(Date date){
+		if (date!=null) {
+			Calendar calendar=Calendar.getInstance();
+			calendar.setTime(date);
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			return calendar.getTime();
+		}
+		return null;
 	}
 }

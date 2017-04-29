@@ -3,7 +3,7 @@
 <mapper namespace="com.zs.dao.SourceThirdPartyMapper" >
   <resultMap id="BaseResultMap" type="com.zs.entity.SourceThirdParty" >
     <id column="COURIER_NUMBER" property="courierNumber" jdbcType="VARCHAR" />
-    <id column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <id column="RETURN_DATE" property="returnDate" jdbcType="TIMESTAMP" />
     <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
     <result column="CTM_NAME" property="ctmName" jdbcType="VARCHAR" />
     <result column="CTM_BAR_CODE" property="ctmBarCode" jdbcType="VARCHAR" />
@@ -27,6 +27,7 @@
     <result column="LARGE_AREA" property="largeArea" jdbcType="VARCHAR" />
     <result column="SLICE_AREA" property="sliceArea" jdbcType="VARCHAR" />
     <result column="FENBU" property="fenbu" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="FBD_AREA" property="fbdArea" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -88,10 +89,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    COURIER_NUMBER, CREATE_DATE, SEND_TIME, CTM_NAME, CTM_BAR_CODE, PROVINCE, ADDRESS, 
+    COURIER_NUMBER, RETURN_DATE, SEND_TIME, CTM_NAME, CTM_BAR_CODE, PROVINCE, ADDRESS, 
     DELIVERY_STATE, SIGNATORY, ADDRESSEE, SIGN_TIME, ABNORMAL_CAUSE, IS_TIME_OUT, ORDER_NUMBER, 
     SHOP_NUMBER, PHONE, WEIGHT, COURIER_COMPANY, GOODS, GOODS_COST, FEE, CREATE_TIME, 
-    LARGE_AREA, SLICE_AREA, FENBU, FBD_AREA
+    LARGE_AREA, SLICE_AREA, FENBU, CREATE_DATE, FBD_AREA
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceThirdPartyExample" >
     select
@@ -113,12 +114,12 @@
     <include refid="Base_Column_List" />
     from SOURCE_THIRD_PARTY
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.zs.entity.SourceThirdPartyKey" >
     delete from SOURCE_THIRD_PARTY
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </delete>
   <delete id="deleteByExample" parameterType="com.zs.entity.SourceThirdPartyExample" >
     delete from SOURCE_THIRD_PARTY
@@ -127,7 +128,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zs.entity.SourceThirdParty" >
-    insert into SOURCE_THIRD_PARTY (COURIER_NUMBER, CREATE_DATE, SEND_TIME, 
+    insert into SOURCE_THIRD_PARTY (COURIER_NUMBER, RETURN_DATE, SEND_TIME, 
       CTM_NAME, CTM_BAR_CODE, PROVINCE, 
       ADDRESS, DELIVERY_STATE, SIGNATORY, 
       ADDRESSEE, SIGN_TIME, ABNORMAL_CAUSE, 
@@ -135,8 +136,9 @@
       PHONE, WEIGHT, COURIER_COMPANY, 
       GOODS, GOODS_COST, FEE, 
       CREATE_TIME, LARGE_AREA, SLICE_AREA, 
-      FENBU, FBD_AREA)
-    values (#{courierNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{sendTime,jdbcType=TIMESTAMP}, 
+      FENBU, CREATE_DATE, FBD_AREA
+      )
+    values (#{courierNumber,jdbcType=VARCHAR}, #{returnDate,jdbcType=TIMESTAMP}, #{sendTime,jdbcType=TIMESTAMP}, 
       #{ctmName,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{deliveryState,jdbcType=VARCHAR}, #{signatory,jdbcType=VARCHAR}, 
       #{addressee,jdbcType=VARCHAR}, #{signTime,jdbcType=TIMESTAMP}, #{abnormalCause,jdbcType=VARCHAR}, 
@@ -144,7 +146,8 @@
       #{phone,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=VARCHAR}, 
       #{goods,jdbcType=VARCHAR}, #{goodsCost,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, 
       #{createTime,jdbcType=TIMESTAMP}, #{largeArea,jdbcType=VARCHAR}, #{sliceArea,jdbcType=VARCHAR}, 
-      #{fenbu,jdbcType=VARCHAR}, #{fbdArea,jdbcType=VARCHAR})
+      #{fenbu,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{fbdArea,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.SourceThirdParty" >
     insert into SOURCE_THIRD_PARTY
@@ -152,8 +155,8 @@
       <if test="courierNumber != null" >
         COURIER_NUMBER,
       </if>
-      <if test="createDate != null" >
-        CREATE_DATE,
+      <if test="returnDate != null" >
+        RETURN_DATE,
       </if>
       <if test="sendTime != null" >
         SEND_TIME,
@@ -224,6 +227,9 @@
       <if test="fenbu != null" >
         FENBU,
       </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
       <if test="fbdArea != null" >
         FBD_AREA,
       </if>
@@ -232,8 +238,8 @@
       <if test="courierNumber != null" >
         #{courierNumber,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null" >
-        #{createDate,jdbcType=TIMESTAMP},
+      <if test="returnDate != null" >
+        #{returnDate,jdbcType=TIMESTAMP},
       </if>
       <if test="sendTime != null" >
         #{sendTime,jdbcType=TIMESTAMP},
@@ -304,6 +310,9 @@
       <if test="fenbu != null" >
         #{fenbu,jdbcType=VARCHAR},
       </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="fbdArea != null" >
         #{fbdArea,jdbcType=VARCHAR},
       </if>
@@ -321,8 +330,8 @@
       <if test="record.courierNumber != null" >
         COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.createDate != null" >
-        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      <if test="record.returnDate != null" >
+        RETURN_DATE = #{record.returnDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.sendTime != null" >
         SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
@@ -393,6 +402,9 @@
       <if test="record.fenbu != null" >
         FENBU = #{record.fenbu,jdbcType=VARCHAR},
       </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.fbdArea != null" >
         FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR},
       </if>
@@ -404,7 +416,7 @@
   <update id="updateByExample" parameterType="map" >
     update SOURCE_THIRD_PARTY
     set COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
-      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      RETURN_DATE = #{record.returnDate,jdbcType=TIMESTAMP},
       SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
       CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
       CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
@@ -428,6 +440,7 @@
       LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
       SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
       FENBU = #{record.fenbu,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
       FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -505,12 +518,15 @@
       <if test="fenbu != null" >
         FENBU = #{fenbu,jdbcType=VARCHAR},
       </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="fbdArea != null" >
         FBD_AREA = #{fbdArea,jdbcType=VARCHAR},
       </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zs.entity.SourceThirdParty" >
     update SOURCE_THIRD_PARTY
@@ -537,8 +553,41 @@
       LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
       SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},
       FENBU = #{fenbu,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
       FBD_AREA = #{fbdArea,jdbcType=VARCHAR}
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </update>
+  <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select * from
+  	(
+	  	select t1.*,rownum rn from
+	  	(
+		  	select * from SOURCE_THIRD_PARTY
+		  	<where>
+		  	</where>
+		  	<if test="sort!=null and order!=null">
+		  		order by ${sort} ${order},CREATE_TIME desc
+		  	</if>
+		  	<if test="sort==null or order==null">
+		  		order by CREATE_TIME desc
+		  	</if>
+	  	) t1
+	  	<where>
+	  		<if test="end!=null">
+	  			rownum &lt;= #{end}
+		  	</if>
+	  	</where>
+  	)
+  	<where>
+  		<if test="start!=null">
+  			rn > #{start}
+	  	</if>
+  	</where>
+  </select>
+  <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select count(*) from SOURCE_THIRD_PARTY
+  	<where>
+  	</where>
+  </select>
 </mapper>

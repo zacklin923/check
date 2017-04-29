@@ -3,6 +3,8 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class SourceZm extends SourceZmKey {
     private String largeArea;
 
@@ -37,6 +39,8 @@ public class SourceZm extends SourceZmKey {
     private String orderNumber;
 
     private Date createTime;
+
+    private Date createDate;
 
     private String courierState;
 
@@ -82,6 +86,7 @@ public class SourceZm extends SourceZmKey {
         this.ctmName = ctmName == null ? null : ctmName.trim();
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getSendTime() {
         return sendTime;
     }
@@ -170,12 +175,22 @@ public class SourceZm extends SourceZmKey {
         this.orderNumber = orderNumber == null ? null : orderNumber.trim();
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss.SSS",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+    
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public String getCourierState() {
@@ -193,4 +208,17 @@ public class SourceZm extends SourceZmKey {
     public void setFbdArea(String fbdArea) {
         this.fbdArea = fbdArea == null ? null : fbdArea.trim();
     }
+
+	@Override
+	public String toString() {
+		return "SourceZm [largeArea=" + largeArea + ", sliceArea=" + sliceArea + ", fenbu=" + fenbu + ", ctmBarCode="
+				+ ctmBarCode + ", ctmName=" + ctmName + ", sendTime=" + sendTime + ", province=" + province
+				+ ", address=" + address + ", shopNumber=" + shopNumber + ", addressee=" + addressee + ", phone="
+				+ phone + ", weight=" + weight + ", courierCompany=" + courierCompany + ", goodsCost=" + goodsCost
+				+ ", goods=" + goods + ", orderNumber=" + orderNumber + ", createTime=" + createTime + ", createDate="
+				+ createDate + ", courierState=" + courierState + ", fbdArea=" + fbdArea + ", getCourierNumber()="
+				+ getCourierNumber() + ", getReturnDate()=" + getReturnDate() + "]";
+	}
+    
+    
 }

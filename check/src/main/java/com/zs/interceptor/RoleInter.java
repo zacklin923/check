@@ -80,7 +80,9 @@ public class RoleInter extends HandlerInterceptorAdapter{
 		if (url.contains("framework")
 				|| url.contains("file")
 				|| url.contains("login")
-				|| url.contains("logout")) {
+				|| url.contains("logout")
+				|| url.contains("/api/receive/zm")
+				|| url.contains("/api/receive/tp")) {
 			return true;
 		}
 		if (user==null) {
