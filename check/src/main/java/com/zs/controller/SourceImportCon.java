@@ -13,4 +13,10 @@ public class SourceImportCon extends BaseController{
 		return "/importdata/importQuery";
 	}
 
+	
+	@RequestMapping("/err")
+	public String goerrQuery() {
+		return "/importdata/importErr";
+	}
+	
 }

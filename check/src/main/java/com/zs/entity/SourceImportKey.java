@@ -17,7 +17,7 @@ public class SourceImportKey {
         this.courierNumber = courierNumber == null ? null : courierNumber.trim();
     }
 
-    @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getCreateDate() {
         return createDate;
     }

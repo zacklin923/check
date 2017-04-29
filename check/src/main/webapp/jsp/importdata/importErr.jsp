@@ -11,10 +11,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>Insert title here</title>
 </head>
 <body>
-<form action="<%=path %>/api/import" enctype="multipart/form-data" method="post">
-	<input type="file" name="file"/>
-	<input type="submit"/>
-</form>
 
 </body>
 </html>

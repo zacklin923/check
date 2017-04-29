@@ -111,6 +111,23 @@ function obtain(url,power){
 		}
 	});
 }
+function selectAll(){
+	var a = $('#permission>input');
+	if(a[0].checked){
+		for(var i = 0;i<a.length;i++){
+			if(a[i].type == "checkbox") a[i].checked = false;
+		}
+	}else{
+		for(var i = 0;i<a.length;i++){
+			if(a[i].type == "checkbox") a[i].checked = true;
+		}
+	}
+}
+function negated(){
+	$("#permission input:checkbox").each(function () {  
+        this.checked = !this.checked;  
+     }) 
+}
 </script>
 <table id="dg" class="easyui-datagrid" border="true" title="快件信息>角色管理"
 		url="<%=path %>/api/role"
@@ -183,6 +200,8 @@ function obtain(url,power){
 	</form>
 </div>
 <div id="dlg-buttons">
+	<a class="easyui-linkbutton"  onclick="selectAll()">全选/全不选</a>
+	<a class="easyui-linkbutton"  onclick="negated()">反 选</a>
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
