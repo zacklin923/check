@@ -13,6 +13,7 @@ import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
+import com.zs.entity.other.SourceImportErr;
 import com.zs.service.SourceImportFailSer;
 
 @Service("sourceImportFailSer")
@@ -32,8 +33,8 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 			List list=sourceImportFailedMapper.queryFenye(accept);
 			for (int i = 0; i < list.size(); i++) {
 				SourceImportFailed sif = (SourceImportFailed) list.get(i);
-				SourceImport si = g.fromJson(sif.getFailInfo(), SourceImport.class);
-				sif.setSourceImport(si);
+				SourceImportErr sie = g.fromJson(sif.getFailInfo(), SourceImportErr.class);
+				sif.setSourceImport(sie);
 			}
 			int rows=sourceImportFailedMapper.getCount(accept);
 			return new EasyUIPage(rows, list);

@@ -154,6 +154,9 @@ function excel_export(){
 		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑时效</a>
 		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除时效</a>
 	</div>
+	<div class="btn-separator">
+		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
+	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
@@ -208,6 +211,10 @@ function excel_export(){
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
-
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
+		closed="true" modal="true">
+	<iframe src="<%=path%>/jsp/help/sourceZm.jsp" frameborder="0" height="100%" width="100%">
+	</iframe>
+</div>
 </body>
 </html>

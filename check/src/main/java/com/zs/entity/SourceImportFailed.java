@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zs.entity.other.SourceImportErr;
 
 public class SourceImportFailed {
     private BigDecimal sifId;
@@ -16,7 +17,7 @@ public class SourceImportFailed {
 
     private String failType;
     
-    private SourceImport sourceImport;
+    private SourceImportErr sourceImport;
 
     public BigDecimal getSifId() {
         return sifId;
@@ -59,13 +60,14 @@ public class SourceImportFailed {
         this.failType = failType == null ? null : failType.trim();
     }
 
-	public SourceImport getSourceImport() {
+	public SourceImportErr getSourceImport() {
 		return sourceImport;
 	}
 
-	public void setSourceImport(SourceImport sourceImport) {
+	public void setSourceImport(SourceImportErr sourceImport) {
 		this.sourceImport = sourceImport;
 	}
+
     
     
 }

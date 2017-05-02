@@ -164,6 +164,9 @@ function negated(){
 		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑角色</a>
 		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除角色</a>
 	</div>
+	<div class="btn-separator">
+		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
+	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">

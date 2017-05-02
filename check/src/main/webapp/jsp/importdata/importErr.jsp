@@ -167,6 +167,7 @@ function deleteAll(){
 			    			<option value="">请选择。。。</option>
 			    			<option value="重复快递单号">重复快递单号</option>
 			    			<option value="数据必填项为空">数据必填项为空</option>
+			    			<option value="数据类型转换错误">数据类型转换错误</option>
 			    	   </select>
     		</div>
     		<input type="hidden" name="_header" value="${licence }"/>

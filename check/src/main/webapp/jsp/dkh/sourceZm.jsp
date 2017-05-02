@@ -124,9 +124,9 @@ function excel_export(){
 			<th field="fbdArea" width="100" sortable="true">所属分拨点</th>
 			<th field="ctmBarCode" width="100" sortable="true">客户条码</th>
 			<th field="ctmName" width="100" sortable="true">客户名称</th>
-			<th field="sendTime" width="100" sortable="true">发货日期</th>
+			<th field="sendTime" width="200" sortable="true">发货日期</th>
 			<th field="province" width="100" sortable="true">省份</th>
-			<th field="address" width="100" sortable="true">地址</th>
+			<th field="address" width="350" sortable="true">地址</th>
 			<th field="shopNumber" width="100" sortable="true">客户店铺</th>
 			<th field="addressee" width="100" sortable="true">收件人</th>
 			<th field="phone" width="100" sortable="true">联系方式</th>
@@ -148,6 +148,9 @@ function excel_export(){
 		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加时效</a>
 		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑时效</a>
 		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除时效</a>
+	</div>
+	<div class="btn-separator">
+		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
 	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
@@ -203,6 +206,10 @@ function excel_export(){
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
-
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
+		closed="true" modal="true">
+	<iframe src="<%=path%>/jsp/help/sourceZm.jsp" frameborder="0" height="100%" width="100%">
+	</iframe>
+</div>
 </body>
 </html>
