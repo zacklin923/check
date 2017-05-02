@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.PathParam;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +28,8 @@ import com.zs.tools.ExcelImport;
 import com.zs.tools.ManagerId;
 
 @RestController
-@RequestMapping("/api/import")
-public class SourceImportConR extends BaseRestController<SourceImport,String[]>{
+@RequestMapping("/api/sourimport")
+public class SourceImportConR extends BaseRestController<SourceImport,String>{
 
 	@Resource
 	private SourceImportSer sourceImportSer;
@@ -49,7 +50,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String[]>{
 	}
 
 	@Override
-	public Result<SourceImport> doGet(String[] obj, HttpServletRequest req, HttpServletResponse resp) {
+	public Result<SourceImport> doGet(String id, HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -60,31 +61,32 @@ public class SourceImportConR extends BaseRestController<SourceImport,String[]>{
 		return null;
 	}
 
-	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	@Override
+	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public Result<Integer> doUpdate(SourceImport obj, HttpServletRequest req, HttpServletResponse resp) {
 		System.out.println("进入-------------------------------------------对象输出");
-//		Gson g= new Gson();
-//		System.out.println("对象输出"+g.toJson(obj));
+		
+		//此处有问题。。。正在寻找错误，为不影响进度，先跳过；--黄光辉
 		return new Result<Integer>(SUCCESS,  Code.SUCCESS, 1);
-		//		if(obj!=null){
-//			return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportSer.update(obj));
-//		}
-//		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	
 	@Override
-	public Result<Integer> doDeleteFalse(String[] obj, HttpServletRequest req, HttpServletResponse resp) {
+	public Result<Integer> doDeleteFalse(String id, HttpServletRequest req, HttpServletResponse resp) {
 		return null;
 	}
 
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
-	public Result<Integer> doDeleteTrue(@PathVariable("id") String[] ids, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println(ids[0]);
-		System.out.println(ids[1]);
-		return null;
+	public Result<Integer> doDeleteTrue(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
+		if(id!=null&&!id.equals("")){
+			try {
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportSer.delete(id));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
+		}
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@Override

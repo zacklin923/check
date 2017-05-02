@@ -9,21 +9,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>用户管理</title>
+<title>数据源导入</title>
 
 </head>
 <body>
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-function addObj(){
-	$("#dlg").dialog("open").dialog("setTitle","新建");	
-	$("#fm").form("clear");
-	$("#fm input[name='_method']").val("post");
-	$("#fm input[name='_header']").val("${user.licence }");
-	url="<%=path %>/api/import";
-}
-
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
@@ -31,39 +23,22 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${user.licence }");
-		url="<%=path %>/api/import/"+row.courierNumber;
 	}
 }
 function save(){
 	$("#fm").form("submit",{
-		url:url,		
+		url:"<%=path %>/api/sourimport/aa",		
 		onSubmit:function(){
 			return $(this).form('validate');
 		},
 		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");
-				}else{
-					alert("错误:"+json.code);
-				}
-			}else{
-				alert("错误:网络错误");
-			}
+			console.log(data);
 		}
 	});
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
 	var ucode=row.courierNumber;
-	var udate=row.createDate;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
@@ -71,7 +46,7 @@ function deleteObj(){
 			function(data){
 				if(data){
 					$.ajax({
-						url:"<%=path %>/api/import/"+ucode+","+udate,
+						url:"<%=path %>/api/sourimport/"+ucode,
 						type:"delete",
 						success:function(data){
 							var json;
@@ -95,7 +70,7 @@ function deleteObj(){
 
 function upload(){
 	$("#fmfile").form("submit",{
-		url:"<%=path %>/api/import",		
+		url:"<%=path %>/api/sourimport",		
 		onSubmit:function(){
 			return $(this).form('validate');
 		},
@@ -113,7 +88,7 @@ function upload(){
 					$("#fileImport").dialog("close");					
 				}else{
 					$("#fileImport").dialog("close");	
-					alert("错误:"+json.code);
+					alert("错误:"+json.code+"错误原因："+json.data);
 				}
 			}else{
 				alert("错误:网络错误");
@@ -123,7 +98,7 @@ function upload(){
 }
 </script>
 <table id="dg" class="easyui-datagrid" border="true"
-		url="<%=path %>/api/import"
+		url="<%=path %>/api/sourimport"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
