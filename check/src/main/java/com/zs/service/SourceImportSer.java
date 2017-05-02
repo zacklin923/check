@@ -8,6 +8,7 @@ public interface SourceImportSer extends BaseService<SourceImport,String>{
 
 	public String importData(List<String[]> list,String stuNum);
 	
-	public void sendToZm();
+	public void sendToZm(List<SourceImport> list);
 	
+	public void sendToZm2();
 }

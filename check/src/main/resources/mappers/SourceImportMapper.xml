@@ -376,6 +376,9 @@
 	  	(
 		  	select * from SOURCE_IMPORT
 		  	<where>
+			  	<if test="str1!=null">
+			  		and CTM_BAR_CODE in #{str1}
+			  	</if>
 		  	</where>
 		  	<if test="sort!=null and order!=null">
 		  		order by ${sort} ${order},CREATE_TIME desc
@@ -399,7 +402,10 @@
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(*) from SOURCE_IMPORT
   	<where>
-  	</where>
+  		<if test="str1!=null">
+	  		and CTM_BAR_CODE in #{str1}
+	  	</if>
+ 	</where>
   </select>
   <select id="queryToZM" resultMap="BaseResultMap" parameterType="java.util.Date">
   	select COURIER_NUMBER, CTM_BAR_CODE

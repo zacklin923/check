@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zs.entity.SourceThirdParty;
+import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
 import com.zs.service.SourceTpSer;
 import com.zs.tools.ColumnName;
+import com.zs.tools.ManagerId;
 
 @RestController
 @RequestMapping("/api/sourceTp")
@@ -28,6 +30,7 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
+				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceTpSer.queryFenye(accept);
 			} catch (Exception e) {
