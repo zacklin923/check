@@ -21,4 +21,12 @@ public class ManagerId {
 		}
 		return user.getOwnBarCode();
 	}
+	
+	public static String isSeeAll2(HttpServletRequest req) {
+		StaffUser user=(StaffUser) req.getSession().getAttribute("user"); 
+		if (user.getStuRole().equals(DEVELOPER) || user.getStuRole().equals(MANAGER_1) || user.getStuRole().equals(MANAGER_2)) {
+			return null;
+		}
+		return user.getStuNum();
+	}
 }

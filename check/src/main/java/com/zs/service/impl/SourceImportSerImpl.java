@@ -77,7 +77,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 		List<SourceImport> ims=new ArrayList<SourceImport>();
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[0].equals("")||list.get(i)[1].equals("")||list.get(i)[2].equals("")||list.get(i)[3].equals("")||list.get(i)[4].equals("")){
-				SourceImport errs = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null);
+				SourceImport errs = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,stuNum);
 				SourceImportFailed sif = new SourceImportFailed();
 				sif.setStuNum(stuNum);
 				sif.setFailInfo(gson.toJson(errs));
@@ -87,7 +87,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 			}else{
 				SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
 				if(skey==null){
-					SourceImport s = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null);
+					SourceImport s = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,stuNum);
 					ims.add(s);
 					try {
 						importMapper.insert(s);
@@ -95,7 +95,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 						log.error("插入失败，请检查原因，出错数据为："+s.toString());
 					}
 				}else{
-					SourceImport errsk = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null);
+					SourceImport errsk = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,stuNum);
 					SourceImportFailed sifk = new SourceImportFailed();
 					sifk.setStuNum(stuNum);
 					sifk.setFailInfo(gson.toJson(errsk));

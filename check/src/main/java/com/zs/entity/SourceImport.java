@@ -163,4 +163,32 @@ public class SourceImport {
     public void setStuNum(String stuNum) {
         this.stuNum = stuNum == null ? null : stuNum.trim();
     }
+
+	public SourceImport(String courierNumber, String ctmBarCode, String ctmName, String shopNumber, Date createDate,
+			String address, String addressee, String phone, String courierCompany, String goods, BigDecimal goodsCost,
+			String orderNumber, String numberType, Date createTime, BigDecimal isPushed, String stuNum) {
+		super();
+		this.courierNumber = courierNumber;
+		this.ctmBarCode = ctmBarCode;
+		this.ctmName = ctmName;
+		this.shopNumber = shopNumber;
+		this.createDate = createDate;
+		this.address = address;
+		this.addressee = addressee;
+		this.phone = phone;
+		this.courierCompany = courierCompany;
+		this.goods = goods;
+		this.goodsCost = goodsCost;
+		this.orderNumber = orderNumber;
+		this.numberType = numberType;
+		this.createTime = createTime;
+		this.isPushed = isPushed;
+		this.stuNum = stuNum;
+	}
+
+	public SourceImport() {
+		super();
+	}
+    
+    
 }

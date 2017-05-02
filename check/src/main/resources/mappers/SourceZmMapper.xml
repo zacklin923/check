@@ -486,7 +486,7 @@
 		  	select * from SOURCE_ZM
 		  	<where>
 		 		<if test="str1!=null">
-		  			and CTM_BAR_CODE in #{str1}
+		  			and CTM_BAR_CODE in (${str1})
 		  		</if>
 			</where>
 		  	<if test="sort!=null and order!=null">
@@ -512,7 +512,7 @@
   	select count(*) from SOURCE_ZM
   	<where>
   		<if test="str1!=null">
-	  		and CTM_BAR_CODE in #{str1}
+	  		and CTM_BAR_CODE in (${str1})
 	  	</if>
  	</where>
   </select>
