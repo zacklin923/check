@@ -180,7 +180,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 				}
 			}
 		}else {
-			log.error("错误：第二次推送哲盟接收的返回值出现问题，该错误将导致无法知道哪些推送失败了，也不会处理未推送成功的。");
+			log.error("错误：第二次推送哲盟接收的返回值出现问题，该错误将导致无法知道哪些推送失败了，也不会处理未推送成功的,且不会再处理。");
 		}
 	}
 
