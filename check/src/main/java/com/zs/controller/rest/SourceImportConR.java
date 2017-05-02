@@ -40,6 +40,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 		if (accept!=null) {
 			try {
 				accept.setStr1(ManagerId.isSeeAll2(req));
+				accept.setDate1(ManagerId.getNow());
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceImportSer.queryFenye(accept);
 			} catch (Exception e) {
@@ -96,7 +97,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	}
 	
 	
-	@RequestMapping("")
+	@RequestMapping(value="/import",method=RequestMethod.POST)
 	@Override
 	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
 		String s ="";
@@ -115,5 +116,16 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 
+	@RequestMapping(value="/push",method=RequestMethod.GET)
+	public Result<String> doPushToZm(HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			StaffUser user=(StaffUser) req.getSession().getAttribute("user");
+			sourceImportSer.sendToZm(user.getStuNum());
+			return new Result<String>(SUCCESS, Code.SUCCESS, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<String>(ERROR, Code.ERROR, "-1");
+		}
+	}
 	
 }
