@@ -39,7 +39,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
-				accept.setStr1(ManagerId.isSeeAll(req));
+				accept.setStr1(ManagerId.isSeeAll2(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceImportSer.queryFenye(accept);
 			} catch (Exception e) {

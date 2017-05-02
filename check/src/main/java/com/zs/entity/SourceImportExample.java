@@ -1115,6 +1115,76 @@ public class SourceImportExample {
             addCriterion("IS_PUSHED not between", value1, value2, "isPushed");
             return (Criteria) this;
         }
+
+        public Criteria andStuNumIsNull() {
+            addCriterion("STU_NUM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumIsNotNull() {
+            addCriterion("STU_NUM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumEqualTo(String value) {
+            addCriterion("STU_NUM =", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumNotEqualTo(String value) {
+            addCriterion("STU_NUM <>", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumGreaterThan(String value) {
+            addCriterion("STU_NUM >", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumGreaterThanOrEqualTo(String value) {
+            addCriterion("STU_NUM >=", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumLessThan(String value) {
+            addCriterion("STU_NUM <", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumLessThanOrEqualTo(String value) {
+            addCriterion("STU_NUM <=", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumLike(String value) {
+            addCriterion("STU_NUM like", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumNotLike(String value) {
+            addCriterion("STU_NUM not like", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumIn(List<String> values) {
+            addCriterion("STU_NUM in", values, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumNotIn(List<String> values) {
+            addCriterion("STU_NUM not in", values, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumBetween(String value1, String value2) {
+            addCriterion("STU_NUM between", value1, value2, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumNotBetween(String value1, String value2) {
+            addCriterion("STU_NUM not between", value1, value2, "stuNum");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

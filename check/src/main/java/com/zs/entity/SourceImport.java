@@ -34,6 +34,8 @@ public class SourceImport {
 
     private BigDecimal isPushed;
 
+    private String stuNum;
+
     public String getCourierNumber() {
         return courierNumber;
     }
@@ -154,9 +156,17 @@ public class SourceImport {
         this.isPushed = isPushed;
     }
 
+    public String getStuNum() {
+        return stuNum;
+    }
+
+    public void setStuNum(String stuNum) {
+        this.stuNum = stuNum == null ? null : stuNum.trim();
+    }
+
 	public SourceImport(String courierNumber, String ctmBarCode, String ctmName, String shopNumber, Date createDate,
 			String address, String addressee, String phone, String courierCompany, String goods, BigDecimal goodsCost,
-			String orderNumber, String numberType, Date createTime, BigDecimal isPushed) {
+			String orderNumber, String numberType, Date createTime, BigDecimal isPushed, String stuNum) {
 		super();
 		this.courierNumber = courierNumber;
 		this.ctmBarCode = ctmBarCode;
@@ -173,19 +183,11 @@ public class SourceImport {
 		this.numberType = numberType;
 		this.createTime = createTime;
 		this.isPushed = isPushed;
+		this.stuNum = stuNum;
 	}
 
 	public SourceImport() {
 		super();
-	}
-
-	@Override
-	public String toString() {
-		return "SourceImport [courierNumber=" + courierNumber + ", ctmBarCode=" + ctmBarCode + ", ctmName=" + ctmName
-				+ ", shopNumber=" + shopNumber + ", createDate=" + createDate + ", address=" + address + ", addressee="
-				+ addressee + ", phone=" + phone + ", courierCompany=" + courierCompany + ", goods=" + goods
-				+ ", goodsCost=" + goodsCost + ", orderNumber=" + orderNumber + ", numberType=" + numberType
-				+ ", createTime=" + createTime + ", isPushed=" + isPushed + "]";
 	}
     
     
