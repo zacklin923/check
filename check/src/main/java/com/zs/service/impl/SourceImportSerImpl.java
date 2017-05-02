@@ -72,12 +72,11 @@ public class SourceImportSerImpl implements SourceImportSer{
 	}
 
 	public String importData(List<String[]> list,String stuNum) {
-		/*于2017-4-29注释，张顺，因该表主键改为快递单号，故以下语句需要修改，但由于不确定使用导入模板，故暂且注释等待你回来再作修改。
 		int inull=0;
 		int knull=0;
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[0].equals("")||list.get(i)[1].equals("")||list.get(i)[2].equals("")||list.get(i)[3].equals("")||list.get(i)[4].equals("")){
-				SourceImport errs = new SourceImport(Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,Trans.tostring(list.get(i)[3]),Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"));
+				SourceImport errs = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null);
 				SourceImportFailed sif = new SourceImportFailed();
 				sif.setStuNum(stuNum);
 				sif.setFailInfo(gson.toJson(errs));
@@ -85,20 +84,18 @@ public class SourceImportSerImpl implements SourceImportSer{
 				importFailMapper.insert(sif);
 				inull=1;
 			}else{
-				if(!list.get(i)[3].equals("")&&!list.get(i)[0].equals("")){
-					SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
-					if(skey==null){
-						SourceImport s = new SourceImport(Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,Trans.tostring(list.get(i)[3]),Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"));
-						importMapper.insert(s);
-					}else{
-						SourceImport errsk = new SourceImport(Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,Trans.tostring(list.get(i)[3]),Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"));
-						SourceImportFailed sifk = new SourceImportFailed();
-						sifk.setStuNum(stuNum);
-						sifk.setFailInfo(gson.toJson(errsk));
-						sifk.setFailType("重复快递单号");
-						importFailMapper.insert(sifk);
-						knull=2;
-					}
+				SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
+				if(skey==null){
+					SourceImport s = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null);
+					importMapper.insert(s);
+				}else{
+					SourceImport errsk = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null);
+					SourceImportFailed sifk = new SourceImportFailed();
+					sifk.setStuNum(stuNum);
+					sifk.setFailInfo(gson.toJson(errsk));
+					sifk.setFailType("重复快递单号");
+					importFailMapper.insert(sifk);
+					knull=2;
 				}
 			}
 		}
@@ -112,8 +109,6 @@ public class SourceImportSerImpl implements SourceImportSer{
 			str="数据有重复，且存在必填项为空数据，请到导入数据错误表中查看";
 		}
 		return str;
-		*/
-		return null;
 	}
 
 	/**张顺，2017-4-28 
