@@ -1,5 +1,6 @@
 package com.zs.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -35,7 +36,6 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 				sif.setSourceImport(si);
 			}
 			int rows=sourceImportFailedMapper.getCount(accept);
-			System.out.println(g.toJson(list));
 			return new EasyUIPage(rows, list);
 		}
 		return null;
@@ -52,8 +52,7 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 	}
 
 	public Integer delete(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return sourceImportFailedMapper.deleteByPrimaryKey(new BigDecimal(id));
 	}
 
 	public SourceImportFailed get(String id) {

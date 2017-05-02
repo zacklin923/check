@@ -69,7 +69,6 @@ public class SourceImport {
     public void setShopNumber(String shopNumber) {
         this.shopNumber = shopNumber == null ? null : shopNumber.trim();
     }
-
     @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
     public Date getCreateDate() {
         return createDate;
@@ -142,8 +141,7 @@ public class SourceImport {
     public void setNumberType(String numberType) {
         this.numberType = numberType == null ? null : numberType.trim();
     }
-
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss.SSS",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

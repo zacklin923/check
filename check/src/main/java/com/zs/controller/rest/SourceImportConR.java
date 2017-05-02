@@ -40,6 +40,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 		if (accept!=null) {
 			try {
 				accept.setStr1(ManagerId.isSeeAll2(req));
+				accept.setDate1(ManagerId.getNow());
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceImportSer.queryFenye(accept);
 			} catch (Exception e) {
@@ -64,10 +65,15 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	@Override
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public Result<Integer> doUpdate(SourceImport obj, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("进入-------------------------------------------对象输出");
-		
-		//此处有问题。。。正在寻找错误，为不影响进度，先跳过；--黄光辉
-		return new Result<Integer>(SUCCESS,  Code.SUCCESS, 1);
+		if(obj!=null){
+			try {
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportSer.update(obj));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
+		}
+		System.out.println(4);
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	
@@ -96,7 +102,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	}
 	
 	
-	@RequestMapping("")
+	@RequestMapping(value="/import",method=RequestMethod.POST)
 	@Override
 	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
 		String s ="";
@@ -115,5 +121,16 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 
+	@RequestMapping(value="/push",method=RequestMethod.GET)
+	public Result<String> doPushToZm(HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			StaffUser user=(StaffUser) req.getSession().getAttribute("user");
+			sourceImportSer.sendToZm(user.getStuNum());
+			return new Result<String>(SUCCESS, Code.SUCCESS, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<String>(ERROR, Code.ERROR, "-1");
+		}
+	}
 	
 }

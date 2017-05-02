@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -30,7 +31,6 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("进入尴尬发");
 		if (accept!=null) {
 			try {
 				accept.setStr1(ManagerId.isSeeAll2(req));
@@ -56,7 +56,6 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 	}
 
 	@Override
-	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public Result<Integer> doUpdate(SourceImportFailed obj, HttpServletRequest req, HttpServletResponse resp) {
 		return null;
 	}
@@ -70,7 +69,15 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
 	public Result<Integer> doDeleteTrue(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
-		return null;
+		System.out.println("jinru shanchu "+id);
+		if(id!=null&&!id.equals("")){
+			try {
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.delete(id));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
+		}
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@Override

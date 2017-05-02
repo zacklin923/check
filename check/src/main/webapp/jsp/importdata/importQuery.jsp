@@ -32,7 +32,22 @@ function save(){
 			return $(this).form('validate');
 		},
 		success:function(data){
-			console.log(data);
+			if(data){
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					$('#dg').datagrid('reload');
+					$("#dlg").dialog("close");
+				}else{
+					alert("错误:"+json.code);
+				}
+			}else{
+				alert("错误:网络错误");
+			}
 		}
 	});
 }
@@ -70,7 +85,7 @@ function deleteObj(){
 
 function upload(){
 	$("#fmfile").form("submit",{
-		url:"<%=path %>/api/sourimport",		
+		url:"<%=path %>/api/sourimport/import",		
 		onSubmit:function(){
 			return $(this).form('validate');
 		},
@@ -96,6 +111,27 @@ function upload(){
 		}
 	});
 }
+function pushData(){
+	$.ajax({
+		url:"<%=path %>/api/sourimport/push",
+		type:"get",
+		success:function(data){
+			var json;
+			if(isJson(data)){
+				json=data;
+			}else{
+				json = eval('('+data+')');
+			}
+			if(json.result=='success'){
+				$('#dg').datagrid('reload');
+				alert("成功");
+			}else{
+				alert("错误:"+json.code);
+				$('#dg').datagrid('reload');
+			}
+		}
+	});
+}
 </script>
 <table id="dg" class="easyui-datagrid" border="true"
 		url="<%=path %>/api/sourimport"
@@ -107,7 +143,7 @@ function upload(){
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
-			<th field="createDate" width="100" sortable="true">创建时间</th>
+			<th field="createDate" width="100" sortable="true">创建日期</th>
 			<th field="ctmName" width="60" >客户名</th>
 			<th field="ctmBarCode" width="80">客户条码</th>
 			<th field="courierNumber" width="120">快递单号</th>
@@ -121,41 +157,38 @@ function upload(){
 			<th field="goods" width="60" >物品</th>
 			<th field="numberType" width="60">类型</th>
 			<th field="createTime" width="150" sortable="true">导入时间</th>
+			<th field="isPushed" width="150" sortable="true">是否已推送</th>
+			<th field="stuNum" width="150" sortable="true">导入人</th>
 		</tr>
 	</thead>
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
+	</div>
+	<div class="btn-separator">
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="pushData()">上传数据</a>
 	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
-		<div class="searchBar-input">
-    		<div>
-	    		导入时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
-    		</div>
-    		<div>
-    			导入时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		客户名：<input name ="str1" />
-    		</div>
-    		<div>
-    			客户条码：<input name ="str2" />
-    		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
-   		</div>
    		<div class="searchBar-input">
    			<div>
 	    		快递单号：<input name ="str3" />
     		</div>
     		<div>
-    			订单编号：<input name ="str4" />
+    			客户条码：<input name ="str4" />
+    		</div>
+    		<input type="hidden" name="_header" value="${licence }"/>
+   		</div>
+   		<div class="searchBar-input">
+    		<div>
+	    		客户名：<input name ="str5" />
+    		</div>
+    		<div>
+    			订单编号：<input name ="str6" />
     		</div>
    		</div>
    	</form>
@@ -164,12 +197,11 @@ function upload(){
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
 	<a class="easyui-linkbutton" iconCls="icon-search">统计</a>
 	<a class="easyui-linkbutton" iconCls="icon-search">导出</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" href="<%=path %>/api/import/123">1231</a>
 	<div class="pull-away"></div>
 </div>
-<div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
+<div id="dlg" class="easyui-dialog" style="width:600px;height:660px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">导入信息</div>
+	<div class="ftitle">导入数据编辑</div>
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>

@@ -74,7 +74,6 @@ public class SourceImportSerImpl implements SourceImportSer{
 	public String importData(List<String[]> list,String stuNum) {
 		int inull=0;
 		int knull=0;
-		List<SourceImport> ims=new ArrayList<SourceImport>();
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[0].equals("")||list.get(i)[1].equals("")||list.get(i)[2].equals("")||list.get(i)[3].equals("")||list.get(i)[4].equals("")){
 				SourceImport errs = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,stuNum);
@@ -87,8 +86,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 			}else{
 				SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
 				if(skey==null){
-					SourceImport s = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,stuNum);
-					ims.add(s);
+					SourceImport s = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),new BigDecimal("0"),stuNum);
 					try {
 						importMapper.insert(s);
 					} catch (Exception e) {
@@ -114,25 +112,25 @@ public class SourceImportSerImpl implements SourceImportSer{
 		}else if(count==3){
 			str="数据有重复，且存在必填项为空数据，请到导入数据错误表中查看";
 		}
-		//----------推送哲盟--------------
-		try {
-			sendToZm(ims);
-		} catch (Exception e) {
-			log.error("推送失败，原因不明");
-		}
 		return str;
 	}
 
 	/**张顺，2017-4-28 
 	 * 推送数据到哲盟,当用户导入时就执行
 	 */
-	public void sendToZm(List<SourceImport> list) {
+	public void sendToZm(String userNum) {
+		Calendar calendar=Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		List<SourceImport> list=importMapper.queryToZM(calendar.getTime(), userNum);
 		String json=gson.toJson(list);
-		System.out.println(json);
+//		System.out.println(json);
 		List<NameValuePair> formparams=new ArrayList<NameValuePair>();
 		formparams.add(new BasicNameValuePair("data", json));
 		String result=HttpHelper.postForm(URL_ZM, formparams);
-		log.error("【用户导入】第一次推送失败的单号:"+result);
+		log.error("【用户导入】第一次推送的结果:"+result);
 		//-------给推送成功的，打上标记：是否推送成功,未推送成功的再推送一次---------------------
 		List<SourceImport> list2=new ArrayList<SourceImport>();
 		if (result!=null) {
@@ -156,7 +154,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 			List<NameValuePair> formparams2=new ArrayList<NameValuePair>();
 			formparams.add(new BasicNameValuePair("data", json2));
 			String result2=HttpHelper.postForm(URL_ZM, formparams2);
-			log.error("【用户导入】第二次推送失败的单号:"+result);
+			log.error("【用户导入】第二次推送的结果:"+result);
 			if (result2!=null) {
 				ResultFromSendToZM resultFromSendToZM=gson.fromJson(result2, ResultFromSendToZM.class);
 				if(resultFromSendToZM.getResult().equals("fail")){
@@ -199,7 +197,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 		List<NameValuePair> formparams=new ArrayList<NameValuePair>();
 		formparams.add(new BasicNameValuePair("data", json));
 		String result=HttpHelper.postForm(URL_ZM, formparams);
-		log.error("【系统每天自动推送未发货】第一次推送失败的单号:"+result);
+		log.error("【系统每天自动推送未发货】第一次推送的结果:"+result);
 		//-------未推送成功的再推送一次---------------------
 		List<SourceImport> list2=new ArrayList<SourceImport>();
 		if (result!=null) {
@@ -215,7 +213,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 			List<NameValuePair> formparams2=new ArrayList<NameValuePair>();
 			formparams.add(new BasicNameValuePair("data", json2));
 			String result2=HttpHelper.postForm(URL_ZM, formparams2);
-			log.error("【系统每天自动推送未发货】第二次推送失败的单号,这次错误的将不会再处理:"+result2);
+			log.error("【系统每天自动推送未发货】第二次推送的结果,这次错误的将不会再处理:"+result2);
 		}
 	}
 	

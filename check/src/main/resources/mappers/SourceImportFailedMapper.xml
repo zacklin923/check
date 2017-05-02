@@ -219,6 +219,15 @@
 			  	<if test="str1!=null">
 			  		and STU_NUM = #{str1}
 			  	</if>
+			  	<if test="str2!=null">
+			  		and FAIL_TYPE = #{str2}
+			  	</if>
+			  	<if test="date1!=null">
+			  		and CREATE_TIME >= #{date1}
+		  		</if>
+		  		<if test="date2!=null">
+			  		and CREATE_TIME &lt;= #{date2}
+		  		</if>
 		  	</where>
 		  	<if test="sort!=null and order!=null">
 		  		order by ${sort} ${order},CREATE_TIME desc
@@ -245,6 +254,15 @@
   		<if test="str1!=null">
 	  		and STU_NUM = #{str1}
 	  	</if>
+	  	<if test="str2!=null">
+	  		and FAIL_TYPE = #{str2}
+	  	</if>
+	  	<if test="date1!=null">
+	  		and CREATE_TIME >= #{date1}
+  		</if>
+  		<if test="date2!=null">
+	  		and CREATE_TIME &lt;= #{date2}
+  		</if>
  	</where>
   </select>
 </mapper>
