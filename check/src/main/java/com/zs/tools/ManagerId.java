@@ -2,7 +2,13 @@ package com.zs.tools;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
+import com.zs.entity.SourceImport;
 import com.zs.entity.StaffUser;
 
 public class ManagerId {
@@ -28,5 +34,14 @@ public class ManagerId {
 			return null;
 		}
 		return user.getStuNum();
+	}
+	
+	public static Date getNow() {
+		Calendar calendar=Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		return calendar.getTime();
 	}
 }
