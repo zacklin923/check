@@ -119,6 +119,9 @@ public class SourceImportSerImpl implements SourceImportSer{
 	 * 推送数据到哲盟,当用户导入时就执行
 	 */
 	public void sendToZm(String userNum) {
+		Date d1=new Date();
+		int succrows=0;
+		//----------------
 		Calendar calendar=Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
@@ -126,7 +129,6 @@ public class SourceImportSerImpl implements SourceImportSer{
 		calendar.set(Calendar.MILLISECOND, 0);
 		List<SourceImport> list=importMapper.queryToZM(calendar.getTime(), userNum);
 		String json=gson.toJson(list);
-//		System.out.println(json);
 		List<NameValuePair> formparams=new ArrayList<NameValuePair>();
 		formparams.add(new BasicNameValuePair("data", json));
 		String result=HttpHelper.postForm(URL_ZM, formparams);
@@ -144,7 +146,16 @@ public class SourceImportSerImpl implements SourceImportSer{
 						im2.setCourierNumber(list.get(i).getCourierNumber());
 						im2.setIsPushed(new BigDecimal(1));
 						importMapper.updateByPrimaryKeySelective(im2);
+						succrows++;
 					}
+				}
+			}else if(resultFromSendToZM.getResult().equals("success")){
+				for (int i = 0; i < list.size(); i++) {
+					SourceImport im2=new SourceImport();
+					im2.setCourierNumber(list.get(i).getCourierNumber());
+					im2.setIsPushed(new BigDecimal(1));
+					importMapper.updateByPrimaryKeySelective(im2);
+					succrows++;
 				}
 			}
 		}
@@ -169,11 +180,22 @@ public class SourceImportSerImpl implements SourceImportSer{
 							im2.setCourierNumber(list2.get(i).getCourierNumber());
 							im2.setIsPushed(new BigDecimal(1));
 							importMapper.updateByPrimaryKeySelective(im2);
+							succrows++;
 						}
+					}
+				}else if(resultFromSendToZM.getResult().equals("success")){
+					for (int i = 0; i < list2.size(); i++) {
+						SourceImport im2=new SourceImport();
+						im2.setCourierNumber(list2.get(i).getCourierNumber());
+						im2.setIsPushed(new BigDecimal(1));
+						importMapper.updateByPrimaryKeySelective(im2);
+						succrows++;
 					}
 				}
 			}
 		}
+		Date d2=new Date();
+		log.info("【用户导入】共上传了["+list.size()+"]条数据，成功了["+succrows+"]条，耗时["+(d2.getTime()-d1.getTime())+"]ms。");
 	}
 
 

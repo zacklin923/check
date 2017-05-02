@@ -429,5 +429,6 @@
   	from SOURCE_IMPORT 
   	where CREATE_TIME >= #{date}
   		  and STU_NUM = #{userNum}
+  		  and IS_PUSHED = 0
   </select>
 </mapper>

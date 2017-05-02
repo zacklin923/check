@@ -46,30 +46,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div class="easyui-accordion" style="width:100%;"
 		data-options="fillSpace:true,fit: true,animate: true,selected:false">
-	<div title="快件信息" data-options="iconCls:'icon-add'" style="overflow:auto;padding:10px;">
+	<div title="快件信息" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-	        <li><span><a href="<%=path %>/user" target="right">用户管理</a></span></li>
-	        <li><span><a href="<%=path %>/customer" target="right">客户查询</a></span></li>
-	        <li><span><a href="<%=path %>/role" target="right">角色管理</a></span></li>
-	        <li><span><a href="<%=path %>/power" target="right">权限管理</a></span></li>
+	        <li><span><a href="<%=path %>/import" target="right">数据源导入</a></span></li>
+       		<li><span><a href="<%=path %>/import/err" target="right">数据源导入错误</a></span></li>
 	        <li><span><a href="<%=path %>/timeLimit" target="right">时效控制信息管理</a></span></li>
 	        <li><span><a href="<%=path %>/sourceZm" target="right">哲盟返回数据</a></span></li>
 	        <li><span><a href="<%=path %>/sourceTp" target="right">哲盟返回第三方数据</a></span></li>
         </ul>
 	</div>
-	<div title="测试" data-options="iconCls:'icon-large-smartart'" style="padding:10px;">
+	<div title="系统管理[测试]" data-options="iconCls:'icon-system'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-       		<li><span><a href="<%=path %>/import" target="right">数据源导入</a></span></li>
-       		<li><span><a href="<%=path %>/import/err" target="right">数据源导入错误</a></span></li>
+       		<li><span><a href="<%=path %>/user" target="right">用户管理</a></span></li>
+       		<li><span><a href="<%=path %>/role" target="right">角色管理</a></span></li>
+	        <li><span><a href="<%=path %>/power" target="right">权限管理</a></span></li>
+        </ul>
+	</div>
+	<div title="帮助" data-options="iconCls:'icon-help'" style="padding:10px;">
+		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
+       		<li><span><a href="<%=path %>/jsp/part/error_code.jsp" target="right">错误码说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/sourceImport.jsp" target="right">导入数据说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/sourceZm.jsp" target="right">哲盟返回数据和第三方数据说明</a></span></li>
+        </ul>
+	</div>
+	<div title="测试" data-options="iconCls:'icon-cancel'" style="padding:10px;">
+		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
        		<li><span><a href="<%=path %>/jsp/test/test.jsp" target="right">快速测试</a></span></li>
         </ul>
 	</div>
-	<div title="帮助" data-options="iconCls:'icon-large-shapes'" style="padding:10px;">
-		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-       		<li><span><a href="<%=path %>/jsp/part/error_code.jsp" target="right">错误码说明</a></span></li>
-        </ul>
-	</div>
-	
 	
 </div>
 

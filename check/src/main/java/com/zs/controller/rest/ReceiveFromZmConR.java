@@ -55,10 +55,15 @@ public class ReceiveFromZmConR {
 			for (int i = 0; i < list.size(); i++) {
 				SourceZm zm=list.get(i);
 				zm.setReturnDate(Trans.timeToDate(new Date()));
+				//--------装填状态信息：是否已发货-----------------
+				if (zm.getSendTime()==null) {
+					zm.setCourierState("0");
+				}else {
+					zm.setCourierState("1");
+				}
 				try {
 					//--------装填其他信息-----------
 					SourceImport im=sourceImportSer.get(zm.getCourierNumber());
-					System.out.println(im);
 					if (im!=null) {
 						zm.setCtmName(im.getCtmName());
 						zm.setCtmBarCode(im.getCtmBarCode());
@@ -70,39 +75,23 @@ public class ReceiveFromZmConR {
 						zm.setGoodsCost(im.getGoodsCost());
 						zm.setCourierCompany(im.getCourierCompany());
 						zm.setOrderNumber(im.getOrderNumber());
-						//--------装填状态信息：是否已发货-----------------
-						if (zm.getSendTime()==null) {
-							zm.setCourierState("0");
-						}else {
-							zm.setCourierState("1");
-						}
 					}
 					sourceZmSer.add(zm);
 					rows++;
 				} catch (Exception e) {
 					log.error("插入失败，开始尝试修改。失败数据："+zm);
 					try {
-						//--------装填其他信息-----------
-						SourceImport im=sourceImportSer.get(zm.getCourierNumber());
-						System.out.println(im);
-						if (im!=null) {
-							zm.setCtmName(im.getCtmName());
-							zm.setCtmBarCode(im.getCtmBarCode());
-							zm.setCreateDate(im.getCreateDate());
-							zm.setAddress(im.getAddress());
-							zm.setAddressee(im.getAddressee());
-							zm.setPhone(im.getPhone());
-							zm.setGoods(im.getGoods());
-							zm.setGoodsCost(im.getGoodsCost());
-							zm.setCourierCompany(im.getCourierCompany());
-							zm.setOrderNumber(im.getOrderNumber());
-							//--------装填状态信息：是否已发货-----------------
-							if (zm.getSendTime()==null) {
-								zm.setCourierState("0");
-							}else {
-								zm.setCourierState("1");
-							}
-						}
+						//--------------
+						zm.setCtmName(null);
+						zm.setCtmBarCode(null);
+						zm.setCreateDate(null);
+						zm.setAddress(null);
+						zm.setAddressee(null);
+						zm.setPhone(null);
+						zm.setGoods(null);
+						zm.setGoodsCost(null);
+						zm.setCourierCompany(null);
+						zm.setOrderNumber(null);
 						sourceZmSer.update(zm);
 						rows++;
 					} catch (Exception e2) {
@@ -127,6 +116,8 @@ public class ReceiveFromZmConR {
 			for (int i = 0; i < list.size(); i++) {
 				SourceThirdParty tp=list.get(i);
 				tp.setReturnDate(Trans.timeToDate(new Date()));
+				//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
+				//.....这里写计算代码......
 				try {
 					//--------装填其他信息-----------
 					SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), Trans.timeToDate(new Date())));
@@ -150,8 +141,6 @@ public class ReceiveFromZmConR {
 						tp.setGoods(zm.getGoods());
 						tp.setGoodsCost(zm.getGoodsCost());
 					}
-					//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
-					//.....这里写计算代码......
 					sourceTpSer.add(tp);
 					rows++;
 				} catch (Exception e) {
@@ -160,24 +149,24 @@ public class ReceiveFromZmConR {
 						//--------装填其他信息-----------
 						SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), Trans.timeToDate(new Date())));
 						if (zm!=null) {
-							tp.setLargeArea(zm.getLargeArea());
-							tp.setSliceArea(zm.getSliceArea());
-							tp.setFenbu(zm.getFenbu());
-							tp.setFbdArea(zm.getFbdArea());
-							tp.setSendTime(zm.getSendTime());
-							tp.setCtmName(zm.getCtmName());
-							tp.setCtmBarCode(zm.getCtmBarCode());
-							tp.setProvince(zm.getProvince());
-							tp.setCreateDate(zm.getCreateDate());
-							tp.setAddress(zm.getAddress());
-							tp.setAddressee(zm.getAddressee());
-							tp.setOrderNumber(zm.getOrderNumber());
-							tp.setShopNumber(zm.getShopNumber());
-							tp.setPhone(zm.getPhone());
-							tp.setWeight(zm.getWeight());
-							tp.setCourierCompany(zm.getCourierCompany());
-							tp.setGoods(zm.getGoods());
-							tp.setGoodsCost(zm.getGoodsCost());
+							tp.setLargeArea(null);
+							tp.setSliceArea(null);
+							tp.setFenbu(null);
+							tp.setFbdArea(null);
+							tp.setSendTime(null);
+							tp.setCtmName(null);
+							tp.setCtmBarCode(null);
+							tp.setProvince(null);
+							tp.setCreateDate(null);
+							tp.setAddress(null);
+							tp.setAddressee(null);
+							tp.setOrderNumber(null);
+							tp.setShopNumber(null);
+							tp.setPhone(null);
+							tp.setWeight(null);
+							tp.setCourierCompany(null);
+							tp.setGoods(null);
+							tp.setGoodsCost(null);
 						}
 						sourceTpSer.update(tp);
 						rows++;
