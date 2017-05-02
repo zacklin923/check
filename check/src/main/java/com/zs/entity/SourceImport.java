@@ -3,14 +3,16 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+public class SourceImport {
+    private String courierNumber;
 
-public class SourceImport extends SourceImportKey {
     private String ctmBarCode;
 
     private String ctmName;
 
     private String shopNumber;
+
+    private Date createDate;
 
     private String address;
 
@@ -32,17 +34,23 @@ public class SourceImport extends SourceImportKey {
 
     private BigDecimal isPushed;
 
+    public String getCourierNumber() {
+        return courierNumber;
+    }
 
-    
+    public void setCourierNumber(String courierNumber) {
+        this.courierNumber = courierNumber == null ? null : courierNumber.trim();
+    }
+
     public String getCtmBarCode() {
-		return ctmBarCode;
-	}
+        return ctmBarCode;
+    }
 
-	public void setCtmBarCode(String ctmBarCode) {
-		this.ctmBarCode = ctmBarCode;
-	}
+    public void setCtmBarCode(String ctmBarCode) {
+        this.ctmBarCode = ctmBarCode == null ? null : ctmBarCode.trim();
+    }
 
-	public String getCtmName() {
+    public String getCtmName() {
         return ctmName;
     }
 
@@ -56,6 +64,14 @@ public class SourceImport extends SourceImportKey {
 
     public void setShopNumber(String shopNumber) {
         this.shopNumber = shopNumber == null ? null : shopNumber.trim();
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public String getAddress() {
@@ -122,7 +138,6 @@ public class SourceImport extends SourceImportKey {
         this.numberType = numberType == null ? null : numberType.trim();
     }
 
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -139,13 +154,15 @@ public class SourceImport extends SourceImportKey {
         this.isPushed = isPushed;
     }
 
-	public SourceImport(String ctmBarCode, String ctmName, String shopNumber, String address, String addressee,
-			String phone, String courierCompany, String goods, BigDecimal goodsCost, String orderNumber,
-			String numberType, Date createTime, BigDecimal isPushed,String courierNumber,Date createDate) {
+	public SourceImport(String courierNumber, String ctmBarCode, String ctmName, String shopNumber, Date createDate,
+			String address, String addressee, String phone, String courierCompany, String goods, BigDecimal goodsCost,
+			String orderNumber, String numberType, Date createTime, BigDecimal isPushed) {
 		super();
+		this.courierNumber = courierNumber;
 		this.ctmBarCode = ctmBarCode;
 		this.ctmName = ctmName;
 		this.shopNumber = shopNumber;
+		this.createDate = createDate;
 		this.address = address;
 		this.addressee = addressee;
 		this.phone = phone;
@@ -156,8 +173,6 @@ public class SourceImport extends SourceImportKey {
 		this.numberType = numberType;
 		this.createTime = createTime;
 		this.isPushed = isPushed;
-		this.setCourierNumber(courierNumber);
-		this.setCreateDate(createDate);
 	}
 
 	public SourceImport() {

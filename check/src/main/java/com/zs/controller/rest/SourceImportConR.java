@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.SourceImport;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
@@ -35,8 +36,12 @@ public class SourceImportConR extends BaseRestController<SourceImport,String[]>{
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
-			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-			return sourceImportSer.queryFenye(accept);
+			try {
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return sourceImportSer.queryFenye(accept);
+			} catch (Exception e) {
+				return null;
+			}
 		}
 		return null;
 	}
@@ -106,9 +111,5 @@ public class SourceImportConR extends BaseRestController<SourceImport,String[]>{
 		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 
-	@RequestMapping("/cs")
-	public void test(){
-		sourceImportSer.sendToZm();
-	};
 	
 }

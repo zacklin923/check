@@ -80,14 +80,16 @@ public class RoleInter extends HandlerInterceptorAdapter{
 		if (url.contains("framework")
 				|| url.contains("file")
 				|| url.contains("login")
-				|| url.contains("logout")) {
+				|| url.contains("logout")
+				|| url.contains("/api/receive/zm")
+				|| url.contains("/api/receive/tp")) {
 			return true;
 		}
 		if (user==null) {
-			resp.sendRedirect("jsp/part/error1.jsp");
+			resp.sendRedirect("/check/jsp/part/error1.jsp");
 			return false;
 		}else if(role==null){
-			resp.sendRedirect("jsp/part/error2.jsp");
+			resp.sendRedirect("/check/jsp/part/error2.jsp");
 			return false;
 		}
 		log.error(url+"  "+method);

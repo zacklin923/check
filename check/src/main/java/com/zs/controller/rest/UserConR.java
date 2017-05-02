@@ -34,8 +34,12 @@ public class UserConR extends BaseRestController<StaffUser,String>{
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
-			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-			return userSer.queryFenye(accept);
+			try {
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return userSer.queryFenye(accept);
+			} catch (Exception e) {
+				return null;
+			}
 		}
 		return null;
 	}
@@ -50,7 +54,11 @@ public class UserConR extends BaseRestController<StaffUser,String>{
 	@Override
 	public Result<Integer> doAdd(StaffUser obj, HttpServletRequest req, HttpServletResponse resp) {
 		if(obj!=null){
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, userSer.add(obj));
+			try {
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, userSer.add(obj));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
 		}
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
@@ -59,7 +67,11 @@ public class UserConR extends BaseRestController<StaffUser,String>{
 	@Override
 	public Result<Integer> doUpdate(StaffUser obj, HttpServletRequest req, HttpServletResponse resp) {
 		if(obj!=null){
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, userSer.update(obj));
+			try {
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, userSer.update(obj));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
 		}
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
@@ -68,7 +80,11 @@ public class UserConR extends BaseRestController<StaffUser,String>{
 	@Override
 	public Result<Integer> doDeleteFalse(@PathVariable("id")String id, HttpServletRequest req, HttpServletResponse resp) {
 		if(id!=null&&!id.equals("")){
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, userSer.delete(id));
+			try {
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, userSer.delete(id));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
 		}
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
@@ -97,6 +113,11 @@ public class UserConR extends BaseRestController<StaffUser,String>{
 						System.out.print(list.get(i)[j]+" ");
 					}
 					System.out.println();
+					StaffUser staffUser=new StaffUser();
+					staffUser.setStuNum(list.get(i)[1].toString());
+					staffUser.setStuName(list.get(i)[0].toString());
+					staffUser.setPass("123456");
+					userSer.add(staffUser);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

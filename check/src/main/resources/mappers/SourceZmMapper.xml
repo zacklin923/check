@@ -3,7 +3,7 @@
 <mapper namespace="com.zs.dao.SourceZmMapper" >
   <resultMap id="BaseResultMap" type="com.zs.entity.SourceZm" >
     <id column="COURIER_NUMBER" property="courierNumber" jdbcType="VARCHAR" />
-    <id column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <id column="RETURN_DATE" property="returnDate" jdbcType="TIMESTAMP" />
     <result column="LARGE_AREA" property="largeArea" jdbcType="VARCHAR" />
     <result column="SLICE_AREA" property="sliceArea" jdbcType="VARCHAR" />
     <result column="FENBU" property="fenbu" jdbcType="VARCHAR" />
@@ -21,7 +21,9 @@
     <result column="GOODS" property="goods" jdbcType="VARCHAR" />
     <result column="ORDER_NUMBER" property="orderNumber" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="COURIER_STATE" property="courierState" jdbcType="VARCHAR" />
+    <result column="FBD_AREA" property="fbdArea" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -82,9 +84,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    COURIER_NUMBER, CREATE_DATE, LARGE_AREA, SLICE_AREA, FENBU, CTM_BAR_CODE, CTM_NAME, 
+    COURIER_NUMBER, RETURN_DATE, LARGE_AREA, SLICE_AREA, FENBU, CTM_BAR_CODE, CTM_NAME, 
     SEND_TIME, PROVINCE, ADDRESS, SHOP_NUMBER, ADDRESSEE, PHONE, WEIGHT, COURIER_COMPANY, 
-    GOODS_COST, GOODS, ORDER_NUMBER, CREATE_TIME, COURIER_STATE
+    GOODS_COST, GOODS, ORDER_NUMBER, CREATE_TIME, CREATE_DATE, COURIER_STATE, FBD_AREA
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceZmExample" >
     select
@@ -106,12 +108,12 @@
     <include refid="Base_Column_List" />
     from SOURCE_ZM
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.zs.entity.SourceZmKey" >
     delete from SOURCE_ZM
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </delete>
   <delete id="deleteByExample" parameterType="com.zs.entity.SourceZmExample" >
     delete from SOURCE_ZM
@@ -120,20 +122,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zs.entity.SourceZm" >
-    insert into SOURCE_ZM (COURIER_NUMBER, CREATE_DATE, LARGE_AREA, 
+    insert into SOURCE_ZM (COURIER_NUMBER, RETURN_DATE, LARGE_AREA, 
       SLICE_AREA, FENBU, CTM_BAR_CODE, 
       CTM_NAME, SEND_TIME, PROVINCE, 
       ADDRESS, SHOP_NUMBER, ADDRESSEE, 
       PHONE, WEIGHT, COURIER_COMPANY, 
       GOODS_COST, GOODS, ORDER_NUMBER, 
-      CREATE_TIME, COURIER_STATE)
-    values (#{courierNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{largeArea,jdbcType=VARCHAR}, 
+      CREATE_TIME, CREATE_DATE, COURIER_STATE, 
+      FBD_AREA)
+    values (#{courierNumber,jdbcType=VARCHAR}, #{returnDate,jdbcType=TIMESTAMP}, #{largeArea,jdbcType=VARCHAR}, 
       #{sliceArea,jdbcType=VARCHAR}, #{fenbu,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, 
       #{ctmName,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{province,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{shopNumber,jdbcType=VARCHAR}, #{addressee,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=VARCHAR}, 
       #{goodsCost,jdbcType=DECIMAL}, #{goods,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{courierState,jdbcType=VARCHAR})
+      #{createTime,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{courierState,jdbcType=VARCHAR}, 
+      #{fbdArea,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.SourceZm" >
     insert into SOURCE_ZM
@@ -141,8 +145,8 @@
       <if test="courierNumber != null" >
         COURIER_NUMBER,
       </if>
-      <if test="createDate != null" >
-        CREATE_DATE,
+      <if test="returnDate != null" >
+        RETURN_DATE,
       </if>
       <if test="largeArea != null" >
         LARGE_AREA,
@@ -195,16 +199,22 @@
       <if test="createTime != null" >
         CREATE_TIME,
       </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
       <if test="courierState != null" >
         COURIER_STATE,
+      </if>
+      <if test="fbdArea != null" >
+        FBD_AREA,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courierNumber != null" >
         #{courierNumber,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null" >
-        #{createDate,jdbcType=TIMESTAMP},
+      <if test="returnDate != null" >
+        #{returnDate,jdbcType=TIMESTAMP},
       </if>
       <if test="largeArea != null" >
         #{largeArea,jdbcType=VARCHAR},
@@ -257,8 +267,14 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="courierState != null" >
         #{courierState,jdbcType=VARCHAR},
+      </if>
+      <if test="fbdArea != null" >
+        #{fbdArea,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -274,8 +290,8 @@
       <if test="record.courierNumber != null" >
         COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.createDate != null" >
-        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      <if test="record.returnDate != null" >
+        RETURN_DATE = #{record.returnDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.largeArea != null" >
         LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
@@ -328,8 +344,14 @@
       <if test="record.createTime != null" >
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.courierState != null" >
         COURIER_STATE = #{record.courierState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbdArea != null" >
+        FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -339,7 +361,7 @@
   <update id="updateByExample" parameterType="map" >
     update SOURCE_ZM
     set COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
-      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      RETURN_DATE = #{record.returnDate,jdbcType=TIMESTAMP},
       LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
       SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
       FENBU = #{record.fenbu,jdbcType=VARCHAR},
@@ -357,7 +379,9 @@
       GOODS = #{record.goods,jdbcType=VARCHAR},
       ORDER_NUMBER = #{record.orderNumber,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
-      COURIER_STATE = #{record.courierState,jdbcType=VARCHAR}
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      COURIER_STATE = #{record.courierState,jdbcType=VARCHAR},
+      FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -416,12 +440,18 @@
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="courierState != null" >
         COURIER_STATE = #{courierState,jdbcType=VARCHAR},
       </if>
+      <if test="fbdArea != null" >
+        FBD_AREA = #{fbdArea,jdbcType=VARCHAR},
+      </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zs.entity.SourceZm" >
     update SOURCE_ZM
@@ -442,8 +472,42 @@
       GOODS = #{goods,jdbcType=VARCHAR},
       ORDER_NUMBER = #{orderNumber,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      COURIER_STATE = #{courierState,jdbcType=VARCHAR}
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      COURIER_STATE = #{courierState,jdbcType=VARCHAR},
+      FBD_AREA = #{fbdArea,jdbcType=VARCHAR}
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
-      and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+      and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </update>
+  <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select * from
+  	(
+	  	select t1.*,rownum rn from
+	  	(
+		  	select * from SOURCE_ZM
+		  	<where>
+		  	</where>
+		  	<if test="sort!=null and order!=null">
+		  		order by ${sort} ${order},CREATE_TIME desc
+		  	</if>
+		  	<if test="sort==null or order==null">
+		  		order by CREATE_TIME desc
+		  	</if>
+	  	) t1
+	  	<where>
+	  		<if test="end!=null">
+	  			rownum &lt;= #{end}
+		  	</if>
+	  	</where>
+  	)
+  	<where>
+  		<if test="start!=null">
+  			rn > #{start}
+	  	</if>
+  	</where>
+  </select>
+  <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select count(*) from SOURCE_ZM
+  	<where>
+  	</where>
+  </select>
 </mapper>

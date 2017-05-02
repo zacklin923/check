@@ -12,7 +12,7 @@
 	
 	
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
-	<context:component-scan base-package="com.zs.controller" />
+	<context:component-scan base-package="com.zs" />
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
@@ -52,6 +52,7 @@
 	<context:component-scan base-package="com.sishuok.spring4"/>  
 	<mvc:annotation-driven/>  
 	<mvc:resources mapping="/framework/**" location="/framework/" />
+	<mvc:resources mapping="/file/**" location="/file/" />
 	<!--配置拦截器, 多个拦截器,顺序执行 -->
 	<mvc:interceptors>
 	    <mvc:interceptor>    

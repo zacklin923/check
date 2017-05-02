@@ -42,15 +42,20 @@ function save(){
 		},
 		success:function(data){
 			if(data){
-				var json = eval('('+data+')');
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
 				if(json.result=='success'){
 					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");					
+					$("#dlg").dialog("close");
 				}else{
 					alert("错误:"+json.code);
 				}
 			}else{
-				alert("错误");
+				alert("错误:网络错误");
 			}
 		}
 	});
@@ -69,10 +74,16 @@ function deleteObj(){
 						url:"<%=path %>/api/import/"+ucode+","+udate,
 						type:"delete",
 						success:function(data){
-							if(data.result=='success'){
+							var json;
+							if(isJson(data)){
+								json=data;
+							}else{
+								json = eval('('+data+')');
+							}
+							if(json.result=='success'){
 								$('#dg').datagrid('reload');
 							}else{
-								alert("错误:"+data);
+								alert("错误:"+json.code);
 							}
 						}
 					});
@@ -91,16 +102,21 @@ function upload(){
 		success:function(data){
 			console.log(data);
 			if(data){
-				var json = eval('('+data+')');
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
 				if(json.result=='success'){
 					$('#dg').datagrid('reload');
 					$("#fileImport").dialog("close");					
 				}else{
 					$("#fileImport").dialog("close");	
-					alert("错误:"+json.data);
+					alert("错误:"+json.code);
 				}
 			}else{
-				alert("错误");
+				alert("错误:网络错误");
 			}
 		}
 	});

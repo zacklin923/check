@@ -3,6 +3,8 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class SourceThirdParty extends SourceThirdPartyKey {
     private Date sendTime;
 
@@ -50,6 +52,11 @@ public class SourceThirdParty extends SourceThirdPartyKey {
 
     private String fenbu;
 
+    private Date createDate;
+
+    private String fbdArea;
+
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getSendTime() {
         return sendTime;
     }
@@ -114,6 +121,7 @@ public class SourceThirdParty extends SourceThirdPartyKey {
         this.addressee = addressee == null ? null : addressee.trim();
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getSignTime() {
         return signTime;
     }
@@ -202,6 +210,7 @@ public class SourceThirdParty extends SourceThirdPartyKey {
         this.fee = fee;
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss.SSS",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -232,5 +241,22 @@ public class SourceThirdParty extends SourceThirdPartyKey {
 
     public void setFenbu(String fenbu) {
         this.fenbu = fenbu == null ? null : fenbu.trim();
+    }
+
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getFbdArea() {
+        return fbdArea;
+    }
+
+    public void setFbdArea(String fbdArea) {
+        this.fbdArea = fbdArea == null ? null : fbdArea.trim();
     }
 }

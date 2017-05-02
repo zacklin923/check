@@ -2,7 +2,6 @@ package com.zs.dao;
 
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportExample;
-import com.zs.entity.SourceImportKey;
 import com.zs.entity.other.EasyUIAccept;
 
 import java.util.Date;
@@ -14,7 +13,7 @@ public interface SourceImportMapper {
 
     int deleteByExample(SourceImportExample example);
 
-    int deleteByPrimaryKey(SourceImportKey key);
+    int deleteByPrimaryKey(String courierNumber);
 
     int insert(SourceImport record);
 
@@ -22,7 +21,7 @@ public interface SourceImportMapper {
 
     List<SourceImport> selectByExample(SourceImportExample example);
 
-    SourceImport selectByPrimaryKey(SourceImportKey key);
+    SourceImport selectByPrimaryKey(String courierNumber);
 
     int updateByExampleSelective(@Param("record") SourceImport record, @Param("example") SourceImportExample example);
 

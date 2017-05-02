@@ -76,4 +76,13 @@ $.extend($.fn.validatebox.defaults.rules, {
 		message: '必须包含{0}'
     }
 });
-
+/*判断是否是json对象或者json数组*/
+function isJson(obj){
+	/*
+	console.log(typeof(obj));
+	console.log(Object.prototype.toString.call(obj).toLowerCase());
+	console.log((Object.prototype.toString.call(obj).toLowerCase() == "[object object]" || Object.prototype.toString.call(obj).toLowerCase() == "[object array]"));
+	*/
+	var isj = typeof(obj) == "object" && (Object.prototype.toString.call(obj).toLowerCase() == "[object object]" || Object.prototype.toString.call(obj).toLowerCase() == "[object array]"); 
+	return isj;
+}

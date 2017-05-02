@@ -33,6 +33,11 @@
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
 
+	<!-- *******自定义监听器：定时推送数据****** -->
+	<listener>  
+	  <listener-class>com.zs.listener.SendToZmListener</listener-class>  
+	</listener>
+
 <!-- 
 	<filter>
 	    <filter-name>httpHeaderFilter</filter-name>

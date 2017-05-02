@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.StaffRole;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -31,8 +32,12 @@ public class RoleConR extends BaseRestController<StaffRole,String>{
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
-			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-			return roleSer.queryFenye(accept);
+			try {
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return roleSer.queryFenye(accept);
+			} catch (Exception e) {
+				return null;
+			}
 		}
 		return null;
 	}
@@ -46,7 +51,11 @@ public class RoleConR extends BaseRestController<StaffRole,String>{
 	@Override
 	public Result<Integer> doAdd(StaffRole obj, HttpServletRequest req, HttpServletResponse resp) {
 		if(obj!=null){
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.add(obj));
+			try {
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.add(obj));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
 		}
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
@@ -55,7 +64,11 @@ public class RoleConR extends BaseRestController<StaffRole,String>{
 	@Override
 	public Result<Integer> doUpdate(StaffRole obj, HttpServletRequest req, HttpServletResponse resp) {
 		if(obj!=null){
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.update(obj));
+			try {
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.update(obj));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
 		}
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
@@ -64,7 +77,11 @@ public class RoleConR extends BaseRestController<StaffRole,String>{
 	@Override
 	public Result<Integer> doDeleteFalse(@PathVariable("id")String id, HttpServletRequest req, HttpServletResponse resp) {
 		if(id!=null&&!id.equals("")){
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.delete(id));
+			try {
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, roleSer.delete(id));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
 		}
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
@@ -82,7 +99,11 @@ public class RoleConR extends BaseRestController<StaffRole,String>{
 
 	@RequestMapping(value="/all",method=RequestMethod.GET)
 	public List<StaffRole> queryAll(){
-		return roleSer.queryAll();
+		try {
+			return roleSer.queryAll();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override

@@ -9,36 +9,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>用户管理</title>
+<title>哲盟返回数据</title>
 
 </head>
 <body>
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-$(function(){
-	$.ajax({
-		type:"GET",
-		url:"<%=path %>/api/role/all",
-		data:"",
-		success:function(data){
-			str="";
-			for(var i = 0; i < data.length; i++) {
-				str=str+"<option value='"+data[i].strId+"'>"+data[i].strName+"</option>"
-			}
-			$("#roleId").html(str);
-		}
-	});
-});  
-	
+var url;
 function addObj(){
 	$("#dlg").dialog("open").dialog("setTitle","新建");	
 	$("#fm").form("clear");
 	$("#fm input[name='_method']").val("post");
 	$("#fm input[name='_header']").val("${user.licence }");
-	url="<%=path %>/api/user";
+	url="<%=path%>/api/timeLimit";
 }
-
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
@@ -46,7 +31,7 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${user.licence }");
-		url="<%=path %>/api/user/"+row.stuNum;
+		url="<%=path%>/api/timeLimit/"+row.orderNumber;
 	}
 }
 function save(){
@@ -77,7 +62,7 @@ function save(){
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var uNum=row.stuNum;
+	var id=row.orderNumber;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
@@ -85,7 +70,7 @@ function deleteObj(){
 			function(data){
 				if(data){
 					$.ajax({
-						url:"<%=path %>/api/user/"+uNum,
+						url:"<%=path%>/api/timeLimit/"+id,
 						type:"delete",
 						success:function(data){
 							var json;
@@ -106,49 +91,25 @@ function deleteObj(){
 		);
 	}
 }
-function obc(){
-	$.ajax({
-		type:"GET",
-		url:"<%=path %>/api/customer/all",
-		data:"",
-		success:function(data){
-			var ostr = $("#obcNums").val();
-			var oarr = ostr.split(",");
-			str="";
-			var str2="";
-			for(var i = 0; i < data.length; i++) {
-				str=str+"<div style='width:100px;height:25px;float:left;border:1px solid #B1B3B8;margin:5px;font-size:18px;'>";
-				for(var j = 0 ; j < oarr.length; j++){
-					if(data[i].barCode==oarr[j]){
-						str =str+"<input style='width:20px;height:20px;' checked='checked' type='checkbox' name='obcNum'  value='"+data[i].barCode+"' />";
-						str2 = "a";
-					}
-				}
-				if(str2==""){
-					str =str+"<input style='width:20px;height:20px;' type='checkbox' name='obcNum'  value='"+data[i].barCode+"' />";
-				}
-				str=str+data[i].barCode+"</div>"
-				str2="";
+function excel_export(){
+	$("#search").form("submit",{
+		url:"<%=path%>/api/timeLimit/excelExport",
+		method:"get",
+		onSubmit: function(){   
+	        // do some check   
+	        // return false to prevent submit;   
+	    },   
+	    success:function(data){   
+			if(data!=null){
+		    	var d = eval('('+data+')');
+		    	window.location.href=d.data;
 			}
-			$("#numOption").html(str);
-		}
+	    } 
 	});
-	$("#obc").dialog("open");
-}
-
-function obcSave(){
-	var id = document.getElementsByName('obcNum');
-    var value = new Array();
-    for(var i = 0; i < id.length; i++){
-     if(id[i].checked)
-     value.push(id[i].value);
-    }
-    $("#obcNums").val(value);
-    $("#obc").dialog("close");
 }
 </script>
-<table id="dg" class="easyui-datagrid" border="true"
-		url="<%=path %>/api/user"
+<table id="dg" class="easyui-datagrid" border="true" title="快件信息>哲盟返回数据"
+		url="<%=path %>/api/sourceZm"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
@@ -157,26 +118,36 @@ function obcSave(){
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
-			<th field="stuNum" width="100" sortable="true">账号</th>
-			<th field="pass" width="100">密码</th>
-			<th field="stuName" width="100" sortable="true">用户名</th>
-			<th field="ownBarCode" width="100">条码</th>
-			<th field="stuRoleName" data-options="
-				formatter:function(value,row,index){
-                             if(row.role){
-						return row.role.strName;
-                          }
-                      }" width="100">角色</th>
-			<th field="note" width="150">备注</th>
-			<th field="createTime" width="200" sortable="true">创建时间</th>
+			<th field="largeArea" width="100" sortable="true">所属大区</th>
+			<th field="sliceArea" width="100" sortable="true">所属区部</th>
+			<th field="fenbu" width="100" sortable="true">所属分部</th>
+			<th field="fbdArea" width="100" sortable="true">所属分拨点</th>
+			<th field="ctmBarCode" width="100" sortable="true">客户条码</th>
+			<th field="ctmName" width="100" sortable="true">客户名称</th>
+			<th field="sendTime" width="100" sortable="true">发货日期</th>
+			<th field="province" width="100" sortable="true">省份</th>
+			<th field="address" width="100" sortable="true">地址</th>
+			<th field="shopNumber" width="100" sortable="true">客户店铺</th>
+			<th field="addressee" width="100" sortable="true">收件人</th>
+			<th field="phone" width="100" sortable="true">联系方式</th>
+			<th field="weight" width="100" sortable="true">重量</th>
+			<th field="courierCompany" width="100" sortable="true">快递公司</th>
+			<th field="goodsCost" width="100" sortable="true">物品价值</th>
+			<th field="goods" width="100" sortable="true">物品</th>
+			<th field="createTime" width="100" sortable="true">创建时间</th>
+			<th field="createDate" width="100" sortable="true">创建日期</th>
+			<th field="courierState" width="100" sortable="true">状态</th>
+			<th field="courierNumber" width="100" sortable="true">快递单号</th>
+			<th field="returnDate" width="100" sortable="true">返回日期</th>
+			<th field="orderNumber" width="100" sortable="true">订单编号</th>
 		</tr>
 	</thead>
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加用户</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑用户</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除用户</a>
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加时效</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑时效</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除时效</a>
 	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
@@ -196,7 +167,6 @@ function obcSave(){
     		<div>
     			用户名：<input name ="str2" />
     		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
    		</div>
    	</form>
    	<div class="clear"></div>
@@ -209,52 +179,29 @@ function obcSave(){
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">用户信息</div>
+	<div class="ftitle">时效控制信息</div>
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
+		<input type="hidden" name="orderNumber"/>
 		<div class="fitem">
-			<label>账号:</label>
-			<input name="stuNum" class="easyui-validatebox" required="true">
+			<label>始发中转站:</label>
+			<input name="beginProvince" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>密码:</label>
-			<input name="pass" class="easyui-validatebox" required="true">
+			<label>到达省份:</label>
+			<input name="endProvince" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>同户名:</label>
-			<input name="stuName" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>条码:</label>
-			<input id="obcNums" name="ownBarCode" class="easyui-validatebox">
-		</div>
-		<div class="fitem">
-			<label>角色:</label>
-			<select name="stuRole" id="roleId">
-			</select>
-		</div>
-		<div class="fitem">
-			<label>备注:</label>
-			<input name="note" >
+			<label>小时:</label>
+			<input name="hourCost" class="easyui-validatebox" required="true">
 		</div>
 	</form>
 </div>
 <div id="dlg-buttons">
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
-</div>
-
-<div id="obc-buttons">
-	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="obcSave()">确定</a>
-	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#obc').dialog('close')">取消</a>
-</div>
-
-<div id="obc" class="easyui-dialog" style="width:600px;height:500px;padding:10px 10px"
-		closed="true" buttons="#obc-buttons" modal="true" title="条码选择">
-		<div id="numOption" style="width:570px;height:380px;">
-		</div>
 </div>
 
 </body>
