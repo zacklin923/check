@@ -24,6 +24,7 @@ import com.zs.entity.other.Result;
 import com.zs.service.SourceImportSer;
 import com.zs.tools.ColumnName;
 import com.zs.tools.ExcelImport;
+import com.zs.tools.ManagerId;
 
 @RestController
 @RequestMapping("/api/import")
@@ -37,6 +38,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String[]>{
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
+				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceImportSer.queryFenye(accept);
 			} catch (Exception e) {

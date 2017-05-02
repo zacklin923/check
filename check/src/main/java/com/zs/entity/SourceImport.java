@@ -178,6 +178,15 @@ public class SourceImport {
 	public SourceImport() {
 		super();
 	}
+
+	@Override
+	public String toString() {
+		return "SourceImport [courierNumber=" + courierNumber + ", ctmBarCode=" + ctmBarCode + ", ctmName=" + ctmName
+				+ ", shopNumber=" + shopNumber + ", createDate=" + createDate + ", address=" + address + ", addressee="
+				+ addressee + ", phone=" + phone + ", courierCompany=" + courierCompany + ", goods=" + goods
+				+ ", goodsCost=" + goodsCost + ", orderNumber=" + orderNumber + ", numberType=" + numberType
+				+ ", createTime=" + createTime + ", isPushed=" + isPushed + "]";
+	}
     
     
 }

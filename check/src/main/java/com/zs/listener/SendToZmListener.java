@@ -44,7 +44,7 @@ public class SendToZmListener implements ServletContextListener{
 					//定时间点推送
 					calendar=Calendar.getInstance();
 					if (calendar.get(Calendar.HOUR_OF_DAY)==SEND_TIME_HOUR && hasPushedOnDay==false) {
-						sourceImportSer.sendToZm();
+						sourceImportSer.sendToZm2();
 						hasPushedOnDay=true;
 						System.out.println("我走了一次");
 					}else{
@@ -53,7 +53,7 @@ public class SendToZmListener implements ServletContextListener{
 							System.out.println("我改了一次");
 						}
 						Thread.sleep(10000);
-						System.out.println("我在正常的循环");
+//						System.out.println("我在正常的循环");
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
