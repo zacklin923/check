@@ -16,61 +16,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-function updateObj(){
-	var row=$("#dg").datagrid("getSelected");
-	if(row){
-		$("#dlg").dialog("open").dialog("setTitle","修改");
-		$("#fm").form("load",row);
-		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${user.licence }");
-	}
-}
-function save(){
-	$("#fm").form("submit",{
-		url:"<%=path %>/api/sourimport/aa",		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			console.log(data);
-		}
-	});
-}
-function deleteObj(){
-	var row=$("#dg").datagrid("getSelected");
-	var ucode=row.courierNumber;
-	if(row){
-		$.messager.confirm(
-			"操作提示",
-			"您确定要删除吗？",
-			function(data){
-				if(data){
-					$.ajax({
-						url:"<%=path %>/api/sourimport/"+ucode,
-						type:"delete",
-						success:function(data){
-							var json;
-							if(isJson(data)){
-								json=data;
-							}else{
-								json = eval('('+data+')');
-							}
-							if(json.result=='success'){
-								$('#dg').datagrid('reload');
-							}else{
-								alert("错误:"+json.code);
-							}
-						}
-					});
-				}
-			}
-		);
-	}
-}
 
 </script>
 <table id="dg" class="easyui-datagrid" border="true"
-		url="<%=path %>/api/sourimport"
+		url="<%=path %>/api/sourimportfail"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
@@ -79,28 +28,16 @@ function deleteObj(){
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
-			<th field="createDate" width="100" sortable="true">创建时间</th>
-			<th field="ctmName" width="60" >客户名</th>
-			<th field="ctmBarCode" width="80">客户条码</th>
-			<th field="courierNumber" width="120">快递单号</th>
-			<th field="address" width="400">地址</th>
-			<th field="orderNumber" width="160" sortable="true">订单编号</th>
-			<th field="addressee" width="60" >收件人</th>
-			<th field="phone" width="120" >联系方式</th>
-			<th field="shopNumber" width="150" >商家ID</th>
-			<th field="courierCompany" width="60" >快递公司</th>
-			<th field="goodsCost" width="60" sortable="true">物品价值</th>
-			<th field="goods" width="60" >物品</th>
-			<th field="numberType" width="60">类型</th>
-			<th field="createTime" width="150" sortable="true">导入时间</th>
+			<th field="createTime" width="100" sortable="true">时间</th>
+			<th field="failType" width="60" >失败类型</th>
 		</tr>
 	</thead>
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" >导入数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" >编辑数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" >删除数据</a>
 	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
@@ -202,13 +139,6 @@ function deleteObj(){
 <div id="dlg-buttons">
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
-</div>
-<div id="fileImport" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
-		closed="true" modal="true" title="数据源导入">
-		<form id="fmfile"  enctype="multipart/form-data" method="post">
-			<input type="file" name="file"/>
-			<input type="button" value="提交" onclick="upload()"/>
-		</form>
 </div>
 </body>
 </html>

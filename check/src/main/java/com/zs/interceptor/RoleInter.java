@@ -98,7 +98,7 @@ public class RoleInter extends HandlerInterceptorAdapter{
 		}
 		StaffPower power=powerSer.selectByUrlAndMethod(url, method);
 		if (power!=null) {
-			boolean isPass=role.getPowers().contains(""+power.getStpId());
+			boolean isPass=role.getPowers()!=null && role.getPowers().contains(""+power.getStpId());
 			if (isPass==false) {
 				Result<String> result=new Result<String>(BaseRestController.ERROR, Code.ROLE_NO_PERMISSION, "您没有权限,请联系管理员");
 				PrintWriter pw=resp.getWriter();

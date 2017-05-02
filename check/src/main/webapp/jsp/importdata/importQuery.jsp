@@ -173,7 +173,7 @@ function upload(){
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
-		<input type="hidden" name="_header" value="${user.licence }"/>
+		<input type="hidden" name="_header" value="${licence }"/>
 		<div class="fitem">
 			<label>创建时间:</label>
 			<input name="createDate" required="true">
