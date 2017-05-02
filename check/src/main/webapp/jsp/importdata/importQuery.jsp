@@ -117,7 +117,7 @@ function pushData(){
 	});
 }
 </script>
-<table id="dg" class="easyui-datagrid" border="true"
+<table id="dg" class="easyui-datagrid" border="true" title="快件信息>数据导入"
 		url="<%=path %>/api/sourimport"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -140,9 +140,9 @@ function pushData(){
 			<th field="goodsCost" width="60" sortable="true">物品价值</th>
 			<th field="goods" width="60" >物品</th>
 			<th field="numberType" width="60">类型</th>
-			<th field="createTime" width="150" sortable="true">导入时间</th>
-			<th field="isPushed" width="150" sortable="true">是否已推送</th>
-			<th field="stuNum" width="150" sortable="true">导入人</th>
+			<th field="createTime" width="200" sortable="true">导入时间</th>
+			<th field="isPushed" width="80" sortable="true">是否已推送</th>
+			<th field="stuNum" width="100" sortable="true">导入人</th>
 		</tr>
 	</thead>
 </table>
@@ -154,6 +154,9 @@ function pushData(){
 	<div class="btn-separator">
 		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="pushData()">上传数据</a>
+	</div>
+	<div class="btn-separator">
+		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
 	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
@@ -263,6 +266,11 @@ function pushData(){
 			<input type="file" name="file"/>
 			<input type="button" value="提交" onclick="upload()"/>
 		</form>
+</div>
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
+		closed="true" modal="true">
+	<iframe src="<%=path%>/jsp/help/sourceImport.jsp" frameborder="0" height="100%" width="100%">
+	</iframe>
 </div>
 </body>
 </html>
