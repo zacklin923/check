@@ -137,36 +137,42 @@ public class SourceImportSerImpl implements SourceImportSer{
 		List<SourceImport> list2=new ArrayList<SourceImport>();
 		if (result!=null) {
 			ResultFromSendToZM resultFromSendToZM=gson.fromJson(result, ResultFromSendToZM.class);
-			for (int i = 0; i < list.size(); i++) {
-				if (resultFromSendToZM.getFailRows().contains(list.get(i).getCourierNumber())) {//失败的
-					list2.add(list.get(i));
-				}else {
-					SourceImport im2=new SourceImport();
-					im2.setCourierNumber(list.get(i).getCourierNumber());
-					im2.setIsPushed(new BigDecimal(1));
-					importMapper.updateByPrimaryKeySelective(im2);
+			if(resultFromSendToZM.getResult().equals("fail")){
+				for (int i = 0; i < list.size(); i++) {
+					if (resultFromSendToZM.getFailRows().contains(list.get(i).getCourierNumber())) {//失败的
+						list2.add(list.get(i));
+					}else {
+						SourceImport im2=new SourceImport();
+						im2.setCourierNumber(list.get(i).getCourierNumber());
+						im2.setIsPushed(new BigDecimal(1));
+						importMapper.updateByPrimaryKeySelective(im2);
+					}
 				}
 			}
 		}
-		//-----再推送一次，还失败就不推送了------
-		String json2=gson.toJson(list2);
-		List<NameValuePair> formparams2=new ArrayList<NameValuePair>();
-		formparams.add(new BasicNameValuePair("data", json2));
-		String result2=HttpHelper.postForm(URL_ZM, formparams2);
-		log.error("【用户导入】第二次推送失败的单号:"+result);
-		if (result2!=null) {
-			ResultFromSendToZM resultFromSendToZM=gson.fromJson(result2, ResultFromSendToZM.class);
-			for (int i = 0; i < list2.size(); i++) {
-				if (resultFromSendToZM.getFailRows().contains(list.get(i).getCourierNumber())) {//失败的
-					SourceImport im2=new SourceImport();
-					im2.setCourierNumber(list2.get(i).getCourierNumber());
-					im2.setIsPushed(new BigDecimal(0));
-					importMapper.updateByPrimaryKeySelective(im2);
-				}else {
-					SourceImport im2=new SourceImport();
-					im2.setCourierNumber(list2.get(i).getCourierNumber());
-					im2.setIsPushed(new BigDecimal(1));
-					importMapper.updateByPrimaryKeySelective(im2);
+		if(list2.size()>0){
+			//-----再推送一次，还失败就不推送了------
+			String json2=gson.toJson(list2);
+			List<NameValuePair> formparams2=new ArrayList<NameValuePair>();
+			formparams.add(new BasicNameValuePair("data", json2));
+			String result2=HttpHelper.postForm(URL_ZM, formparams2);
+			log.error("【用户导入】第二次推送失败的单号:"+result);
+			if (result2!=null) {
+				ResultFromSendToZM resultFromSendToZM=gson.fromJson(result2, ResultFromSendToZM.class);
+				if(resultFromSendToZM.getResult().equals("fail")){
+					for (int i = 0; i < list2.size(); i++) {
+						if (resultFromSendToZM.getFailRows().contains(list.get(i).getCourierNumber())) {//失败的
+							SourceImport im2=new SourceImport();
+							im2.setCourierNumber(list2.get(i).getCourierNumber());
+							im2.setIsPushed(new BigDecimal(0));
+							importMapper.updateByPrimaryKeySelective(im2);
+						}else {
+							SourceImport im2=new SourceImport();
+							im2.setCourierNumber(list2.get(i).getCourierNumber());
+							im2.setIsPushed(new BigDecimal(1));
+							importMapper.updateByPrimaryKeySelective(im2);
+						}
+					}
 				}
 			}
 		}
@@ -190,8 +196,6 @@ public class SourceImportSerImpl implements SourceImportSer{
 			list.add(im);
 		}
 		String json=gson.toJson(list);
-		System.out.println(json);
-		/*
 		List<NameValuePair> formparams=new ArrayList<NameValuePair>();
 		formparams.add(new BasicNameValuePair("data", json));
 		String result=HttpHelper.postForm(URL_ZM, formparams);
@@ -200,9 +204,11 @@ public class SourceImportSerImpl implements SourceImportSer{
 		List<SourceImport> list2=new ArrayList<SourceImport>();
 		if (result!=null) {
 			ResultFromSendToZM resultFromSendToZM=gson.fromJson(result, ResultFromSendToZM.class);
-			for (int i = 0; i < list.size(); i++) {
-				if (resultFromSendToZM.getFailRows().contains(list.get(i).getCourierNumber())) {//失败的
-					list2.add(list.get(i));
+			if(resultFromSendToZM.getResult().equals("fail")){
+				for (int i = 0; i < list.size(); i++) {
+					if (resultFromSendToZM.getFailRows().contains(list.get(i).getCourierNumber())) {//失败的
+						list2.add(list.get(i));
+					}
 				}
 			}
 			String json2=gson.toJson(list2);
@@ -210,7 +216,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 			formparams.add(new BasicNameValuePair("data", json2));
 			String result2=HttpHelper.postForm(URL_ZM, formparams2);
 			log.error("【系统每天自动推送未发货】第二次推送失败的单号,这次错误的将不会再处理:"+result2);
-		}*/
+		}
 	}
 	
 	
