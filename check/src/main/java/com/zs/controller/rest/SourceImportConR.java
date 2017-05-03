@@ -125,8 +125,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	public Result<String> doPushToZm(HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			StaffUser user=(StaffUser) req.getSession().getAttribute("user");
-			sourceImportSer.sendToZm(user.getStuNum());
-			return new Result<String>(SUCCESS, Code.SUCCESS, null);
+			return new Result<String>(SUCCESS, Code.SUCCESS, sourceImportSer.sendToZm(user.getStuNum()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Result<String>(ERROR, Code.ERROR, "-1");

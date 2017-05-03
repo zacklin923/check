@@ -30,7 +30,7 @@ public class SendToZmListener implements ServletContextListener{
 		private SourceImportSer sourceImportSer;
 		private Calendar calendar;
 		private boolean hasPushedOnDay=false;//今天是否推送过的标志
-		private final int SEND_TIME_HOUR=14;
+		private final int SEND_TIME_HOUR=9;
 
 
 		public SendToZmThread(SourceImportSer sourceImportSer) {

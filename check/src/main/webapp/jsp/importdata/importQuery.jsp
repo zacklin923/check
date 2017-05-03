@@ -124,7 +124,7 @@ function pushData(){
 			}
 			if(json.result=='success'){
 				$('#dg').datagrid('reload');
-				alert("成功");
+				alert("成功。"+json.data);
 			}else{
 				alert("错误:"+json.code);
 				$('#dg').datagrid('reload');
