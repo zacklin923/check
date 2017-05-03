@@ -147,7 +147,7 @@ function pushData(){
 			<th field="ctmName" width="60" >客户名</th>
 			<th field="ctmBarCode" width="80">客户条码</th>
 			<th field="courierNumber" width="120">快递单号</th>
-			<th field="address" width="400">地址</th>
+			<th field="address" width="280">地址</th>
 			<th field="orderNumber" width="160" sortable="true">订单编号</th>
 			<th field="addressee" width="60" >收件人</th>
 			<th field="phone" width="120" >联系方式</th>
@@ -156,9 +156,9 @@ function pushData(){
 			<th field="goodsCost" width="60" sortable="true">物品价值</th>
 			<th field="goods" width="60" >物品</th>
 			<th field="numberType" width="60">类型</th>
-			<th field="createTime" width="200" sortable="true">导入时间</th>
+			<th field="createTime" width="150" sortable="true">导入时间</th>
 			<th field="isPushed" width="80" sortable="true">是否已推送</th>
-			<th field="stuNum" width="100" sortable="true">导入人</th>
+			<th field="stuNum" width="80" sortable="true">导入人</th>
 		</tr>
 	</thead>
 </table>
@@ -267,11 +267,14 @@ function pushData(){
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
-<div id="fileImport" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
+<div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
 		closed="true" modal="true" title="数据源导入">
+		<div style="height:25px;line-height:25px;">数据导入模板
+			<a href="<%=path%>/file/数据源导入模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
+		</div></br></br></br>
 		<form id="fmfile"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>
-			<input type="button" value="提交" onclick="upload()"/>
+			<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;"/>
 		</form>
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
