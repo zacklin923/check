@@ -27,3 +27,4 @@ $.ajaxSetup({
 	}
 });
 </script>
+<jsp:include page="/jsp/part/hintModal.jsp"></jsp:include>

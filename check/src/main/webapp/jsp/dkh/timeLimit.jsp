@@ -142,20 +142,12 @@ function excel_export(){
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
-		<div class="searchBar-input">
-    		<div>
-	    		创建时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
-    		</div>
-    		<div>
-    			创建时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
-    		</div>
-   		</div>
    		<div class="searchBar-input">
     		<div>
-	    		账号：<input name ="str1" />
+	    		始发中转站：<input name ="str1" />
     		</div>
     		<div>
-    			用户名：<input name ="str2" />
+	    		到达省份：<input name ="str2" />
     		</div>
    		</div>
    	</form>

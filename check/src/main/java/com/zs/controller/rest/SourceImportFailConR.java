@@ -69,7 +69,6 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
 	public Result<Integer> doDeleteTrue(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("jinru shanchu "+id);
 		if(id!=null&&!id.equals("")){
 			try {
 				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.delete(id));

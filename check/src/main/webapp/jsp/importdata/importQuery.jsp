@@ -83,7 +83,34 @@ function deleteObj(){
 	}
 }
 
+var a="${isLoading}";
+var a1="${isLoading}";
+function checkIsUal(){
+	console.log("a:"+a);
+	if(a=="" || a=="false"){
+		hiden_hint();
+	}else{
+		show_hint([]);
+		$.ajax({
+			url:"<%=path%>/api/sourimport/isLoading",
+			success:function(data){
+				a=data;
+			}
+		});
+		setTimeout("checkIsUal()",2000);
+	}
+	if((a1=="true")&&(a=="" || a=="false")){
+		$('#dg').datagrid('reload');
+		alert("请到导入数据错误处查看是否有错误数据")
+	}
+}
+$(function(){
+	checkIsUal();
+});
+
 function upload(){
+	$("#fileImport").dialog("close");
+	show_hint([]);
 	$("#fmfile").form("submit",{
 		url:"<%=path %>/api/sourimport/import",		
 		onSubmit:function(){
@@ -99,13 +126,14 @@ function upload(){
 					json = eval('('+data+')');
 				}
 				if(json.result=='success'){
+					hiden_hint();
 					$('#dg').datagrid('reload');
-					$("#fileImport").dialog("close");					
 				}else{
-					$("#fileImport").dialog("close");	
+					hiden_hint();
 					alert("错误:"+json.code+"错误原因："+json.data);
 				}
 			}else{
+				hiden_hint();
 				alert("错误:网络错误");
 			}
 		}
@@ -158,7 +186,7 @@ function pushData(){
 			<th field="numberType" width="60">类型</th>
 			<th field="createTime" width="150" sortable="true">导入时间</th>
 			<th field="isPushed" width="80" sortable="true">是否已推送</th>
-			<th field="stuNum" width="80" sortable="true">导入人</th>
+			<th field="stuName" width="80" sortable="true">导入人</th>
 		</tr>
 	</thead>
 </table>
@@ -192,6 +220,11 @@ function pushData(){
     		</div>
     		<div>
     			订单编号：<input name ="str6" />
+    		</div>
+   		</div>
+   		<div class="searchBar-input">
+    		<div>
+	    		导入人：<input name ="str7" />
     		</div>
    		</div>
    	</form>
@@ -274,7 +307,7 @@ function pushData(){
 		</div></br></br></br>
 		<form id="fmfile"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>
-			<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;"/>
+			<input type="button" value="导入" onclick="upload()" style="width:80px;height:25px;float:right;"/>
 		</form>
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"

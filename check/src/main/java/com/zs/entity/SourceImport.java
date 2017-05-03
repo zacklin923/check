@@ -37,6 +37,8 @@ public class SourceImport {
     private BigDecimal isPushed;
 
     private String stuNum;
+    
+    private String stuName;
 
     public String getCourierNumber() {
         return courierNumber;
@@ -190,6 +192,14 @@ public class SourceImport {
 
 	public SourceImport() {
 		super();
+	}
+
+	public String getStuName() {
+		return stuName;
+	}
+
+	public void setStuName(String stuName) {
+		this.stuName = stuName;
 	}
     
     

@@ -201,6 +201,12 @@
 	  	(
 		  	select * from TIME_LIMIT
 		  	<where>
+		  		<if test="str1!=null">
+	  				and BEGIN_PROVINCE like '%${str1}%'
+			  	</if>
+			  	<if test="str2!=null">
+		  			and END_PROVINCE like '%${str2}%'
+			  	</if>
 		  	</where>
 		  	<if test="sort!=null and order!=null">
 		  		order by ${sort} ${order}
@@ -221,6 +227,12 @@
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(*) from TIME_LIMIT
   	<where>
+  		<if test="str1!=null">
+  			and BEGIN_PROVINCE like '%${str1}%'
+	  	</if>
+	  	<if test="str2!=null">
+  			and END_PROVINCE like '%${str2}%'
+	  	</if>
   	</where>
   </select>
 </mapper>

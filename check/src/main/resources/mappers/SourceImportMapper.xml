@@ -406,6 +406,9 @@
 			  	<if test="str6!=null">
 			  		and ORDER_NUMBER like '%${str6}%'
 			  	</if>
+			  	<if test="str7!=null">
+			  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str7}%')
+			  	</if>
 		  		and CREATE_TIME >= #{date1}
 		  	</where>
 		  	<if test="sort!=null and order!=null">
@@ -444,6 +447,9 @@
 	  	</if>
 	  	<if test="str6!=null">
 	  		and ORDER_NUMBER like '%${str6}%'
+	  	</if>
+	  	<if test="str7!=null">
+	  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str7}%')
 	  	</if>
 	  	and CREATE_TIME >= #{date1}
  	</where>
