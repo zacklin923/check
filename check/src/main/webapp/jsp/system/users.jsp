@@ -160,7 +160,7 @@ function obcSave(){
 			<th field="stuNum" width="100" sortable="true">账号</th>
 			<th field="pass" width="100">密码</th>
 			<th field="stuName" width="100" sortable="true">用户名</th>
-			<th field="ownBarCode" width="100">条码</th>
+			<th field="ownBarCode" width="400">条码</th>
 			<th field="stuRoleName" data-options="
 				formatter:function(value,row,index){
                              if(row.role){
@@ -259,6 +259,10 @@ function obcSave(){
 		<div id="numOption" style="width:570px;height:380px;">
 		</div>
 </div>
-
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
+		closed="true" modal="true">
+	<iframe src="<%=path%>/jsp/help/user.jsp" frameborder="0" height="100%" width="100%">
+	</iframe>
+</div>
 </body>
 </html>

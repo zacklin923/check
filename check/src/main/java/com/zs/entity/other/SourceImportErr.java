@@ -33,6 +33,8 @@ public class SourceImportErr {
 
 	    private String stuNum;
 
+	    private String oneCode;
+
 		public String getCourierNumber() {
 			return courierNumber;
 		}
@@ -161,10 +163,11 @@ public class SourceImportErr {
 			this.stuNum = stuNum;
 		}
 
+
 		public SourceImportErr(String courierNumber, String ctmBarCode, String ctmName, String shopNumber,
 				String createDate, String address, String addressee, String phone, String courierCompany, String goods,
 				String goodsCost, String orderNumber, String numberType, String createTime, String isPushed,
-				String stuNum) {
+				String stuNum, String oneCode) {
 			super();
 			this.courierNumber = courierNumber;
 			this.ctmBarCode = ctmBarCode;
@@ -182,10 +185,19 @@ public class SourceImportErr {
 			this.createTime = createTime;
 			this.isPushed = isPushed;
 			this.stuNum = stuNum;
+			this.oneCode = oneCode;
 		}
 
 		public SourceImportErr() {
 			super();
+		}
+
+		public String getOneCode() {
+			return oneCode;
+		}
+
+		public void setOneCode(String oneCode) {
+			this.oneCode = oneCode;
 		}
 	    
 	    

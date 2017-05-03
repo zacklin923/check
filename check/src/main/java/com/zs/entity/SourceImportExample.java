@@ -1185,6 +1185,76 @@ public class SourceImportExample {
             addCriterion("STU_NUM not between", value1, value2, "stuNum");
             return (Criteria) this;
         }
+
+        public Criteria andOneCodeIsNull() {
+            addCriterion("ONE_CODE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeIsNotNull() {
+            addCriterion("ONE_CODE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeEqualTo(String value) {
+            addCriterion("ONE_CODE =", value, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeNotEqualTo(String value) {
+            addCriterion("ONE_CODE <>", value, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeGreaterThan(String value) {
+            addCriterion("ONE_CODE >", value, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("ONE_CODE >=", value, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeLessThan(String value) {
+            addCriterion("ONE_CODE <", value, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeLessThanOrEqualTo(String value) {
+            addCriterion("ONE_CODE <=", value, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeLike(String value) {
+            addCriterion("ONE_CODE like", value, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeNotLike(String value) {
+            addCriterion("ONE_CODE not like", value, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeIn(List<String> values) {
+            addCriterion("ONE_CODE in", values, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeNotIn(List<String> values) {
+            addCriterion("ONE_CODE not in", values, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeBetween(String value1, String value2) {
+            addCriterion("ONE_CODE between", value1, value2, "oneCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOneCodeNotBetween(String value1, String value2) {
+            addCriterion("ONE_CODE not between", value1, value2, "oneCode");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

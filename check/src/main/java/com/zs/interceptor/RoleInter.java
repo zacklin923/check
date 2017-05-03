@@ -55,6 +55,7 @@ public class RoleInter extends HandlerInterceptorAdapter{
 	private void init(HttpServletRequest request, HttpServletResponse response){
 		req=request;
 		resp=response;
+		resp.reset();
 		resp.setCharacterEncoding("utf-8");
 		String lId=request.getHeader("licence");
 		method=req.getMethod();
@@ -105,6 +106,7 @@ public class RoleInter extends HandlerInterceptorAdapter{
 				pw.print(gson.toJson(result));
 				pw.flush();
 				pw.close();
+				return false;
 			}
 			return isPass;
 		}else{
@@ -114,8 +116,8 @@ public class RoleInter extends HandlerInterceptorAdapter{
 			pw.print(gson.toJson(result));
 			pw.flush();
 			pw.close();
+			return false;
 		}
-		return false;
 	}
 
 	

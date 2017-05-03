@@ -108,6 +108,7 @@ $(function(){
 	checkIsUal();
 });
 
+
 function upload(){
 	$("#fileImport").dialog("close");
 	show_hint([]);
@@ -128,8 +129,10 @@ function upload(){
 				if(json.result=='success'){
 					hiden_hint();
 					$('#dg').datagrid('reload');
+					$("#fileImport").dialog("close");					
 				}else{
 					hiden_hint();
+					$("#fileImport").dialog("close");	
 					alert("错误:"+json.code+"错误原因："+json.data);
 				}
 			}else{
@@ -186,7 +189,8 @@ function pushData(){
 			<th field="numberType" width="60">类型</th>
 			<th field="createTime" width="150" sortable="true">导入时间</th>
 			<th field="isPushed" width="80" sortable="true">是否已推送</th>
-			<th field="stuName" width="80" sortable="true">导入人</th>
+			<th field="stuNum" width="80" sortable="true">导入人</th>
+			<th field="oneCode" width="80" sortable="true">一段码</th>
 		</tr>
 	</thead>
 </table>
@@ -220,11 +224,6 @@ function pushData(){
     		</div>
     		<div>
     			订单编号：<input name ="str6" />
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		导入人：<input name ="str7" />
     		</div>
    		</div>
    	</form>
@@ -307,7 +306,7 @@ function pushData(){
 		</div></br></br></br>
 		<form id="fmfile"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>
-			<input type="button" value="导入" onclick="upload()" style="width:80px;height:25px;float:right;"/>
+			<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;"/>
 		</form>
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"

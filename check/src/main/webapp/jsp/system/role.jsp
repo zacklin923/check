@@ -152,8 +152,8 @@ function negated(){
 		<tr>
 			<th field="strId" width="80" style="display: none;">角色名</th>
 			<th field="strName" width="100" sortable="true">角色名</th>
-			<th field="strDesc" width="100">角色描述</th>
-			<th field="powers" width="300">权限id序列</th>
+			<th field="strDesc" width="200">角色描述</th>
+			<th field="powers" width="1000">权限id序列</th>
 			<th field="createTime" width="200">创建时间</th>
 		</tr>
 	</thead>
@@ -219,6 +219,10 @@ function negated(){
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
-
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
+		closed="true" modal="true">
+	<iframe src="<%=path%>/jsp/help/role.jsp" frameborder="0" height="100%" width="100%">
+	</iframe>
+</div>
 </body>
 </html>

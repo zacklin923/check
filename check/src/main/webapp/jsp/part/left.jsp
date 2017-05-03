@@ -67,6 +67,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        		<li><span><a href="<%=path %>/jsp/part/error_code.jsp" target="right">错误码说明</a></span></li>
        		<li><span><a href="<%=path %>/jsp/help/sourceImport.jsp" target="right">导入数据说明</a></span></li>
        		<li><span><a href="<%=path %>/jsp/help/sourceZm.jsp" target="right">哲盟返回数据和第三方数据说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/user.jsp" target="right">用户管理说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/role.jsp" target="right">角色管理说明</a></span></li>
         </ul>
 	</div>
 	<div title="测试" data-options="iconCls:'icon-cancel'" style="padding:10px;">
