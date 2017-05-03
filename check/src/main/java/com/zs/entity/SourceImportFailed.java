@@ -3,6 +3,9 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.zs.entity.other.SourceImportErr;
+
 public class SourceImportFailed {
     private BigDecimal sifId;
 
@@ -13,6 +16,8 @@ public class SourceImportFailed {
     private String failInfo;
 
     private String failType;
+    
+    private SourceImportErr sourceImport;
 
     public BigDecimal getSifId() {
         return sifId;
@@ -30,6 +35,7 @@ public class SourceImportFailed {
         this.stuNum = stuNum == null ? null : stuNum.trim();
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -53,4 +59,15 @@ public class SourceImportFailed {
     public void setFailType(String failType) {
         this.failType = failType == null ? null : failType.trim();
     }
+
+	public SourceImportErr getSourceImport() {
+		return sourceImport;
+	}
+
+	public void setSourceImport(SourceImportErr sourceImport) {
+		this.sourceImport = sourceImport;
+	}
+
+    
+    
 }

@@ -2,6 +2,7 @@ package com.zs.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,6 +24,7 @@ import com.zs.entity.SourceZmExample.Criteria;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.ResultFromSendToZM;
+import com.zs.entity.other.SourceImportErr;
 import com.zs.service.SourceImportSer;
 import com.zs.tools.HttpHelper;
 import com.zs.tools.Trans;
@@ -76,27 +78,34 @@ public class SourceImportSerImpl implements SourceImportSer{
 		int knull=0;
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[0].equals("")||list.get(i)[1].equals("")||list.get(i)[2].equals("")||list.get(i)[3].equals("")||list.get(i)[4].equals("")){
-				SourceImport errs = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,stuNum);
+				SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum);
 				SourceImportFailed sif = new SourceImportFailed();
 				sif.setStuNum(stuNum);
-				sif.setFailInfo(gson.toJson(errs));
+				sif.setFailInfo(gson.toJson(sie));
 				sif.setFailType("数据必填项为空");
 				importFailMapper.insert(sif);
 				inull=1;
 			}else{
 				SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
 				if(skey==null){
-					SourceImport s = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),new BigDecimal("0"),stuNum);
 					try {
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],sdf.parse(list.get(i)[0]),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],new BigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,stuNum);
 						importMapper.insert(s);
 					} catch (Exception e) {
-						log.error("插入失败，请检查原因，出错数据为："+s.toString());
+						SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum);
+						SourceImportFailed sif = new SourceImportFailed();
+						sif.setStuNum(stuNum);
+						sif.setFailInfo(gson.toJson(sie));
+						sif.setFailType("数据类型转换错误");
+						importFailMapper.insert(sif);
+						inull=4;
 					}
 				}else{
-					SourceImport errsk = new SourceImport(Trans.tostring(list.get(i)[3]),Trans.tostring(list.get(i)[2]),list.get(i)[1],list.get(i)[8],Trans.TransToDate(list.get(i)[0], "yyyy-MM-dd"),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,stuNum);
+					SourceImportErr sier = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum);
 					SourceImportFailed sifk = new SourceImportFailed();
 					sifk.setStuNum(stuNum);
-					sifk.setFailInfo(gson.toJson(errsk));
+					sifk.setFailInfo(gson.toJson(sier));
 					sifk.setFailType("重复快递单号");
 					importFailMapper.insert(sifk);
 					knull=2;
@@ -111,6 +120,14 @@ public class SourceImportSerImpl implements SourceImportSer{
 			str=str+"有重复快递单号，请到导入数据错误表中查看";
 		}else if(count==3){
 			str="数据有重复，且存在必填项为空数据，请到导入数据错误表中查看";
+		}else if(count==4){
+			str="数据类型转换错误，请到导入数据错误表中查看";
+		}else if(count==5){
+			str="数据类型转换错误，必填项有为空的数据，请到导入数据错误表中查看";
+		}else if(count==6){
+			str="数据类型转换错误，必填项有为空的数据，请到导入数据错误表中查看";
+		}else if(count==7){
+			str="数据类型转换错误，必填项有为空的数据，有重复快递单号，请到导入数据错误表中查看";
 		}
 		return str;
 	}

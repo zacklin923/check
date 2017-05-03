@@ -2,6 +2,8 @@ package com.zs.dao;
 
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.SourceImportFailedExample;
+import com.zs.entity.other.EasyUIAccept;
+
 import java.math.BigDecimal;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +30,9 @@ public interface SourceImportFailedMapper {
     int updateByPrimaryKeySelective(SourceImportFailed record);
 
     int updateByPrimaryKey(SourceImportFailed record);
+    
+  //-----------------------------
+    List<SourceImportFailed> queryFenye(EasyUIAccept accept);
+	
+    int getCount(EasyUIAccept accept);
 }

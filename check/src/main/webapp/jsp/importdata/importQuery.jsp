@@ -32,7 +32,22 @@ function save(){
 			return $(this).form('validate');
 		},
 		success:function(data){
-			console.log(data);
+			if(data){
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					$('#dg').datagrid('reload');
+					$("#dlg").dialog("close");
+				}else{
+					alert("错误:"+json.code);
+				}
+			}else{
+				alert("错误:网络错误");
+			}
 		}
 	});
 }
@@ -112,6 +127,7 @@ function pushData(){
 				alert("成功");
 			}else{
 				alert("错误:"+json.code);
+				$('#dg').datagrid('reload');
 			}
 		}
 	});
@@ -161,29 +177,21 @@ function pushData(){
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
-		<div class="searchBar-input">
-    		<div>
-	    		导入时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
-    		</div>
-    		<div>
-    			导入时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		客户名：<input name ="str1" />
-    		</div>
-    		<div>
-    			客户条码：<input name ="str2" />
-    		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
-   		</div>
    		<div class="searchBar-input">
    			<div>
 	    		快递单号：<input name ="str3" />
     		</div>
     		<div>
-    			订单编号：<input name ="str4" />
+    			客户条码：<input name ="str4" />
+    		</div>
+    		<input type="hidden" name="_header" value="${licence }"/>
+   		</div>
+   		<div class="searchBar-input">
+    		<div>
+	    		客户名：<input name ="str5" />
+    		</div>
+    		<div>
+    			订单编号：<input name ="str6" />
     		</div>
    		</div>
    	</form>
@@ -192,16 +200,15 @@ function pushData(){
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
 	<a class="easyui-linkbutton" iconCls="icon-search">统计</a>
 	<a class="easyui-linkbutton" iconCls="icon-search">导出</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" href="<%=path %>/api/import/123">1231</a>
 	<div class="pull-away"></div>
 </div>
-<div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
+<div id="dlg" class="easyui-dialog" style="width:600px;height:660px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">导入信息</div>
+	<div class="ftitle">导入数据编辑</div>
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
-		<input type="hidden" name="_header" value="${user.licence }"/>
+		<input type="hidden" name="_header" value="${licence }"/>
 		<div class="fitem">
 			<label>创建时间:</label>
 			<input name="createDate" required="true">

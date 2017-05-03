@@ -394,6 +394,18 @@
 			  	<if test="str1!=null">
 			  		and STU_NUM = #{str1}
 			  	</if>
+			  	<if test="str3!=null">
+			  		and COURIER_NUMBER like '%${str3}%'
+			  	</if>
+			  	<if test="str4!=null">
+			  		and CTM_BAR_CODE like '%${str4}%'
+			  	</if>
+			  	<if test="str5!=null">
+			  		and CTM_NAME like '%${str5}%'
+			  	</if>
+			  	<if test="str6!=null">
+			  		and ORDER_NUMBER like '%${str6}%'
+			  	</if>
 		  		and CREATE_TIME >= #{date1}
 		  	</where>
 		  	<if test="sort!=null and order!=null">
@@ -420,6 +432,18 @@
   	<where>
   		<if test="str1!=null">
 	  		and STU_NUM = #{str1}
+	  	</if>
+	  	<if test="str3!=null">
+	  		and COURIER_NUMBER like '%${str3}%'
+	  	</if>
+	  	<if test="str4!=null">
+	  		and CTM_BAR_CODE like '%${str4}%'
+	  	</if>
+	  	<if test="str5!=null">
+	  		and CTM_NAME like '%${str5}%'
+	  	</if>
+	  	<if test="str6!=null">
+	  		and ORDER_NUMBER like '%${str6}%'
 	  	</if>
 	  	and CREATE_TIME >= #{date1}
  	</where>

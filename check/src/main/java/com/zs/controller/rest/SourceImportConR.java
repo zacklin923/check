@@ -65,10 +65,15 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	@Override
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public Result<Integer> doUpdate(SourceImport obj, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("进入-------------------------------------------对象输出");
-		
-		//此处有问题。。。正在寻找错误，为不影响进度，先跳过；--黄光辉
-		return new Result<Integer>(SUCCESS,  Code.SUCCESS, 1);
+		if(obj!=null){
+			try {
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportSer.update(obj));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
+		}
+		System.out.println(4);
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	

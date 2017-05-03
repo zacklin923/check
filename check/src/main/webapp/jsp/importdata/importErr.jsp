@@ -16,83 +16,131 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-function updateObj(){
-	var row=$("#dg").datagrid("getSelected");
-	if(row){
-		$("#dlg").dialog("open").dialog("setTitle","修改");
-		$("#fm").form("load",row);
-		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${user.licence }");
-	}
-}
-function save(){
-	$("#fm").form("submit",{
-		url:"<%=path %>/api/sourimport/aa",		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			console.log(data);
-		}
-	});
-}
-function deleteObj(){
-	var row=$("#dg").datagrid("getSelected");
-	var ucode=row.courierNumber;
-	if(row){
-		$.messager.confirm(
-			"操作提示",
-			"您确定要删除吗？",
-			function(data){
-				if(data){
-					$.ajax({
-						url:"<%=path %>/api/sourimport/"+ucode,
-						type:"delete",
-						success:function(data){
-							var json;
-							if(isJson(data)){
-								json=data;
-							}else{
-								json = eval('('+data+')');
+function deleteAll(){
+	$.messager.confirm(
+		"操作提示",
+		"您确定要删除吗？",
+		function(data){
+			if(data){
+				var checkedItems = $('#dg').datagrid('getChecked');
+				$.each(checkedItems, function(index, item){
+					if(item.sifId!=null){
+						$.ajax({
+							url:"<%=path %>/api/sourimportfail/"+item.sifId,
+							type:"delete",
+							success:function(data){
+								var json;
+								if(isJson(data)){
+									json=data;
+								}else{
+									json = eval('('+data+')');
+								}
+								if(json.result=='success'){
+									$('#dg').datagrid('reload');
+								}else{
+									console.log("错误:"+json.code);
+								}
 							}
-							if(json.result=='success'){
-								$('#dg').datagrid('reload');
-							}else{
-								alert("错误:"+json.code);
-							}
-						}
-					});
-				}
+						});
+					}
+				}); 
 			}
-		);
-	}
+		}
+	);
 }
-
 </script>
 <table id="dg" class="easyui-datagrid" border="true"
-		url="<%=path %>/api/sourimport"
+		url="<%=path %>/api/sourimportfail"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
+		checkOnSelect="false" selectOnCheck="false"
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
-			<th field="createDate" width="100" sortable="true">创建时间</th>
-			<th field="ctmName" width="60" >客户名</th>
-			<th field="ctmBarCode" width="80">客户条码</th>
-			<th field="courierNumber" width="120">快递单号</th>
-			<th field="address" width="400">地址</th>
-			<th field="orderNumber" width="160" sortable="true">订单编号</th>
-			<th field="addressee" width="60" >收件人</th>
-			<th field="phone" width="120" >联系方式</th>
-			<th field="shopNumber" width="150" >商家ID</th>
-			<th field="courierCompany" width="60" >快递公司</th>
-			<th field="goodsCost" width="60" sortable="true">物品价值</th>
-			<th field="goods" width="60" >物品</th>
-			<th field="numberType" width="60">类型</th>
-			<th field="createTime" width="150" sortable="true">导入时间</th>
+			<th field="ck" checkbox="true"></th>
+			<th field="createTime" width="150" sortable="true">时间</th>
+			<th field="failType" width="100" >失败类型</th>
+			<th field="createDate" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.createDate;
+                          }
+                      }" width="100">创建时间</th>
+			<th field="ctmName" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.ctmName;
+                          }
+                      }" width="80">客户名</th>
+			<th field="ctmBarCode" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.ctmBarCode;
+                          }
+                      }" width="80">客户条码</th>
+			<th field="courierNumber" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.courierNumber;
+                          }
+                      }" width="120">快递单号</th>
+			<th field="address" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.address;
+                          }
+                      }" width="150">地址</th>
+			<th field="orderNumber" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.orderNumber;
+                          }
+                      }" width="150">订单编号</th>
+			<th field="addressee" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.addressee;
+                          }
+                      }" width="100">收件人</th>
+			<th field="phone" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.phone;
+                          }
+                      }" width="100">联系方式</th>
+			<th field="shopNumber" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.shopNumber;
+                          }
+                      }" width="100">商家ID</th>
+			<th field="courierCompany" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.courierCompany;
+                          }
+                      }" width="100">快递公司</th>
+			<th field="goodsCost" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.goodsCost;
+                          }
+                      }" width="100">物品价值</th>
+			<th field="goods" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.goods;
+                          }
+                      }" width="100">物品</th>
+			<th field="numberType" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.numberType;
+                          }
+                      }" width="100">类型</th>
 		</tr>
 	</thead>
 </table>
@@ -115,100 +163,21 @@ function deleteObj(){
    		</div>
    		<div class="searchBar-input">
     		<div>
-	    		客户名：<input name ="str1" />
-    		</div>
-    		<div>
-    			客户条码：<input name ="str2" />
+	    		失败类型：<select name ="str2">
+			    			<option value="">请选择。。。</option>
+			    			<option value="重复快递单号">重复快递单号</option>
+			    			<option value="数据必填项为空">数据必填项为空</option>
+			    			<option value="数据类型转换错误">数据类型转换错误</option>
+			    	   </select>
     		</div>
     		<input type="hidden" name="_header" value="${licence }"/>
-   		</div>
-   		<div class="searchBar-input">
-   			<div>
-	    		快递单号：<input name ="str3" />
-    		</div>
-    		<div>
-    			订单编号：<input name ="str4" />
-    		</div>
    		</div>
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">
+	<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search">导出</a>
 	<div class="pull-away"></div>
-</div>
-<div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
-		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">导入信息</div>
-	<hr>
-	<form id="fm" method="post" >
-		<input type="hidden" name="_method" value="post"/>
-		<input type="hidden" name="_header" value="${user.licence }"/>
-		<div class="fitem">
-			<label>创建时间:</label>
-			<input name="createDate" required="true">
-		</div>
-		<div class="fitem">
-			<label>客户名:</label>
-			<input name="ctmName" required="true">
-		</div>
-		<div class="fitem">
-			<label>客户条码:</label>
-			<input name="ctmBarCode" required="true">
-		</div>
-		<div class="fitem">
-			<label>快递单号:</label>
-			<input name="courierNumber" required="true">
-		</div>
-		<div class="fitem">
-			<label>地址:</label>
-			<input name="address"  required="true">
-		</div>
-		<div class="fitem">
-			<label>订单编号:</label>
-			<input name="orderNumber"  required="true">
-		</div>
-		<div class="fitem">
-			<label>收件人:</label>
-			<input name="addressee" required="true">
-		</div>
-		<div class="fitem">
-			<label>联系方式:</label>
-			<input name="phone"  required="true">
-		</div>
-		<div class="fitem">
-			<label>商家ID:</label>
-			<input name="shopNumber" required="true">
-		</div>
-		<div class="fitem">
-			<label>快递公司:</label>
-			<input name="courierCompany" required="true">
-		</div>
-		<div class="fitem">
-			<label>物品价值:</label>
-			<input name="goodsCost" required="true">
-		</div>
-		<div class="fitem">
-			<label>物品:</label>
-			<input name="goods" required="true">
-		</div>
-		<div class="fitem">
-			<label>客户类型:</label>
-			<input name="numberType" required="true">
-		</div>
-	</form>
-</div>
-<div id="dlg-buttons">
-	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
-	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
-</div>
-<div id="fileImport" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
-		closed="true" modal="true" title="数据源导入">
-		<form id="fmfile"  enctype="multipart/form-data" method="post">
-			<input type="file" name="file"/>
-			<input type="button" value="提交" onclick="upload()"/>
-		</form>
 </div>
 </body>
 </html>
