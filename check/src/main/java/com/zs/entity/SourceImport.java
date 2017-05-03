@@ -3,8 +3,6 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class SourceImport {
     private String courierNumber;
 
@@ -38,6 +36,8 @@ public class SourceImport {
 
     private String stuNum;
 
+    private String oneCode;
+
     public String getCourierNumber() {
         return courierNumber;
     }
@@ -69,7 +69,7 @@ public class SourceImport {
     public void setShopNumber(String shopNumber) {
         this.shopNumber = shopNumber == null ? null : shopNumber.trim();
     }
-    @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
+
     public Date getCreateDate() {
         return createDate;
     }
@@ -141,7 +141,7 @@ public class SourceImport {
     public void setNumberType(String numberType) {
         this.numberType = numberType == null ? null : numberType.trim();
     }
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss.SSS",timezone = "GMT+8")
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -166,9 +166,18 @@ public class SourceImport {
         this.stuNum = stuNum == null ? null : stuNum.trim();
     }
 
+    public String getOneCode() {
+        return oneCode;
+    }
+
+    public void setOneCode(String oneCode) {
+        this.oneCode = oneCode == null ? null : oneCode.trim();
+    }
+
 	public SourceImport(String courierNumber, String ctmBarCode, String ctmName, String shopNumber, Date createDate,
 			String address, String addressee, String phone, String courierCompany, String goods, BigDecimal goodsCost,
-			String orderNumber, String numberType, Date createTime, BigDecimal isPushed, String stuNum) {
+			String orderNumber, String numberType, Date createTime, BigDecimal isPushed, String stuNum,
+			String oneCode) {
 		super();
 		this.courierNumber = courierNumber;
 		this.ctmBarCode = ctmBarCode;
@@ -186,6 +195,7 @@ public class SourceImport {
 		this.createTime = createTime;
 		this.isPushed = isPushed;
 		this.stuNum = stuNum;
+		this.oneCode = oneCode;
 	}
 
 	public SourceImport() {

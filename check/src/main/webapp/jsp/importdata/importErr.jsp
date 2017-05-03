@@ -141,6 +141,12 @@ function deleteAll(){
 						return row.sourceImport.numberType;
                           }
                       }" width="100">类型</th>
+            <th field="oneCode" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.oneCode;
+                          }
+                      }" width="100">一段码</th>
 		</tr>
 	</thead>
 </table>

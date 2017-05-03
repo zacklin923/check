@@ -18,6 +18,7 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="IS_PUSHED" property="isPushed" jdbcType="DECIMAL" />
     <result column="STU_NUM" property="stuNum" jdbcType="VARCHAR" />
+    <result column="ONE_CODE" property="oneCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -80,7 +81,7 @@
   <sql id="Base_Column_List" >
     COURIER_NUMBER, CTM_BAR_CODE, CTM_NAME, SHOP_NUMBER, CREATE_DATE, ADDRESS, ADDRESSEE, 
     PHONE, COURIER_COMPANY, GOODS, GOODS_COST, ORDER_NUMBER, NUMBER_TYPE, CREATE_TIME, 
-    IS_PUSHED, STU_NUM
+    IS_PUSHED, STU_NUM, ONE_CODE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceImportExample" >
     select
@@ -119,13 +120,13 @@
       ADDRESSEE, PHONE, COURIER_COMPANY, 
       GOODS, GOODS_COST, ORDER_NUMBER, 
       NUMBER_TYPE, CREATE_TIME, IS_PUSHED, 
-      STU_NUM)
+      STU_NUM, ONE_CODE)
     values (#{courierNumber,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, #{ctmName,jdbcType=VARCHAR}, 
       #{shopNumber,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, 
       #{addressee,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{courierCompany,jdbcType=VARCHAR}, 
       #{goods,jdbcType=VARCHAR}, #{goodsCost,jdbcType=DECIMAL}, #{orderNumber,jdbcType=VARCHAR}, 
       #{numberType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isPushed,jdbcType=DECIMAL}, 
-      #{stuNum,jdbcType=VARCHAR})
+      #{stuNum,jdbcType=VARCHAR}, #{oneCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.SourceImport" >
     insert into SOURCE_IMPORT
@@ -178,6 +179,9 @@
       <if test="stuNum != null" >
         STU_NUM,
       </if>
+      <if test="oneCode != null" >
+        ONE_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courierNumber != null" >
@@ -227,6 +231,9 @@
       </if>
       <if test="stuNum != null" >
         #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="oneCode != null" >
+        #{oneCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -287,6 +294,9 @@
       <if test="record.stuNum != null" >
         STU_NUM = #{record.stuNum,jdbcType=VARCHAR},
       </if>
+      <if test="record.oneCode != null" >
+        ONE_CODE = #{record.oneCode,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -309,7 +319,8 @@
       NUMBER_TYPE = #{record.numberType,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       IS_PUSHED = #{record.isPushed,jdbcType=DECIMAL},
-      STU_NUM = #{record.stuNum,jdbcType=VARCHAR}
+      STU_NUM = #{record.stuNum,jdbcType=VARCHAR},
+      ONE_CODE = #{record.oneCode,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -362,6 +373,9 @@
       <if test="stuNum != null" >
         STU_NUM = #{stuNum,jdbcType=VARCHAR},
       </if>
+      <if test="oneCode != null" >
+        ONE_CODE = #{oneCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
   </update>
@@ -381,7 +395,8 @@
       NUMBER_TYPE = #{numberType,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       IS_PUSHED = #{isPushed,jdbcType=DECIMAL},
-      STU_NUM = #{stuNum,jdbcType=VARCHAR}
+      STU_NUM = #{stuNum,jdbcType=VARCHAR},
+      ONE_CODE = #{oneCode,jdbcType=VARCHAR}
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
   </update>
   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">

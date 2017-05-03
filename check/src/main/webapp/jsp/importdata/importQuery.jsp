@@ -159,6 +159,7 @@ function pushData(){
 			<th field="createTime" width="150" sortable="true">导入时间</th>
 			<th field="isPushed" width="80" sortable="true">是否已推送</th>
 			<th field="stuNum" width="80" sortable="true">导入人</th>
+			<th field="oneCode" width="80" sortable="true">一段码</th>
 		</tr>
 	</thead>
 </table>
