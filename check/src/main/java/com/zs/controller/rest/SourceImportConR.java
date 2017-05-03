@@ -104,6 +104,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	@RequestMapping(value="/import",method=RequestMethod.POST)
 	@Override
 	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		req.getSession().setAttribute("isLoading", true);
 		String s ="";
 		if (!file.isEmpty()) {
 			try {
@@ -111,12 +112,15 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
 				s = s + sourceImportSer.importData(list,user.getStuNum());
 				if(s.equals("")){
+					req.getSession().setAttribute("isLoading", false);
 					return new Result<String>(SUCCESS,  Code.SUCCESS, s);
 				}
 			} catch (IOException e) {
+				req.getSession().setAttribute("isLoading", false);
 				return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
 			}
 		}
+		req.getSession().setAttribute("isLoading", false);
 		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 
@@ -129,6 +133,23 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 			e.printStackTrace();
 			return new Result<String>(ERROR, Code.ERROR, "-1");
 		}
+	}
+	
+	/**
+	 * 是：有异常
+	 * 否：无异常
+	 * @return
+	 */
+	@RequestMapping(value="/isLoading",method=RequestMethod.GET)
+	private boolean isUnusual(HttpServletRequest req){
+		Object isUal=req.getSession().getAttribute("isLoading");
+		if (isUal==null) {
+		}else{
+			if ((Boolean)isUal) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }
