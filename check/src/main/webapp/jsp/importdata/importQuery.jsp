@@ -83,7 +83,35 @@ function deleteObj(){
 	}
 }
 
+var a="${isLoading}";
+var a1="${isLoading}";
+function checkIsUal(){
+	console.log("a:"+a);
+	if(a=="" || a=="false"){
+		hiden_hint();
+	}else{
+		show_hint([]);
+		$.ajax({
+			url:"<%=path%>/api/sourimport/isLoading",
+			success:function(data){
+				a=data;
+			}
+		});
+		setTimeout("checkIsUal()",2000);
+	}
+	if((a1=="true")&&(a=="" || a=="false")){
+		$('#dg').datagrid('reload');
+		alert("请到导入数据错误处查看是否有错误数据")
+	}
+}
+$(function(){
+	checkIsUal();
+});
+
+
 function upload(){
+	$("#fileImport").dialog("close");
+	show_hint([]);
 	$("#fmfile").form("submit",{
 		url:"<%=path %>/api/sourimport/import",		
 		onSubmit:function(){
@@ -99,13 +127,16 @@ function upload(){
 					json = eval('('+data+')');
 				}
 				if(json.result=='success'){
+					hiden_hint();
 					$('#dg').datagrid('reload');
 					$("#fileImport").dialog("close");					
 				}else{
+					hiden_hint();
 					$("#fileImport").dialog("close");	
 					alert("错误:"+json.code+"错误原因："+json.data);
 				}
 			}else{
+				hiden_hint();
 				alert("错误:网络错误");
 			}
 		}
