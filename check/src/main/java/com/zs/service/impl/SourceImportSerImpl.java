@@ -43,7 +43,6 @@ public class SourceImportSerImpl implements SourceImportSer{
 	private Logger log=Logger.getLogger(getClass());
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
-		System.out.println(accept.getStr1());
 		if (accept!=null) {
 			Integer page=accept.getPage();
 			Integer size=accept.getRows();
@@ -136,7 +135,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 	/**张顺，2017-4-28 
 	 * 推送数据到哲盟,当用户导入时就执行
 	 */
-	public void sendToZm(String userNum) {
+	public String sendToZm(String userNum) {
 		Date d1=new Date();
 		int succrows=0;
 		//----------------
@@ -157,7 +156,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 			ResultFromSendToZM resultFromSendToZM=gson.fromJson(result, ResultFromSendToZM.class);
 			if(resultFromSendToZM.getResult().equals("fail")){
 				for (int i = 0; i < list.size(); i++) {
-					if (resultFromSendToZM.getFailRows().contains(list.get(i).getCourierNumber())) {//失败的
+					if ((","+resultFromSendToZM.getFailRows()+",").contains(","+list.get(i).getCourierNumber()+",")) {//失败的
 						list2.add(list.get(i));
 					}else {
 						SourceImport im2=new SourceImport();
@@ -181,15 +180,15 @@ public class SourceImportSerImpl implements SourceImportSer{
 			//-----再推送一次，还失败就不推送了------
 			String json2=gson.toJson(list2);
 			List<NameValuePair> formparams2=new ArrayList<NameValuePair>();
-			formparams.add(new BasicNameValuePair("data", json2));
+			formparams2.add(new BasicNameValuePair("data", json2));
 			String result2=HttpHelper.postForm(URL_ZM, formparams2);
-			log.error("【用户导入】第二次推送的结果:"+result);
+			log.error("【用户导入】第二次推送的结果:"+result2);
 			if (result2!=null) {
 				ResultFromSendToZM resultFromSendToZM=gson.fromJson(result2, ResultFromSendToZM.class);
 				if(resultFromSendToZM.getResult().equals("fail")){
 					for (int i = 0; i < list2.size(); i++) {
-						if (resultFromSendToZM.getFailRows().contains(list.get(i).getCourierNumber())) {//失败的
-							SourceImport im2=new SourceImport();
+						if ((","+resultFromSendToZM.getFailRows()+",").contains(","+list2.get(i).getCourierNumber()+",")) {//失败的
+				  			SourceImport im2=new SourceImport();
 							im2.setCourierNumber(list2.get(i).getCourierNumber());
 							im2.setIsPushed(new BigDecimal(0));
 							importMapper.updateByPrimaryKeySelective(im2);
@@ -214,6 +213,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 		}
 		Date d2=new Date();
 		log.info("【用户导入】共上传了["+list.size()+"]条数据，成功了["+succrows+"]条，耗时["+(d2.getTime()-d1.getTime())+"]ms。");
+		return "【用户导入】共上传了["+list.size()+"]条数据，成功了["+succrows+"]条，耗时["+(d2.getTime()-d1.getTime())+"]ms。";
 	}
 
 
@@ -244,14 +244,16 @@ public class SourceImportSerImpl implements SourceImportSer{
 			ResultFromSendToZM resultFromSendToZM=gson.fromJson(result, ResultFromSendToZM.class);
 			if(resultFromSendToZM.getResult().equals("fail")){
 				for (int i = 0; i < list.size(); i++) {
-					if (resultFromSendToZM.getFailRows().contains(list.get(i).getCourierNumber())) {//失败的
+					if ((","+resultFromSendToZM.getFailRows()+",").contains(","+list.get(i).getCourierNumber()+",")) {//失败的
 						list2.add(list.get(i));
 					}
 				}
 			}
+		}
+		if(list2.size()>0){
 			String json2=gson.toJson(list2);
 			List<NameValuePair> formparams2=new ArrayList<NameValuePair>();
-			formparams.add(new BasicNameValuePair("data", json2));
+			formparams2.add(new BasicNameValuePair("data", json2));
 			String result2=HttpHelper.postForm(URL_ZM, formparams2);
 			log.error("【系统每天自动推送未发货】第二次推送的结果,这次错误的将不会再处理:"+result2);
 		}
