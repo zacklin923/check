@@ -72,7 +72,6 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 				return new Result<Integer>(ERROR, Code.ERROR, -1);
 			}
 		}
-		System.out.println(4);
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
