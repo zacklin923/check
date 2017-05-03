@@ -43,6 +43,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 	private Logger log=Logger.getLogger(getClass());
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
+		System.out.println(accept.getStr1());
 		if (accept!=null) {
 			Integer page=accept.getPage();
 			Integer size=accept.getRows();
@@ -90,7 +91,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 				if(skey==null){
 					try {
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-						SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],sdf.parse(list.get(i)[0]),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],new BigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),null,stuNum);
+						SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],sdf.parse(list.get(i)[0]),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],new BigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),new BigDecimal("0"),stuNum);
 						importMapper.insert(s);
 					} catch (Exception e) {
 						SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum);
