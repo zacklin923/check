@@ -16,11 +16,13 @@ import com.google.gson.Gson;
 import com.zs.dao.SourceImportFailedMapper;
 import com.zs.dao.SourceImportMapper;
 import com.zs.dao.SourceZmMapper;
+import com.zs.dao.StaffUserMapper;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.SourceZm;
 import com.zs.entity.SourceZmExample;
 import com.zs.entity.SourceZmExample.Criteria;
+import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.ResultFromSendToZM;
@@ -37,6 +39,8 @@ public class SourceImportSerImpl implements SourceImportSer{
 	@Resource
 	private SourceImportFailedMapper importFailMapper;
 	@Resource
+	private StaffUserMapper userMapper;
+	@Resource
 	private SourceZmMapper zmMapper;
 	private Gson gson=new Gson();
 	private final String URL_ZM="http://116.204.8.6:8020/InBarCode.aspx";
@@ -52,6 +56,15 @@ public class SourceImportSerImpl implements SourceImportSer{
 			}
 			List list=importMapper.queryFenye(accept);
 			int rows=importMapper.getCount(accept);
+			for (int i = 0; i < list.size(); i++) {
+				SourceImport si = (SourceImport) list.get(i);
+				if(si.getStuNum()!=null && !si.getStuNum().equals("")){
+					StaffUser suer = userMapper.selectByPrimaryKey(si.getStuNum());
+					si.setStuName(suer.getStuName());
+				}else{
+					si.setStuName("");
+				}
+			}
 			return new EasyUIPage(rows, list);
 		}
 		return null;
@@ -77,8 +90,8 @@ public class SourceImportSerImpl implements SourceImportSer{
 		int inull=0;
 		int knull=0;
 		for (int i = 1; i < list.size(); i++) {
-			if(list.get(i)[0].equals("")||list.get(i)[1].equals("")||list.get(i)[2].equals("")||list.get(i)[3].equals("")||list.get(i)[4].equals("")||list.get(i)[12].equals("")){
-				SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12]);
+			if(list.get(i)[0].equals("")||list.get(i)[1].equals("")||list.get(i)[2].equals("")||list.get(i)[3].equals("")||list.get(i)[4].equals("")){
+				SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum);
 				SourceImportFailed sif = new SourceImportFailed();
 				sif.setStuNum(stuNum);
 				sif.setFailInfo(gson.toJson(sie));
@@ -90,10 +103,11 @@ public class SourceImportSerImpl implements SourceImportSer{
 				if(skey==null){
 					try {
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-						SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],sdf.parse(list.get(i)[0]),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],new BigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),new BigDecimal("0"),stuNum,list.get(i)[12]);
+						SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],sdf.parse(list.get(i)[0]),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),new BigDecimal("0"),stuNum);
 						importMapper.insert(s);
 					} catch (Exception e) {
-						SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12]);
+						e.printStackTrace();
+						SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum);
 						SourceImportFailed sif = new SourceImportFailed();
 						sif.setStuNum(stuNum);
 						sif.setFailInfo(gson.toJson(sie));
@@ -102,7 +116,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 						inull=4;
 					}
 				}else{
-					SourceImportErr sier = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12]);
+					SourceImportErr sier = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum);
 					SourceImportFailed sifk = new SourceImportFailed();
 					sifk.setStuNum(stuNum);
 					sifk.setFailInfo(gson.toJson(sier));

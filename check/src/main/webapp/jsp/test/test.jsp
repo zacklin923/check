@@ -13,12 +13,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	show_hint([]);
+});
+/*
 var j="{\"result\":\"success\",\"code\":0,\"data\":1}";
 alert(isJson(j));
 console.log(j);
 var json = eval('('+j+')');
 alert(isJson(json));
 console.log(json);
+*/
 </script>
 <form action="<%=path %>/api/user/file" enctype="multipart/form-data" method="post">
 	上传到用户表
