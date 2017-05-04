@@ -178,19 +178,19 @@ function pushData(){
 			<th field="ctmName" width="60" >客户名</th>
 			<th field="ctmBarCode" width="80">客户条码</th>
 			<th field="courierNumber" width="120">快递单号</th>
-			<th field="address" width="280">地址</th>
+			<th field="address" width="260">地址</th>
 			<th field="orderNumber" width="160" sortable="true">订单编号</th>
 			<th field="addressee" width="60" >收件人</th>
 			<th field="phone" width="120" >联系方式</th>
-			<th field="shopNumber" width="150" >商家ID</th>
+			<th field="shopNumber" width="120" >商家ID</th>
 			<th field="courierCompany" width="60" >快递公司</th>
 			<th field="goodsCost" width="60" sortable="true">物品价值</th>
 			<th field="goods" width="60" >物品</th>
 			<th field="numberType" width="60">类型</th>
 			<th field="createTime" width="150" sortable="true">导入时间</th>
 			<th field="isPushed" width="80" sortable="true">是否已推送</th>
-			<th field="stuNum" width="80" sortable="true">导入人</th>
-			<th field="oneCode" width="80" sortable="true">一段码</th>
+			<th field="stuName" width="60" sortable="true">导入人</th>
+			<th field="oneCode" width="60" sortable="true">一段码</th>
 		</tr>
 	</thead>
 </table>
