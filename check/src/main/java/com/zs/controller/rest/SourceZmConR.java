@@ -1,16 +1,21 @@
 package com.zs.controller.rest;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.SourceZm;
+import com.zs.entity.SourceZmKey;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -65,6 +70,25 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
+	public Result<Integer> doUpdate(@PathVariable("id") String[] id, SourceZm obj, HttpServletRequest req, HttpServletResponse resp){
+		try {
+			System.out.println(obj);
+			if(obj!=null){
+				obj.setCourierNumber(id[0]);
+				obj.setReturnDate(new Date(Long.valueOf(id[1])));
+				try {
+					return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceZmSer.update(obj));
+				} catch (Exception e) {
+					return new Result<Integer>(ERROR, Code.ERROR, -1);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
+	}
 
 	@Override
 	public Result<Integer> doDeleteFalse(String[] id, HttpServletRequest req, HttpServletResponse resp) {
@@ -72,15 +96,35 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 		return null;
 	}
 
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
-	public Result<Integer> doDeleteTrue(String[] id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
+	public Result<Integer> doDeleteTrue(@PathVariable("id") String[] id, HttpServletRequest req, HttpServletResponse resp) {
+		if(id!=null && !id[0].equals("") && !id[1].equals("")){
+			try {
+				SourceZmKey szk = new SourceZmKey(id[0],new Date(Long.valueOf(id[1])));
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceZmSer.delete(szk));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
+		}
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
-
+	
+	
+	@RequestMapping(value="/exportExcel",method=RequestMethod.GET)
 	@Override
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+		System.out.println("----------");
+		if (accept!=null) {
+			try {
+				accept.setStr1(ManagerId.isSeeAll(req));
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return new Result<String>(SUCCESS,  Code.SUCCESS, sourceZmSer.ExportData(accept,req));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new Result<String>(ERROR, Code.ERROR, "数据装载失败");
+			}
+		}
 		return null;
 	}
 
@@ -89,5 +133,6 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

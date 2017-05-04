@@ -16,6 +16,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
+function getDateByMs(date,fgf){
+	var getYear=date.getFullYear();
+	var getMonth=date.getMonth()+1;
+	if(getMonth<10){
+		getMonth="0"+getMonth;
+	}
+	var getDate=date.getDate();
+	if(getDate<10){
+		getDate="0"+getDate;
+	}
+	var times=getYear+fgf+getMonth+fgf+getDate;
+	return times;
+}
 var url;
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
@@ -24,7 +37,7 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${licence }");
-		url="<%=path%>/api/timeLimit/"+row.orderNumber;
+		url="<%=path%>/api/sourceZm/"+row.courierNumber+","+row.returnDate;
 	}
 }
 function save(){
@@ -55,7 +68,8 @@ function save(){
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var id=row.orderNumber;
+	var id=row.courierNumber;
+	var id1=row.returnDate;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
@@ -63,7 +77,7 @@ function deleteObj(){
 			function(data){
 				if(data){
 					$.ajax({
-						url:"<%=path%>/api/timeLimit/"+id,
+						url:"<%=path%>/api/sourceZm/"+id+","+id1,
 						type:"delete",
 						success:function(data){
 							var json;
@@ -86,16 +100,23 @@ function deleteObj(){
 }
 function excel_export(){
 	$("#search").form("submit",{
-		url:"<%=path%>/api/timeLimit/excelExport",
+		url:"<%=path%>/api/sourceZm/exportExcel",
 		method:"get",
 		onSubmit: function(){   
-	        // do some check   
-	        // return false to prevent submit;   
-	    },   
+	
+		},   
 	    success:function(data){   
-			if(data!=null){
-		    	var d = eval('('+data+')');
+	    	var json;
+			if(isJson(data)){
+				json=data;
+			}else{
+				json = eval('('+data+')');
+			}
+			if(json.result=='success'){
+				var d = eval('('+data+')');
 		    	window.location.href=d.data;
+			}else{
+				alert("错误:"+json.data);
 			}
 	    } 
 	});
@@ -130,7 +151,12 @@ function excel_export(){
 			<th field="goods" width="100" sortable="true">物品</th>
 			<th field="createDate" width="100" sortable="true">创建日期</th>
 			<th field="courierState" width="100" sortable="true">状态</th>
-			<th field="returnDate" width="100" sortable="true">返回日期</th>
+			<th field="returnDate" width="100" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(row.returnDate){
+						return getDateByMs(new Date(row.returnDate),'/');
+                          }
+                      }">返回日期</th>
 			<th field="orderNumber" width="100" sortable="true">订单编号</th>
 		</tr>
 	</thead>
@@ -146,20 +172,21 @@ function excel_export(){
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
+		<input type="hidden" name="_header" value="${user.licence }"/>
 		<div class="searchBar-input">
     		<div>
-	    		发货时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
+	    		发货开始日期：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
     		</div>
     		<div>
-    			发货时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
+    			发货结束日期：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
     		</div>
    		</div>
    		<div class="searchBar-input">
     		<div>
-	    		客户条码：<input name ="str1" />
+	    		客户条码：<input name ="str2" />
     		</div>
     		<div>
-    			快递单号：<input name ="str2" />
+    			快递单号：<input name ="str3" />
     		</div>
    		</div>
    	</form>
@@ -178,38 +205,37 @@ function excel_export(){
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
-		<input type="hidden" name="orderNumber"/>
 		<div class="fitem">
 			<label>客户名称:</label>
-			<input name="ctmName" class="easyui-validatebox" required="true">
+			<input name="ctmName" required="true">
 		</div>
 		<div class="fitem">
 			<label>省份:</label>
-			<input name="province" class="easyui-validatebox" required="true">
+			<input name="province" required="true">
 		</div>
 		<div class="fitem">
 			<label>地址:</label>
-			<input name="address" class="easyui-validatebox" required="true">
+			<input name="address" required="true">
 		</div>
 		<div class="fitem">
 			<label>客户店铺:</label>
-			<input name="shopNumber" class="easyui-validatebox" required="true">
+			<input name="shopNumber"  required="true">
 		</div>
 		<div class="fitem">
 			<label>收件人:</label>
-			<input name="addressee" class="easyui-validatebox" required="true">
+			<input name="addressee" required="true">
 		</div>
 		<div class="fitem">
 			<label>联系方式:</label>
-			<input name="phone" class="easyui-validatebox" required="true">
+			<input name="phone"  required="true">
 		</div>
 		<div class="fitem">
 			<label>物品价值:</label>
-			<input name="goodsCost" class="easyui-validatebox" required="true">
+			<input name="goodsCost"  required="true">
 		</div>
 		<div class="fitem">
 			<label>订单编号:</label>
-			<input name="orderNumber" class="easyui-validatebox" required="true">
+			<input name="orderNumber" required="true">
 		</div>
 	</form>
 </div>

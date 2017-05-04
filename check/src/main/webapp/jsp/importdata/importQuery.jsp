@@ -196,11 +196,11 @@ function pushData(){
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
 	</div>
 	<div class="btn-separator">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="pushData()">上传数据</a>
 	</div>
 	<div class="btn-separator">
