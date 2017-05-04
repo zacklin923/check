@@ -46,7 +46,10 @@ public class SourceZm extends SourceZmKey {
 
     private String fbdArea;
 
-    public String getLargeArea() {
+    
+    
+
+	public String getLargeArea() {
         return largeArea;
     }
 
@@ -195,7 +198,7 @@ public class SourceZm extends SourceZmKey {
 
     public String getCourierState() {
         return courierState;
-    }
+    }	
 
     public void setCourierState(String courierState) {
         this.courierState = courierState == null ? null : courierState.trim();
@@ -208,7 +211,7 @@ public class SourceZm extends SourceZmKey {
     public void setFbdArea(String fbdArea) {
         this.fbdArea = fbdArea == null ? null : fbdArea.trim();
     }
-
+    
 	@Override
 	public String toString() {
 		return "SourceZm [largeArea=" + largeArea + ", sliceArea=" + sliceArea + ", fenbu=" + fenbu + ", ctmBarCode="

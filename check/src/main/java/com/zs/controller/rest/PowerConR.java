@@ -75,6 +75,7 @@ public class PowerConR extends BaseRestController<StaffPower,String>{
 			try {
 				return new Result<Integer>(SUCCESS, Code.SUCCESS, powerSer.update(obj));
 			} catch (Exception e) {
+				e.printStackTrace();
 				return new Result<Integer>(ERROR, Code.ERROR, -1);
 			}
 		}

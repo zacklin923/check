@@ -5,9 +5,9 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class SourceZmKey {
-    private String courierNumber;
+	public String courierNumber;
 
-    private Date returnDate;
+    public Date returnDate;
 
     public String getCourierNumber() {
         return courierNumber;
@@ -17,7 +17,6 @@ public class SourceZmKey {
         this.courierNumber = courierNumber == null ? null : courierNumber.trim();
     }
 
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getReturnDate() {
         return returnDate;
     }
