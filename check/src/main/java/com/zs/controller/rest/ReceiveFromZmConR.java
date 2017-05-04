@@ -1,6 +1,8 @@
 package com.zs.controller.rest;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,14 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zs.entity.ProvinceCode;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceThirdParty;
+import com.zs.entity.SourceThirdPartyKey;
 import com.zs.entity.SourceZm;
 import com.zs.entity.SourceZmKey;
+import com.zs.entity.TimeLimit;
 import com.zs.entity.other.ResultFromSendToZM;
+import com.zs.service.ProvinceCodeSer;
 import com.zs.service.SourceImportSer;
 import com.zs.service.SourceTpSer;
 import com.zs.service.SourceZmSer;
+import com.zs.service.TimeLimitSer;
 import com.zs.tools.Trans;
 
 /**
@@ -39,6 +46,10 @@ public class ReceiveFromZmConR {
 	private SourceTpSer sourceTpSer;
 	@Resource
 	private SourceImportSer sourceImportSer;
+	@Resource
+	private ProvinceCodeSer provinceCodeSer;
+	@Resource
+	private TimeLimitSer timeLimitSer;
 	private Logger log=Logger.getLogger(getClass());
 	private Gson gson=new Gson();
 	
@@ -83,13 +94,16 @@ public class ReceiveFromZmConR {
 							zm.setGoodsCost(im.getGoodsCost());
 							zm.setCourierCompany(im.getCourierCompany());
 							zm.setOrderNumber(im.getOrderNumber());
+							//-------装填省份信息-----------------
+							ProvinceCode provinceCode=provinceCodeSer.get(im.getOneCode());
+							if(provinceCode!=null) zm.setProvince(provinceCode.getProvince());
 						}
 						sourceZmSer.add(zm);
 						rows++;
 					} catch (Exception e) {
 //						log.warn("插入失败，开始尝试修改。失败数据："+zm);
 						try {
-							//--------------
+							//------去掉不应该修改的字段--------
 							zm.setCtmName(null);
 							zm.setCtmBarCode(null);
 							zm.setCreateDate(null);
@@ -100,6 +114,7 @@ public class ReceiveFromZmConR {
 							zm.setGoodsCost(null);
 							zm.setCourierCompany(null);
 							zm.setOrderNumber(null);
+							zm.setProvince(null);
 							sourceZmSer.update(zm);
 							rows++;
 						} catch (Exception e2) {
@@ -142,8 +157,6 @@ public class ReceiveFromZmConR {
 				for (int i = 0; i < list.size(); i++) {
 					SourceThirdParty tp=list.get(i);
 					tp.setReturnDate(Trans.timeToDate(new Date()));
-					//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
-					//.....这里写计算代码......
 					try {
 						//--------装填其他信息-----------
 						SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), Trans.timeToDate(new Date())));
@@ -166,6 +179,18 @@ public class ReceiveFromZmConR {
 							tp.setCourierCompany(zm.getCourierCompany());
 							tp.setGoods(zm.getGoods());
 							tp.setGoodsCost(zm.getGoodsCost());
+							//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
+							TimeLimit tl=timeLimitSer.selectByEndProvince(tp.getProvince());
+							if(tl!=null && tp.getSignTime()!=null){
+								Calendar calendar=Calendar.getInstance();
+								calendar.setTime(tp.getSignTime());
+								calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
+								if (calendar.getTime().after(new Date())) {//签收+规定消耗的时间  > 现在  ，就代表超期
+									tp.setIsTimeOut(new BigDecimal(1));
+								}else {
+									tp.setIsTimeOut(new BigDecimal(0));
+								}
+							}
 						}
 						sourceTpSer.add(tp);
 						rows++;
@@ -173,26 +198,38 @@ public class ReceiveFromZmConR {
 //					log.info("插入失败，开始尝试修改。失败数据："+tp);
 						try {
 							//--------装填其他信息-----------
-							SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), Trans.timeToDate(new Date())));
-							if (zm!=null) {
-								tp.setLargeArea(null);
-								tp.setSliceArea(null);
-								tp.setFenbu(null);
-								tp.setFbdArea(null);
-								tp.setSendTime(null);
-								tp.setCtmName(null);
-								tp.setCtmBarCode(null);
-								tp.setProvince(null);
-								tp.setCreateDate(null);
-								tp.setAddress(null);
-								tp.setAddressee(null);
-								tp.setOrderNumber(null);
-								tp.setShopNumber(null);
-								tp.setPhone(null);
-								tp.setWeight(null);
-								tp.setCourierCompany(null);
-								tp.setGoods(null);
-								tp.setGoodsCost(null);
+							tp.setLargeArea(null);
+							tp.setSliceArea(null);
+							tp.setFenbu(null);
+							tp.setFbdArea(null);
+							tp.setSendTime(null);
+							tp.setCtmName(null);
+							tp.setCtmBarCode(null);
+							tp.setProvince(null);
+							tp.setCreateDate(null);
+							tp.setAddress(null);
+							tp.setAddressee(null);
+							tp.setOrderNumber(null);
+							tp.setShopNumber(null);
+							tp.setPhone(null);
+							tp.setWeight(null);
+							tp.setCourierCompany(null);
+							tp.setGoods(null);
+							tp.setGoodsCost(null);
+							//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
+							SourceThirdParty stp=sourceTpSer.get(new SourceThirdPartyKey(tp.getCourierNumber(), tp.getReturnDate()));
+							if(stp!=null){
+								TimeLimit tl=timeLimitSer.selectByEndProvince(stp.getProvince());
+								if(tl!=null && tp.getSignTime()!=null){
+									Calendar calendar=Calendar.getInstance();
+									calendar.setTime(tp.getSignTime());
+									calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
+									if (calendar.getTime().after(new Date())) {//签收+规定消耗的时间  > 现在  ，就代表超期
+										tp.setIsTimeOut(new BigDecimal(1));
+									}else {
+										tp.setIsTimeOut(new BigDecimal(0));
+									}
+								}
 							}
 							sourceTpSer.update(tp);
 							rows++;

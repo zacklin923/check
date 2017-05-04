@@ -235,6 +235,8 @@ public class SourceImportSerImpl implements SourceImportSer{
 	 * 推送未发货的，该方法定时执行，每天执行一次
 	 */
 	public void sendToZm2(){
+		Date d1=new Date();
+		int succrows=0;
 		//-----找出未发货的数据，然后也推送过去--------------------------------
 		List<SourceImport> list=new ArrayList<SourceImport>();
 		SourceZmExample example=new SourceZmExample();
@@ -260,6 +262,8 @@ public class SourceImportSerImpl implements SourceImportSer{
 				for (int i = 0; i < list.size(); i++) {
 					if ((","+resultFromSendToZM.getFailRows()+",").contains(","+list.get(i).getCourierNumber()+",")) {//失败的
 						list2.add(list.get(i));
+					}else{
+						succrows++;
 					}
 				}
 			}
@@ -270,7 +274,11 @@ public class SourceImportSerImpl implements SourceImportSer{
 			formparams2.add(new BasicNameValuePair("data", json2));
 			String result2=HttpHelper.postForm(URL_ZM, formparams2);
 			log.error("【系统每天自动推送未发货】第二次推送的结果,这次错误的将不会再处理:"+result2);
+			ResultFromSendToZM resultFromSendToZM=gson.fromJson(result2, ResultFromSendToZM.class);
+			succrows=succrows+(list2.size()-resultFromSendToZM.getFailRows().split(",").length);
 		}
+		Date d2=new Date();
+		log.error("【系统每天自动推送未发货】共推送["+zms.size()+"]条，成功["+succrows+"]条，耗时["+(d2.getTime()-d1.getTime())+"]ms。");
 	}
 	
 	
