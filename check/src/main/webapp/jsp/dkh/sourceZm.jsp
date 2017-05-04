@@ -17,20 +17,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
 var url;
-function addObj(){
-	$("#dlg").dialog("open").dialog("setTitle","新建");	
-	$("#fm").form("clear");
-	$("#fm input[name='_method']").val("post");
-	$("#fm input[name='_header']").val("${user.licence }");
-	url="<%=path%>/api/timeLimit";
-}
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${user.licence }");
+		$("#fm input[name='_header']").val("${licence }");
 		url="<%=path%>/api/timeLimit/"+row.orderNumber;
 	}
 }
@@ -124,6 +117,7 @@ function excel_export(){
 			<th field="fbdArea" width="100" sortable="true">所属分拨点</th>
 			<th field="ctmBarCode" width="100" sortable="true">客户条码</th>
 			<th field="ctmName" width="100" sortable="true">客户名称</th>
+			<th field="courierNumber" width="120" sortable="true">快递单号</th>
 			<th field="sendTime" width="200" sortable="true">发货日期</th>
 			<th field="province" width="100" sortable="true">省份</th>
 			<th field="address" width="350" sortable="true">地址</th>
@@ -134,10 +128,8 @@ function excel_export(){
 			<th field="courierCompany" width="100" sortable="true">快递公司</th>
 			<th field="goodsCost" width="100" sortable="true">物品价值</th>
 			<th field="goods" width="100" sortable="true">物品</th>
-			<th field="createTime" width="100" sortable="true">创建时间</th>
 			<th field="createDate" width="100" sortable="true">创建日期</th>
 			<th field="courierState" width="100" sortable="true">状态</th>
-			<th field="courierNumber" width="100" sortable="true">快递单号</th>
 			<th field="returnDate" width="100" sortable="true">返回日期</th>
 			<th field="orderNumber" width="100" sortable="true">订单编号</th>
 		</tr>
@@ -145,9 +137,8 @@ function excel_export(){
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加时效</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑时效</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除时效</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
 	</div>
 	<div class="btn-separator">
 		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
@@ -157,18 +148,18 @@ function excel_export(){
 	<form id="search">
 		<div class="searchBar-input">
     		<div>
-	    		创建时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
+	    		发货时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
     		</div>
     		<div>
-    			创建时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
+    			发货时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
     		</div>
    		</div>
    		<div class="searchBar-input">
     		<div>
-	    		账号：<input name ="str1" />
+	    		客户条码：<input name ="str1" />
     		</div>
     		<div>
-    			用户名：<input name ="str2" />
+    			快递单号：<input name ="str2" />
     		</div>
    		</div>
    	</form>
@@ -182,23 +173,43 @@ function excel_export(){
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">时效控制信息</div>
+	<div class="ftitle">返回数据信息</div>
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
 		<input type="hidden" name="orderNumber"/>
 		<div class="fitem">
-			<label>始发中转站:</label>
-			<input name="beginProvince" class="easyui-validatebox" required="true">
+			<label>客户名称:</label>
+			<input name="ctmName" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>到达省份:</label>
-			<input name="endProvince" class="easyui-validatebox" required="true">
+			<label>省份:</label>
+			<input name="province" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>小时:</label>
-			<input name="hourCost" class="easyui-validatebox" required="true">
+			<label>地址:</label>
+			<input name="address" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>客户店铺:</label>
+			<input name="shopNumber" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>收件人:</label>
+			<input name="addressee" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>联系方式:</label>
+			<input name="phone" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>物品价值:</label>
+			<input name="goodsCost" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>订单编号:</label>
+			<input name="orderNumber" class="easyui-validatebox" required="true">
 		</div>
 	</form>
 </div>
