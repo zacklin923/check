@@ -134,19 +134,19 @@ function deleteAll(){
                              if(row.sourceImport){
 						return row.sourceImport.goods;
                           }
-                      }" width="100">物品</th>
+                      }" width="70">物品</th>
 			<th field="numberType" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
 						return row.sourceImport.numberType;
                           }
-                      }" width="100">类型</th>
+                      }" width="80">类型</th>
             <th field="oneCode" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
 						return row.sourceImport.oneCode;
                           }
-                      }" width="100">一段码</th>
+                      }" width="70">一段码</th>
 		</tr>
 	</thead>
 </table>
