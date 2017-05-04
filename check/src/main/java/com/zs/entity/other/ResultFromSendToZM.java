@@ -16,6 +16,14 @@ public class ResultFromSendToZM {
 	public void setResult(String result) {
 		this.result = result;
 	}
+	public ResultFromSendToZM(String failRows, String result) {
+		super();
+		this.failRows = failRows;
+		this.result = result;
+	}
+	public ResultFromSendToZM() {
+		super();
+	}
 
 	
 }
