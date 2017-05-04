@@ -1,10 +1,12 @@
 package com.zs.controller.rest;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +18,7 @@ import com.zs.entity.SourceImport;
 import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceZm;
 import com.zs.entity.SourceZmKey;
+import com.zs.entity.other.ResultFromSendToZM;
 import com.zs.service.SourceImportSer;
 import com.zs.service.SourceTpSer;
 import com.zs.service.SourceZmSer;
@@ -45,139 +48,176 @@ public class ReceiveFromZmConR {
 	 * 2、如果无法插入，那么尝试修改数据
 	 * 3、如果无法修改，那么记录到错误日志中*/
 	@RequestMapping(value="/zm",method=RequestMethod.POST)
-	public void receiveResultFromZm(String data,String key) {
+	public ResultFromSendToZM receiveResultFromZm(String data,String key) {
 		Date date1=new Date();
-		int tols=-1;
-		int rows=0;
+		int tols=-1;//统计接收到的最大数据
+		int rows=0;//统计执行的条数
+		boolean isError=false;//是否错误
+		ArrayList<String> failList=new ArrayList<String>();//接收失败单号的容器
 		if (data!=null && key!=null && key.equals("sz_zm_2017-4-26")) {
-			List<SourceZm> list=gson.fromJson(data, new TypeToken<List<SourceZm>>(){}.getType());
-			tols=list.size();
-			for (int i = 0; i < list.size(); i++) {
-				SourceZm zm=list.get(i);
-				zm.setReturnDate(Trans.timeToDate(new Date()));
-				//--------装填状态信息：是否已发货-----------------
-				if (zm.getSendTime()==null) {
-					zm.setCourierState("0");
-				}else {
-					zm.setCourierState("1");
-				}
-				try {
-					//--------装填其他信息-----------
-					SourceImport im=sourceImportSer.get(zm.getCourierNumber());
-					if (im!=null) {
-						zm.setCtmName(im.getCtmName());
-						zm.setCtmBarCode(im.getCtmBarCode());
-						zm.setCreateDate(im.getCreateDate());
-						zm.setAddress(im.getAddress());
-						zm.setAddressee(im.getAddressee());
-						zm.setPhone(im.getPhone());
-						zm.setGoods(im.getGoods());
-						zm.setGoodsCost(im.getGoodsCost());
-						zm.setCourierCompany(im.getCourierCompany());
-						zm.setOrderNumber(im.getOrderNumber());
+			try {
+				List<SourceZm> list=gson.fromJson(data, new TypeToken<List<SourceZm>>(){}.getType());
+				tols=list.size();
+				for (int i = 0; i < list.size(); i++) {
+					SourceZm zm=list.get(i);
+					zm.setReturnDate(Trans.timeToDate(new Date()));
+					//--------装填状态信息：是否已发货-----------------
+					if (zm.getSendTime()==null) {
+						zm.setCourierState("0");
+					}else {
+						zm.setCourierState("1");
 					}
-					sourceZmSer.add(zm);
-					rows++;
-				} catch (Exception e) {
-					log.error("插入失败，开始尝试修改。失败数据："+zm);
+					//------去掉可能出现的但是又不希望出现的数据------------------------
+					zm.setProvince(null);
 					try {
-						//--------------
-						zm.setCtmName(null);
-						zm.setCtmBarCode(null);
-						zm.setCreateDate(null);
-						zm.setAddress(null);
-						zm.setAddressee(null);
-						zm.setPhone(null);
-						zm.setGoods(null);
-						zm.setGoodsCost(null);
-						zm.setCourierCompany(null);
-						zm.setOrderNumber(null);
-						sourceZmSer.update(zm);
+						//--------装填其他信息-----------
+						SourceImport im=sourceImportSer.get(zm.getCourierNumber());
+						if (im!=null) {
+							zm.setCtmName(im.getCtmName());
+							zm.setCtmBarCode(im.getCtmBarCode());
+							zm.setCreateDate(im.getCreateDate());
+							zm.setAddress(im.getAddress());
+							zm.setAddressee(im.getAddressee());
+							zm.setPhone(im.getPhone());
+							zm.setGoods(im.getGoods());
+							zm.setGoodsCost(im.getGoodsCost());
+							zm.setCourierCompany(im.getCourierCompany());
+							zm.setOrderNumber(im.getOrderNumber());
+						}
+						sourceZmSer.add(zm);
 						rows++;
-					} catch (Exception e2) {
-						log.error("错误：该条数据既无法插入也无法修改："+zm);
+					} catch (Exception e) {
+//						log.warn("插入失败，开始尝试修改。失败数据："+zm);
+						try {
+							//--------------
+							zm.setCtmName(null);
+							zm.setCtmBarCode(null);
+							zm.setCreateDate(null);
+							zm.setAddress(null);
+							zm.setAddressee(null);
+							zm.setPhone(null);
+							zm.setGoods(null);
+							zm.setGoodsCost(null);
+							zm.setCourierCompany(null);
+							zm.setOrderNumber(null);
+							sourceZmSer.update(zm);
+							rows++;
+						} catch (Exception e2) {
+							log.error("错误：该条数据既无法插入也无法修改："+zm);
+							failList.add(zm.getCourierNumber());
+						}
 					}
 				}
+			} catch (Exception e) {
+				log.error("接收哲盟返回数据出错，原因不明。");
+				isError=true;
 			}
 		}
 		Date date2=new Date();
 		log.info("本次共接收["+tols+"]条数据，成功保存["+rows+"]条数据,共耗时["+(date2.getTime()-date1.getTime())+"]ms");
+		if (failList.size()>0) {
+			return new ResultFromSendToZM(StringUtils.join(failList.toArray(new String[failList.size()]), ","),"fail");
+		}else{
+			if(isError==false){
+				return new ResultFromSendToZM("","success");
+			}else{
+				return new ResultFromSendToZM("","error");
+			}
+		}
 	}
 	
+
 	/**接收第三方返回数据*/
 	@RequestMapping(value="/tp",method=RequestMethod.POST)
-	public void receiveResultFromTP(String data,String key) {
+	public ResultFromSendToZM receiveResultFromTP(String data,String key) {
 		Date date1=new Date();
-		int tols=-1;
-		int rows=0;
+		int tols=-1;//统计接收到的最大数据
+		int rows=0;//统计执行的条数
+		boolean isError=false;//是否错误
+		ArrayList<String> failList=new ArrayList<String>();//接收失败单号的容器
 		if (data!=null && key!=null && key.equals("sz_zm_2017-4-26")) {
-			List<SourceThirdParty> list=gson.fromJson(data, new TypeToken<List<SourceThirdParty>>(){}.getType());
-			tols=list.size();
-			for (int i = 0; i < list.size(); i++) {
-				SourceThirdParty tp=list.get(i);
-				tp.setReturnDate(Trans.timeToDate(new Date()));
-				//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
-				//.....这里写计算代码......
-				try {
-					//--------装填其他信息-----------
-					SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), Trans.timeToDate(new Date())));
-					if (zm!=null) {
-						tp.setLargeArea(zm.getLargeArea());
-						tp.setSliceArea(zm.getSliceArea());
-						tp.setFenbu(zm.getFenbu());
-						tp.setFbdArea(zm.getFbdArea());
-						tp.setSendTime(zm.getSendTime());
-						tp.setCtmName(zm.getCtmName());
-						tp.setCtmBarCode(zm.getCtmBarCode());
-						tp.setProvince(zm.getProvince());
-						tp.setCreateDate(zm.getCreateDate());
-						tp.setAddress(zm.getAddress());
-						tp.setAddressee(zm.getAddressee());
-						tp.setOrderNumber(zm.getOrderNumber());
-						tp.setShopNumber(zm.getShopNumber());
-						tp.setPhone(zm.getPhone());
-						tp.setWeight(zm.getWeight());
-						tp.setCourierCompany(zm.getCourierCompany());
-						tp.setGoods(zm.getGoods());
-						tp.setGoodsCost(zm.getGoodsCost());
-					}
-					sourceTpSer.add(tp);
-					rows++;
-				} catch (Exception e) {
-					log.error("插入失败，开始尝试修改。失败数据："+tp);
+			try {
+				List<SourceThirdParty> list=gson.fromJson(data, new TypeToken<List<SourceThirdParty>>(){}.getType());
+				tols=list.size();
+				for (int i = 0; i < list.size(); i++) {
+					SourceThirdParty tp=list.get(i);
+					tp.setReturnDate(Trans.timeToDate(new Date()));
+					//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
+					//.....这里写计算代码......
 					try {
 						//--------装填其他信息-----------
 						SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), Trans.timeToDate(new Date())));
 						if (zm!=null) {
-							tp.setLargeArea(null);
-							tp.setSliceArea(null);
-							tp.setFenbu(null);
-							tp.setFbdArea(null);
-							tp.setSendTime(null);
-							tp.setCtmName(null);
-							tp.setCtmBarCode(null);
-							tp.setProvince(null);
-							tp.setCreateDate(null);
-							tp.setAddress(null);
-							tp.setAddressee(null);
-							tp.setOrderNumber(null);
-							tp.setShopNumber(null);
-							tp.setPhone(null);
-							tp.setWeight(null);
-							tp.setCourierCompany(null);
-							tp.setGoods(null);
-							tp.setGoodsCost(null);
+							tp.setLargeArea(zm.getLargeArea());
+							tp.setSliceArea(zm.getSliceArea());
+							tp.setFenbu(zm.getFenbu());
+							tp.setFbdArea(zm.getFbdArea());
+							tp.setSendTime(zm.getSendTime());
+							tp.setCtmName(zm.getCtmName());
+							tp.setCtmBarCode(zm.getCtmBarCode());
+							tp.setProvince(zm.getProvince());
+							tp.setCreateDate(zm.getCreateDate());
+							tp.setAddress(zm.getAddress());
+							tp.setAddressee(zm.getAddressee());
+							tp.setOrderNumber(zm.getOrderNumber());
+							tp.setShopNumber(zm.getShopNumber());
+							tp.setPhone(zm.getPhone());
+							tp.setWeight(zm.getWeight());
+							tp.setCourierCompany(zm.getCourierCompany());
+							tp.setGoods(zm.getGoods());
+							tp.setGoodsCost(zm.getGoodsCost());
 						}
-						sourceTpSer.update(tp);
+						sourceTpSer.add(tp);
 						rows++;
-					} catch (Exception e2) {
-						log.error("错误：该条数据既无法插入也无法修改："+tp);
+					} catch (Exception e) {
+//					log.info("插入失败，开始尝试修改。失败数据："+tp);
+						try {
+							//--------装填其他信息-----------
+							SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), Trans.timeToDate(new Date())));
+							if (zm!=null) {
+								tp.setLargeArea(null);
+								tp.setSliceArea(null);
+								tp.setFenbu(null);
+								tp.setFbdArea(null);
+								tp.setSendTime(null);
+								tp.setCtmName(null);
+								tp.setCtmBarCode(null);
+								tp.setProvince(null);
+								tp.setCreateDate(null);
+								tp.setAddress(null);
+								tp.setAddressee(null);
+								tp.setOrderNumber(null);
+								tp.setShopNumber(null);
+								tp.setPhone(null);
+								tp.setWeight(null);
+								tp.setCourierCompany(null);
+								tp.setGoods(null);
+								tp.setGoodsCost(null);
+							}
+							sourceTpSer.update(tp);
+							rows++;
+						} catch (Exception e2) {
+							log.error("错误：该条数据既无法插入也无法修改："+tp);
+							failList.add(tp.getCourierNumber());
+						}
 					}
 				}
+			} catch (Exception e) {
+				log.error("接收哲盟返回数据出错，原因不明。");
+				isError=true;
 			}
 		}
 		Date date2=new Date();
 		log.info("本次共接收["+tols+"]条数据，成功保存["+rows+"]条数据,共耗时["+(date2.getTime()-date1.getTime())+"]ms");
+		if (failList.size()>0) {
+			return new ResultFromSendToZM(StringUtils.join(failList.toArray(new String[failList.size()]), ","),"fail");
+		}else{
+			if(isError==false){
+				return new ResultFromSendToZM("","success");
+			}else{
+				return new ResultFromSendToZM("","error");
+			}
+		}
 	}
 	
 	
