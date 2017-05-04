@@ -35,4 +35,5 @@ public interface ProvinceCodeMapper {
     List<ProvinceCode> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);
+    
 }

@@ -1,10 +1,14 @@
 package com.zs.controller.rest;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -111,4 +115,18 @@ public class ProvinceCodeConR extends BaseRestController<ProvinceCode, String>{
 		return new Result<String>(ERROR,  Code.ERROR, null);
 	}
 
+	
+	@RequestMapping(value="/province",method=RequestMethod.GET)
+	public List<String> autoComplete(String keyword) {
+		if (keyword!=null) {
+			try {
+				keyword=URLEncoder.encode(keyword,"utf-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			System.out.println(keyword);
+			return provinceCodeSer.selectProvince(keyword);
+		}
+		return null;
+	}
 }

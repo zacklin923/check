@@ -235,7 +235,7 @@
 	  	</if>
   	</where>
   </select>
-  <select id="selectByEndProvince" resultType="BaseResultMap" parameterType="java.lang.String">
+  <select id="selectByEndProvince" resultMap="BaseResultMap" parameterType="java.lang.String">
   	select * from TIME_LIMIT
   	<where>
 		and END_PROVINCE = #{endProvince}

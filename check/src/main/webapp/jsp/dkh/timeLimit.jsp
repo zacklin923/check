@@ -15,6 +15,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 
 <jsp:include page="/jsp/part/common.jsp"/>
+<link rel="stylesheet" type="text/css" href="<%=path %>/framework/autoComplete/jquery.autocomplete.css"></link>
+<script type="text/javascript" src="<%=path %>/framework/autoComplete/jquery.autocomplete.js"></script>
 <script type="text/javascript">
 var url;
 function addObj(){
@@ -22,6 +24,7 @@ function addObj(){
 	$("#fm").form("clear");
 	$("#fm input[name='_method']").val("post");
 	$("#fm input[name='_header']").val("${user.licence }");
+	$("#fm input[name='beginProvince']").val("深圳");
 	url="<%=path%>/api/timeLimit";
 }
 function updateObj(){
@@ -107,6 +110,14 @@ function excel_export(){
 	    } 
 	});
 }
+$(function(){
+	var ep=$("#fm input[name='endProvince']");	
+	ep.AutoComplete({
+	    "data": "<%=path%>/api/provinceCode/province"+ep.val(),
+	    "ajaxDataType": "json",
+	    "onerror": function(msg){alert(msg);}
+	});
+});
 </script>
 <table id="dg" class="easyui-datagrid" border="true" title="快件信息>时效控制信息管理"
 		url="<%=path %>/api/timeLimit"

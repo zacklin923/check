@@ -1,5 +1,6 @@
 package com.zs.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import com.zs.entity.ProvinceCode;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.service.ProvinceCodeSer;
+
+import oracle.net.aso.a;
 
 @Service("provinceCodeSer")
 public class ProvinceCodeSerImpl implements ProvinceCodeSer{
@@ -66,6 +69,19 @@ public class ProvinceCodeSerImpl implements ProvinceCodeSer{
 
 	public ProvinceCode get(String id) {
 		return codeMapper.selectByPrimaryKey(id);
+	}
+
+	public List<String> selectProvince(String pro) {
+		EasyUIAccept accept=new EasyUIAccept();
+		accept.setPage(1);
+		accept.setRows(10);
+		accept.setStr1(pro);
+		List<ProvinceCode> list=codeMapper.queryFenye(accept);
+		List<String> list2=new ArrayList<String>();
+		for (int i = 0; i < list.size(); i++) {
+			list2.add(list.get(i).getProvince());
+		}
+		return list2;
 	}
 	
 
