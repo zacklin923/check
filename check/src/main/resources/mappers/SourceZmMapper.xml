@@ -488,6 +488,18 @@
 		 		<if test="str1!=null">
 		  			and CTM_BAR_CODE in (${str1})
 		  		</if>
+		  		<if test="date1!=null">
+			  		and SEND_TIME >= #{date1}
+		  		</if>
+		  		<if test="date2!=null">
+			  		and SEND_TIME &lt;= #{date2}
+		  		</if>
+		  		<if test="str2!=null">
+		  			and CTM_BAR_CODE like '%${str2}%'
+		  		</if>
+		  		<if test="str3!=null">
+		  			and COURIER_NUMBER like '%${str3}%'
+		  		</if>
 			</where>
 		  	<if test="sort!=null and order!=null">
 		  		order by ${sort} ${order},CREATE_TIME desc
@@ -514,6 +526,18 @@
   		<if test="str1!=null">
 	  		and CTM_BAR_CODE in (${str1})
 	  	</if>
+	  	<if test="date1!=null">
+	  		and SEND_TIME >= #{date1}
+  		</if>
+  		<if test="date2!=null">
+	  		and SEND_TIME &lt;= #{date2}
+  		</if>
+  		<if test="str2!=null">
+  			and CTM_BAR_CODE like '%${str2}%'
+  		</if>
+  		<if test="str3!=null">
+  			and COURIER_NUMBER like '%${str3}%'
+  		</if>
  	</where>
   </select>
 </mapper>
