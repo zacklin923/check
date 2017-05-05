@@ -56,7 +56,9 @@ public class SourceThirdParty extends SourceThirdPartyKey {
 
     private String fbdArea;
 
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
+    private String signPort;
+
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getSendTime() {
         return sendTime;
     }
@@ -121,7 +123,6 @@ public class SourceThirdParty extends SourceThirdPartyKey {
         this.addressee = addressee == null ? null : addressee.trim();
     }
 
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getSignTime() {
         return signTime;
     }
@@ -210,7 +211,6 @@ public class SourceThirdParty extends SourceThirdPartyKey {
         this.fee = fee;
     }
 
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss.SSS",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -243,7 +243,6 @@ public class SourceThirdParty extends SourceThirdPartyKey {
         this.fenbu = fenbu == null ? null : fenbu.trim();
     }
 
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getCreateDate() {
         return createDate;
     }
@@ -259,4 +258,53 @@ public class SourceThirdParty extends SourceThirdPartyKey {
     public void setFbdArea(String fbdArea) {
         this.fbdArea = fbdArea == null ? null : fbdArea.trim();
     }
+
+    public String getSignPort() {
+        return signPort;
+    }
+
+    public void setSignPort(String signPort) {
+        this.signPort = signPort == null ? null : signPort.trim();
+    }
+
+	public SourceThirdParty() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public SourceThirdParty(Date sendTime, String ctmName, String ctmBarCode, String province, String address,
+			String deliveryState, String signatory, String addressee, Date signTime, String abnormalCause,
+			BigDecimal isTimeOut, String orderNumber, String shopNumber, String phone, BigDecimal weight,
+			String courierCompany, String goods, BigDecimal goodsCost, BigDecimal fee, Date createTime,
+			String largeArea, String sliceArea, String fenbu, Date createDate, String fbdArea, String signPort,String courierNumber,Date returnDate) {
+		this.sendTime = sendTime;
+		this.ctmName = ctmName;
+		this.ctmBarCode = ctmBarCode;
+		this.province = province;
+		this.address = address;
+		this.deliveryState = deliveryState;
+		this.signatory = signatory;
+		this.addressee = addressee;
+		this.signTime = signTime;
+		this.abnormalCause = abnormalCause;
+		this.isTimeOut = isTimeOut;
+		this.orderNumber = orderNumber;
+		this.shopNumber = shopNumber;
+		this.phone = phone;
+		this.weight = weight;
+		this.courierCompany = courierCompany;
+		this.goods = goods;
+		this.goodsCost = goodsCost;
+		this.fee = fee;
+		this.createTime = createTime;
+		this.largeArea = largeArea;
+		this.sliceArea = sliceArea;
+		this.fenbu = fenbu;
+		this.createDate = createDate;
+		this.fbdArea = fbdArea;
+		this.signPort = signPort;
+		this.setCourierNumber(courierNumber);
+		this.setReturnDate(returnDate);
+	}
+    
 }

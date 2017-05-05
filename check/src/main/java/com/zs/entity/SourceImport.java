@@ -3,8 +3,6 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class SourceImport {
     private String courierNumber;
 
@@ -37,12 +35,23 @@ public class SourceImport {
     private BigDecimal isPushed;
 
     private String stuNum;
-    
-    private String stuName;
 
     private String oneCode;
 
-    public String getCourierNumber() {
+    private String province;
+//-----------------------------------
+    private String stuName;
+    
+    
+    public String getStuName() {
+		return stuName;
+	}
+
+	public void setStuName(String stuName) {
+		this.stuName = stuName;
+	}
+
+	public String getCourierNumber() {
         return courierNumber;
     }
 
@@ -74,7 +83,6 @@ public class SourceImport {
         this.shopNumber = shopNumber == null ? null : shopNumber.trim();
     }
 
-    @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
     public Date getCreateDate() {
         return createDate;
     }
@@ -147,7 +155,6 @@ public class SourceImport {
         this.numberType = numberType == null ? null : numberType.trim();
     }
 
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -180,10 +187,18 @@ public class SourceImport {
         this.oneCode = oneCode == null ? null : oneCode.trim();
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province == null ? null : province.trim();
+    }
+
 	public SourceImport(String courierNumber, String ctmBarCode, String ctmName, String shopNumber, Date createDate,
 			String address, String addressee, String phone, String courierCompany, String goods, BigDecimal goodsCost,
-			String orderNumber, String numberType, Date createTime, BigDecimal isPushed, String stuNum,
-			String oneCode) {
+			String orderNumber, String numberType, Date createTime, BigDecimal isPushed, String stuNum, String oneCode,
+			String province) {
 		super();
 		this.courierNumber = courierNumber;
 		this.ctmBarCode = ctmBarCode;
@@ -202,18 +217,11 @@ public class SourceImport {
 		this.isPushed = isPushed;
 		this.stuNum = stuNum;
 		this.oneCode = oneCode;
+		this.province = province;
 	}
 
 	public SourceImport() {
 		super();
-	}
-
-	public String getStuName() {
-		return stuName;
-	}
-
-	public void setStuName(String stuName) {
-		this.stuName = stuName;
 	}
     
     

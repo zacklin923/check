@@ -29,6 +29,7 @@
     <result column="FENBU" property="fenbu" jdbcType="VARCHAR" />
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="FBD_AREA" property="fbdArea" jdbcType="VARCHAR" />
+    <result column="SIGN_PORT" property="signPort" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -92,7 +93,7 @@
     COURIER_NUMBER, RETURN_DATE, SEND_TIME, CTM_NAME, CTM_BAR_CODE, PROVINCE, ADDRESS, 
     DELIVERY_STATE, SIGNATORY, ADDRESSEE, SIGN_TIME, ABNORMAL_CAUSE, IS_TIME_OUT, ORDER_NUMBER, 
     SHOP_NUMBER, PHONE, WEIGHT, COURIER_COMPANY, GOODS, GOODS_COST, FEE, CREATE_TIME, 
-    LARGE_AREA, SLICE_AREA, FENBU, CREATE_DATE, FBD_AREA
+    LARGE_AREA, SLICE_AREA, FENBU, CREATE_DATE, FBD_AREA, SIGN_PORT
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceThirdPartyExample" >
     select
@@ -136,8 +137,8 @@
       PHONE, WEIGHT, COURIER_COMPANY, 
       GOODS, GOODS_COST, FEE, 
       CREATE_TIME, LARGE_AREA, SLICE_AREA, 
-      FENBU, CREATE_DATE, FBD_AREA
-      )
+      FENBU, CREATE_DATE, FBD_AREA, 
+      SIGN_PORT)
     values (#{courierNumber,jdbcType=VARCHAR}, #{returnDate,jdbcType=TIMESTAMP}, #{sendTime,jdbcType=TIMESTAMP}, 
       #{ctmName,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{deliveryState,jdbcType=VARCHAR}, #{signatory,jdbcType=VARCHAR}, 
@@ -146,8 +147,8 @@
       #{phone,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=VARCHAR}, 
       #{goods,jdbcType=VARCHAR}, #{goodsCost,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, 
       #{createTime,jdbcType=TIMESTAMP}, #{largeArea,jdbcType=VARCHAR}, #{sliceArea,jdbcType=VARCHAR}, 
-      #{fenbu,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{fbdArea,jdbcType=VARCHAR}
-      )
+      #{fenbu,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{fbdArea,jdbcType=VARCHAR}, 
+      #{signPort,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.SourceThirdParty" >
     insert into SOURCE_THIRD_PARTY
@@ -233,6 +234,9 @@
       <if test="fbdArea != null" >
         FBD_AREA,
       </if>
+      <if test="signPort != null" >
+        SIGN_PORT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courierNumber != null" >
@@ -315,6 +319,9 @@
       </if>
       <if test="fbdArea != null" >
         #{fbdArea,jdbcType=VARCHAR},
+      </if>
+      <if test="signPort != null" >
+        #{signPort,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -408,6 +415,9 @@
       <if test="record.fbdArea != null" >
         FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR},
       </if>
+      <if test="record.signPort != null" >
+        SIGN_PORT = #{record.signPort,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -441,7 +451,8 @@
       SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
       FENBU = #{record.fenbu,jdbcType=VARCHAR},
       CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
-      FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR}
+      FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR},
+      SIGN_PORT = #{record.signPort,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -524,6 +535,9 @@
       <if test="fbdArea != null" >
         FBD_AREA = #{fbdArea,jdbcType=VARCHAR},
       </if>
+      <if test="signPort != null" >
+        SIGN_PORT = #{signPort,jdbcType=VARCHAR},
+      </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
       and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
@@ -554,7 +568,8 @@
       SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},
       FENBU = #{fenbu,jdbcType=VARCHAR},
       CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
-      FBD_AREA = #{fbdArea,jdbcType=VARCHAR}
+      FBD_AREA = #{fbdArea,jdbcType=VARCHAR},
+      SIGN_PORT = #{signPort,jdbcType=VARCHAR}
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
       and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </update>

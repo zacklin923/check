@@ -1905,6 +1905,76 @@ public class SourceThirdPartyExample {
             addCriterion("FBD_AREA not between", value1, value2, "fbdArea");
             return (Criteria) this;
         }
+
+        public Criteria andSignPortIsNull() {
+            addCriterion("SIGN_PORT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortIsNotNull() {
+            addCriterion("SIGN_PORT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortEqualTo(String value) {
+            addCriterion("SIGN_PORT =", value, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortNotEqualTo(String value) {
+            addCriterion("SIGN_PORT <>", value, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortGreaterThan(String value) {
+            addCriterion("SIGN_PORT >", value, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortGreaterThanOrEqualTo(String value) {
+            addCriterion("SIGN_PORT >=", value, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortLessThan(String value) {
+            addCriterion("SIGN_PORT <", value, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortLessThanOrEqualTo(String value) {
+            addCriterion("SIGN_PORT <=", value, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortLike(String value) {
+            addCriterion("SIGN_PORT like", value, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortNotLike(String value) {
+            addCriterion("SIGN_PORT not like", value, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortIn(List<String> values) {
+            addCriterion("SIGN_PORT in", values, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortNotIn(List<String> values) {
+            addCriterion("SIGN_PORT not in", values, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortBetween(String value1, String value2) {
+            addCriterion("SIGN_PORT between", value1, value2, "signPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignPortNotBetween(String value1, String value2) {
+            addCriterion("SIGN_PORT not between", value1, value2, "signPort");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

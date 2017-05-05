@@ -2,12 +2,10 @@ package com.zs.entity;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class SourceZmKey {
-	public String courierNumber;
+    private String courierNumber;
 
-    public Date returnDate;
+    private Date returnDate;
 
     public String getCourierNumber() {
         return courierNumber;
@@ -26,7 +24,6 @@ public class SourceZmKey {
     }
 
 	public SourceZmKey(String courierNumber, Date returnDate) {
-		super();
 		this.courierNumber = courierNumber;
 		this.returnDate = returnDate;
 	}
@@ -34,6 +31,5 @@ public class SourceZmKey {
 	public SourceZmKey() {
 		super();
 	}
-    
     
 }
