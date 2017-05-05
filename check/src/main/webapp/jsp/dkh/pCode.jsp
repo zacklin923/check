@@ -17,6 +17,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
 var url;
+function addObj(){
+	$("#dlg").dialog("open").dialog("setTitle","新建");	
+	$("#fm").form("clear");
+	$("#fm input[name='_method']").val("post");
+	$("#fm input[name='_header']").val("${user.licence }");
+	url="<%=path %>/api/provinceCode";
+}
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
@@ -24,7 +31,7 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${licence }");
-		url="<%=path%>/api/timeLimit/"+row.orderNumber;
+		url="<%=path%>/api/provinceCode/"+row.provinceCode;
 	}
 }
 function save(){
@@ -55,7 +62,7 @@ function save(){
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var id=row.orderNumber;
+	var id=row.provinceCode;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
@@ -63,7 +70,7 @@ function deleteObj(){
 			function(data){
 				if(data){
 					$.ajax({
-						url:"<%=path%>/api/timeLimit/"+id,
+						url:"<%=path%>/api/provinceCode/"+id,
 						type:"delete",
 						success:function(data){
 							var json;
@@ -128,20 +135,12 @@ function excel_export(){
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
-		<div class="searchBar-input">
-    		<div>
-	    		发货时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
-    		</div>
-    		<div>
-    			发货时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
-    		</div>
-   		</div>
    		<div class="searchBar-input">
     		<div>
-	    		客户条码：<input name ="str1" />
+	    		省份名称：<input name ="str1" />
     		</div>
     		<div>
-    			快递单号：<input name ="str2" />
+    			一段码：<input name ="str2" />
     		</div>
    		</div>
    	</form>
@@ -155,43 +154,18 @@ function excel_export(){
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">返回数据信息</div>
+	<div class="ftitle">省份码</div>
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
-		<input type="hidden" name="orderNumber"/>
 		<div class="fitem">
-			<label>客户名称:</label>
-			<input name="ctmName" class="easyui-validatebox" required="true">
+			<label>一段码:</label>
+			<input name="provinceCode" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
 			<label>省份:</label>
 			<input name="province" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>地址:</label>
-			<input name="address" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>客户店铺:</label>
-			<input name="shopNumber" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>收件人:</label>
-			<input name="addressee" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>联系方式:</label>
-			<input name="phone" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>物品价值:</label>
-			<input name="goodsCost" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>订单编号:</label>
-			<input name="orderNumber" class="easyui-validatebox" required="true">
 		</div>
 	</form>
 </div>
@@ -201,7 +175,7 @@ function excel_export(){
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
 		closed="true" modal="true">
-	<iframe src="<%=path%>/jsp/help/sourceZm.jsp" frameborder="0" height="100%" width="100%">
+	<iframe src="<%=path%>/jsp/help/province.jsp" frameborder="0" height="100%" width="100%">
 	</iframe>
 </div>
 </body>

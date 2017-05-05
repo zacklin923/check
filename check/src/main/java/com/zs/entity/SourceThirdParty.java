@@ -122,7 +122,8 @@ public class SourceThirdParty extends SourceThirdPartyKey {
     public void setAddressee(String addressee) {
         this.addressee = addressee == null ? null : addressee.trim();
     }
-
+    
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getSignTime() {
         return signTime;
     }
@@ -210,7 +211,7 @@ public class SourceThirdParty extends SourceThirdPartyKey {
     public void setFee(BigDecimal fee) {
         this.fee = fee;
     }
-
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss.SSS",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -242,7 +243,7 @@ public class SourceThirdParty extends SourceThirdPartyKey {
     public void setFenbu(String fenbu) {
         this.fenbu = fenbu == null ? null : fenbu.trim();
     }
-
+    @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
     public Date getCreateDate() {
         return createDate;
     }

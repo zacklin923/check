@@ -78,8 +78,6 @@ public class ReceiveFromZmConR {
 					}else {
 						zm.setCourierState("1");
 					}
-					//------去掉可能出现的但是又不希望出现的数据------------------------
-					zm.setProvince(null);
 					try {
 						//--------装填其他信息-----------
 						SourceImport im=sourceImportSer.get(zm.getCourierNumber());
@@ -95,8 +93,24 @@ public class ReceiveFromZmConR {
 							zm.setCourierCompany(im.getCourierCompany());
 							zm.setOrderNumber(im.getOrderNumber());
 							//-------装填省份信息-----------------
-							ProvinceCode provinceCode=provinceCodeSer.get(im.getOneCode());
-							if(provinceCode!=null) zm.setProvince(provinceCode.getProvince());
+							if (zm.getProvince()==null || (zm.getProvince()!=null && zm.getProvince().trim().equals(""))) {//哲盟没有返回省份
+								if (im.getProvince()!=null && !im.getProvince().trim().equals("")) {//导入表有省份
+									zm.setProvince(im.getProvince());
+								}else if(im.getOneCode()!=null && !im.getOneCode().equals("")){//导入表有一段码
+									ProvinceCode provinceCode=provinceCodeSer.get(im.getOneCode());
+									if(provinceCode!=null) zm.setProvince(provinceCode.getProvince());
+								}else {//导入表既没有一段码也没有省份
+									log.error("该条记录无法计算出省份。"+zm);
+								}
+							}
+							//-----------计算超时时间----------------
+							TimeLimit tl=timeLimitSer.selectByEndProvince(zm.getProvince());
+							if(tl!=null && zm.getSendTime()!=null){
+								Calendar calendar=Calendar.getInstance();
+								calendar.setTime(zm.getSendTime());
+								calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
+								zm.setTimeOut(calendar.getTime());
+							}
 						}
 						sourceZmSer.add(zm);
 						rows++;
@@ -114,7 +128,15 @@ public class ReceiveFromZmConR {
 							zm.setGoodsCost(null);
 							zm.setCourierCompany(null);
 							zm.setOrderNumber(null);
-							zm.setProvince(null);
+							if(zm.getProvince()!=null && zm.getProvince().trim().equals(""))zm.setProvince(null);
+							//-----------计算超时时间----------------
+							TimeLimit tl=timeLimitSer.selectByEndProvince(zm.getProvince());
+							if(tl!=null && zm.getSendTime()!=null){
+								Calendar calendar=Calendar.getInstance();
+								calendar.setTime(zm.getSendTime());
+								calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
+								zm.setTimeOut(calendar.getTime());
+							}
 							sourceZmSer.update(zm);
 							rows++;
 						} catch (Exception e2) {
@@ -159,7 +181,7 @@ public class ReceiveFromZmConR {
 					tp.setReturnDate(Trans.timeToDate(new Date()));
 					try {
 						//--------装填其他信息-----------
-						SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), Trans.timeToDate(new Date())));
+						SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(),tp.getReturnDate()));
 						if (zm!=null) {
 							tp.setLargeArea(zm.getLargeArea());
 							tp.setSliceArea(zm.getSliceArea());
@@ -180,12 +202,8 @@ public class ReceiveFromZmConR {
 							tp.setGoods(zm.getGoods());
 							tp.setGoodsCost(zm.getGoodsCost());
 							//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
-							TimeLimit tl=timeLimitSer.selectByEndProvince(tp.getProvince());
-							if(tl!=null && tp.getSignTime()!=null){
-								Calendar calendar=Calendar.getInstance();
-								calendar.setTime(tp.getSignTime());
-								calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
-								if (calendar.getTime().after(new Date())) {//签收+规定消耗的时间  > 现在  ，就代表超期
+							if (zm.getTimeOut()!=null) {
+								if (zm.getTimeOut().after(new Date())) {//发货日期+规定消耗的时间  > 现在  ，就代表超期
 									tp.setIsTimeOut(new BigDecimal(1));
 								}else {
 									tp.setIsTimeOut(new BigDecimal(0));
@@ -217,18 +235,12 @@ public class ReceiveFromZmConR {
 							tp.setGoods(null);
 							tp.setGoodsCost(null);
 							//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
-							SourceThirdParty stp=sourceTpSer.get(new SourceThirdPartyKey(tp.getCourierNumber(), tp.getReturnDate()));
-							if(stp!=null){
-								TimeLimit tl=timeLimitSer.selectByEndProvince(stp.getProvince());
-								if(tl!=null && tp.getSignTime()!=null){
-									Calendar calendar=Calendar.getInstance();
-									calendar.setTime(tp.getSignTime());
-									calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
-									if (calendar.getTime().after(new Date())) {//签收+规定消耗的时间  > 现在  ，就代表超期
-										tp.setIsTimeOut(new BigDecimal(1));
-									}else {
-										tp.setIsTimeOut(new BigDecimal(0));
-									}
+							SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), tp.getReturnDate()));
+							if (zm!=null && zm.getTimeOut()!=null) {
+								if (zm.getTimeOut().after(new Date())) {//发货日期+规定消耗的时间  > 现在  ，就代表超期
+									tp.setIsTimeOut(new BigDecimal(1));
+								}else {
+									tp.setIsTimeOut(new BigDecimal(0));
 								}
 							}
 							sourceTpSer.update(tp);
