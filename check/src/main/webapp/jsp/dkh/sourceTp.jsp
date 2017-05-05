@@ -86,7 +86,7 @@ function deleteObj(){
 }
 function excel_export(){
 	$("#search").form("submit",{
-		url:"<%=path%>/api/timeLimit/excelExport",
+		url:"<%=path%>/api/sourceTp/exportExcel",
 		method:"get",
 		onSubmit: function(){   
 	        // do some check   
@@ -178,7 +178,7 @@ function excel_export(){
    	<div class="clear"></div>
    	<hr class="hr-geay">
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search">统计</a>
+	<a href="<%=path%>/api/sourceTp/exportExcel" class="easyui-linkbutton" iconCls="icon-search">统计</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
 	<div class="pull-away"></div>
 </div>
