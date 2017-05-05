@@ -108,6 +108,39 @@ function excel_export(){
 	    } 
 	});
 }
+function upload(){
+	$("#fileImport").dialog("close");
+	show_hint([]);
+	$("#fmfile").form("submit",{
+		url:"<%=path %>/api/sourceZm/import",		
+		onSubmit:function(){
+			return $(this).form('validate');
+		},
+		success:function(data){
+			console.log(data);
+			if(data){
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					hiden_hint();
+					$('#dg').datagrid('reload');
+					$("#fileImport").dialog("close");					
+				}else{
+					hiden_hint();
+					$("#fileImport").dialog("close");	
+					alert("错误:"+json.code+"错误原因："+json.data);
+				}
+			}else{
+				hiden_hint();
+				alert("错误:网络错误");
+			}
+		}
+	});
+}
 </script>
 <table id="dg" class="easyui-datagrid" border="true" title="快件信息>哲盟返回数据"
 		url="<%=path %>/api/sourceZm"
@@ -119,25 +152,25 @@ function excel_export(){
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
-			<th field="largeArea" width="100" sortable="true">所属大区</th>
-			<th field="sliceArea" width="100" sortable="true">所属区部</th>
-			<th field="fenbu" width="100" sortable="true">所属分部</th>
+			<th field="largeArea" width="80" sortable="true">所属大区</th>
+			<th field="sliceArea" width="80" sortable="true">所属区部</th>
+			<th field="fenbu" width="80" sortable="true">所属分部</th>
 			<th field="fbdArea" width="100" sortable="true">所属分拨点</th>
 			<th field="ctmBarCode" width="100" sortable="true">客户条码</th>
 			<th field="ctmName" width="100" sortable="true">客户名称</th>
 			<th field="courierNumber" width="120" sortable="true">快递单号</th>
-			<th field="sendTime" width="200" sortable="true">发货日期</th>
-			<th field="province" width="100" sortable="true">省份</th>
-			<th field="address" width="350" sortable="true">地址</th>
+			<th field="sendTime" width="150" sortable="true">发货日期</th>
+			<th field="province" width="50" sortable="true">省份</th>
+			<th field="address" width="150" sortable="true">地址</th>
 			<th field="shopNumber" width="100" sortable="true">客户店铺</th>
-			<th field="addressee" width="100" sortable="true">收件人</th>
+			<th field="addressee" width="60" sortable="true">收件人</th>
 			<th field="phone" width="100" sortable="true">联系方式</th>
-			<th field="weight" width="100" sortable="true">重量</th>
-			<th field="courierCompany" width="100" sortable="true">快递公司</th>
-			<th field="goodsCost" width="100" sortable="true">物品价值</th>
-			<th field="goods" width="100" sortable="true">物品</th>
+			<th field="weight" width="60" sortable="true">重量</th>
+			<th field="courierCompany" width="60" sortable="true">快递公司</th>
+			<th field="goodsCost" width="60" sortable="true">物品价值</th>
+			<th field="goods" width="60" sortable="true">物品</th>
 			<th field="createDate" width="100" sortable="true">创建日期</th>
-			<th field="courierState" width="100" sortable="true">状态</th>
+			<th field="courierState" width="60" sortable="true">状态</th>
 			<th field="returnDate" width="100" sortable="true" data-options="
 				formatter:function(value,row,index){
                       if(row.returnDate){
@@ -145,6 +178,7 @@ function excel_export(){
                           }
                       }">返回日期</th>
 			<th field="orderNumber" width="100" sortable="true">订单编号</th>
+			<th field="timeOut" width="100" sortable="true">超时时间</th>
 		</tr>
 	</thead>
 </table>
@@ -242,7 +276,7 @@ function excel_export(){
 <div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
 		closed="true" modal="true" title="数据源导入">
 		<div style="height:25px;line-height:25px;">数据导入模板
-			<a href="<%=path%>/file/数据源导入模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
+			<a href="<%=path%>/file/哲盟返回数据导入模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
 		</div></br></br></br>
 		<form id="fmfile"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>

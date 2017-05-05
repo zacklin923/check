@@ -1,6 +1,8 @@
 package com.zs.controller.rest;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +25,7 @@ import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
 import com.zs.service.SourceZmSer;
 import com.zs.tools.ColumnName;
+import com.zs.tools.ExcelImport;
 import com.zs.tools.ManagerId;
 
 @RestController
@@ -127,10 +131,26 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 		return null;
 	}
 
+	@RequestMapping(value="/import",method=RequestMethod.POST)
 	@Override
-	public Result<String> excelImport(MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
+	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		req.getSession().setAttribute("isLoading", true);
+		String s ="";
+		if (!file.isEmpty()) {
+			try {
+				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
+				s = s + sourceZmSer.importData(list);
+				if(s.equals("")){
+					req.getSession().setAttribute("isLoading", false);
+					return new Result<String>(SUCCESS,  Code.SUCCESS, s);
+				}
+			} catch (IOException e) {
+				req.getSession().setAttribute("isLoading", false);
+				return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
+			}
+		}
+		req.getSession().setAttribute("isLoading", false);
+		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 
 

@@ -109,9 +109,15 @@ public class Trans {
 				Date date = sdf.parse(str);
 				return new Timestamp(date.getTime());
 			} catch (ParseException e) {
-				e.printStackTrace();
-				log.error("字符串转Timestamp类型失败，错误字符转为："+str);
-				return null;
+				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				try {
+					Date date1 = sdf1.parse(str);
+					return new Timestamp(date1.getTime());
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+					log.error("字符串转Timestamp类型失败，错误字符转为："+str);
+					return null;
+				}
 			}
 		}else{
 			return null;
