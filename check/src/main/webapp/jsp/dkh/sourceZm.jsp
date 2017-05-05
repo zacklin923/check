@@ -89,8 +89,6 @@ function excel_export(){
 	$("#search").form("submit",{
 		url:"<%=path%>/api/sourceZm/exportExcel",
 		onSubmit: function(){   
-			console.log($(this));
-			return true;
 		},   
 	    success:function(data){   
 	    	var json;
