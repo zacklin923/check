@@ -97,15 +97,16 @@ public class SourceImportSerImpl implements SourceImportSer{
 				sif.setStuNum(stuNum);
 				sif.setFailInfo(gson.toJson(sie));
 				sif.setFailType("数据必填项为空");
-				importFailMapper.insert(sif);
+				importFailMapper.insertSelective(sif);
 				inull=1;
 			}else{
 				SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
 				if(skey==null){
 					try {
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-						SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],sdf.parse(list.get(i)[0]),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),new BigDecimal("0"),stuNum,list.get(i)[12].substring(0,3),list.get(i)[13]);
-						importMapper.insert(s);
+						String oneCode=list.get(i)[12].length()>3?list.get(i)[12].substring(0,3):null;
+						SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],sdf.parse(list.get(i)[0]),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),new BigDecimal("0"),stuNum,oneCode,list.get(i)[13]);
+						importMapper.insertSelective(s);
 					} catch (Exception e) {
 						e.printStackTrace();
 						SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
@@ -113,7 +114,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 						sif.setStuNum(stuNum);
 						sif.setFailInfo(gson.toJson(sie));
 						sif.setFailType("数据类型转换错误");
-						importFailMapper.insert(sif);
+						importFailMapper.insertSelective(sif);
 						inull=4;
 					}
 				}else{
@@ -122,7 +123,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 					sifk.setStuNum(stuNum);
 					sifk.setFailInfo(gson.toJson(sier));
 					sifk.setFailType("重复快递单号");
-					importFailMapper.insert(sifk);
+					importFailMapper.insertSelective(sifk);
 					knull=2;
 				}
 			}
@@ -286,6 +287,5 @@ public class SourceImportSerImpl implements SourceImportSer{
 		Date d2=new Date();
 		log.error("【系统每天自动推送未发货】共推送["+zms.size()+"]条，成功["+succrows+"]条，耗时["+(d2.getTime()-d1.getTime())+"]ms。");
 	}
-	
 	
 }

@@ -253,5 +253,16 @@ public class SourceZm extends SourceZmKey {
 		this.setCourierNumber(courierNumber);
 		this.setReturnDate(returnDate);
 	}
+
+	@Override
+	public String toString() {
+		return "SourceZm [largeArea=" + largeArea + ", sliceArea=" + sliceArea + ", fenbu=" + fenbu + ", ctmBarCode="
+				+ ctmBarCode + ", ctmName=" + ctmName + ", sendTime=" + sendTime + ", province=" + province
+				+ ", address=" + address + ", shopNumber=" + shopNumber + ", addressee=" + addressee + ", phone="
+				+ phone + ", weight=" + weight + ", courierCompany=" + courierCompany + ", goodsCost=" + goodsCost
+				+ ", goods=" + goods + ", orderNumber=" + orderNumber + ", createTime=" + createTime + ", createDate="
+				+ createDate + ", courierState=" + courierState + ", fbdArea=" + fbdArea + ", timeOut=" + timeOut
+				+ ", getCourierNumber()=" + getCourierNumber() + ", getReturnDate()=" + getReturnDate() + "]";
+	}
     
 }
