@@ -122,13 +122,13 @@ function deleteAll(){
                              if(row.sourceImport){
 						return row.sourceImport.courierCompany;
                           }
-                      }" width="100">快递公司</th>
+                      }" width="70">快递公司</th>
 			<th field="goodsCost" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
 						return row.sourceImport.goodsCost;
                           }
-                      }" width="100">物品价值</th>
+                      }" width="70">物品价值</th>
 			<th field="goods" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
@@ -140,13 +140,19 @@ function deleteAll(){
                              if(row.sourceImport){
 						return row.sourceImport.numberType;
                           }
-                      }" width="80">类型</th>
+                      }" width="70">类型</th>
             <th field="oneCode" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
 						return row.sourceImport.oneCode;
                           }
                       }" width="70">一段码</th>
+            <th field="province" data-options="
+				formatter:function(value,row,index){
+                             if(row.sourceImport){
+						return row.sourceImport.province;
+                          }
+                      }" width="70">省份</th>
 		</tr>
 	</thead>
 </table>
