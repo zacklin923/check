@@ -169,8 +169,11 @@
 	  	(
 		  	select * from PROVINCE_CODE
 		  	<where>
-		  		<if test="str1!=null">
+		  		<if test="str1!=null and str1!=''">
 		  			and PROVINCE like '%${str1}%'
+		  		</if>
+		  		<if test="str2!=null and str2!=''">
+		  			and PROVINCE_CODE like '%${str2}%'
 		  		</if>
 		  	</where>
 		  	<if test="sort!=null and order!=null">
@@ -195,9 +198,16 @@
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(*) from PROVINCE_CODE
   	<where>
-  		<if test="str1!=null">
+  		<if test="str1!=null and str1!=''">
   			and PROVINCE like '%${str1}%'
+  		</if>
+  		<if test="str2!=null and str2!=''">
+  			and PROVINCE_CODE like '%${str2}%'
   		</if>
   	</where>
   </select>
+  <select id="selectProvince" resultType="java.lang.String" parameterType="java.lang.String">
+	  select PROVINCE from ( select t1.*,rownum rn from ( select province from PROVINCE_CODE group by province having PROVINCE like '%${pro}%'  ) t1 where rownum &lt;= 10 ) where rn > 0 
+  </select>
+  
 </mapper>

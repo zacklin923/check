@@ -115,6 +115,7 @@ $(function(){
 	ep.AutoComplete({
 	    "data": "<%=path%>/api/provinceCode/province"+ep.val(),
 	    "ajaxDataType": "json",
+	    "width": "auto",
 	    "onerror": function(msg){alert(msg);}
 	});
 });

@@ -16,19 +16,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-function getDateByMs(date,fgf){
-	var getYear=date.getFullYear();
-	var getMonth=date.getMonth()+1;
-	if(getMonth<10){
-		getMonth="0"+getMonth;
-	}
-	var getDate=date.getDate();
-	if(getDate<10){
-		getDate="0"+getDate;
-	}
-	var times=getYear+fgf+getMonth+fgf+getDate;
-	return times;
-}
 var url;
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");

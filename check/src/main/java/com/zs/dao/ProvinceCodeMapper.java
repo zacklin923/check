@@ -36,4 +36,6 @@ public interface ProvinceCodeMapper {
 	
     int getCount(EasyUIAccept accept);
     
+    List<String> selectProvince(@Param("pro") String pro);
+    
 }
