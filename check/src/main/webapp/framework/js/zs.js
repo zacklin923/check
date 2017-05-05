@@ -86,3 +86,17 @@ function isJson(obj){
 	var isj = typeof(obj) == "object" && (Object.prototype.toString.call(obj).toLowerCase() == "[object object]" || Object.prototype.toString.call(obj).toLowerCase() == "[object array]"); 
 	return isj;
 }
+/*毫秒数转成时间字符串的形式*/
+function getDateByMs(date,fgf){
+	var getYear=date.getFullYear();
+	var getMonth=date.getMonth()+1;
+	if(getMonth<10){
+		getMonth="0"+getMonth;
+	}
+	var getDate=date.getDate();
+	if(getDate<10){
+		getDate="0"+getDate;
+	}
+	var times=getYear+fgf+getMonth+fgf+getDate;
+	return times;
+}

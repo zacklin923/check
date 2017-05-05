@@ -112,32 +112,37 @@ function excel_export(){
 	<thead>
 		<tr>
 			<th field="sendTime" width="100" sortable="true">发货日期</th>
-			<th field="ctmName" width="100" sortable="true">客户名称</th>
+			<th field="ctmName" width="150" sortable="true">客户名称</th>
 			<th field="ctmBarCode" width="100" sortable="true">客户条码</th>
 			<th field="province" width="100" sortable="true">省份</th>
-			<th field="address" width="100" sortable="true">地址</th>
+			<th field="address" width="200" sortable="true">地址</th>
 			<th field="deliveryState" width="100" sortable="true">配送状态</th>
-			<th field="signatory" width="100" sortable="true">签收人</th>
-			<th field="addressee" width="100" sortable="true">收件人</th>
-			<th field="signTime" width="100" sortable="true">签收时间</th>
+			<th field="signatory" width="80" sortable="true">签收人</th>
+			<th field="addressee" width="80" sortable="true">收件人</th>
+			<th field="signTime" width="200" sortable="true">签收时间</th>
 			<th field="abnormalCause" width="100" sortable="true">异常原因</th>
-			<th field="isTimeOut" width="100" sortable="true">是否超时</th>
+			<th field="isTimeOut" width="80" sortable="true">是否超时</th>
 			<th field="orderNumber" width="100" sortable="true">订单编号</th>
-			<th field="shopNumber" width="100" sortable="true">客户店铺</th>
+			<th field="shopNumber" width="150" sortable="true">客户店铺</th>
 			<th field="phone" width="100" sortable="true">联系方式</th>
-			<th field="weight" width="100" sortable="true">重量</th>
-			<th field="courierCompany" width="100" sortable="true">快递公司</th>
+			<th field="weight" width="80" sortable="true">重量</th>
+			<th field="courierCompany" width="80" sortable="true">快递公司</th>
 			<th field="goods" width="100" sortable="true">物品</th>
-			<th field="goodsCost" width="100" sortable="true">物品价值</th>
-			<th field="fee" width="100" sortable="true">费用</th>
-			<th field="createTime" width="100" sortable="true">创建时间</th>
+			<th field="goodsCost" width="80" sortable="true">物品价值</th>
+			<th field="fee" width="80" sortable="true">费用</th>
+			<th field="createTime" width="250" sortable="true">创建时间</th>
 			<th field="largeArea" width="100" sortable="true">所属大区</th>
-			<th field="sliceArea" width="100" sortable="true">所属区部</th>
-			<th field="fenbu" width="100" sortable="true">所属分部</th>
+			<th field="sliceArea" width="150" sortable="true">所属区部</th>
+			<th field="fenbu" width="200" sortable="true">所属分部</th>
 			<th field="createDate" width="100" sortable="true">创建日期</th>
-			<th field="fbdArea" width="100" sortable="true">所属分拨点</th>
-			<th field="courierNumber" width="100" sortable="true">快递单号</th>
-			<th field="returnDate" width="100" sortable="true">返回日期</th>
+			<th field="fbdArea" width="250" sortable="true">所属分拨点</th>
+			<th field="courierNumber" width="150" sortable="true">快递单号</th>
+			<th field="returnDate" width="100" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(row.returnDate){
+							return getDateByMs(new Date(row.returnDate),'/');
+                      }
+               }">返回日期</th>
 		</tr>
 	</thead>
 </table>

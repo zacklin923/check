@@ -29,6 +29,7 @@ import com.zs.entity.other.ResultFromSendToZM;
 import com.zs.entity.other.SourceImportErr;
 import com.zs.service.SourceImportSer;
 import com.zs.tools.HttpHelper;
+import com.zs.tools.ManagerId;
 import com.zs.tools.Trans;
 
 @Service("sourceImportSer")
@@ -242,6 +243,11 @@ public class SourceImportSerImpl implements SourceImportSer{
 		SourceZmExample example=new SourceZmExample();
 		Criteria criteria=example.createCriteria();
 		criteria.andCourierStateEqualTo("0");
+		//--------得到今天的15天前的日期-------------------
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(ManagerId.getNow());
+		calendar.add(Calendar.DATE, -15);
+		criteria.andReturnDateGreaterThan(calendar.getTime());
 		List<SourceZm> zms=zmMapper.selectByExample(example);
 		for (int i = 0; i < zms.size(); i++) {
 			SourceImport im=new SourceImport();
@@ -281,12 +287,5 @@ public class SourceImportSerImpl implements SourceImportSer{
 		log.error("【系统每天自动推送未发货】共推送["+zms.size()+"]条，成功["+succrows+"]条，耗时["+(d2.getTime()-d1.getTime())+"]ms。");
 	}
 	
-	
-	private void tell(List<SourceImport> list){
-		System.out.println("------------------"+list.size()+"---------------");
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
-		}
-	}
 	
 }

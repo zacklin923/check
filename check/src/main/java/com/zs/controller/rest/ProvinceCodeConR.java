@@ -119,12 +119,6 @@ public class ProvinceCodeConR extends BaseRestController<ProvinceCode, String>{
 	@RequestMapping(value="/province",method=RequestMethod.GET)
 	public List<String> autoComplete(String keyword) {
 		if (keyword!=null) {
-			try {
-				keyword=URLEncoder.encode(keyword,"utf-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			System.out.println(keyword);
 			return provinceCodeSer.selectProvince(keyword);
 		}
 		return null;
