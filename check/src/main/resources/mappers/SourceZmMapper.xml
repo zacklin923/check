@@ -504,12 +504,12 @@
 		 		<if test="str1!=null and str1!=''">
 			  		and CTM_BAR_CODE in (${str1})
 			  	</if>
-		  		<if test="date1!=null">
-			  		and SEND_TIME >= #{date1}
-		  		</if>
-		  		<if test="date2!=null">
-			  		and SEND_TIME &lt;= #{date2}
-		  		</if>
+		  		<if test="date1!=null and date1!=''">
+		  			and SEND_TIME >= #{date1}
+		 		</if>
+		 		<if test="date2!=null and date2!=''">
+		  			and SEND_TIME &lt;= #{date2}
+		 		</if>
 		  		<if test="str2!=null and str2!=''">
 		  			and CTM_BAR_CODE like '%${str2}%'
 		  		</if>
@@ -548,10 +548,10 @@
   		<if test="str1!=null and str1!=''">
 	  		and CTM_BAR_CODE in (${str1})
 	  	</if>
-	  	<if test="date1!=null">
+	  	<if test="date1!=null and date1!=''">
 	  		and SEND_TIME >= #{date1}
   		</if>
-  		<if test="date2!=null">
+  		<if test="date2!=null and date2!=''">
 	  		and SEND_TIME &lt;= #{date2}
   		</if>
   		<if test="str2!=null and str2!=''">
