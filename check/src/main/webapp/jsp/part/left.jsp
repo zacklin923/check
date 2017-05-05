@@ -53,6 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <li><span><a href="<%=path %>/timeLimit" target="right">时效控制信息管理</a></span></li>
 	        <li><span><a href="<%=path %>/sourceZm" target="right">哲盟返回数据</a></span></li>
 	        <li><span><a href="<%=path %>/sourceTp" target="right">哲盟返回第三方数据</a></span></li>
+	        <li><span><a href="<%=path %>/provinceCode" target="right">一段码省份对照表</a></span></li>
         </ul>
 	</div>
 	<div title="系统管理[测试]" data-options="iconCls:'icon-system'" style="padding:10px;">

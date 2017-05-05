@@ -9,31 +9,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>失效控制管理</title>
+<title>省份码</title>
 
 </head>
 <body>
 
 <jsp:include page="/jsp/part/common.jsp"/>
-<link rel="stylesheet" type="text/css" href="<%=path %>/framework/autoComplete/jquery.autocomplete.css"></link>
-<script type="text/javascript" src="<%=path %>/framework/autoComplete/jquery.autocomplete.js"></script>
 <script type="text/javascript">
 var url;
-function addObj(){
-	$("#dlg").dialog("open").dialog("setTitle","新建");	
-	$("#fm").form("clear");
-	$("#fm input[name='_method']").val("post");
-	$("#fm input[name='_header']").val("${user.licence }");
-	$("#fm input[name='beginProvince']").val("深圳");
-	url="<%=path%>/api/timeLimit";
-}
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${user.licence }");
+		$("#fm input[name='_header']").val("${licence }");
 		url="<%=path%>/api/timeLimit/"+row.orderNumber;
 	}
 }
@@ -110,17 +100,9 @@ function excel_export(){
 	    } 
 	});
 }
-$(function(){
-	var ep=$("#fm input[name='endProvince']");	
-	ep.AutoComplete({
-	    "data": "<%=path%>/api/provinceCode/province"+ep.val(),
-	    "ajaxDataType": "json",
-	    "onerror": function(msg){alert(msg);}
-	});
-});
 </script>
-<table id="dg" class="easyui-datagrid" border="true" title="快件信息>时效控制信息管理"
-		url="<%=path %>/api/timeLimit"
+<table id="dg" class="easyui-datagrid" border="true" title="快件信息>一段码省份对照表"
+		url="<%=path %>/api/provinceCode"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
@@ -129,23 +111,16 @@ $(function(){
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
-			<th field="orderNumber" width="100" sortable="true">编号</th>
-			<th field="beginProvince" width="150">始发中转站</th>
-			<th field="endProvince" width="200" sortable="true">到达省份</th>
-			<th field="hourCost" width="100" sortable="true" data-options="
-				formatter:function(value,row,index){
-                    if(row.hourCost){
-						return row.hourCost.toFixed(2);
-                    }
-             	}">小时</th>
+			<th field="provinceCode" width="100" sortable="true">一段码</th>
+			<th field="province" width="200" sortable="true">省份名称</th>
 		</tr>
 	</thead>
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加时效</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑时效</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除时效</a>
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
 	</div>
 	<div class="btn-separator">
 		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
@@ -153,12 +128,20 @@ $(function(){
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
-   		<div class="searchBar-input">
+		<div class="searchBar-input">
     		<div>
-	    		始发中转站：<input name ="str1" />
+	    		发货时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
     		</div>
     		<div>
-	    		到达省份：<input name ="str2" />
+    			发货时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
+    		</div>
+   		</div>
+   		<div class="searchBar-input">
+    		<div>
+	    		客户条码：<input name ="str1" />
+    		</div>
+    		<div>
+    			快递单号：<input name ="str2" />
     		</div>
    		</div>
    	</form>
@@ -172,23 +155,43 @@ $(function(){
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">时效控制信息</div>
+	<div class="ftitle">返回数据信息</div>
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
 		<input type="hidden" name="orderNumber"/>
 		<div class="fitem">
-			<label>始发中转站:</label>
-			<input name="beginProvince" class="easyui-validatebox" required="true">
+			<label>客户名称:</label>
+			<input name="ctmName" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>到达省份:</label>
-			<input name="endProvince" class="easyui-validatebox" required="true">
+			<label>省份:</label>
+			<input name="province" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>小时:</label>
-			<input name="hourCost" class="easyui-validatebox" required="true">
+			<label>地址:</label>
+			<input name="address" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>客户店铺:</label>
+			<input name="shopNumber" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>收件人:</label>
+			<input name="addressee" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>联系方式:</label>
+			<input name="phone" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>物品价值:</label>
+			<input name="goodsCost" class="easyui-validatebox" required="true">
+		</div>
+		<div class="fitem">
+			<label>订单编号:</label>
+			<input name="orderNumber" class="easyui-validatebox" required="true">
 		</div>
 	</form>
 </div>
@@ -196,6 +199,10 @@ $(function(){
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
-
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
+		closed="true" modal="true">
+	<iframe src="<%=path%>/jsp/help/sourceZm.jsp" frameborder="0" height="100%" width="100%">
+	</iframe>
+</div>
 </body>
 </html>

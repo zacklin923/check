@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zs.dao.TimeLimitMapper" >
-  <resultMap id="BaseResultMap" type="com.zs.entity.TimeLimit" >
-    <id column="ORDER_NUMBER" property="orderNumber" jdbcType="DECIMAL" />
-    <result column="BEGIN_PROVINCE" property="beginProvince" jdbcType="VARCHAR" />
-    <result column="END_PROVINCE" property="endProvince" jdbcType="VARCHAR" />
-    <result column="HOUR_COST" property="hourCost" jdbcType="DECIMAL" />
+<mapper namespace="com.zs.dao.ProvinceCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.ProvinceCode" >
+    <id column="PROVINCE_CODE" property="provinceCode" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,16 +64,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ORDER_NUMBER, BEGIN_PROVINCE, END_PROVINCE, HOUR_COST
+    PROVINCE_CODE, PROVINCE
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.TimeLimitExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.ProvinceCodeExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from TIME_LIMIT
+    from PROVINCE_CODE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -83,79 +81,59 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from TIME_LIMIT
-    where ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL}
+    from PROVINCE_CODE
+    where PROVINCE_CODE = #{provinceCode,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
-    delete from TIME_LIMIT
-    where ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from PROVINCE_CODE
+    where PROVINCE_CODE = #{provinceCode,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.zs.entity.TimeLimitExample" >
-    delete from TIME_LIMIT
+  <delete id="deleteByExample" parameterType="com.zs.entity.ProvinceCodeExample" >
+    delete from PROVINCE_CODE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.zs.entity.TimeLimit" >
-    insert into TIME_LIMIT (ORDER_NUMBER, BEGIN_PROVINCE, END_PROVINCE, 
-      HOUR_COST)
-    values (#{orderNumber,jdbcType=DECIMAL}, #{beginProvince,jdbcType=VARCHAR}, #{endProvince,jdbcType=VARCHAR}, 
-      #{hourCost,jdbcType=DECIMAL})
+  <insert id="insert" parameterType="com.zs.entity.ProvinceCode" >
+    insert into PROVINCE_CODE (PROVINCE_CODE, PROVINCE)
+    values (#{provinceCode,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.zs.entity.TimeLimit" >
-    insert into TIME_LIMIT
+  <insert id="insertSelective" parameterType="com.zs.entity.ProvinceCode" >
+    insert into PROVINCE_CODE
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="orderNumber != null" >
-        ORDER_NUMBER,
+      <if test="provinceCode != null" >
+        PROVINCE_CODE,
       </if>
-      <if test="beginProvince != null" >
-        BEGIN_PROVINCE,
-      </if>
-      <if test="endProvince != null" >
-        END_PROVINCE,
-      </if>
-      <if test="hourCost != null" >
-        HOUR_COST,
+      <if test="province != null" >
+        PROVINCE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="orderNumber != null" >
-        #{orderNumber,jdbcType=DECIMAL},
+      <if test="provinceCode != null" >
+        #{provinceCode,jdbcType=VARCHAR},
       </if>
-      <if test="beginProvince != null" >
-        #{beginProvince,jdbcType=VARCHAR},
-      </if>
-      <if test="endProvince != null" >
-        #{endProvince,jdbcType=VARCHAR},
-      </if>
-      <if test="hourCost != null" >
-        #{hourCost,jdbcType=DECIMAL},
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.zs.entity.TimeLimitExample" resultType="java.lang.Integer" >
-    select count(*) from TIME_LIMIT
+  <select id="countByExample" parameterType="com.zs.entity.ProvinceCodeExample" resultType="java.lang.Integer" >
+    select count(*) from PROVINCE_CODE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update TIME_LIMIT
+    update PROVINCE_CODE
     <set >
-      <if test="record.orderNumber != null" >
-        ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL},
+      <if test="record.provinceCode != null" >
+        PROVINCE_CODE = #{record.provinceCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.beginProvince != null" >
-        BEGIN_PROVINCE = #{record.beginProvince,jdbcType=VARCHAR},
-      </if>
-      <if test="record.endProvince != null" >
-        END_PROVINCE = #{record.endProvince,jdbcType=VARCHAR},
-      </if>
-      <if test="record.hourCost != null" >
-        HOUR_COST = #{record.hourCost,jdbcType=DECIMAL},
+      <if test="record.province != null" >
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -163,53 +141,43 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update TIME_LIMIT
-    set ORDER_NUMBER = #{record.orderNumber,jdbcType=DECIMAL},
-      BEGIN_PROVINCE = #{record.beginProvince,jdbcType=VARCHAR},
-      END_PROVINCE = #{record.endProvince,jdbcType=VARCHAR},
-      HOUR_COST = #{record.hourCost,jdbcType=DECIMAL}
+    update PROVINCE_CODE
+    set PROVINCE_CODE = #{record.provinceCode,jdbcType=VARCHAR},
+      PROVINCE = #{record.province,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.TimeLimit" >
-    update TIME_LIMIT
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.ProvinceCode" >
+    update PROVINCE_CODE
     <set >
-      <if test="beginProvince != null" >
-        BEGIN_PROVINCE = #{beginProvince,jdbcType=VARCHAR},
-      </if>
-      <if test="endProvince != null" >
-        END_PROVINCE = #{endProvince,jdbcType=VARCHAR},
-      </if>
-      <if test="hourCost != null" >
-        HOUR_COST = #{hourCost,jdbcType=DECIMAL},
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
       </if>
     </set>
-    where ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL}
+    where PROVINCE_CODE = #{provinceCode,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zs.entity.TimeLimit" >
-    update TIME_LIMIT
-    set BEGIN_PROVINCE = #{beginProvince,jdbcType=VARCHAR},
-      END_PROVINCE = #{endProvince,jdbcType=VARCHAR},
-      HOUR_COST = #{hourCost,jdbcType=DECIMAL}
-    where ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL}
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.ProvinceCode" >
+    update PROVINCE_CODE
+    set PROVINCE = #{province,jdbcType=VARCHAR}
+    where PROVINCE_CODE = #{provinceCode,jdbcType=VARCHAR}
   </update>
   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
   	select * from
   	(
 	  	select t1.*,rownum rn from
 	  	(
-		  	select * from TIME_LIMIT
+		  	select * from PROVINCE_CODE
 		  	<where>
 		  		<if test="str1!=null">
-	  				and BEGIN_PROVINCE like '%${str1}%'
-			  	</if>
-			  	<if test="str2!=null">
-		  			and END_PROVINCE like '%${str2}%'
-			  	</if>
+		  			and PROVINCE like '%${str1}%'
+		  		</if>
 		  	</where>
 		  	<if test="sort!=null and order!=null">
 		  		order by ${sort} ${order}
+		  	</if>
+		  	<if test="sort==null or order==null">
+		  		order by PROVINCE_CODE asc
 		  	</if>
 	  	) t1
 	  	<where>
@@ -225,20 +193,11 @@
   	</where>
   </select>
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
-  	select count(*) from TIME_LIMIT
+  	select count(*) from PROVINCE_CODE
   	<where>
   		<if test="str1!=null">
-  			and BEGIN_PROVINCE like '%${str1}%'
-	  	</if>
-	  	<if test="str2!=null">
-  			and END_PROVINCE like '%${str2}%'
-	  	</if>
-  	</where>
-  </select>
-  <select id="selectByEndProvince" resultMap="BaseResultMap" parameterType="java.lang.String">
-  	select * from TIME_LIMIT
-  	<where>
-		and END_PROVINCE = #{endProvince}
+  			and PROVINCE like '%${str1}%'
+  		</if>
   	</where>
   </select>
 </mapper>

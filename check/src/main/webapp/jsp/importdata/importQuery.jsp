@@ -226,6 +226,11 @@ function pushData(){
     			订单编号：<input name ="str6" />
     		</div>
    		</div>
+   		<div class="searchBar-input">
+    		<div>
+	    		导入人：<input name ="str7" />
+    		</div>
+   		</div>
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">

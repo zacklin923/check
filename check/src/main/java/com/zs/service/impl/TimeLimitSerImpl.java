@@ -51,4 +51,8 @@ public class TimeLimitSerImpl implements TimeLimitSer{
 		return limitMapper.selectByPrimaryKey(id);
 	}
 
+	public TimeLimit selectByEndProvince(String endProvince) {
+		return limitMapper.selectByEndProvince(endProvince);
+	}
+
 }

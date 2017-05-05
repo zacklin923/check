@@ -25,4 +25,16 @@ public class SourceThirdPartyKey {
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
+
+	public SourceThirdPartyKey(String courierNumber, Date returnDate) {
+		super();
+		this.courierNumber = courierNumber;
+		this.returnDate = returnDate;
+	}
+
+	public SourceThirdPartyKey() {
+		super();
+	}
+    
+    
 }

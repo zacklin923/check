@@ -36,4 +36,6 @@ public interface TimeLimitMapper {
     List<TimeLimit> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);
+    
+    TimeLimit selectByEndProvince(@Param("endProvince") String endProvince);
 }

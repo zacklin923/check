@@ -15,6 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 $(function(){
 	show_hint([]);
+	hiden_hint();
 });
 /*
 var j="{\"result\":\"success\",\"code\":0,\"data\":1}";
@@ -54,5 +55,15 @@ console.log(json);
 <input name="key" value="sz_zm_2017-4-26"/>
 <input type="submit">
 </form>
+
+
+<br>
+
+<form action="<%=path %>/api/provinceCode/import" enctype="multipart/form-data" method="post">
+	上传到省份码表
+	<input type="file" name="file"/>
+	<input type="submit"/>
+</form>
+
 </body>
 </html>
