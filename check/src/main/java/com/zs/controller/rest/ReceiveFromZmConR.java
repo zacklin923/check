@@ -80,6 +80,7 @@ public class ReceiveFromZmConR {
 					}else {
 						zm.setCourierState("1");
 					}
+					if(zm.getProvince()!=null && zm.getProvince().trim().equals(""))zm.setProvince(null);
 					try {
 						//--------装填其他信息-----------
 						SourceImport im=sourceImportSer.get(zm.getCourierNumber());
@@ -106,12 +107,14 @@ public class ReceiveFromZmConR {
 								}
 							}
 							//-----------计算超时时间----------------
-							TimeLimit tl=timeLimitSer.selectByEndProvince(zm.getProvince());
-							if(tl!=null && zm.getSendTime()!=null){
-								Calendar calendar=Calendar.getInstance();
-								calendar.setTime(zm.getSendTime());
-								calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
-								zm.setTimeOut(calendar.getTime());
+							if(zm.getProvince()!=null){
+								TimeLimit tl=timeLimitSer.selectByEndProvince(zm.getProvince());
+								if(tl!=null && zm.getSendTime()!=null){
+									Calendar calendar=Calendar.getInstance();
+									calendar.setTime(zm.getSendTime());
+									calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
+									zm.setTimeOut(calendar.getTime());
+								}
 							}
 						}
 						sourceZmSer.add(zm);
@@ -130,24 +133,27 @@ public class ReceiveFromZmConR {
 							zm.setGoodsCost(null);
 							zm.setCourierCompany(null);
 							zm.setOrderNumber(null);
-							if(zm.getProvince()!=null && zm.getProvince().trim().equals(""))zm.setProvince(null);
 							//-----------计算超时时间----------------
-							TimeLimit tl=timeLimitSer.selectByEndProvince(zm.getProvince());
-							if(tl!=null && zm.getSendTime()!=null){
-								Calendar calendar=Calendar.getInstance();
-								calendar.setTime(zm.getSendTime());
-								calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
-								zm.setTimeOut(calendar.getTime());
+							if(zm.getProvince()!=null){
+								TimeLimit tl=timeLimitSer.selectByEndProvince(zm.getProvince());
+								if(tl!=null && zm.getSendTime()!=null){
+									Calendar calendar=Calendar.getInstance();
+									calendar.setTime(zm.getSendTime());
+									calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
+									zm.setTimeOut(calendar.getTime());
+								}
 							}
 							sourceZmSer.update(zm);
 							rows++;
 						} catch (Exception e2) {
+							e.printStackTrace();
 							log.error("【哲盟返回接口】错误：该条数据既无法插入也无法修改："+zm);
 							failList.add(zm.getCourierNumber());
 						}
 					}
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				log.error("【哲盟返回接口】接收哲盟返回数据出错，原因不明。");
 				isError=true;
 			}
@@ -183,7 +189,7 @@ public class ReceiveFromZmConR {
 					tp.setReturnDate(Trans.timeToDate(new Date()));
 					//------------签收时间的处理------------
 					Date date=new Date(new Long("-62135798400000"));
-					if (tp.getSignTime()!=null && tp.equals(date)) {
+					if (tp.getSignTime()!=null && tp.getSignTime().equals(date)) {
 						tp.setSignTime(null);
 					}
 					try {
@@ -253,12 +259,14 @@ public class ReceiveFromZmConR {
 							sourceTpSer.update(tp);
 							rows++;
 						} catch (Exception e2) {
+							e.printStackTrace();
 							log.error("【哲盟返回第三方接口】错误：该条数据既无法插入也无法修改："+tp);
 							failList.add(tp.getCourierNumber());
 						}
 					}
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				log.error("【哲盟返回第三方接口】接收哲盟返回数据出错，原因不明。");
 				isError=true;
 			}
