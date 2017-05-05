@@ -3,8 +3,6 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class SourceZm extends SourceZmKey {
     private String largeArea;
 
@@ -46,10 +44,9 @@ public class SourceZm extends SourceZmKey {
 
     private String fbdArea;
 
-    
-    
+    private Date timeOut;
 
-	public String getLargeArea() {
+    public String getLargeArea() {
         return largeArea;
     }
 
@@ -89,7 +86,6 @@ public class SourceZm extends SourceZmKey {
         this.ctmName = ctmName == null ? null : ctmName.trim();
     }
 
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getSendTime() {
         return sendTime;
     }
@@ -178,7 +174,6 @@ public class SourceZm extends SourceZmKey {
         this.orderNumber = orderNumber == null ? null : orderNumber.trim();
     }
 
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss.SSS",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -186,8 +181,7 @@ public class SourceZm extends SourceZmKey {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-    
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+
     public Date getCreateDate() {
         return createDate;
     }
@@ -198,7 +192,7 @@ public class SourceZm extends SourceZmKey {
 
     public String getCourierState() {
         return courierState;
-    }	
+    }
 
     public void setCourierState(String courierState) {
         this.courierState = courierState == null ? null : courierState.trim();
@@ -211,17 +205,47 @@ public class SourceZm extends SourceZmKey {
     public void setFbdArea(String fbdArea) {
         this.fbdArea = fbdArea == null ? null : fbdArea.trim();
     }
-    
-	@Override
-	public String toString() {
-		return "SourceZm [largeArea=" + largeArea + ", sliceArea=" + sliceArea + ", fenbu=" + fenbu + ", ctmBarCode="
-				+ ctmBarCode + ", ctmName=" + ctmName + ", sendTime=" + sendTime + ", province=" + province
-				+ ", address=" + address + ", shopNumber=" + shopNumber + ", addressee=" + addressee + ", phone="
-				+ phone + ", weight=" + weight + ", courierCompany=" + courierCompany + ", goodsCost=" + goodsCost
-				+ ", goods=" + goods + ", orderNumber=" + orderNumber + ", createTime=" + createTime + ", createDate="
-				+ createDate + ", courierState=" + courierState + ", fbdArea=" + fbdArea + ", getCourierNumber()="
-				+ getCourierNumber() + ", getReturnDate()=" + getReturnDate() + "]";
+
+    public Date getTimeOut() {
+        return timeOut;
+    }
+
+    public void setTimeOut(Date timeOut) {
+        this.timeOut = timeOut;
+    }
+
+	public SourceZm() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-    
+
+	public SourceZm(String largeArea, String sliceArea, String fenbu, String ctmBarCode, String ctmName, Date sendTime,
+			String province, String address, String shopNumber, String addressee, String phone, BigDecimal weight,
+			String courierCompany, BigDecimal goodsCost, String goods, String orderNumber, Date createTime,
+			Date createDate, String courierState, String fbdArea, Date timeOut,String courierNumber,Date returnDate) {
+		this.largeArea = largeArea;
+		this.sliceArea = sliceArea;
+		this.fenbu = fenbu;
+		this.ctmBarCode = ctmBarCode;
+		this.ctmName = ctmName;
+		this.sendTime = sendTime;
+		this.province = province;
+		this.address = address;
+		this.shopNumber = shopNumber;
+		this.addressee = addressee;
+		this.phone = phone;
+		this.weight = weight;
+		this.courierCompany = courierCompany;
+		this.goodsCost = goodsCost;
+		this.goods = goods;
+		this.orderNumber = orderNumber;
+		this.createTime = createTime;
+		this.createDate = createDate;
+		this.courierState = courierState;
+		this.fbdArea = fbdArea;
+		this.timeOut = timeOut;
+		this.setCourierNumber(courierNumber);
+		this.setReturnDate(returnDate);
+	}
     
 }

@@ -2,8 +2,6 @@ package com.zs.entity;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class SourceThirdPartyKey {
     private String courierNumber;
 
@@ -17,7 +15,6 @@ public class SourceThirdPartyKey {
         this.courierNumber = courierNumber == null ? null : courierNumber.trim();
     }
 
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getReturnDate() {
         return returnDate;
     }
@@ -27,13 +24,13 @@ public class SourceThirdPartyKey {
     }
 
 	public SourceThirdPartyKey(String courierNumber, Date returnDate) {
-		super();
 		this.courierNumber = courierNumber;
 		this.returnDate = returnDate;
 	}
 
 	public SourceThirdPartyKey() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
     
     
