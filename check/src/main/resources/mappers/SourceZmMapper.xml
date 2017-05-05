@@ -501,25 +501,25 @@
 	  	(
 		  	select * from SOURCE_ZM
 		  	<where>
-		 		<if test="str1!=null">
-		  			and CTM_BAR_CODE in (${str1})
-		  		</if>
+		 		<if test="str1!=null and str1!=''">
+			  		and CTM_BAR_CODE in (${str1})
+			  	</if>
 		  		<if test="date1!=null">
 			  		and SEND_TIME >= #{date1}
 		  		</if>
 		  		<if test="date2!=null">
 			  		and SEND_TIME &lt;= #{date2}
 		  		</if>
-		  		<if test="str2!=null">
+		  		<if test="str2!=null and str2!=''">
 		  			and CTM_BAR_CODE like '%${str2}%'
 		  		</if>
-		  		<if test="str3!=null">
+		  		<if test="str3!=null and str3!=''">
 		  			and COURIER_NUMBER like '%${str3}%'
 		  		</if>
-		  		<if test="str4!=null">
+		  		<if test="str4!=null and str4!=''">
 		  			and LARGE_AREA like '%${str4}%'
 		  		</if>
-		  		<if test="str5!=null">
+		  		<if test="str5!=null and str5!=''">
 		  			and ORDER_NUMBER like '%${str5}%'
 		  		</if>
 			</where>
@@ -545,7 +545,7 @@
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(*) from SOURCE_ZM
   	<where>
-  		<if test="str1!=null">
+  		<if test="str1!=null and str1!=''">
 	  		and CTM_BAR_CODE in (${str1})
 	  	</if>
 	  	<if test="date1!=null">
@@ -554,16 +554,16 @@
   		<if test="date2!=null">
 	  		and SEND_TIME &lt;= #{date2}
   		</if>
-  		<if test="str2!=null">
+  		<if test="str2!=null and str2!=''">
   			and CTM_BAR_CODE like '%${str2}%'
   		</if>
-  		<if test="str3!=null">
+  		<if test="str3!=null and str3!=''">
   			and COURIER_NUMBER like '%${str3}%'
   		</if>
-  		<if test="str4!=null">
+  		<if test="str4!=null and str4!=''">
   			and LARGE_AREA like '%${str4}%'
   		</if>
-  		<if test="str5!=null">
+  		<if test="str5!=null and str5!=''">
   			and ORDER_NUMBER like '%${str5}%'
   		</if>
  	</where>

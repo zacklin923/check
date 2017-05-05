@@ -3,6 +3,8 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class SourceZm extends SourceZmKey {
     private String largeArea;
 
@@ -86,6 +88,7 @@ public class SourceZm extends SourceZmKey {
         this.ctmName = ctmName == null ? null : ctmName.trim();
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getSendTime() {
         return sendTime;
     }
@@ -174,6 +177,7 @@ public class SourceZm extends SourceZmKey {
         this.orderNumber = orderNumber == null ? null : orderNumber.trim();
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -182,6 +186,7 @@ public class SourceZm extends SourceZmKey {
         this.createTime = createTime;
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
     public Date getCreateDate() {
         return createDate;
     }
@@ -206,6 +211,7 @@ public class SourceZm extends SourceZmKey {
         this.fbdArea = fbdArea == null ? null : fbdArea.trim();
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getTimeOut() {
         return timeOut;
     }
