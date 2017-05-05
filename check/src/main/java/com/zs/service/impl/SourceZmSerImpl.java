@@ -91,7 +91,6 @@ public class SourceZmSerImpl implements SourceZmSer{
 			objs[i][19] = Trans.TransToString(list.get(i).getReturnDate());
 			objs[i][20] = list.get(i).getOrderNumber();
 		}
-		System.out.println(list.get(2).getGoodsCost());
 		String basePath = req.getSession().getServletContext().getRealPath("/");
 		String path ="file/哲盟返回数据.xls";
 		ExcelExport.OutExcel(obj, objs, basePath+path);

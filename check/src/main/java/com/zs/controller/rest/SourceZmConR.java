@@ -114,7 +114,6 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 	@RequestMapping(value="/exportExcel",method=RequestMethod.GET)
 	@Override
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println("----------");
 		if (accept!=null) {
 			try {
 				accept.setStr1(ManagerId.isSeeAll(req));

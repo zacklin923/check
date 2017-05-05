@@ -163,6 +163,7 @@ function excel_export(){
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
 	</div>
@@ -187,6 +188,14 @@ function excel_export(){
     		</div>
     		<div>
     			快递单号：<input name ="str3" />
+    		</div>
+   		</div>
+   		<div class="searchBar-input">
+    		<div>
+	    		所属大区：<input name ="str4" />
+    		</div>
+    		<div>
+    			订单编号：<input name ="str5" />
     		</div>
    		</div>
    	</form>
@@ -242,6 +251,16 @@ function excel_export(){
 <div id="dlg-buttons">
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+</div>
+<div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
+		closed="true" modal="true" title="数据源导入">
+		<div style="height:25px;line-height:25px;">数据导入模板
+			<a href="<%=path%>/file/数据源导入模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
+		</div></br></br></br>
+		<form id="fmfile"  enctype="multipart/form-data" method="post">
+			<input type="file" name="file"/>
+			<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;"/>
+		</form>
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
 		closed="true" modal="true">

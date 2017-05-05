@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 public class DateConverter implements Converter<String, Date>{
 
 	public Date convert(String source) {
-		System.out.println("111111111111111111111111");
 		if (source.equals("")) {
 			return null;
 		}else {

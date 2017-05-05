@@ -516,6 +516,12 @@
 		  		<if test="str3!=null">
 		  			and COURIER_NUMBER like '%${str3}%'
 		  		</if>
+		  		<if test="str4!=null">
+		  			and LARGE_AREA like '%${str4}%'
+		  		</if>
+		  		<if test="str5!=null">
+		  			and ORDER_NUMBER like '%${str5}%'
+		  		</if>
 			</where>
 		  	<if test="sort!=null and order!=null">
 		  		order by ${sort} ${order},CREATE_TIME desc
@@ -553,6 +559,12 @@
   		</if>
   		<if test="str3!=null">
   			and COURIER_NUMBER like '%${str3}%'
+  		</if>
+  		<if test="str4!=null">
+  			and LARGE_AREA like '%${str4}%'
+  		</if>
+  		<if test="str5!=null">
+  			and ORDER_NUMBER like '%${str5}%'
   		</if>
  	</where>
   </select>
