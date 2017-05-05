@@ -101,9 +101,9 @@ function deleteObj(){
 function excel_export(){
 	$("#search").form("submit",{
 		url:"<%=path%>/api/sourceZm/exportExcel",
-		method:"get",
 		onSubmit: function(){   
-	
+			console.log($(this));
+			return true;
 		},   
 	    success:function(data){   
 	    	var json;
