@@ -307,5 +307,18 @@ public class SourceThirdParty extends SourceThirdPartyKey {
 		this.setCourierNumber(courierNumber);
 		this.setReturnDate(returnDate);
 	}
+
+	@Override
+	public String toString() {
+		return "SourceThirdParty [sendTime=" + sendTime + ", ctmName=" + ctmName + ", ctmBarCode=" + ctmBarCode
+				+ ", province=" + province + ", address=" + address + ", deliveryState=" + deliveryState
+				+ ", signatory=" + signatory + ", addressee=" + addressee + ", signTime=" + signTime
+				+ ", abnormalCause=" + abnormalCause + ", isTimeOut=" + isTimeOut + ", orderNumber=" + orderNumber
+				+ ", shopNumber=" + shopNumber + ", phone=" + phone + ", weight=" + weight + ", courierCompany="
+				+ courierCompany + ", goods=" + goods + ", goodsCost=" + goodsCost + ", fee=" + fee + ", createTime="
+				+ createTime + ", largeArea=" + largeArea + ", sliceArea=" + sliceArea + ", fenbu=" + fenbu
+				+ ", createDate=" + createDate + ", fbdArea=" + fbdArea + ", signPort=" + signPort
+				+ ", getCourierNumber()=" + getCourierNumber() + ", getReturnDate()=" + getReturnDate() + "]";
+	}
     
 }

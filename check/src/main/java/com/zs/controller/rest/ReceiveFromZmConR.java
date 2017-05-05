@@ -31,6 +31,8 @@ import com.zs.service.SourceZmSer;
 import com.zs.service.TimeLimitSer;
 import com.zs.tools.Trans;
 
+import oracle.net.aso.d;
+
 /**
  * 接收哲盟返回数据
  * @author 张顺
@@ -100,7 +102,7 @@ public class ReceiveFromZmConR {
 									ProvinceCode provinceCode=provinceCodeSer.get(im.getOneCode());
 									if(provinceCode!=null) zm.setProvince(provinceCode.getProvince());
 								}else {//导入表既没有一段码也没有省份
-									log.error("该条记录无法计算出省份。"+zm);
+									log.error("【哲盟返回接口】该条记录无法计算出省份。"+zm);
 								}
 							}
 							//-----------计算超时时间----------------
@@ -140,18 +142,18 @@ public class ReceiveFromZmConR {
 							sourceZmSer.update(zm);
 							rows++;
 						} catch (Exception e2) {
-							log.error("错误：该条数据既无法插入也无法修改："+zm);
+							log.error("【哲盟返回接口】错误：该条数据既无法插入也无法修改："+zm);
 							failList.add(zm.getCourierNumber());
 						}
 					}
 				}
 			} catch (Exception e) {
-				log.error("接收哲盟返回数据出错，原因不明。");
+				log.error("【哲盟返回接口】接收哲盟返回数据出错，原因不明。");
 				isError=true;
 			}
 		}
 		Date date2=new Date();
-		log.info("本次共接收["+tols+"]条数据，成功保存["+rows+"]条数据,共耗时["+(date2.getTime()-date1.getTime())+"]ms");
+		log.info("【哲盟返回接口】本次共接收["+tols+"]条数据，成功保存["+rows+"]条数据,共耗时["+(date2.getTime()-date1.getTime())+"]ms");
 		if (failList.size()>0) {
 			return new ResultFromSendToZM(StringUtils.join(failList.toArray(new String[failList.size()]), ","),"fail");
 		}else{
@@ -179,6 +181,11 @@ public class ReceiveFromZmConR {
 				for (int i = 0; i < list.size(); i++) {
 					SourceThirdParty tp=list.get(i);
 					tp.setReturnDate(Trans.timeToDate(new Date()));
+					//------------签收时间的处理------------
+					Date date=new Date(new Long("-62135798400000"));
+					if (tp.getSignTime()!=null && tp.equals(date)) {
+						tp.setSignTime(null);
+					}
 					try {
 						//--------装填其他信息-----------
 						SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(),tp.getReturnDate()));
@@ -246,18 +253,18 @@ public class ReceiveFromZmConR {
 							sourceTpSer.update(tp);
 							rows++;
 						} catch (Exception e2) {
-							log.error("错误：该条数据既无法插入也无法修改："+tp);
+							log.error("【哲盟返回第三方接口】错误：该条数据既无法插入也无法修改："+tp);
 							failList.add(tp.getCourierNumber());
 						}
 					}
 				}
 			} catch (Exception e) {
-				log.error("接收哲盟返回数据出错，原因不明。");
+				log.error("【哲盟返回第三方接口】接收哲盟返回数据出错，原因不明。");
 				isError=true;
 			}
 		}
 		Date date2=new Date();
-		log.info("本次共接收["+tols+"]条数据，成功保存["+rows+"]条数据,共耗时["+(date2.getTime()-date1.getTime())+"]ms");
+		log.info("【哲盟返回第三方接口】本次共接收["+tols+"]条数据，成功保存["+rows+"]条数据,共耗时["+(date2.getTime()-date1.getTime())+"]ms");
 		if (failList.size()>0) {
 			return new ResultFromSendToZM(StringUtils.join(failList.toArray(new String[failList.size()]), ","),"fail");
 		}else{
@@ -270,9 +277,4 @@ public class ReceiveFromZmConR {
 	}
 	
 	
-	private void tell(List<SourceZm> zms){
-		for (int i = 0; i < zms.size(); i++) {
-			System.out.println(zms.get(i));
-		}
-	}
 }
