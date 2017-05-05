@@ -64,7 +64,6 @@ public class SourceZmSerImpl implements SourceZmSer{
 	}
 
 	public String ExportData(EasyUIAccept accept,HttpServletRequest req) {
-		System.out.println(new Gson().toJson(accept));
 		List<SourceZm> list=zmMapper.queryFenye(accept);
 		String[] obj ={"所属大区","所属区部","所属分部","所属分拨点","客户条码","客户名称","快递单号","发货日期","省份","地址","客户店铺","收件人","联系方式","重量","快递公司","物品价值","物品","创建日期","状态","返回日期","订单编号","超时时间"};
 		String[][] objs = new String[list.size()][obj.length];
