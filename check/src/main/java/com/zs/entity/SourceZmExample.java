@@ -1585,6 +1585,66 @@ public class SourceZmExample {
             addCriterion("FBD_AREA not between", value1, value2, "fbdArea");
             return (Criteria) this;
         }
+
+        public Criteria andTimeOutIsNull() {
+            addCriterion("TIME_OUT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutIsNotNull() {
+            addCriterion("TIME_OUT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutEqualTo(Date value) {
+            addCriterion("TIME_OUT =", value, "timeOut");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutNotEqualTo(Date value) {
+            addCriterion("TIME_OUT <>", value, "timeOut");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutGreaterThan(Date value) {
+            addCriterion("TIME_OUT >", value, "timeOut");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutGreaterThanOrEqualTo(Date value) {
+            addCriterion("TIME_OUT >=", value, "timeOut");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutLessThan(Date value) {
+            addCriterion("TIME_OUT <", value, "timeOut");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutLessThanOrEqualTo(Date value) {
+            addCriterion("TIME_OUT <=", value, "timeOut");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutIn(List<Date> values) {
+            addCriterion("TIME_OUT in", values, "timeOut");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutNotIn(List<Date> values) {
+            addCriterion("TIME_OUT not in", values, "timeOut");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutBetween(Date value1, Date value2) {
+            addCriterion("TIME_OUT between", value1, value2, "timeOut");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeOutNotBetween(Date value1, Date value2) {
+            addCriterion("TIME_OUT not between", value1, value2, "timeOut");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

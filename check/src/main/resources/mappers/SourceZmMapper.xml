@@ -24,6 +24,7 @@
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="COURIER_STATE" property="courierState" jdbcType="VARCHAR" />
     <result column="FBD_AREA" property="fbdArea" jdbcType="VARCHAR" />
+    <result column="TIME_OUT" property="timeOut" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -86,7 +87,8 @@
   <sql id="Base_Column_List" >
     COURIER_NUMBER, RETURN_DATE, LARGE_AREA, SLICE_AREA, FENBU, CTM_BAR_CODE, CTM_NAME, 
     SEND_TIME, PROVINCE, ADDRESS, SHOP_NUMBER, ADDRESSEE, PHONE, WEIGHT, COURIER_COMPANY, 
-    GOODS_COST, GOODS, ORDER_NUMBER, CREATE_TIME, CREATE_DATE, COURIER_STATE, FBD_AREA
+    GOODS_COST, GOODS, ORDER_NUMBER, CREATE_TIME, CREATE_DATE, COURIER_STATE, FBD_AREA, 
+    TIME_OUT
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.SourceZmExample" >
     select
@@ -129,7 +131,7 @@
       PHONE, WEIGHT, COURIER_COMPANY, 
       GOODS_COST, GOODS, ORDER_NUMBER, 
       CREATE_TIME, CREATE_DATE, COURIER_STATE, 
-      FBD_AREA)
+      FBD_AREA, TIME_OUT)
     values (#{courierNumber,jdbcType=VARCHAR}, #{returnDate,jdbcType=TIMESTAMP}, #{largeArea,jdbcType=VARCHAR}, 
       #{sliceArea,jdbcType=VARCHAR}, #{fenbu,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, 
       #{ctmName,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{province,jdbcType=VARCHAR}, 
@@ -137,7 +139,7 @@
       #{phone,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{courierCompany,jdbcType=VARCHAR}, 
       #{goodsCost,jdbcType=DECIMAL}, #{goods,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{courierState,jdbcType=VARCHAR}, 
-      #{fbdArea,jdbcType=VARCHAR})
+      #{fbdArea,jdbcType=VARCHAR}, #{timeOut,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.SourceZm" >
     insert into SOURCE_ZM
@@ -208,6 +210,9 @@
       <if test="fbdArea != null" >
         FBD_AREA,
       </if>
+      <if test="timeOut != null" >
+        TIME_OUT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courierNumber != null" >
@@ -275,6 +280,9 @@
       </if>
       <if test="fbdArea != null" >
         #{fbdArea,jdbcType=VARCHAR},
+      </if>
+      <if test="timeOut != null" >
+        #{timeOut,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -353,6 +361,9 @@
       <if test="record.fbdArea != null" >
         FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR},
       </if>
+      <if test="record.timeOut != null" >
+        TIME_OUT = #{record.timeOut,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -381,7 +392,8 @@
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
       COURIER_STATE = #{record.courierState,jdbcType=VARCHAR},
-      FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR}
+      FBD_AREA = #{record.fbdArea,jdbcType=VARCHAR},
+      TIME_OUT = #{record.timeOut,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -449,6 +461,9 @@
       <if test="fbdArea != null" >
         FBD_AREA = #{fbdArea,jdbcType=VARCHAR},
       </if>
+      <if test="timeOut != null" >
+        TIME_OUT = #{timeOut,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
       and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
@@ -474,7 +489,8 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
       COURIER_STATE = #{courierState,jdbcType=VARCHAR},
-      FBD_AREA = #{fbdArea,jdbcType=VARCHAR}
+      FBD_AREA = #{fbdArea,jdbcType=VARCHAR},
+      TIME_OUT = #{timeOut,jdbcType=TIMESTAMP}
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
       and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </update>
