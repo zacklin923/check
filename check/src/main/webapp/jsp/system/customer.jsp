@@ -17,40 +17,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
 var url;
-function newUser(){
-	$("#dlg").dialog("open").dialog("setTitle","新建用户");	
+function addObj(){
+	$("#dlg").dialog("open").dialog("setTitle","新建");	
 	$("#fm").form("clear");
 	$("#fm input[name='_method']").val("post");
-	$("#fm input[name='_header']").val("${licence }");
-	url="/quota/api/users";
+	$("#fm input[name='_header']").val("${user.licence }");
+	url="<%=path%>/api/customer";
 }
-
-function editUser(){
+function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
-		$("#dlg").dialog("open").dialog("setTitle","编辑用户");
+		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${licence }");
-		url="/quota/api/users/"+row.uNum;
+		$("#fm input[name='_header']").val("${user.licence }");
+		url="<%=path%>/api/customer/"+row.cteBarCode;
 	}
 }
-function saveUser(){
-	console.log($("#fm").serializeArray());
+function save(){
 	$("#fm").form("submit",{
 		url:url,		
 		onSubmit:function(){
 			return $(this).form('validate');
 		},
 		success:function(data){
-			console.log("提交:"+data);
-			$('#dg').datagrid('reload');
+			if(data){
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					$('#dg').datagrid('reload');
+					$("#dlg").dialog("close");
+				}else{
+					alert("错误:"+json.code);
+				}
+			}else{
+				alert("错误:网络错误");
+			}
 		}
 	});
 }
-function destoryUser(){
+function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var uNum=row.uNum;
+	var id=row.cteBarCode;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
@@ -58,11 +70,20 @@ function destoryUser(){
 			function(data){
 				if(data){
 					$.ajax({
-						url:"/quota/api/users/"+uNum,
+						url:"<%=path%>/api/customer/"+id,
 						type:"delete",
 						success:function(data){
-							console.log(data);
-							$('#dg').datagrid('reload');
+							var json;
+							if(isJson(data)){
+								json=data;
+							}else{
+								json = eval('('+data+')');
+							}
+							if(json.result=='success'){
+								$('#dg').datagrid('reload');
+							}else{
+								alert("错误:"+json.code);
+							}
 						}
 					});
 				}
@@ -72,7 +93,7 @@ function destoryUser(){
 }
 function excel_export(){
 	$("#search").form("submit",{
-		url:"/quota/api/users/excelExport",
+		url:"<%=path%>/api/power/excelExport",
 		method:"get",
 		onSubmit: function(){   
 	        // do some check   
@@ -97,39 +118,26 @@ function excel_export(){
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
 		<tr>
-			<th field="barCode" width="100" sortable="true">条码</th>
-			<th field="cteName" width="100">站点名字</th>
-			<th field="barCodeParent" width="100" sortable="true">所属分部</th>
-			<th field="barCodeParentName" width="100">所属分部名字</th>
-			<th field="scliceArea" width="150">所属区部</th>
-			<th field="largeArea" width="200" sortable="true">所属大区</th>
-			<th field="createTime" width="200" sortable="true">创建时间</th>
+			<th field="cteBarCode" width="100" sortable="true">客户条码</th>
+			<th field="cteName" width="300">客户名字</th>
 		</tr>
 	</thead>
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加用户</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑用户</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destoryUser()">删除用户</a>
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加客户</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑客户</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除客户</a>
 	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
-		<div class="searchBar-input">
-    		<div>
-	    		创建时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
-    		</div>
-    		<div>
-    			创建时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
-    		</div>
-   		</div>
    		<div class="searchBar-input">
     		<div>
-	    		账号：<input name ="str1" />
+	    		客户条码：<input name ="str1" />
     		</div>
     		<div>
-    			用户名：<input name ="str2" />
+    			客户名称：<input name ="str2" />
     		</div>
     		<input type="hidden" name="_header" value="${licence }"/>
    		</div>
@@ -144,51 +152,23 @@ function excel_export(){
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">用户信息</div>
+	<div class="ftitle">客户信息</div>
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
 		<div class="fitem">
-			<label>账号:</label>
-			<input name="uNum" class="easyui-validatebox" required="true">
+			<label>客户条码:</label>
+			<input name="cteBarCode" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>密码:</label>
-			<input name="uPass" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>同户名:</label>
-			<input name="uName" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>职位:</label>
-			<input name="uJob" class="easyui-validatebox" required="true">
-		</div>
-		<div class="fitem">
-			<label>部门:</label>
-			<input id="csId" name="csId" class="easyui-combotree"/>
-		</div>
-		<div class="fitem">
-			<label>角色:</label>
-			<select name="rId" id="roleId">
-			</select>
-		</div>
-		<div class="fitem">
-			<label>邮箱:</label>
-			<input name="uMail" class="easyui-validatebox" validType="email" required="true">
-		</div>
-		<div class="fitem">
-			<label>在职情况:</label>
-			<select name="uState">
-				<option value="在职">在职</option>
-				<option value="离职">离职</option>
-			</select>
+			<label>客户名称:</label>
+			<input name="cteName" class="easyui-validatebox" required="true">
 		</div>
 	</form>
 </div>
 <div id="dlg-buttons">
-	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">提交</a>
+	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
 

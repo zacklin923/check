@@ -2,13 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zs.dao.CustomerMapper" >
   <resultMap id="BaseResultMap" type="com.zs.entity.Customer" >
-    <id column="BAR_CODE" property="barCode" jdbcType="VARCHAR" />
+    <id column="CTE_BAR_CODE" property="cteBarCode" jdbcType="VARCHAR" />
     <result column="CTE_NAME" property="cteName" jdbcType="VARCHAR" />
-    <result column="BAR_CODE_PARENT" property="barCodeParent" jdbcType="VARCHAR" />
-    <result column="BAR_CODE_PARENT_NAME" property="barCodeParentName" jdbcType="VARCHAR" />
-    <result column="SCLICE_AREA" property="scliceArea" jdbcType="VARCHAR" />
-    <result column="LARGE_AREA" property="largeArea" jdbcType="VARCHAR" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,8 +64,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    BAR_CODE, CTE_NAME, BAR_CODE_PARENT, BAR_CODE_PARENT_NAME, SCLICE_AREA, LARGE_AREA, 
-    CREATE_TIME
+    CTE_BAR_CODE, CTE_NAME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.CustomerExample" >
     select
@@ -91,11 +85,11 @@
     select 
     <include refid="Base_Column_List" />
     from CUSTOMER
-    where BAR_CODE = #{barCode,jdbcType=VARCHAR}
+    where CTE_BAR_CODE = #{cteBarCode,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from CUSTOMER
-    where BAR_CODE = #{barCode,jdbcType=VARCHAR}
+    where CTE_BAR_CODE = #{cteBarCode,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.zs.entity.CustomerExample" >
     delete from CUSTOMER
@@ -104,59 +98,25 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zs.entity.Customer" >
-    insert into CUSTOMER (BAR_CODE, CTE_NAME, BAR_CODE_PARENT, 
-      BAR_CODE_PARENT_NAME, SCLICE_AREA, LARGE_AREA, 
-      CREATE_TIME)
-    values (#{barCode,jdbcType=VARCHAR}, #{cteName,jdbcType=VARCHAR}, #{barCodeParent,jdbcType=VARCHAR}, 
-      #{barCodeParentName,jdbcType=VARCHAR}, #{scliceArea,jdbcType=VARCHAR}, #{largeArea,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    insert into CUSTOMER (CTE_BAR_CODE, CTE_NAME)
+    values (#{cteBarCode,jdbcType=VARCHAR}, #{cteName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.Customer" >
     insert into CUSTOMER
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="barCode != null" >
-        BAR_CODE,
+      <if test="cteBarCode != null" >
+        CTE_BAR_CODE,
       </if>
       <if test="cteName != null" >
         CTE_NAME,
       </if>
-      <if test="barCodeParent != null" >
-        BAR_CODE_PARENT,
-      </if>
-      <if test="barCodeParentName != null" >
-        BAR_CODE_PARENT_NAME,
-      </if>
-      <if test="scliceArea != null" >
-        SCLICE_AREA,
-      </if>
-      <if test="largeArea != null" >
-        LARGE_AREA,
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="barCode != null" >
-        #{barCode,jdbcType=VARCHAR},
+      <if test="cteBarCode != null" >
+        #{cteBarCode,jdbcType=VARCHAR},
       </if>
       <if test="cteName != null" >
         #{cteName,jdbcType=VARCHAR},
-      </if>
-      <if test="barCodeParent != null" >
-        #{barCodeParent,jdbcType=VARCHAR},
-      </if>
-      <if test="barCodeParentName != null" >
-        #{barCodeParentName,jdbcType=VARCHAR},
-      </if>
-      <if test="scliceArea != null" >
-        #{scliceArea,jdbcType=VARCHAR},
-      </if>
-      <if test="largeArea != null" >
-        #{largeArea,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -169,26 +129,11 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update CUSTOMER
     <set >
-      <if test="record.barCode != null" >
-        BAR_CODE = #{record.barCode,jdbcType=VARCHAR},
+      <if test="record.cteBarCode != null" >
+        CTE_BAR_CODE = #{record.cteBarCode,jdbcType=VARCHAR},
       </if>
       <if test="record.cteName != null" >
         CTE_NAME = #{record.cteName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.barCodeParent != null" >
-        BAR_CODE_PARENT = #{record.barCodeParent,jdbcType=VARCHAR},
-      </if>
-      <if test="record.barCodeParentName != null" >
-        BAR_CODE_PARENT_NAME = #{record.barCodeParentName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.scliceArea != null" >
-        SCLICE_AREA = #{record.scliceArea,jdbcType=VARCHAR},
-      </if>
-      <if test="record.largeArea != null" >
-        LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -197,13 +142,8 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update CUSTOMER
-    set BAR_CODE = #{record.barCode,jdbcType=VARCHAR},
-      CTE_NAME = #{record.cteName,jdbcType=VARCHAR},
-      BAR_CODE_PARENT = #{record.barCodeParent,jdbcType=VARCHAR},
-      BAR_CODE_PARENT_NAME = #{record.barCodeParentName,jdbcType=VARCHAR},
-      SCLICE_AREA = #{record.scliceArea,jdbcType=VARCHAR},
-      LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
-      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    set CTE_BAR_CODE = #{record.cteBarCode,jdbcType=VARCHAR},
+      CTE_NAME = #{record.cteName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -214,33 +154,13 @@
       <if test="cteName != null" >
         CTE_NAME = #{cteName,jdbcType=VARCHAR},
       </if>
-      <if test="barCodeParent != null" >
-        BAR_CODE_PARENT = #{barCodeParent,jdbcType=VARCHAR},
-      </if>
-      <if test="barCodeParentName != null" >
-        BAR_CODE_PARENT_NAME = #{barCodeParentName,jdbcType=VARCHAR},
-      </if>
-      <if test="scliceArea != null" >
-        SCLICE_AREA = #{scliceArea,jdbcType=VARCHAR},
-      </if>
-      <if test="largeArea != null" >
-        LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      </if>
     </set>
-    where BAR_CODE = #{barCode,jdbcType=VARCHAR}
+    where CTE_BAR_CODE = #{cteBarCode,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zs.entity.Customer" >
     update CUSTOMER
-    set CTE_NAME = #{cteName,jdbcType=VARCHAR},
-      BAR_CODE_PARENT = #{barCodeParent,jdbcType=VARCHAR},
-      BAR_CODE_PARENT_NAME = #{barCodeParentName,jdbcType=VARCHAR},
-      SCLICE_AREA = #{scliceArea,jdbcType=VARCHAR},
-      LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
-    where BAR_CODE = #{barCode,jdbcType=VARCHAR}
+    set CTE_NAME = #{cteName,jdbcType=VARCHAR}
+    where CTE_BAR_CODE = #{cteBarCode,jdbcType=VARCHAR}
   </update>
   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
   	select * from
@@ -250,14 +170,14 @@
 		  	select * from CUSTOMER
 		  	<where>
 		  		<if test="str1!=null and str1!=''">
-		  			BAR_CODE in (${str1})
+		  			and CTE_BAR_CODE like '%${str1}%'
+		  		</if>
+		  		<if test="str2!=null and str2!=''">
+		  			and CTE_NAME like '%${str2}%'
 		  		</if>
 		  	</where>
 		  	<if test="sort!=null and order!=null">
-		  		order by ${sort} ${order},CREATE_TIME desc
-		  	</if>
-		  	<if test="sort==null or order==null">
-		  		order by CREATE_TIME desc
+		  		order by ${sort} ${order}
 		  	</if>
 	  	) t1
 	  	<where>
@@ -276,7 +196,10 @@
   	select count(*) from CUSTOMER
   	<where>
   		<if test="str1!=null and str1!=''">
-  			BAR_CODE in (${str1})
+  			and CTE_BAR_CODE like '%${str1}%'
+  		</if>
+  		<if test="str2!=null and str2!=''">
+  			and CTE_NAME like '%${str2}%'
   		</if>
   	</where>
   	<where>

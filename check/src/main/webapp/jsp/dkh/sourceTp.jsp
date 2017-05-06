@@ -53,37 +53,6 @@ function save(){
 		}
 	});
 }
-function deleteObj(){
-	var row=$("#dg").datagrid("getSelected");
-	var id=row.orderNumber;
-	if(row){
-		$.messager.confirm(
-			"操作提示",
-			"您确定要删除吗？",
-			function(data){
-				if(data){
-					$.ajax({
-						url:"<%=path%>/api/timeLimit/"+id,
-						type:"delete",
-						success:function(data){
-							var json;
-							if(isJson(data)){
-								json=data;
-							}else{
-								json = eval('('+data+')');
-							}
-							if(json.result=='success'){
-								$('#dg').datagrid('reload');
-							}else{
-								alert("错误:"+json.code);
-							}
-						}
-					});
-				}
-			}
-		);
-	}
-}
 function excel_export(){
 	$("#search").form("submit",{
 		url:"<%=path%>/api/sourceTp/exportExcel",
@@ -133,7 +102,22 @@ function excel_export(){
 			<th field="shopNumber" width="150" sortable="true">客户店铺</th>
 			<th field="phone" width="100" sortable="true">联系方式</th>
 			<th field="weight" width="80" sortable="true">重量</th>
-			<th field="courierCompany" width="80" sortable="true">快递公司</th>
+			<th field="courierCompany" width="80" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(value='11'){
+							return '韵达实物';
+                      }else if(value='22'){
+                      		return '韵达刷单';
+                      }else if(value='33'){
+                      		return '圆通';
+                      }else if(value='44'){
+                      		return '顺丰';
+                      }else if(value='55'){
+                      		return 'EMS';
+                      }else if(value='66'){
+                      		return '邮政小包';
+                      }
+               }">快递公司</th>
 			<th field="goods" width="100" sortable="true">物品</th>
 			<th field="goodsCost" width="80" sortable="true">物品价值</th>
 			<th field="fee" width="80" sortable="true">费用</th>
@@ -149,8 +133,7 @@ function excel_export(){
 <div id="toolbar">
 	<div class="btn-separator-none">
 		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="">编辑数据</a>
 	</div>
 	<div class="btn-separator">
 		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
@@ -160,18 +143,40 @@ function excel_export(){
 	<form id="search">
 		<div class="searchBar-input">
     		<div>
-	    		创建时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
+	    		发货日期开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
     		</div>
     		<div>
-    			创建时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
+    			发货日期结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
     		</div>
    		</div>
    		<div class="searchBar-input">
     		<div>
-	    		账号：<input name ="str1" />
+	    		配送状态：
+	    		<select name ="str2" style="width: 170px;">
+	    			<option value="">--请选择配送状态--</option>
+	    			<option value="11">韵达实物</option>
+	    			<option value="22">韵达刷单</option>
+	    			<option value="33">圆通</option>
+	    			<option value="44">顺丰</option>
+	    			<option value="55">EMS</option>
+	    			<option value="66">邮政小包</option>
+	    		</select>
     		</div>
     		<div>
-    			用户名：<input name ="str2" />
+    			快递单号：<input name ="str3" />
+    		</div>
+   		</div>
+   		<div class="searchBar-input">
+    		<div>
+	    		客户条码：<input name ="str4" />
+    		</div>
+    		<div>
+    			订单编号：<input name ="str5" />
+    		</div>
+   		</div>
+   		<div class="searchBar-input">
+    		<div>
+	    		客户店铺：<input name ="str6" />
     		</div>
    		</div>
    	</form>

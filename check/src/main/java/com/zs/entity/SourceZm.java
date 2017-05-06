@@ -256,13 +256,14 @@ public class SourceZm extends SourceZmKey {
 
 	@Override
 	public String toString() {
-		return "SourceZm [largeArea=" + largeArea + ", sliceArea=" + sliceArea + ", fenbu=" + fenbu + ", ctmBarCode="
-				+ ctmBarCode + ", ctmName=" + ctmName + ", sendTime=" + sendTime + ", province=" + province
-				+ ", address=" + address + ", shopNumber=" + shopNumber + ", addressee=" + addressee + ", phone="
-				+ phone + ", weight=" + weight + ", courierCompany=" + courierCompany + ", goodsCost=" + goodsCost
-				+ ", goods=" + goods + ", orderNumber=" + orderNumber + ", createTime=" + createTime + ", createDate="
-				+ createDate + ", courierState=" + courierState + ", fbdArea=" + fbdArea + ", timeOut=" + timeOut
-				+ ", getCourierNumber()=" + getCourierNumber() + ", getReturnDate()=" + getReturnDate() + "]";
+		return largeArea + "," + sliceArea + "," + fenbu + "," + ctmBarCode + "," + ctmName + "," + sendTime + ","
+				+ province + "," + address + "," + shopNumber + "," + addressee + "," + phone + "," + weight + ","
+				+ courierCompany + "," + goodsCost + "," + goods + "," + orderNumber + "," + createTime + ","
+				+ createDate + "," + courierState + "," + fbdArea + "," + timeOut + "," + getCourierNumber() + ","
+				+ getReturnDate();
 	}
+
+
+	
     
 }
