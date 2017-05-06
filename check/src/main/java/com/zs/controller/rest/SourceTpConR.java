@@ -1,12 +1,14 @@
 package com.zs.controller.rest;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.SourceThirdParty;
+import com.zs.entity.SourceThirdPartyKey;
+import com.zs.entity.SourceZmKey;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -59,16 +63,36 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 		return null;
 	}
 
-	@Override
-	public Result<Integer> doUpdate(SourceThirdParty obj, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
+	public Result<Integer> doUpdate(@PathVariable("id") String[] id,SourceThirdParty obj, HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			if(obj!=null){
+				obj.setCourierNumber(id[0]);
+				obj.setReturnDate(new Date(Long.valueOf(id[1])));
+				try {
+					return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceTpSer.update(obj));
+				} catch (Exception e) {
+					return new Result<Integer>(ERROR, Code.ERROR, -1);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
-	public Result<Integer> doDeleteFalse(String[] id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
+	public Result<Integer> doDeleteFalse(@PathVariable("id") String[] id, HttpServletRequest req, HttpServletResponse resp) {
+		if(id!=null && !id[0].equals("") && !id[1].equals("")){
+			try {
+				SourceThirdPartyKey stpk = new SourceThirdPartyKey(id[0],new Date(Long.valueOf(id[1])));
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceTpSer.delete(stpk));
+			} catch (Exception e) {
+				return new Result<Integer>(ERROR, Code.ERROR, -1);
+			}
+		}
+		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@Override
@@ -115,4 +139,26 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 
+	/**
+	 * 是：有异常
+	 * 否：无异常
+	 * @return
+	 */
+	@RequestMapping(value="/isLoading",method=RequestMethod.GET)
+	private boolean isUnusual(HttpServletRequest req){
+		Object isUal=req.getSession().getAttribute("isLoading");
+		if (isUal==null) {
+		}else{
+			if ((Boolean)isUal) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public Result<Integer> doUpdate(SourceThirdParty obj, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -109,7 +109,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 						importMapper.insertSelective(s);
 					} catch (Exception e) {
 						e.printStackTrace();
-						SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
+						SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8].replace(",", ""),list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
 						SourceImportFailed sif = new SourceImportFailed();
 						sif.setStuNum(stuNum);
 						sif.setFailInfo(gson.toJson(sie));

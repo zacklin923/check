@@ -66,7 +66,6 @@ public class SourceZmSerImpl implements SourceZmSer{
 	public String ExportData(EasyUIAccept accept,HttpServletRequest req) {
 		List<SourceZm> list=zmMapper.queryFenye(accept);
 		String[] obj ={"所属大区","所属区部","所属分部","所属分拨点","客户条码","客户名称","快递单号","发货日期","省份","地址","客户店铺","收件人","联系方式","重量","快递公司","物品价值","物品","创建日期","状态","返回日期","订单编号","超时时间"};
-		/*
 		String[][] objs = new String[list.size()][obj.length];
 		for (int i = 0; i < objs.length; i++) {
 			objs[i][0] = list.get(i).getLargeArea();
@@ -100,10 +99,9 @@ public class SourceZmSerImpl implements SourceZmSer{
 			objs[i][20] = list.get(i).getOrderNumber();
 			objs[i][21] = Trans.TimestampTransToString(list.get(i).getTimeOut());
 		}
-		*/
 		String basePath = req.getSession().getServletContext().getRealPath("/");
 		String path ="file/哲盟返回数据.xls";
-		ExcelExport.OutExcel_zs(obj, this, basePath+path);
+		ExcelExport.OutExcel1(obj, objs, basePath+path);
 		return path;
 	}
 
@@ -115,9 +113,9 @@ public class SourceZmSerImpl implements SourceZmSer{
 			}else{
 				try {
 					SourceZmKey szk = new SourceZmKey(Trans.tostring(list.get(i)[6]), Trans.TransToDate(list.get(i)[19]));
+					SourceZm iszs = zmMapper.selectByPrimaryKey(szk);
 					SourceZm sz = new SourceZm(list.get(i)[0],list.get(i)[1], list.get(i)[2], list.get(i)[4].replace(",", ""),list.get(i)[5], Trans.toTimestamp(list.get(i)[7]), list.get(i)[8], list.get(i)[9], list.get(i)[10], list.get(i)[11], list.get(i)[12], Trans.toBigDecimal(list.get(i)[13]), list.get(i)[14],Trans.toBigDecimal(list.get(i)[15]), list.get(i)[16], list.get(i)[20], null, Trans.TransToDate(list.get(i)[17]), list.get(i)[18], list.get(i)[3], Trans.toTimestamp(list.get(i)[21]), list.get(i)[6], Trans.TransToDate(list.get(i)[19]));
-					System.out.println(sz);
-					if(szk!=null){
+					if(iszs!=null){
 						zmMapper.updateByPrimaryKeySelective(sz);
 					}else{
 						zmMapper.insertSelective(sz);
