@@ -23,8 +23,8 @@ function updateObj(){
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${user.licence }");
-		url="<%=path%>/api/timeLimit/"+row.orderNumber;
+		$("#fm input[name='_header']").val("${licence }");
+		url="<%=path%>/api/sourceTp/"+row.courierNumber+","+row.returnDate;
 	}
 }
 function save(){
@@ -55,7 +55,8 @@ function save(){
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var id=row.orderNumber;
+	var id=row.courierNumber;
+	var id1=row.returnDate;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
@@ -63,7 +64,7 @@ function deleteObj(){
 			function(data){
 				if(data){
 					$.ajax({
-						url:"<%=path%>/api/timeLimit/"+id,
+						url:"<%=path%>/api/sourceTp/"+id+","+id1,
 						type:"delete",
 						success:function(data){
 							var json;
@@ -98,6 +99,64 @@ function excel_export(){
 		    	window.location.href=d.data;
 			}
 	    } 
+	});
+}
+
+var a="${isLoading}";
+var a1="${isLoading}";
+function checkIsUal(){
+	console.log("a:"+a);
+	if(a=="" || a=="false"){
+		hiden_hint();
+	}else{
+		show_hint([]);
+		$.ajax({
+			url:"<%=path%>/api/sourceTp/isLoading",
+			success:function(data){
+				a=data;
+			}
+		});
+		setTimeout("checkIsUal()",2000);
+	}
+	if((a1=="true")&&(a=="" || a=="false")){
+		$('#dg').datagrid('reload');
+		alert("请到导入数据错误处查看是否有错误数据")
+	}
+}
+$(function(){
+	checkIsUal();
+});
+function upload(){
+	$("#fileImport").dialog("close");
+	show_hint([]);
+	$("#fmfile").form("submit",{
+		url:"<%=path %>/api/sourceTp/import",		
+		onSubmit:function(){
+			return $(this).form('validate');
+		},
+		success:function(data){
+			console.log(data);
+			if(data){
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					hiden_hint();
+					$('#dg').datagrid('reload');
+					$("#fileImport").dialog("close");					
+				}else{
+					hiden_hint();
+					$("#fileImport").dialog("close");	
+					alert("错误:"+json.code+"错误原因："+json.data);
+				}
+			}else{
+				hiden_hint();
+				alert("错误:网络错误");
+			}
+		}
 	});
 }
 </script>
@@ -160,18 +219,31 @@ function excel_export(){
 	<form id="search">
 		<div class="searchBar-input">
     		<div>
-	    		创建时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
+	    		发货时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
     		</div>
     		<div>
-    			创建时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
+    			发货时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
     		</div>
    		</div>
    		<div class="searchBar-input">
     		<div>
-	    		账号：<input name ="str1" />
+	    		配送状态：<input name ="str2" />
     		</div>
     		<div>
-    			用户名：<input name ="str2" />
+    			快递单号：<input name ="str3" />
+    		</div>
+   		</div>
+   		<div class="searchBar-input">
+    		<div>
+	    		客户条码：<input name ="str4" />
+    		</div>
+    		<div>
+    			订单号码：<input name ="str5" />
+    		</div>
+   		</div>
+   		<div class="searchBar-input">
+    		<div>
+	    		客户店铺：<input name ="str6" />
     		</div>
    		</div>
    	</form>
@@ -190,18 +262,53 @@ function excel_export(){
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
-		<input type="hidden" name="orderNumber"/>
 		<div class="fitem">
-			<label>始发中转站:</label>
-			<input name="beginProvince" class="easyui-validatebox" required="true">
+			<label>是否超时:</label>
+			<input name="isTimeOut" required="true">
 		</div>
 		<div class="fitem">
-			<label>到达省份:</label>
-			<input name="endProvince" class="easyui-validatebox" required="true">
+			<label>异常原因:</label>
+			<input name="abnormalCause" required="true">
 		</div>
 		<div class="fitem">
-			<label>小时:</label>
-			<input name="hourCost" class="easyui-validatebox" required="true">
+			<label>省份:</label>
+			<input name="province" required="true">
+		</div>
+		<div class="fitem">
+			<label>地址:</label>
+			<input name="address" required="true">
+		</div>
+		<div class="fitem">
+			<label>配送状态:</label>
+			<input name="deliveryState" required="true">
+		</div>
+		<div class="fitem">
+			<label>客户店铺:</label>
+			<input name="shopNumber"  required="true">
+		</div>
+		<div class="fitem">
+			<label>收件人:</label>
+			<input name="addressee" required="true">
+		</div>
+		<div class="fitem">
+			<label>联系方式:</label>
+			<input name="phone"  required="true">
+		</div>
+		<div class="fitem">
+			<label>物品:</label>
+			<input name="goods"  required="true">
+		</div>
+		<div class="fitem">
+			<label>物品价值:</label>
+			<input name="goodsCost"  required="true">
+		</div>
+		<div class="fitem">
+			<label>费用:</label>
+			<input name="fee"  required="true">
+		</div>
+		<div class="fitem">
+			<label>订单编号:</label>
+			<input name="orderNumber" required="true">
 		</div>
 	</form>
 </div>

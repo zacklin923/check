@@ -1,5 +1,6 @@
 package com.zs.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.gson.Gson;
 import com.zs.dao.SourceThirdPartyMapper;
 import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceThirdPartyKey;
@@ -57,8 +59,32 @@ public class SourceTpSerImpl implements SourceTpSer{
 	}
 
 	public String importData(List<String[]> list) {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> ls = new ArrayList<String>();
+		System.out.println(list.get(1)[13]);
+		for (int i = 1; i < list.size(); i++) {
+			if(list.get(i)[7].equals("")||list.get(i)[26].equals("")){
+				ls.add((i+1)+",");
+			}else{
+				try {
+					SourceThirdPartyKey stpk = new SourceThirdPartyKey(Trans.tostring(list.get(i)[7]),Trans.TransToDate(list.get(i)[26]));
+					SourceThirdParty isstp = thirdPartyMapper.selectByPrimaryKey(stpk);
+					SourceThirdParty stp = new SourceThirdParty(Trans.toTimestamp(list.get(i)[8]), list.get(i)[6], list.get(i)[5], list.get(i)[11], list.get(i)[12], list.get(i)[13], list.get(i)[14], list.get(i)[17], Trans.toTimestamp(list.get(i)[15]),list.get(i)[10], Trans.toBigDecimal(list.get(i)[9]), list.get(i)[18], list.get(i)[19], list.get(i)[20], Trans.toBigDecimal(list.get(i)[21]), list.get(i)[22], list.get(i)[23], Trans.toBigDecimal(list.get(i)[24]), Trans.toBigDecimal(list.get(i)[25]), null, list.get(i)[1], list.get(i)[2],list.get(i)[3], Trans.TransToDate(list.get(i)[0]), list.get(i)[4], list.get(i)[15],Trans.tostring(list.get(i)[7]), Trans.TransToDate(list.get(i)[26]));
+					if(isstp!=null){
+						thirdPartyMapper.updateByPrimaryKey(stp);
+					}else{
+						thirdPartyMapper.insertSelective(stp);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					ls.add((i+1)+"");
+				}
+			}
+		}
+		if(ls.size()>0){
+			return "错误行号为"+new Gson().toJson(ls);
+		}else{
+			return "";
+		}
 	}
 
 	public String ExportData(EasyUIAccept accept, HttpServletRequest req) {
@@ -113,7 +139,7 @@ public class SourceTpSerImpl implements SourceTpSer{
 		}
 		String basePath = req.getSession().getServletContext().getRealPath("/");
 		String path ="file/哲盟返回第三方数据.xls";
-		ExcelExport.OutExcel(obj, objs, basePath+path);
+		ExcelExport.OutExcel1(obj, objs, basePath+path);
 		return path;
 	}
 

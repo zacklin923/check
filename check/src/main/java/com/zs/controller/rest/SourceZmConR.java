@@ -78,13 +78,13 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public Result<Integer> doUpdate(@PathVariable("id") String[] id, SourceZm obj, HttpServletRequest req, HttpServletResponse resp){
 		try {
-			System.out.println(obj);
 			if(obj!=null){
 				obj.setCourierNumber(id[0]);
 				obj.setReturnDate(new Date(Long.valueOf(id[1])));
 				try {
 					return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceZmSer.update(obj));
 				} catch (Exception e) {
+					e.printStackTrace();
 					return new Result<Integer>(ERROR, Code.ERROR, -1);
 				}
 			}
@@ -153,5 +153,21 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
 
+	/**
+	 * 是：有异常
+	 * 否：无异常
+	 * @return
+	 */
+	@RequestMapping(value="/isLoading",method=RequestMethod.GET)
+	private boolean isUnusual(HttpServletRequest req){
+		Object isUal=req.getSession().getAttribute("isLoading");
+		if (isUal==null) {
+		}else{
+			if ((Boolean)isUal) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

@@ -106,6 +106,31 @@ function excel_export(){
 	    } 
 	});
 }
+
+var a="${isLoading}";
+var a1="${isLoading}";
+function checkIsUal(){
+	console.log("a:"+a);
+	if(a=="" || a=="false"){
+		hiden_hint();
+	}else{
+		show_hint([]);
+		$.ajax({
+			url:"<%=path%>/api/sourceZm/isLoading",
+			success:function(data){
+				a=data;
+			}
+		});
+		setTimeout("checkIsUal()",2000);
+	}
+	if((a1=="true")&&(a=="" || a=="false")){
+		$('#dg').datagrid('reload');
+		alert("请到导入数据错误处查看是否有错误数据")
+	}
+}
+$(function(){
+	checkIsUal();
+});
 function upload(){
 	$("#fileImport").dialog("close");
 	show_hint([]);
@@ -233,10 +258,6 @@ function upload(){
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
-		<div class="fitem">
-			<label>客户名称:</label>
-			<input name="ctmName" required="true">
-		</div>
 		<div class="fitem">
 			<label>省份:</label>
 			<input name="province" required="true">
