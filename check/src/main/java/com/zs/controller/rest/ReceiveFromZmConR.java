@@ -215,7 +215,10 @@ public class ReceiveFromZmConR {
 							tp.setGoods(zm.getGoods());
 							tp.setGoodsCost(zm.getGoodsCost());
 							//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
-							if (zm.getTimeOut()!=null) {
+							if (zm.getTimeOut()!=null 
+									&& tp.getDeliveryState()!=null 
+									&& !tp.getDeliveryState().equals("签收")
+									&& !tp.getDeliveryState().equals("疑难")) {//剩余三种状态时才判断
 								if (zm.getTimeOut().after(new Date())) {//发货日期+规定消耗的时间  > 现在  ，就代表超期
 									tp.setIsTimeOut(new BigDecimal(1));
 								}else {
