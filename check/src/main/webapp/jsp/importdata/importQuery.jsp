@@ -251,8 +251,8 @@ function pushData(){
    	<div class="clear"></div>
    	<hr class="hr-geay">
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">导出</a>
 	<div class="pull-away"></div>
 </div>
 <div id="dlg" class="easyui-dialog" style="width:600px;height:660px;padding:10px 20px"

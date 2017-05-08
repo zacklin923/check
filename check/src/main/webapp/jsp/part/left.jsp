@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <li><span><a href="<%=path %>/sourceTp" target="right">哲盟返回第三方数据</a></span></li>
         </ul>
 	</div>
-	<div title="系统管理[测试]" data-options="iconCls:'icon-system'" style="padding:10px;">
+	<div title="系统管理" data-options="iconCls:'icon-system'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
        		<li><span><a href="<%=path %>/user" target="right">用户管理</a></span></li>
        		<li><span><a href="<%=path %>/role" target="right">角色管理</a></span></li>
@@ -79,11 +79,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        		<li><span><a href="<%=path %>/jsp/help/province.jsp" target="right">标准省份名称</a></span></li>
         </ul>
 	</div>
+	<!-- 
 	<div title="测试" data-options="iconCls:'icon-cancel'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
        		<li><span><a href="<%=path %>/jsp/test/test.jsp" target="right">快速测试</a></span></li>
         </ul>
 	</div>
+	 -->
 	
 </div>
 

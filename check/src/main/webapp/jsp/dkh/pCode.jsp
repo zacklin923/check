@@ -108,7 +108,7 @@ function excel_export(){
 	});
 }
 </script>
-<table id="dg" class="easyui-datagrid" border="true" title="快件信息>一段码省份对照表"
+<table id="dg" class="easyui-datagrid" border="true" title="基础信息维护>一段码省份对照表"
 		url="<%=path %>/api/provinceCode"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -147,8 +147,8 @@ function excel_export(){
    	<div class="clear"></div>
    	<hr class="hr-geay">
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
 	<div class="pull-away"></div>
 </div>
 

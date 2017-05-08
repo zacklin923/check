@@ -130,7 +130,7 @@ function obcSave(){
     $("#obc").dialog("close");
 }
 </script>
-<table id="dg" class="easyui-datagrid" border="true" title="快件信息>用户管理"
+<table id="dg" class="easyui-datagrid" border="true" title="系统管理>用户管理"
 		url="<%=path %>/api/user"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -188,8 +188,8 @@ function obcSave(){
    	<div class="clear"></div>
    	<hr class="hr-geay">
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
 	<div class="pull-away"></div>
 </div>
 
