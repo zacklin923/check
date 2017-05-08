@@ -161,20 +161,38 @@ public class SourceImportSerImpl implements SourceImportSer{
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		List<SourceImport> list=importMapper.queryToZM(calendar.getTime(), userNum);
-		String json=gson.toJson(list);
-		List<NameValuePair> formparams=new ArrayList<NameValuePair>();
-		formparams.add(new BasicNameValuePair("data", json));
-		String result=HttpHelper.postForm(URL_ZM, formparams);
-		log.error("【用户导入】第一次推送的结果:"+result);
-		//-------给推送成功的，打上标记：是否推送成功,未推送成功的再推送一次---------------------
-		List<SourceImport> list2=new ArrayList<SourceImport>();
-		if (result!=null) {
-			ResultFromSendToZM resultFromSendToZM=gson.fromJson(result, ResultFromSendToZM.class);
-			if(resultFromSendToZM.getResult().equals("fail")){
-				for (int i = 0; i < list.size(); i++) {
-					if ((","+resultFromSendToZM.getFailRows()+",").contains(","+list.get(i).getCourierNumber()+",")) {//失败的
-						list2.add(list.get(i));
-					}else {
+		int count = list.size()/100;
+		List<SourceImport> listtmp = new ArrayList<SourceImport>();
+		for (int k = 0; k <= count; k++) {
+			if(k!=count){
+				listtmp = list.subList(k*100, (k+1)*100);
+			}else{
+				listtmp = list.subList(k*100, list.size());
+			}
+			String json=gson.toJson(listtmp);
+			
+			List<NameValuePair> formparams=new ArrayList<NameValuePair>();
+			formparams.add(new BasicNameValuePair("data", json));
+			String result=HttpHelper.postForm(URL_ZM, formparams);
+			log.error("【用户导入】第一次推送的结果:"+result);
+			//-------给推送成功的，打上标记：是否推送成功,未推送成功的再推送一次---------------------
+			List<SourceImport> list2=new ArrayList<SourceImport>();
+			if (result!=null) {
+				ResultFromSendToZM resultFromSendToZM=gson.fromJson(result, ResultFromSendToZM.class);
+				if(resultFromSendToZM.getResult().equals("fail")){
+					for (int i = 0; i < list.size(); i++) {
+						if ((","+resultFromSendToZM.getFailRows()+",").contains(","+list.get(i).getCourierNumber()+",")) {//失败的
+							list2.add(list.get(i));
+						}else {
+							SourceImport im2=new SourceImport();
+							im2.setCourierNumber(list.get(i).getCourierNumber());
+							im2.setIsPushed(new BigDecimal(1));
+							importMapper.updateByPrimaryKeySelective(im2);
+							succrows++;
+						}
+					}
+				}else if(resultFromSendToZM.getResult().equals("success")){
+					for (int i = 0; i < list.size(); i++) {
 						SourceImport im2=new SourceImport();
 						im2.setCourierNumber(list.get(i).getCourierNumber());
 						im2.setIsPushed(new BigDecimal(1));
@@ -182,47 +200,39 @@ public class SourceImportSerImpl implements SourceImportSer{
 						succrows++;
 					}
 				}
-			}else if(resultFromSendToZM.getResult().equals("success")){
-				for (int i = 0; i < list.size(); i++) {
-					SourceImport im2=new SourceImport();
-					im2.setCourierNumber(list.get(i).getCourierNumber());
-					im2.setIsPushed(new BigDecimal(1));
-					importMapper.updateByPrimaryKeySelective(im2);
-					succrows++;
-				}
 			}
-		}
-		if(list2.size()>0){
-			//-----再推送一次，还失败就不推送了------
-			String json2=gson.toJson(list2);
-			List<NameValuePair> formparams2=new ArrayList<NameValuePair>();
-			formparams2.add(new BasicNameValuePair("data", json2));
-			String result2=HttpHelper.postForm(URL_ZM, formparams2);
-			log.error("【用户导入】第二次推送的结果:"+result2);
-			if (result2!=null) {
-				ResultFromSendToZM resultFromSendToZM=gson.fromJson(result2, ResultFromSendToZM.class);
-				if(resultFromSendToZM.getResult().equals("fail")){
-					for (int i = 0; i < list2.size(); i++) {
-						if ((","+resultFromSendToZM.getFailRows()+",").contains(","+list2.get(i).getCourierNumber()+",")) {//失败的
-				  			SourceImport im2=new SourceImport();
-							im2.setCourierNumber(list2.get(i).getCourierNumber());
-							im2.setIsPushed(new BigDecimal(0));
-							importMapper.updateByPrimaryKeySelective(im2);
-						}else {
+			if(list2.size()>0){
+				//-----再推送一次，还失败就不推送了------
+				String json2=gson.toJson(list2);
+				List<NameValuePair> formparams2=new ArrayList<NameValuePair>();
+				formparams2.add(new BasicNameValuePair("data", json2));
+				String result2=HttpHelper.postForm(URL_ZM, formparams2);
+				log.error("【用户导入】第二次推送的结果:"+result2);
+				if (result2!=null) {
+					ResultFromSendToZM resultFromSendToZM=gson.fromJson(result2, ResultFromSendToZM.class);
+					if(resultFromSendToZM.getResult().equals("fail")){
+						for (int i = 0; i < list2.size(); i++) {
+							if ((","+resultFromSendToZM.getFailRows()+",").contains(","+list2.get(i).getCourierNumber()+",")) {//失败的
+//								SourceImport im2=new SourceImport();
+//								im2.setCourierNumber(list2.get(i).getCourierNumber());
+//								im2.setIsPushed(new BigDecimal(0));
+//								importMapper.updateByPrimaryKeySelective(im2);
+							}else {
+								SourceImport im2=new SourceImport();
+								im2.setCourierNumber(list2.get(i).getCourierNumber());
+								im2.setIsPushed(new BigDecimal(1));
+								importMapper.updateByPrimaryKeySelective(im2);
+								succrows++;
+							}
+						}
+					}else if(resultFromSendToZM.getResult().equals("success")){
+						for (int i = 0; i < list2.size(); i++) {
 							SourceImport im2=new SourceImport();
 							im2.setCourierNumber(list2.get(i).getCourierNumber());
 							im2.setIsPushed(new BigDecimal(1));
 							importMapper.updateByPrimaryKeySelective(im2);
 							succrows++;
 						}
-					}
-				}else if(resultFromSendToZM.getResult().equals("success")){
-					for (int i = 0; i < list2.size(); i++) {
-						SourceImport im2=new SourceImport();
-						im2.setCourierNumber(list2.get(i).getCourierNumber());
-						im2.setIsPushed(new BigDecimal(1));
-						importMapper.updateByPrimaryKeySelective(im2);
-						succrows++;
 					}
 				}
 			}

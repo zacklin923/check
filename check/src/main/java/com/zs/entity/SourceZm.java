@@ -264,12 +264,13 @@ public class SourceZm extends SourceZmKey {
 	}
 
 	public SourceZm(String courierNumber, Date returnDate, String province, String address, String shopNumber,
-			String addressee, String phone, BigDecimal goodsCost, String orderNumber) {
+			String addressee, String phone,String goods, BigDecimal goodsCost, String orderNumber) {
 		this.province = province;
 		this.address = address;
 		this.shopNumber = shopNumber;
 		this.addressee = addressee;
 		this.phone = phone;
+		this.goods = goods;
 		this.goodsCost = goodsCost;
 		this.orderNumber = orderNumber;
 		this.setCourierNumber(courierNumber);
