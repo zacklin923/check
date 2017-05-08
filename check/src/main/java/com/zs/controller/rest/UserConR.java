@@ -39,6 +39,7 @@ public class UserConR extends BaseRestController<StaffUser,String>{
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return userSer.queryFenye(accept);
 			} catch (Exception e) {
+				e.printStackTrace();
 				return null;
 			}
 		}

@@ -65,6 +65,12 @@ console.log(json);
 	<input type="submit"/>
 </form>
 
+<br>
 
+<form action="<%=path %>/api/customer/import" enctype="multipart/form-data" method="post">
+	上传到客户表
+	<input type="file" name="file"/>
+	<input type="submit"/>
+</form>
 </body>
 </html>

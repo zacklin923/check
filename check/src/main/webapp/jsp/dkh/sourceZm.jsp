@@ -53,38 +53,6 @@ function save(){
 		}
 	});
 }
-function deleteObj(){
-	var row=$("#dg").datagrid("getSelected");
-	var id=row.courierNumber;
-	var id1=row.returnDate;
-	if(row){
-		$.messager.confirm(
-			"操作提示",
-			"您确定要删除吗？",
-			function(data){
-				if(data){
-					$.ajax({
-						url:"<%=path%>/api/sourceZm/"+id+","+id1,
-						type:"delete",
-						success:function(data){
-							var json;
-							if(isJson(data)){
-								json=data;
-							}else{
-								json = eval('('+data+')');
-							}
-							if(json.result=='success'){
-								$('#dg').datagrid('reload');
-							}else{
-								alert("错误:"+json.code);
-							}
-						}
-					});
-				}
-			}
-		);
-	}
-}
 function excel_export(){
 	$("#search").form("submit",{
 		url:"<%=path%>/api/sourceZm/exportExcel",
@@ -189,7 +157,22 @@ function upload(){
 			<th field="addressee" width="60" sortable="true">收件人</th>
 			<th field="phone" width="100" sortable="true">联系方式</th>
 			<th field="weight" width="60" sortable="true">重量</th>
-			<th field="courierCompany" width="60" sortable="true">快递公司</th>
+			<th field="courierCompany" width="60" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(value='11'){
+							return '韵达实物';
+                      }else if(value='22'){
+                      		return '韵达刷单';
+                      }else if(value='33'){
+                      		return '圆通';
+                      }else if(value='44'){
+                      		return '顺丰';
+                      }else if(value='55'){
+                      		return 'EMS';
+                      }else if(value='66'){
+                      		return '邮政小包';
+                      }
+               }">快递公司</th>
 			<th field="goodsCost" width="60" sortable="true">物品价值</th>
 			<th field="goods" width="60" sortable="true">物品</th>
 			<th field="createDate" width="100" sortable="true">创建日期</th>
@@ -209,7 +192,6 @@ function upload(){
 	<div class="btn-separator-none">
 		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
 	</div>
 	<div class="btn-separator">
 		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
@@ -240,6 +222,16 @@ function upload(){
     		</div>
     		<div>
     			订单编号：<input name ="str5" />
+    		</div>
+   		</div>
+   		<div class="searchBar-input">
+    		<div>
+    			状态：
+    			<select name="int1" style="width: 170px;">
+    				<option value="">--请选择发货状态--</option>
+    				<option value="1">已发货</option>
+    				<option value="0">未发货</option>
+    			</select>
     		</div>
    		</div>
    	</form>

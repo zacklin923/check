@@ -8,11 +8,14 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.zs.dao.CustomerMapper;
 import com.zs.dao.StaffRoleMapper;
 import com.zs.dao.StaffUserMapper;
+import com.zs.entity.Customer;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
+import com.zs.service.CustomerSer;
 import com.zs.service.UserSer;
 
 @Service("userSer")
@@ -22,6 +25,8 @@ public class UserSerImpl implements UserSer{
 	private StaffUserMapper userMapper;
 	@Resource
 	private StaffRoleMapper roleMapper;
+	@Resource
+	private CustomerMapper customerMapper;
 	private Gson g = new Gson();
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
@@ -33,6 +38,19 @@ public class UserSerImpl implements UserSer{
 				accept.setEnd(page*size);
 			}
 			List list=userMapper.queryFenye(accept);
+			for (int i = 0; i < list.size(); i++) {
+				StaffUser staffUser=(StaffUser) list.get(i);
+				String ss[]=staffUser.getOwnBarCode()!=null?staffUser.getOwnBarCode().split(","):new String[0];
+				String str="";
+				for (int j = 0; j < ss.length; j++) {
+					Customer customer=customerMapper.selectByPrimaryKey(ss[j]);
+					if (customer!=null) {
+						str=str+","+customer.getCteName();
+					}
+				}
+				str=str.length()>0?str.substring(1):"";
+				staffUser.setOwnCteName(str);
+			}
 			int rows=userMapper.getCount(accept);
 			return new EasyUIPage(rows, list);
 		}

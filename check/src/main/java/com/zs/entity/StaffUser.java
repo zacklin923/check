@@ -23,8 +23,18 @@ public class StaffUser {
 	//---------------
     private StaffRole role;
     private String licence;
+	private String ownCteName;
 	
-    public String getStuNum() {
+    
+    public String getOwnCteName() {
+		return ownCteName;
+	}
+
+	public void setOwnCteName(String ownCteName) {
+		this.ownCteName = ownCteName;
+	}
+
+	public String getStuNum() {
         return stuNum;
     }
 

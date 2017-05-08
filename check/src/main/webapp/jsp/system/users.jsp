@@ -30,7 +30,7 @@ $(function(){
 		}
 	});
 });  
-	
+var url;
 function addObj(){
 	$("#dlg").dialog("open").dialog("setTitle","新建");	
 	$("#fm").form("clear");
@@ -107,43 +107,26 @@ function deleteObj(){
 	}
 }
 function obc(){
-	$.ajax({
-		type:"GET",
-		url:"<%=path %>/api/customer/all",
-		data:"",
-		success:function(data){
-			var ostr = $("#obcNums").val();
-			var oarr = ostr.split(",");
-			str="";
-			var str2="";
-			for(var i = 0; i < data.length; i++) {
-				str=str+"<div style='width:100px;height:25px;float:left;border:1px solid #B1B3B8;margin:5px;font-size:18px;'>";
-				for(var j = 0 ; j < oarr.length; j++){
-					if(data[i].barCode==oarr[j]){
-						str =str+"<input style='width:20px;height:20px;' checked='checked' type='checkbox' name='obcNum'  value='"+data[i].barCode+"' />";
-						str2 = "a";
-					}
-				}
-				if(str2==""){
-					str =str+"<input style='width:20px;height:20px;' type='checkbox' name='obcNum'  value='"+data[i].barCode+"' />";
-				}
-				str=str+data[i].barCode+"</div>"
-				str2="";
-			}
-			$("#numOption").html(str);
-		}
+	var str=$("#obcNums").val();
+	var arr=str.split(",");
+	$("#numOption").datagrid("uncheckAll");
+	$.each(arr, function(index, item){
+		$("#numOption").datagrid("selectRecord",item);
 	});
 	$("#obc").dialog("open");
 }
 
 function obcSave(){
-	var id = document.getElementsByName('obcNum');
-    var value = new Array();
-    for(var i = 0; i < id.length; i++){
-     if(id[i].checked)
-     value.push(id[i].value);
-    }
-    $("#obcNums").val(value);
+	var arr=$("#numOption").datagrid("getChecked");
+	console.log(arr);
+	var str="";
+	$.each(arr, function(index, item){
+		str=str+","+item.cteBarCode;
+		
+		
+	});
+	str=str.substr(1,str.length-1);
+    $("#obcNums").val(str);
     $("#obc").dialog("close");
 }
 </script>
@@ -160,7 +143,7 @@ function obcSave(){
 			<th field="stuNum" width="100" sortable="true">账号</th>
 			<th field="pass" width="100">密码</th>
 			<th field="stuName" width="100" sortable="true">用户名</th>
-			<th field="ownBarCode" width="400">条码</th>
+			<th field="ownCteName" width="500">条码</th>
 			<th field="stuRoleName" data-options="
 				formatter:function(value,row,index){
                              if(row.role){
@@ -232,6 +215,7 @@ function obcSave(){
 		<div class="fitem">
 			<label>条码:</label>
 			<input id="obcNums" name="ownBarCode" class="easyui-validatebox">
+			<a class="easyui-linkbutton" onclick="obc()">浏览...</a>
 		</div>
 		<div class="fitem">
 			<label>角色:</label>
@@ -254,10 +238,23 @@ function obcSave(){
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#obc').dialog('close')">取消</a>
 </div>
 
-<div id="obc" class="easyui-dialog" style="width:600px;height:500px;padding:10px 10px"
+<div id="obc" class="easyui-dialog" style="width:600px;height:500px;"
 		closed="true" buttons="#obc-buttons" modal="true" title="条码选择">
-		<div id="numOption" style="width:570px;height:380px;">
-		</div>
+	<table id="numOption" class="easyui-datagrid" border="false"
+		url="<%=path %>/api/customer/all"
+		method="get" idField="cteBarCode"
+		loadMsg="数据加载中请稍后……"
+		striped="true" pagination="false"
+		rownumbers="true" fitColumns="true" 
+		singleSelect="false" fit="true">
+		<thead>
+			<tr>
+				<th field="ck" checkbox="true"></th>
+				<th field="cteBarCode" width="100" sortable="true">客户条码</th>
+				<th field="cteName" width="100" sortable="true">客户名称</th>
+			</tr>
+		</thead>
+	</table>	
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
 		closed="true" modal="true">

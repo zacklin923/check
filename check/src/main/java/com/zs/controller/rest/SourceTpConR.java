@@ -44,6 +44,7 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceTpSer.queryFenye(accept);
 			} catch (Exception e) {
+				e.printStackTrace();
 				return null;
 			}
 		}

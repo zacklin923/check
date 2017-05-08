@@ -584,26 +584,26 @@
 			  		and CTM_BAR_CODE in (${str1})
 			  	</if>
 			  	<if test="date1!=null and date1!=''">
-			  		and SEND_TIME >= #{date1}
-		  		</if>
-		  		<if test="date2!=null and date2!=''">
-			  		and SEND_TIME &lt;= #{date2}
-		  		</if>
-		  		<if test="str2!=null and str2!=''">
-		  			and DELIVERY_STATE like '%${str2}%'
-		  		</if>
-		  		<if test="str3!=null and str3!=''">
-		  			and COURIER_NUMBER like '%${str3}%'
-		  		</if>
-		  		<if test="str4!=null and str4!=''">
-		  			and CTM_BAR_CODE like '%${str4}%'
-		  		</if>
-		  		<if test="str5!=null and str5!=''">
-		  			and ORDER_NUMBER like '%${str5}%'
-		  		</if>
-		  		<if test="str6!=null and str6!=''">
-		  			and SHOP_NUMBER like '%${str6}%'
-		  		</if>
+		  			and SEND_TIME >= #{date1}
+		 		</if>
+		 		<if test="date2!=null and date2!=''">
+		  			and SEND_TIME &lt;= #{date2}
+		 		</if>
+			  	<if test="str2!=null and str2!=''">
+			  		and DELIVERY_STATE = #{str2}
+			  	</if>
+			  	<if test="str3!=null and str3!=''">
+			  		and COURIER_NUMBER like '%${str3}%'
+			  	</if>
+			  	<if test="str4!=null and str4!=''">
+			  		and CTM_BAR_CODE like '%${str4}%'
+			  	</if>
+			  	<if test="str5!=null and str5!=''">
+			  		and ORDER_NUMBER like '%${str5}%'
+			  	</if>
+			  	<if test="str6!=null and str6!=''">
+			  		and SHOP_NUMBER like '%${str6}%'
+			  	</if>
 		 	</where>
 		  	<if test="sort!=null and order!=null">
 		  		order by ${sort} ${order},CREATE_TIME desc
@@ -631,26 +631,26 @@
 	  		and CTM_BAR_CODE in (${str1})
 	  	</if>
 	  	<if test="date1!=null and date1!=''">
-	  		and SEND_TIME >= #{date1}
-  		</if>
-  		<if test="date2!=null and date2!=''">
-	  		and SEND_TIME &lt;= #{date2}
-  		</if>
-  		<if test="str2!=null and str2!=''">
-  			and DELIVERY_STATE like '%${str2}%'
-  		</if>
-  		<if test="str3!=null and str3!=''">
-  			and COURIER_NUMBER like '%${str3}%'
-  		</if>
-  		<if test="str4!=null and str4!=''">
-  			and CTM_BAR_CODE like '%${str4}%'
-  		</if>
-  		<if test="str5!=null and str5!=''">
-  			and ORDER_NUMBER like '%${str5}%'
-  		</if>
-  		<if test="str6!=null and str6!=''">
-  			and SHOP_NUMBER like '%${str6}%'
-  		</if>
+  			and SEND_TIME >= #{date1}
+ 		</if>
+ 		<if test="date2!=null and date2!=''">
+  			and SEND_TIME &lt;= #{date2}
+ 		</if>
+	  	<if test="str2!=null and str2!=''">
+	  		and DELIVERY_STATE = #{str2}
+	  	</if>
+	  	<if test="str3!=null and str3!=''">
+	  		and COURIER_NUMBER like '%${str3}%'
+	  	</if>
+	  	<if test="str4!=null and str4!=''">
+	  		and CTM_BAR_CODE like '%${str4}%'
+	  	</if>
+	  	<if test="str5!=null and str5!=''">
+	  		and ORDER_NUMBER like '%${str5}%'
+	  	</if>
+	  	<if test="str6!=null and str6!=''">
+	  		and SHOP_NUMBER like '%${str6}%'
+	  	</if>
  	</where>
   </select>
 </mapper>

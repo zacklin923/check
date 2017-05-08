@@ -23,8 +23,8 @@ function updateObj(){
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${licence }");
-		url="<%=path%>/api/sourceTp/"+row.courierNumber+","+row.returnDate;
+		$("#fm input[name='_header']").val("${user.licence }");
+		url="<%=path%>/api/timeLimit/"+row.orderNumber;
 	}
 }
 function save(){
@@ -53,38 +53,6 @@ function save(){
 		}
 	});
 }
-function deleteObj(){
-	var row=$("#dg").datagrid("getSelected");
-	var id=row.courierNumber;
-	var id1=row.returnDate;
-	if(row){
-		$.messager.confirm(
-			"操作提示",
-			"您确定要删除吗？",
-			function(data){
-				if(data){
-					$.ajax({
-						url:"<%=path%>/api/sourceTp/"+id+","+id1,
-						type:"delete",
-						success:function(data){
-							var json;
-							if(isJson(data)){
-								json=data;
-							}else{
-								json = eval('('+data+')');
-							}
-							if(json.result=='success'){
-								$('#dg').datagrid('reload');
-							}else{
-								alert("错误:"+json.code);
-							}
-						}
-					});
-				}
-			}
-		);
-	}
-}
 function excel_export(){
 	$("#search").form("submit",{
 		url:"<%=path%>/api/sourceTp/exportExcel",
@@ -99,64 +67,6 @@ function excel_export(){
 		    	window.location.href=d.data;
 			}
 	    } 
-	});
-}
-
-var a="${isLoading}";
-var a1="${isLoading}";
-function checkIsUal(){
-	console.log("a:"+a);
-	if(a=="" || a=="false"){
-		hiden_hint();
-	}else{
-		show_hint([]);
-		$.ajax({
-			url:"<%=path%>/api/sourceTp/isLoading",
-			success:function(data){
-				a=data;
-			}
-		});
-		setTimeout("checkIsUal()",2000);
-	}
-	if((a1=="true")&&(a=="" || a=="false")){
-		$('#dg').datagrid('reload');
-		alert("请到导入数据错误处查看是否有错误数据")
-	}
-}
-$(function(){
-	checkIsUal();
-});
-function upload(){
-	$("#fileImport").dialog("close");
-	show_hint([]);
-	$("#fmfile").form("submit",{
-		url:"<%=path %>/api/sourceTp/import",		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			console.log(data);
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					hiden_hint();
-					$('#dg').datagrid('reload');
-					$("#fileImport").dialog("close");					
-				}else{
-					hiden_hint();
-					$("#fileImport").dialog("close");	
-					alert("错误:"+json.code+"错误原因："+json.data);
-				}
-			}else{
-				hiden_hint();
-				alert("错误:网络错误");
-			}
-		}
 	});
 }
 </script>
@@ -192,7 +102,22 @@ function upload(){
 			<th field="shopNumber" width="150" sortable="true">客户店铺</th>
 			<th field="phone" width="100" sortable="true">联系方式</th>
 			<th field="weight" width="80" sortable="true">重量</th>
-			<th field="courierCompany" width="80" sortable="true">快递公司</th>
+			<th field="courierCompany" width="80" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(value='11'){
+							return '韵达实物';
+                      }else if(value='22'){
+                      		return '韵达刷单';
+                      }else if(value='33'){
+                      		return '圆通';
+                      }else if(value='44'){
+                      		return '顺丰';
+                      }else if(value='55'){
+                      		return 'EMS';
+                      }else if(value='66'){
+                      		return '邮政小包';
+                      }
+               }">快递公司</th>
 			<th field="goods" width="100" sortable="true">物品</th>
 			<th field="goodsCost" width="80" sortable="true">物品价值</th>
 			<th field="fee" width="80" sortable="true">费用</th>
@@ -208,8 +133,7 @@ function upload(){
 <div id="toolbar">
 	<div class="btn-separator-none">
 		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="">编辑数据</a>
 	</div>
 	<div class="btn-separator">
 		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
@@ -219,15 +143,24 @@ function upload(){
 	<form id="search">
 		<div class="searchBar-input">
     		<div>
-	    		发货时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
+	    		发货日期开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
     		</div>
     		<div>
-    			发货时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
+    			发货日期结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
     		</div>
    		</div>
    		<div class="searchBar-input">
     		<div>
-	    		配送状态：<input name ="str2" />
+	    		配送状态：
+	    		<select name ="str2" style="width: 170px;">
+	    			<option value="">--请选择配送状态--</option>
+	    			<option value="11">韵达实物</option>
+	    			<option value="22">韵达刷单</option>
+	    			<option value="33">圆通</option>
+	    			<option value="44">顺丰</option>
+	    			<option value="55">EMS</option>
+	    			<option value="66">邮政小包</option>
+	    		</select>
     		</div>
     		<div>
     			快递单号：<input name ="str3" />
@@ -238,7 +171,7 @@ function upload(){
 	    		客户条码：<input name ="str4" />
     		</div>
     		<div>
-    			订单号码：<input name ="str5" />
+    			订单编号：<input name ="str5" />
     		</div>
    		</div>
    		<div class="searchBar-input">
@@ -262,53 +195,18 @@ function upload(){
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
+		<input type="hidden" name="orderNumber"/>
 		<div class="fitem">
-			<label>是否超时:</label>
-			<input name="isTimeOut" required="true">
+			<label>始发中转站:</label>
+			<input name="beginProvince" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>异常原因:</label>
-			<input name="abnormalCause" required="true">
+			<label>到达省份:</label>
+			<input name="endProvince" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>省份:</label>
-			<input name="province" required="true">
-		</div>
-		<div class="fitem">
-			<label>地址:</label>
-			<input name="address" required="true">
-		</div>
-		<div class="fitem">
-			<label>配送状态:</label>
-			<input name="deliveryState" required="true">
-		</div>
-		<div class="fitem">
-			<label>客户店铺:</label>
-			<input name="shopNumber"  required="true">
-		</div>
-		<div class="fitem">
-			<label>收件人:</label>
-			<input name="addressee" required="true">
-		</div>
-		<div class="fitem">
-			<label>联系方式:</label>
-			<input name="phone"  required="true">
-		</div>
-		<div class="fitem">
-			<label>物品:</label>
-			<input name="goods"  required="true">
-		</div>
-		<div class="fitem">
-			<label>物品价值:</label>
-			<input name="goodsCost"  required="true">
-		</div>
-		<div class="fitem">
-			<label>费用:</label>
-			<input name="fee"  required="true">
-		</div>
-		<div class="fitem">
-			<label>订单编号:</label>
-			<input name="orderNumber" required="true">
+			<label>小时:</label>
+			<input name="hourCost" class="easyui-validatebox" required="true">
 		</div>
 	</form>
 </div>
