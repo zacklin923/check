@@ -57,7 +57,7 @@ function deleteAll(){
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
 		checkOnSelect="false" selectOnCheck="false"
-		pageSize="25" pageList="[25,40,50,100]">
+		pageSize="25" pageList="[25,40,50,100,200,300,400,500]">
 	<thead>
 		<tr>
 			<th field="ck" checkbox="true"></th>
@@ -158,9 +158,7 @@ function deleteAll(){
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
 	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">
@@ -175,8 +173,8 @@ function deleteAll(){
    		</div>
    		<div class="searchBar-input">
     		<div>
-	    		失败类型：<select name ="str2">
-			    			<option value="">请选择。。。</option>
+	    		失败类型：<select name ="str2" style="width: 170px;">
+			    			<option value="">--请选择--</option>
 			    			<option value="重复快递单号">重复快递单号</option>
 			    			<option value="数据必填项为空">数据必填项为空</option>
 			    			<option value="数据类型转换错误">数据类型转换错误</option>
@@ -187,7 +185,6 @@ function deleteAll(){
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
 	<div class="pull-away"></div>
 </div>

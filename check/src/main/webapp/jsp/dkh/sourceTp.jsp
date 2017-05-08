@@ -183,7 +183,7 @@ function excel_export(){
    	<div class="clear"></div>
    	<hr class="hr-geay">
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a href="<%=path%>/api/sourceTp/exportExcel" class="easyui-linkbutton" iconCls="icon-search">统计</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
 	<div class="pull-away"></div>
 </div>
@@ -217,7 +217,7 @@ function excel_export(){
 <div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
 		closed="true" modal="true" title="数据源导入">
 		<div style="height:25px;line-height:25px;">数据导入模板
-			<a href="<%=path%>/file/数据源导入模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
+			<a href="<%=path%>/file/哲盟返回第三方数据模板.xls" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
 		</div></br></br></br>
 		<form id="fmfile"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>

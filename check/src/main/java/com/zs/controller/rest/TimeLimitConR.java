@@ -53,6 +53,7 @@ public class TimeLimitConR extends BaseRestController<TimeLimit,BigDecimal>{
 			try {
 				return new Result<Integer>(SUCCESS,  Code.SUCCESS, timeLimitSer.add(obj));
 			} catch (Exception e) {
+				e.printStackTrace();
 				return new Result<Integer>(ERROR, Code.ERROR, -1);
 			}
 		}
