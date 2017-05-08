@@ -60,7 +60,6 @@ public class SourceTpSerImpl implements SourceTpSer{
 
 	public String importData(List<String[]> list) {
 		List<String> ls = new ArrayList<String>();
-		System.out.println(list.get(1)[13]);
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[7].equals("")||list.get(i)[26].equals("")){
 				ls.add((i+1)+",");
@@ -68,11 +67,11 @@ public class SourceTpSerImpl implements SourceTpSer{
 				try {
 					SourceThirdPartyKey stpk = new SourceThirdPartyKey(Trans.tostring(list.get(i)[7]),Trans.TransToDate(list.get(i)[26]));
 					SourceThirdParty isstp = thirdPartyMapper.selectByPrimaryKey(stpk);
-					SourceThirdParty stp = new SourceThirdParty(Trans.toTimestamp(list.get(i)[8]), list.get(i)[6], list.get(i)[5], list.get(i)[11], list.get(i)[12], list.get(i)[13], list.get(i)[14], list.get(i)[17], Trans.toTimestamp(list.get(i)[15]),list.get(i)[10], Trans.toBigDecimal(list.get(i)[9]), list.get(i)[18], list.get(i)[19], list.get(i)[20], Trans.toBigDecimal(list.get(i)[21]), list.get(i)[22], list.get(i)[23], Trans.toBigDecimal(list.get(i)[24]), Trans.toBigDecimal(list.get(i)[25]), null, list.get(i)[1], list.get(i)[2],list.get(i)[3], Trans.TransToDate(list.get(i)[0]), list.get(i)[4], list.get(i)[15],Trans.tostring(list.get(i)[7]), Trans.TransToDate(list.get(i)[26]));
+					SourceThirdParty stp = new SourceThirdParty(Trans.tostring(list.get(i)[7]), Trans.TransToDate(list.get(i)[26]), list.get(i)[11], list.get(i)[12], list.get(i)[13], list.get(i)[17], list.get(i)[10], Trans.toBigDecimal(list.get(i)[9]), list.get(i)[18],list.get(i)[19], list.get(i)[20], list.get(i)[23], Trans.toBigDecimal(list.get(i)[24]),Trans.toBigDecimal(list.get(i)[25]));
 					if(isstp!=null){
 						thirdPartyMapper.updateByPrimaryKey(stp);
 					}else{
-						thirdPartyMapper.insertSelective(stp);
+						ls.add((i+1)+"");
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

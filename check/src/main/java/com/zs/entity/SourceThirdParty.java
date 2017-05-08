@@ -308,6 +308,25 @@ public class SourceThirdParty extends SourceThirdPartyKey {
 		this.setReturnDate(returnDate);
 	}
 
+	public SourceThirdParty(String courierNumber, Date returnDate, String province, String address,
+			String deliveryState, String addressee, String abnormalCause, BigDecimal isTimeOut, String orderNumber,
+			String shopNumber, String phone, String goods, BigDecimal goodsCost, BigDecimal fee) {
+		this.province = province;
+		this.address = address;
+		this.deliveryState = deliveryState;
+		this.addressee = addressee;
+		this.abnormalCause = abnormalCause;
+		this.isTimeOut = isTimeOut;
+		this.orderNumber = orderNumber;
+		this.shopNumber = shopNumber;
+		this.phone = phone;
+		this.goods = goods;
+		this.goodsCost = goodsCost;
+		this.fee = fee;
+		this.setCourierNumber(courierNumber);
+		this.setReturnDate(returnDate);
+	}
+
 	@Override
 	public String toString() {
 		return "SourceThirdParty [sendTime=" + sendTime + ", ctmName=" + ctmName + ", ctmBarCode=" + ctmBarCode

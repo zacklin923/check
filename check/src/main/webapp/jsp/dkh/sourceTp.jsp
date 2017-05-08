@@ -23,8 +23,8 @@ function updateObj(){
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${user.licence }");
-		url="<%=path%>/api/timeLimit/"+row.orderNumber;
+		$("#fm input[name='_header']").val("${licence }");
+		url="<%=path%>/api/sourceTp/"+row.courierNumber+","+row.returnDate;
 	}
 }
 function save(){
@@ -67,6 +67,63 @@ function excel_export(){
 		    	window.location.href=d.data;
 			}
 	    } 
+	});
+}
+var a="${isLoading}";
+var a1="${isLoading}";
+function checkIsUal(){
+	console.log("a:"+a);
+	if(a=="" || a=="false"){
+		hiden_hint();
+	}else{
+		show_hint([]);
+		$.ajax({
+			url:"<%=path%>/api/sourceTp/isLoading",
+			success:function(data){
+				a=data;
+			}
+		});
+		setTimeout("checkIsUal()",2000);
+	}
+	if((a1=="true")&&(a=="" || a=="false")){
+		$('#dg').datagrid('reload');
+		alert("请到导入数据错误处查看是否有错误数据")
+	}
+}
+$(function(){
+	checkIsUal();
+});
+function upload(){
+	$("#fileImport").dialog("close");
+	show_hint([]);
+	$("#fmfile").form("submit",{
+		url:"<%=path %>/api/sourceTp/import",		
+		onSubmit:function(){
+			return $(this).form('validate');
+		},
+		success:function(data){
+			console.log(data);
+			if(data){
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					hiden_hint();
+					$('#dg').datagrid('reload');
+					$("#fileImport").dialog("close");					
+				}else{
+					hiden_hint();
+					$("#fileImport").dialog("close");	
+					alert("错误:"+json.code+"错误原因："+json.data);
+				}
+			}else{
+				hiden_hint();
+				alert("错误:网络错误");
+			}
+		}
 	});
 }
 </script>
@@ -190,24 +247,58 @@ function excel_export(){
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
-	<div class="ftitle">时效控制信息</div>
+	<div class="ftitle">数据修改</div>
 	<hr>
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
-		<input type="hidden" name="orderNumber"/>
 		<div class="fitem">
-			<label>始发中转站:</label>
-			<input name="beginProvince" class="easyui-validatebox" required="true">
+			<label>是否超时:</label>
+			<input name="isTimeOut" required="true">
 		</div>
 		<div class="fitem">
-			<label>到达省份:</label>
-			<input name="endProvince" class="easyui-validatebox" required="true">
+			<label>异常原因:</label>
+			<input name="abnormalCause" required="true">
 		</div>
 		<div class="fitem">
-			<label>小时:</label>
-			<input name="hourCost" class="easyui-validatebox" required="true">
+			<label>省份:</label>
+			<input name="province" required="true">
 		</div>
+		<div class="fitem">
+			<label>地址:</label>
+			<input name="address" required="true">
+		</div>
+		<div class="fitem">
+			<label>配送状态:</label>
+			<input name="deliveryState" required="true">
+		</div>
+		<div class="fitem">
+			<label>客户店铺:</label>
+			<input name="shopNumber"  required="true">
+		</div>
+		<div class="fitem">
+			<label>收件人:</label>
+			<input name="addressee" required="true">
+		</div>
+		<div class="fitem">
+			<label>联系方式:</label>
+			<input name="phone"  required="true">
+		</div>
+		<div class="fitem">
+			<label>物品:</label>
+			<input name="goods"  required="true">
+		</div>
+		<div class="fitem">
+			<label>物品价值:</label>
+			<input name="goodsCost"  required="true">
+		</div>
+		<div class="fitem">
+			<label>费用:</label>
+			<input name="fee"  required="true">
+		</div>
+		<div class="fitem">
+			<label>订单编号:</label>
+			<input name="orderNumber" required="true">
 	</form>
 </div>
 <div id="dlg-buttons">
@@ -217,7 +308,7 @@ function excel_export(){
 <div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
 		closed="true" modal="true" title="数据源导入">
 		<div style="height:25px;line-height:25px;">数据导入模板
-			<a href="<%=path%>/file/数据源导入模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
+			<a href="<%=path%>/file/哲盟返回第三方数据模板.xls" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
 		</div></br></br></br>
 		<form id="fmfile"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>

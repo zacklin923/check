@@ -3,6 +3,7 @@ package com.zs.service.impl;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -106,27 +107,31 @@ public class SourceZmSerImpl implements SourceZmSer{
 	}
 
 	public String importData(List<String[]> list) {
-		String str="";
+		List<String> ls = new ArrayList<String>();
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[6].equals("")||list.get(i)[19].equals("")){
-				str="主键项为空";
+				ls.add((i+1)+"");
 			}else{
 				try {
 					SourceZmKey szk = new SourceZmKey(Trans.tostring(list.get(i)[6]), Trans.TransToDate(list.get(i)[19]));
 					SourceZm iszs = zmMapper.selectByPrimaryKey(szk);
-					SourceZm sz = new SourceZm(list.get(i)[0],list.get(i)[1], list.get(i)[2], list.get(i)[4].replace(",", ""),list.get(i)[5], Trans.toTimestamp(list.get(i)[7]), list.get(i)[8], list.get(i)[9], list.get(i)[10], list.get(i)[11], list.get(i)[12], Trans.toBigDecimal(list.get(i)[13]), list.get(i)[14],Trans.toBigDecimal(list.get(i)[15]), list.get(i)[16], list.get(i)[20], null, Trans.TransToDate(list.get(i)[17]), list.get(i)[18], list.get(i)[3], Trans.toTimestamp(list.get(i)[21]), list.get(i)[6], Trans.TransToDate(list.get(i)[19]));
+					SourceZm sz = new SourceZm(list.get(i)[6].replace(",",""),Trans.TransToDate(list.get(i)[19]),list.get(i)[8],list.get(i)[9],list.get(i)[10], list.get(i)[11], list.get(i)[12], Trans.toBigDecimal(list.get(i)[15]),list.get(i)[20]);
 					if(iszs!=null){
 						zmMapper.updateByPrimaryKeySelective(sz);
 					}else{
-						zmMapper.insertSelective(sz);
+						ls.add((i+1)+"");
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					str="有数据修改失败";
+					ls.add((i+1)+"");
 				}
 			}
 		}
-		return str;
+		if(ls.size()>0){
+			return "数据修改错误行号为"+new Gson().toJson(ls);
+		}else{
+			return "";
+		}
 	}
 
 }
