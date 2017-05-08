@@ -146,7 +146,14 @@ function upload(){
 			<th field="ctmName" width="60" sortable="true">客户名称</th>
 			<th field="courierNumber" width="150" sortable="true">快递单号</th>
 			<th field="sendTime" width="100" sortable="true">发货日期</th>
-			<th field="isTimeOut" width="80" sortable="true">是否超时</th>
+			<th field="isTimeOut" width="80" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(value=='0'){
+							return '否';
+                      }else if(value=='1'){
+                      		return '是';
+                      }
+               }">是否超时</th>
 			<th field="abnormalCause" width="100" sortable="true">异常原因</th>
 			<th field="province" width="100" sortable="true">省份</th>
 			<th field="address" width="200" sortable="true">地址</th>
@@ -161,17 +168,17 @@ function upload(){
 			<th field="weight" width="80" sortable="true">重量</th>
 			<th field="courierCompany" width="80" sortable="true" data-options="
 				formatter:function(value,row,index){
-                      if(value='11'){
+                      if(value=='11'){
 							return '韵达实物';
-                      }else if(value='22'){
+                      }else if(value=='22'){
                       		return '韵达刷单';
-                      }else if(value='33'){
+                      }else if(value=='33'){
                       		return '圆通';
-                      }else if(value='44'){
+                      }else if(value=='44'){
                       		return '顺丰';
-                      }else if(value='55'){
+                      }else if(value=='55'){
                       		return 'EMS';
-                      }else if(value='66'){
+                      }else if(value=='66'){
                       		return '邮政小包';
                       }
                }">快递公司</th>
@@ -211,12 +218,11 @@ function upload(){
 	    		配送状态：
 	    		<select name ="str2" style="width: 170px;">
 	    			<option value="">--请选择配送状态--</option>
-	    			<option value="11">韵达实物</option>
-	    			<option value="22">韵达刷单</option>
-	    			<option value="33">圆通</option>
-	    			<option value="44">顺丰</option>
-	    			<option value="55">EMS</option>
-	    			<option value="66">邮政小包</option>
+	    			<option value="签收">签收</option>
+	    			<option value="疑难">疑难</option>
+	    			<option value="在途">在途</option>
+	    			<option value="收件">收件</option>
+	    			<option value="派件">派件</option>
 	    		</select>
     		</div>
     		<div>
@@ -317,7 +323,7 @@ function upload(){
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
 		closed="true" modal="true">
-	<iframe src="<%=path%>/jsp/help/sourceZm.jsp" frameborder="0" height="100%" width="100%">
+	<iframe src="<%=path%>/jsp/help/sourceTp.jsp" frameborder="0" height="100%" width="100%">
 	</iframe>
 </div>
 </body>

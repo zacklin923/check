@@ -183,30 +183,37 @@ function pushData(){
 			<th field="addressee" width="100" sortable="true">收件人</th>
 			<th field="phone" width="150" sortable="true">联系方式</th>
 			<th field="shopNumber" width="180" sortable="true">商家ID</th>
-			<th field="courierCompany" width="60" sortable="true" data-options="
+			<th field="courierCompany" width="80" sortable="true" data-options="
 				formatter:function(value,row,index){
-                      if(value='11'){
+                      if(value=='11'){
 							return '韵达实物';
-                      }else if(value='22'){
+                      }else if(value=='22'){
                       		return '韵达刷单';
-                      }else if(value='33'){
+                      }else if(value=='33'){
                       		return '圆通';
-                      }else if(value='44'){
+                      }else if(value=='44'){
                       		return '顺丰';
-                      }else if(value='55'){
+                      }else if(value=='55'){
                       		return 'EMS';
-                      }else if(value='66'){
+                      }else if(value=='66'){
                       		return '邮政小包';
                       }
                }">快递公司</th>
-			<th field="goodsCost" width="60" sortable="true">物品价值</th>
+			<th field="goodsCost" width="80" sortable="true">物品价值</th>
 			<th field="goods" width="100" sortable="true">物品</th>
 			<th field="numberType" width="60" sortable="true">类型</th>
 			<th field="createTime" width="150" sortable="true">导入时间</th>
-			<th field="isPushed" width="60" sortable="true">是否推送</th>
+			<th field="isPushed" width="80" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(value=='0'){
+							return '否';
+                      }else if(value=='1'){
+                      		return '是';
+                      }
+               }">是否已上传</th>
 			<th field="stuName" width="80">导入人</th>
-			<th field="oneCode" width="60" sortable="true">一段码</th>
-			<th field="province" width="60" sortable="true">省份</th>
+			<th field="oneCode" width="80" sortable="true">一段码</th>
+			<th field="province" width="80" sortable="true">省份</th>
 		</tr>
 	</thead>
 </table>
