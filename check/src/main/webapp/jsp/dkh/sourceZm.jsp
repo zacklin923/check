@@ -271,6 +271,10 @@ function upload(){
 			<input name="phone"  required="true">
 		</div>
 		<div class="fitem">
+			<label>物品:</label>
+			<input name="goods"  required="true">
+		</div>
+		<div class="fitem">
 			<label>物品价值:</label>
 			<input name="goodsCost"  required="true">
 		</div>

@@ -18,12 +18,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceThirdPartyKey;
+import com.zs.entity.SourceZm;
 import com.zs.entity.SourceZmKey;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
 import com.zs.service.SourceTpSer;
+import com.zs.service.SourceZmSer;
 import com.zs.tools.ColumnName;
 import com.zs.tools.ExcelImport;
 import com.zs.tools.ManagerId;
@@ -34,6 +36,8 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 
 	@Resource
 	private SourceTpSer sourceTpSer;
+	@Resource
+	private SourceZmSer sourceZmSer;
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
@@ -70,8 +74,11 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 				obj.setCourierNumber(id[0]);
 				obj.setReturnDate(new Date(Long.valueOf(id[1])));
 				try {
+					SourceZm sz = new SourceZm(obj.getCourierNumber(), obj.getReturnDate(), obj.getProvince(),obj.getAddress(), obj.getShopNumber(),obj.getAddressee(),obj.getPhone(), obj.getGoods(), obj.getGoodsCost(), obj.getOrderNumber());
+					sourceZmSer.update(sz);
 					return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceTpSer.update(obj));
 				} catch (Exception e) {
+					e.printStackTrace();
 					return new Result<Integer>(ERROR, Code.ERROR, -1);
 				}
 			}

@@ -190,7 +190,7 @@ function upload(){
 <div id="toolbar">
 	<div class="btn-separator-none">
 		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="">编辑数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
 	</div>
 	<div class="btn-separator">
 		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
