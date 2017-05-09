@@ -73,7 +73,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
        		<li><span><a href="<%=path %>/jsp/part/error_code.jsp" target="right">错误码说明</a></span></li>
        		<li><span><a href="<%=path %>/jsp/help/sourceImport.jsp" target="right">导入数据说明</a></span></li>
-       		<li><span><a href="<%=path %>/jsp/help/sourceZm.jsp" target="right">哲盟返回数据和第三方数据说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/sourceZm.jsp" target="right">哲盟返回数据说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/sourceTp.jsp" target="right">哲盟返回第三方数据说明</a></span></li>
        		<li><span><a href="<%=path %>/jsp/help/user.jsp" target="right">用户管理说明</a></span></li>
        		<li><span><a href="<%=path %>/jsp/help/role.jsp" target="right">角色管理说明</a></span></li>
        		<li><span><a href="<%=path %>/jsp/help/province.jsp" target="right">标准省份名称</a></span></li>
