@@ -30,6 +30,7 @@
     <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
     <result column="FBD_AREA" property="fbdArea" jdbcType="VARCHAR" />
     <result column="SIGN_PORT" property="signPort" jdbcType="VARCHAR" />
+    <association column="COURIER_NUMBER" property="noUpdate" select="com.zs.dao.NoUpdateMapper.selectByNumberOfTp"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -603,6 +604,9 @@
 			  	<if test="str6!=null and str6!=''">
 			  		and s2.SHOP_NUMBER like '%${str6}%'
 			  	</if>
+			  	<if test="int1!=null">
+			  		and IS_TIME_OUT = #{int1}
+			  	</if>
 		    </where>
 		    <if test="sort!=null and order!=null">
 		  		order by s2.${sort} ${order},s2.CREATE_TIME desc
@@ -650,6 +654,9 @@
 	  	</if>
 	  	<if test="str6!=null and str6!=''">
 	  		and s2.SHOP_NUMBER like '%${str6}%'
+	  	</if>
+	  	<if test="int1!=null">
+	  		and IS_TIME_OUT = #{int1}
 	  	</if>
     </where>		
   </select>

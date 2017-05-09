@@ -163,6 +163,11 @@ function upload(){
 		pageSize="25" pageList="[25,40,50,100]" data-options="
 			onDblClickRow:function(rowIndex, rowData){
 				dblclick(rowIndex, rowData);
+			},
+			rowStyler: function(index,row){
+				if(row.noUpdate){
+					return 'background-color:red;color:#fff;';
+				}
 			}
 		">
 	<thead>
@@ -271,6 +276,14 @@ function upload(){
     		<div>
 	    		客户店铺：<input name ="str6" />
     		</div>
+    		<div>
+	    		是否超时：
+	    		<select name ="int1" style="width: 170px;">
+	    			<option value="">--请选择是否超时--</option>
+	    			<option value="0">否</option>
+	    			<option value="1">是</option>
+	    		</select>
+    		</div>
    		</div>
    	</form>
    	<div class="clear"></div>
@@ -290,7 +303,10 @@ function upload(){
 		<input type="hidden" name="_header" value="${licence }"/>
 		<div class="fitem">
 			<label>是否超时:</label>
-			<input name="isTimeOut" required="true">
+			<select name="isTimeOut">
+				<option value="0">否</option>
+				<option value="1">是</option>
+			</select>
 		</div>
 		<div class="fitem">
 			<label>异常原因:</label>
@@ -306,7 +322,13 @@ function upload(){
 		</div>
 		<div class="fitem">
 			<label>配送状态:</label>
-			<input name="deliveryState" required="true">
+			<select name="deliveryState">
+				<option value="签收">签收</option>
+				<option value="疑难">疑难</option>
+				<option value="在途">在途</option>
+				<option value="收件">收件</option>
+				<option value="派件">派件</option>
+			</select>
 		</div>
 		<div class="fitem">
 			<label>客户店铺:</label>

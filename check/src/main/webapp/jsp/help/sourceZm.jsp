@@ -14,7 +14,7 @@
 	</ol>
 	可修改的字段如下：
 	<br>
-	<table border="1">
+	<table border="1" cellpadding="4" cellspacing="0">
 		<tr>
 			<td>客户店铺</td>
 			<td>省份</td>
@@ -26,9 +26,10 @@
 		</tr>
 	</table>
 	<br>
-	数据更新规则：
+	注意事项：
 	<ol type="1" start="1">
 		<li>如果用户修改了省份，那么这个快递单号的省份将不会被哲盟返回的数据更新掉。</li>
+		<li><font style="background-color: red;color: white;">红色背景代表用户已经修改过省份。</font></li>
 	</ol>
 </body>
 </html>

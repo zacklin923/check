@@ -47,7 +47,7 @@ $(function(){
 			}
 		},
 		onLoadError:function(){
-			alert("错误:-1");
+			alert("您操作的太快了！");
 		}
 	});
 });
