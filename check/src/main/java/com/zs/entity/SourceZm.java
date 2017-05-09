@@ -47,8 +47,19 @@ public class SourceZm extends SourceZmKey {
     private String fbdArea;
 
     private Date timeOut;
+//-------------
+    private NoUpdate noUpdate;
+    
+    
+    public NoUpdate getNoUpdate() {
+		return noUpdate;
+	}
 
-    public String getLargeArea() {
+	public void setNoUpdate(NoUpdate noUpdate) {
+		this.noUpdate = noUpdate;
+	}
+
+	public String getLargeArea() {
         return largeArea;
     }
 

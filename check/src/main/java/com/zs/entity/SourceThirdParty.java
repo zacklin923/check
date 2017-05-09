@@ -57,6 +57,16 @@ public class SourceThirdParty extends SourceThirdPartyKey {
     private String fbdArea;
 
     private String signPort;
+//-----------
+    private NoUpdate noUpdate;
+    
+	public NoUpdate getNoUpdate() {
+		return noUpdate;
+	}
+
+	public void setNoUpdate(NoUpdate noUpdate) {
+		this.noUpdate = noUpdate;
+	}
 
 	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getSendTime() {

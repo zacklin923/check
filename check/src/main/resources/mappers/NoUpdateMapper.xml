@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.NoUpdateMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.NoUpdate" >
+    <id column="COURIER_NUMBER" property="courierNumber" jdbcType="VARCHAR" />
+    <id column="NO_UPDATE_NAME" property="noUpdateName" jdbcType="VARCHAR" />
+    <result column="NO_UPDATE_VALUE" property="noUpdateValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    COURIER_NUMBER, NO_UPDATE_NAME, NO_UPDATE_VALUE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.NoUpdateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from NO_UPDATE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zs.entity.NoUpdateKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from NO_UPDATE
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and NO_UPDATE_NAME = #{noUpdateName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.zs.entity.NoUpdateKey" >
+    delete from NO_UPDATE
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and NO_UPDATE_NAME = #{noUpdateName,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.NoUpdateExample" >
+    delete from NO_UPDATE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.NoUpdate" >
+    insert into NO_UPDATE (COURIER_NUMBER, NO_UPDATE_NAME, NO_UPDATE_VALUE
+      )
+    values (#{courierNumber,jdbcType=VARCHAR}, #{noUpdateName,jdbcType=VARCHAR}, #{noUpdateValue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.NoUpdate" >
+    insert into NO_UPDATE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="courierNumber != null" >
+        COURIER_NUMBER,
+      </if>
+      <if test="noUpdateName != null" >
+        NO_UPDATE_NAME,
+      </if>
+      <if test="noUpdateValue != null" >
+        NO_UPDATE_VALUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="courierNumber != null" >
+        #{courierNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="noUpdateName != null" >
+        #{noUpdateName,jdbcType=VARCHAR},
+      </if>
+      <if test="noUpdateValue != null" >
+        #{noUpdateValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.NoUpdateExample" resultType="java.lang.Integer" >
+    select count(*) from NO_UPDATE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update NO_UPDATE
+    <set >
+      <if test="record.courierNumber != null" >
+        COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noUpdateName != null" >
+        NO_UPDATE_NAME = #{record.noUpdateName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noUpdateValue != null" >
+        NO_UPDATE_VALUE = #{record.noUpdateValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update NO_UPDATE
+    set COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
+      NO_UPDATE_NAME = #{record.noUpdateName,jdbcType=VARCHAR},
+      NO_UPDATE_VALUE = #{record.noUpdateValue,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.NoUpdate" >
+    update NO_UPDATE
+    <set >
+      <if test="noUpdateValue != null" >
+        NO_UPDATE_VALUE = #{noUpdateValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and NO_UPDATE_NAME = #{noUpdateName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.NoUpdate" >
+    update NO_UPDATE
+    set NO_UPDATE_VALUE = #{noUpdateValue,jdbcType=VARCHAR}
+    where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
+      and NO_UPDATE_NAME = #{noUpdateName,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByNumberOfTp" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select * from NO_UPDATE
+  	where 
+  	COURIER_NUMBER=#{number}
+  	and
+  	NO_UPDATE_NAME='delivery_state'
+  </select>
+  <select id="selectByNumberOfZm" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select * from NO_UPDATE
+  	where 
+  	COURIER_NUMBER=#{number}
+  	and
+  	NO_UPDATE_NAME='province'
+  </select>
+</mapper>

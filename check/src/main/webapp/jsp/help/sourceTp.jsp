@@ -12,9 +12,10 @@
 		<li>哲盟返回第三方数据后接收，收到后会按照哲盟返回表将其他信息补全，然后插入数据库。</li>
 		<li>如果接收到的数据在哲盟返回第三方表中已存在，那么会尝试修改，修改只修改接收到的信息，其他信息不会改变。</li>
 	</ol>
+	<br>
 	可修改的字段如下：
 	<br>
-	<table border="1">
+	<table border="1" cellpadding="4" cellspacing="0">
 		<tr>
 			<td>省份</td>
 			<td>地址</td>
@@ -30,9 +31,15 @@
 			<td>费用</td>
 		</tr>
 	</table>
-	数据更新规则：
+	
+	<br>
+	注意事项：
 	<ol type="1" start="1">
 		<li>如果用户修改了配送状态，那么这个快递单号的配送状态将不会被哲盟返回的数据更新掉。</li>
+		<li><font style="background-color: red;color: white;">红色背景代表用户已经修改过配送状态。</font></li>
+		<li>双击可以打开历史记录。</li>
 	</ol>
+	
+	
 </body>
 </html>
