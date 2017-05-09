@@ -26,5 +26,30 @@ $.ajaxSetup({
 		alert(textStatus+" : "+XMLHttpRequest.status+"  "+errorThrown);
 	}
 });
+$(function(){
+	$("#dg").datagrid({
+		onLoadSuccess:function (data) {
+			$(this).datagrid("fixRownumber");
+		},
+		loadFilter: function(data){
+			var a=eval('('+"{'total':'0',rows:''}"+')');
+			if (data){
+				if(data.result){
+					if(data.result=='error'){
+						alert("错误:"+data.code+"  "+data.data);
+						return a;
+					}
+				}else{
+					return data;
+				}
+			}else{
+				return a;
+			}
+		},
+		onLoadError:function(){
+			alert("错误:-1");
+		}
+	});
+});
 </script>
 <jsp:include page="/jsp/part/hintModal.jsp"></jsp:include>

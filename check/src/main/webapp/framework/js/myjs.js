@@ -52,11 +52,3 @@ function dateTypeChange(date){
 	return ds;
 }
 
-$(function(){
-	$("input[readonly]").each(function(){
-		$(this).addClass("read_only");
-	});
-	
-});
-
-

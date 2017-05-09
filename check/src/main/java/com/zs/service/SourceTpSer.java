@@ -12,4 +12,6 @@ public interface SourceTpSer extends BaseService<SourceThirdParty, SourceThirdPa
 	public String importData(List<String[]> list);
 
 	public String ExportData(EasyUIAccept accept,HttpServletRequest req);
+	
+	public List<SourceThirdParty> queryHistory(EasyUIAccept accept);
 }

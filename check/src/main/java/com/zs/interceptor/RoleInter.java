@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -98,6 +100,13 @@ public class RoleInter extends HandlerInterceptorAdapter{
 		}
 		if (method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE")) {
 			url=url.substring(0, url.lastIndexOf("/"))+"/";
+		}else if(method.equalsIgnoreCase("GET")){
+//			System.out.println(url);
+//			System.out.println(appearNumber(url, "/"));
+//			System.out.println(url.substring(0, url.lastIndexOf("/"))+"/");
+			if (appearNumber(url, "/")>3) {
+				url=url.substring(0, url.lastIndexOf("/"))+"/";
+			}
 		}
 		StaffPower power=powerSer.selectByUrlAndMethod(url, method);
 		if (power!=null) {
@@ -166,4 +175,23 @@ public class RoleInter extends HandlerInterceptorAdapter{
 			return false;
 		}
 	}
+	
+	
+	/**
+	 * 获取指定字符串出现的次数
+	 * 
+	 * @param srcText 源字符串
+	 * @param findText 要查找的字符串
+	 * @return
+	 */
+	public static int appearNumber(String srcText, String findText) {
+	    int count = 0;
+	    Pattern p = Pattern.compile(findText);
+	    Matcher m = p.matcher(srcText);
+	    while (m.find()) {
+	        count++;
+	    }
+	    return count;
+	}
+	
 }

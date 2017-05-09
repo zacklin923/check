@@ -147,4 +147,8 @@ public class SourceTpSerImpl implements SourceTpSer{
 		return path;
 	}
 
+	public List<SourceThirdParty> queryHistory(EasyUIAccept accept) {
+		return thirdPartyMapper.queryByNumber(accept);
+	}
+
 }

@@ -108,7 +108,7 @@ function excel_export(){
 	});
 }
 </script>
-<table id="dg" class="easyui-datagrid" border="true" title="系统管理>权限管理"
+<table id="dg" border="true" title="系统管理>权限管理"
 		url="<%=path %>/api/power"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"

@@ -90,6 +90,32 @@ function checkIsUal(){
 		alert("请到导入数据错误处查看是否有错误数据")
 	}
 }
+function dblclick(rowIndex, rowData){
+	$("#dlg_history").dialog("open");
+	if(rowData.courierNumber){
+		$("#dg_history").datagrid({
+			url:"<%=path%>/api/sourceTp/history/"+rowData.courierNumber,
+			loadFilter: function(data){
+				var a=eval('('+"{'total':'0',rows:''}"+')');
+				if (data){
+					if(data.result){
+						if(data.result=='error'){
+							alert("错误:"+data.code+"  "+data.data);
+							return a;
+						}
+					}else{
+						return data;
+					}
+				}else{
+					return a;
+				}
+			},
+			onLoadError:function(){
+				alert("错误:-1");
+			}
+		});
+	}
+}
 $(function(){
 	checkIsUal();
 });
@@ -127,25 +153,29 @@ function upload(){
 	});
 }
 </script>
-<table id="dg" class="easyui-datagrid" border="true" title="快件信息>哲盟返回第三方数据"
+<table id="dg" border="true" title="快件信息>哲盟返回第三方数据"
 		url="<%=path %>/api/sourceTp"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="25" pageList="[25,40,50,100]">
+		pageSize="25" pageList="[25,40,50,100]" data-options="
+			onDblClickRow:function(rowIndex, rowData){
+				dblclick(rowIndex, rowData);
+			}
+		">
 	<thead>
 		<tr>
 			<th field="createDate" width="100" sortable="true">创建日期</th>
 			<th field="largeArea" width="80" sortable="true">所属大区</th>
 			<th field="sliceArea" width="80" sortable="true">所属区部</th>
 			<th field="fenbu" width="80" sortable="true">所属分部</th>
-			<th field="fbdArea" width="100" sortable="true">所属分拨点</th>
+			<th field="fbdArea" width="200" sortable="true">所属分拨点</th>
 			<th field="ctmBarCode" width="80" sortable="true">客户条码</th>
-			<th field="ctmName" width="60" sortable="true">客户名称</th>
+			<th field="ctmName" width="80" sortable="true">客户名称</th>
 			<th field="courierNumber" width="150" sortable="true">快递单号</th>
-			<th field="sendTime" width="100" sortable="true">发货日期</th>
+			<th field="sendTime" width="200" sortable="true">发货日期</th>
 			<th field="isTimeOut" width="80" sortable="true" data-options="
 				formatter:function(value,row,index){
                       if(value=='0'){
@@ -322,9 +352,76 @@ function upload(){
 		</form>
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
-		closed="true" modal="true">
-	<iframe src="<%=path%>/jsp/help/sourceTp.jsp" frameborder="0" height="100%" width="100%">
-	</iframe>
+		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceTp.jsp" cache="true">
 </div>
+<div id="dlg_history" title="快件信息>哲盟返回第三方数据>历史数据" class="easyui-dialog" iconCls="icon-help" style="width:1400px;height:800px;"
+		closed="true" modal="false" collapsible="true" cache="true">
+	<table id="dg_history" border="false"
+		method="get"
+		loadMsg="数据加载中请稍后……"
+		striped="true"
+		rownumbers="true" fitColumns="false" 
+		singleSelect="true" fit="true">
+		<thead>
+			<tr>
+				<th field="createDate" width="100" sortable="true">创建日期</th>
+				<th field="largeArea" width="80" sortable="true">所属大区</th>
+				<th field="sliceArea" width="80" sortable="true">所属区部</th>
+				<th field="fenbu" width="80" sortable="true">所属分部</th>
+				<th field="fbdArea" width="200" sortable="true">所属分拨点</th>
+				<th field="ctmBarCode" width="80" sortable="true">客户条码</th>
+				<th field="ctmName" width="80" sortable="true">客户名称</th>
+				<th field="courierNumber" width="150" sortable="true">快递单号</th>
+				<th field="sendTime" width="200" sortable="true">发货日期</th>
+				<th field="isTimeOut" width="80" sortable="true" data-options="
+					formatter:function(value,row,index){
+	                      if(value=='0'){
+								return '否';
+	                      }else if(value=='1'){
+	                      		return '是';
+	                      }
+	               }">是否超时</th>
+				<th field="abnormalCause" width="100" sortable="true">异常原因</th>
+				<th field="province" width="100" sortable="true">省份</th>
+				<th field="address" width="200" sortable="true">地址</th>
+				<th field="deliveryState" width="100" sortable="true">配送状态</th>
+				<th field="signatory" width="80" sortable="true">签收人</th>
+				<th field="signTime" width="200" sortable="true">签收时间</th>
+	            <th field="signPort" width="150" sortable="true">签收站点</th>
+				<th field="addressee" width="80" sortable="true">收件人</th>
+				<th field="orderNumber" width="100" sortable="true">订单编号</th>
+				<th field="shopNumber" width="150" sortable="true">客户店铺</th>
+				<th field="phone" width="100" sortable="true">联系方式</th>
+				<th field="weight" width="80" sortable="true">重量</th>
+				<th field="courierCompany" width="80" sortable="true" data-options="
+					formatter:function(value,row,index){
+	                      if(value=='11'){
+								return '韵达实物';
+	                      }else if(value=='22'){
+	                      		return '韵达刷单';
+	                      }else if(value=='33'){
+	                      		return '圆通';
+	                      }else if(value=='44'){
+	                      		return '顺丰';
+	                      }else if(value=='55'){
+	                      		return 'EMS';
+	                      }else if(value=='66'){
+	                      		return '邮政小包';
+	                      }
+	               }">快递公司</th>
+				<th field="goods" width="100" sortable="true">物品</th>
+				<th field="goodsCost" width="80" sortable="true">物品价值</th>
+				<th field="fee" width="80" sortable="true">费用</th>
+				<th field="returnDate" width="100" sortable="true" data-options="
+					formatter:function(value,row,index){
+	                      if(row.returnDate){
+								return getDateByMs(new Date(row.returnDate),'/');
+	                      }
+	               }">返回日期</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+
 </body>
 </html>

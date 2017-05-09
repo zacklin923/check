@@ -34,4 +34,6 @@ public interface SourceThirdPartyMapper {
     List<SourceThirdParty> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);
+    
+    List<SourceThirdParty> queryByNumber(EasyUIAccept accept);
 }
