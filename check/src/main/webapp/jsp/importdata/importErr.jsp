@@ -48,6 +48,27 @@ function deleteAll(){
 		}
 	);
 }
+function excel_export(){
+	$("#search").form("submit",{
+		url:"<%=path%>/api/sourimportfail/exportExcel",
+		onSubmit: function(){   
+		},   
+	    success:function(data){   
+	    	var json;
+			if(isJson(data)){
+				json=data;
+			}else{
+				json = eval('('+data+')');
+			}
+			if(json.result=='success'){
+				var d = eval('('+data+')');
+				window.location.href="<%=path %>/"+d.data;
+			}else{
+				alert("错误:"+json.data);
+			}
+	    } 
+	});
+}
 </script>
 <table id="dg" border="true" title="快件信息>数据源导入错误"
 		url="<%=path %>/api/sourimportfail"
@@ -163,6 +184,7 @@ function deleteAll(){
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
+		<input type="hidden" name="_header" value="${user.licence }"/>
 		<div class="searchBar-input">
     		<div>
 	    		导入时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
@@ -186,6 +208,7 @@ function deleteAll(){
    	<div class="clear"></div>
    	<hr class="hr-geay">
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
 	<div class="pull-away"></div>
 </div>
 </body>

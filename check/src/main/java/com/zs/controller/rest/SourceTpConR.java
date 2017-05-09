@@ -176,7 +176,7 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 		return null;
 	}
 	
-	@RequestMapping(value="/history/{number}",method=RequestMethod.GET)
+	@RequestMapping(value="/signle/{number}",method=RequestMethod.GET)
 	public List<SourceThirdParty> queryHistory(@PathVariable("number") String number,EasyUIAccept accept) {
 		if (number!=null && accept!=null) {
 			try {
