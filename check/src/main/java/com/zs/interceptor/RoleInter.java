@@ -101,11 +101,11 @@ public class RoleInter extends HandlerInterceptorAdapter{
 		if (method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE")) {
 			url=url.substring(0, url.lastIndexOf("/"))+"/";
 		}else if(method.equalsIgnoreCase("GET")){
-//			System.out.println(url);
-//			System.out.println(appearNumber(url, "/"));
-//			System.out.println(url.substring(0, url.lastIndexOf("/"))+"/");
-			if (appearNumber(url, "/")>3) {
-				url=url.substring(0, url.lastIndexOf("/"))+"/";
+			if (appearNumber(url, "/")>=4 ) {
+				String[] a  = url.split("/");
+				if(a[4].equals("signle")){
+					url=url.substring(0, url.lastIndexOf("/"))+"/";
+				}
 			}
 		}
 		StaffPower power=powerSer.selectByUrlAndMethod(url, method);
@@ -193,5 +193,4 @@ public class RoleInter extends HandlerInterceptorAdapter{
 	    }
 	    return count;
 	}
-	
 }

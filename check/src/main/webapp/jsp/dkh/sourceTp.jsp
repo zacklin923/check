@@ -94,7 +94,7 @@ function dblclick(rowIndex, rowData){
 	$("#dlg_history").dialog("open");
 	if(rowData.courierNumber){
 		$("#dg_history").datagrid({
-			url:"<%=path%>/api/sourceTp/history/"+rowData.courierNumber,
+			url:"<%=path%>/api/sourceTp/signle/"+rowData.courierNumber,
 			loadFilter: function(data){
 				var a=eval('('+"{'total':'0',rows:''}"+')');
 				if (data){
