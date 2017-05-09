@@ -101,10 +101,7 @@ public class RoleInter extends HandlerInterceptorAdapter{
 		if (method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE")) {
 			url=url.substring(0, url.lastIndexOf("/"))+"/";
 		}else if(method.equalsIgnoreCase("GET")){
-//			System.out.println(url);
-//			System.out.println(appearNumber(url, "/"));
-//			System.out.println(url.substring(0, url.lastIndexOf("/"))+"/");
-			if (appearNumber(url, "/")>3) {
+			if (appearNumber(url, "/")>3 && !url.substring(url.lastIndexOf("/"), url.length()).equals("/exportExcel")) {
 				url=url.substring(0, url.lastIndexOf("/"))+"/";
 			}
 		}
@@ -193,5 +190,4 @@ public class RoleInter extends HandlerInterceptorAdapter{
 	    }
 	    return count;
 	}
-	
 }

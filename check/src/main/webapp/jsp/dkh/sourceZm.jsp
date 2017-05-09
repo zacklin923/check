@@ -140,7 +140,13 @@ function upload(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="25" pageList="[25,40,50,100]">
+		pageSize="25" pageList="[25,40,50,100]" data-options="
+			rowStyler: function(index,row){
+				if(row.noUpdate){
+					return 'background-color:red;color:#fff;';
+				}
+			}
+		">
 	<thead>
 		<tr>
 			<th field="largeArea" width="80" sortable="true">所属大区</th>
@@ -176,7 +182,14 @@ function upload(){
 			<th field="goodsCost" width="80" sortable="true">物品价值</th>
 			<th field="goods" width="60" sortable="true">物品</th>
 			<th field="createDate" width="100" sortable="true">创建日期</th>
-			<th field="courierState" width="60" sortable="true">状态</th>
+			<th field="courierState" width="60" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(value=='0'){
+							return '未发货';
+                      }else if(value=='1'){
+                      		return '已发货';
+                      }
+               }">状态</th>
 			<th field="returnDate" width="100" sortable="true" data-options="
 				formatter:function(value,row,index){
                       if(row.returnDate){

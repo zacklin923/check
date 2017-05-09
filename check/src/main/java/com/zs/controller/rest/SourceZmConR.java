@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.zs.controller.rest.BaseRestController.Code;
+import com.zs.entity.SourceThirdParty;
+import com.zs.entity.SourceThirdPartyKey;
 import com.zs.entity.SourceZm;
 import com.zs.entity.SourceZmKey;
 import com.zs.entity.StaffUser;
@@ -82,6 +84,12 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 				obj.setCourierNumber(id[0]);
 				obj.setReturnDate(new Date(Long.valueOf(id[1])));
 				try {
+					//-------判断下配送状态到底改了没-------------
+					SourceZm sourceZm=sourceZmSer.get(new SourceZmKey(id[0], new Date(Long.valueOf(id[1]))));
+					if ((sourceZm.getProvince()!=null && obj.getProvince()!=null && sourceZm.getProvince().equals(obj.getProvince()))
+							|| (sourceZm.getProvince()==null && obj.getProvince()==null)) {
+						obj.setProvince(null);
+					}
 					return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceZmSer.update(obj));
 				} catch (Exception e) {
 					e.printStackTrace();

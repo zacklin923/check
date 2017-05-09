@@ -74,6 +74,13 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 				obj.setCourierNumber(id[0]);
 				obj.setReturnDate(new Date(Long.valueOf(id[1])));
 				try {
+					//-------判断下配送状态到底改了没-------------
+					SourceThirdParty party=sourceTpSer.get(new SourceThirdPartyKey(id[0], new Date(Long.valueOf(id[1]))));
+					if ((party.getDeliveryState()!=null && obj.getDeliveryState()!=null && party.getDeliveryState().equals(obj.getDeliveryState()))
+							|| (party.getDeliveryState()==null && obj.getDeliveryState()==null)) {
+						obj.setDeliveryState(null);
+					}
+					//---------
 					SourceZm sz = new SourceZm(obj.getCourierNumber(), obj.getReturnDate(), obj.getProvince(),obj.getAddress(), obj.getShopNumber(),obj.getAddressee(),obj.getPhone(), obj.getGoods(), obj.getGoodsCost(), obj.getOrderNumber());
 					sourceZmSer.update(sz);
 					return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceTpSer.update(obj));

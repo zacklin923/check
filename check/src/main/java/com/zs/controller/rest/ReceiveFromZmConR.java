@@ -29,6 +29,7 @@ import com.zs.service.SourceImportSer;
 import com.zs.service.SourceTpSer;
 import com.zs.service.SourceZmSer;
 import com.zs.service.TimeLimitSer;
+import com.zs.tools.ProvinceHelper;
 import com.zs.tools.Trans;
 
 import oracle.net.aso.d;
@@ -105,6 +106,8 @@ public class ReceiveFromZmConR {
 								}else {//导入表既没有一段码也没有省份
 									log.error("【哲盟返回接口】该条记录无法计算出省份。"+zm);
 								}
+							}else{//哲盟返回了省份，其实是目的地，很长的一串文字，需要提取出省份
+								zm.setProvince(ProvinceHelper.getProvince(zm.getProvince()));
 							}
 							//-----------计算超时时间----------------
 							if(zm.getProvince()!=null){

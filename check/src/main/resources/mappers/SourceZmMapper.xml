@@ -25,6 +25,7 @@
     <result column="COURIER_STATE" property="courierState" jdbcType="VARCHAR" />
     <result column="FBD_AREA" property="fbdArea" jdbcType="VARCHAR" />
     <result column="TIME_OUT" property="timeOut" jdbcType="TIMESTAMP" />
+    <association column="COURIER_NUMBER" property="noUpdate" select="com.zs.dao.NoUpdateMapper.selectByNumberOfZm"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
