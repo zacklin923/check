@@ -67,7 +67,7 @@ function excel_export(){
 			}
 			if(json.result=='success'){
 				var d = eval('('+data+')');
-				console.log(d.data);
+				window.location.href=d.data;
 			}else{
 				alert("错误:"+json.data);
 			}

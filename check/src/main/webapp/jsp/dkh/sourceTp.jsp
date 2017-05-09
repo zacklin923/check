@@ -58,13 +58,19 @@ function excel_export(){
 		url:"<%=path%>/api/sourceTp/exportExcel",
 		method:"get",
 		onSubmit: function(){   
-	        // do some check   
-	        // return false to prevent submit;   
 	    },   
 	    success:function(data){   
-			if(data!=null){
-		    	var d = eval('('+data+')');
-		    	window.location.href=d.data;
+	    	var json;
+			if(isJson(data)){
+				json=data;
+			}else{
+				json = eval('('+data+')');
+			}
+			if(json.result=='success'){
+				var d = eval('('+data+')');
+				window.location.href=d.data;
+			}else{
+				alert("错误:"+json.data);
 			}
 	    } 
 	});
@@ -94,7 +100,7 @@ function dblclick(rowIndex, rowData){
 	$("#dlg_history").dialog("open");
 	if(rowData.courierNumber){
 		$("#dg_history").datagrid({
-			url:"<%=path%>/api/sourceTp/signle/"+rowData.courierNumber,
+			url:"<%=path%>/api/sourceTp/signle/history/"+rowData.courierNumber,
 			loadFilter: function(data){
 				var a=eval('('+"{'total':'0',rows:''}"+')');
 				if (data){
