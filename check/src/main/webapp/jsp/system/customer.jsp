@@ -108,7 +108,7 @@ function excel_export(){
 	});
 }
 </script>
-<table id="dg" class="easyui-datagrid" border="true" title="基础信息维护>客户信息"
+<table id="dg" border="true" title="基础信息维护>客户信息"
 		url="<%=path %>/api/customer"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"

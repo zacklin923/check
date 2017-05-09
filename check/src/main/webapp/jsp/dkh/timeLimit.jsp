@@ -120,7 +120,7 @@ $(function(){
 	});
 });
 </script>
-<table id="dg" class="easyui-datagrid" border="true" title="基础信息维护>时效控制信息管理"
+<table id="dg" border="true" title="基础信息维护>时效控制信息管理"
 		url="<%=path %>/api/timeLimit"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -198,9 +198,7 @@ $(function(){
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
-		closed="true" modal="true">
-	<iframe src="<%=path%>/jsp/help/province.jsp" frameborder="0" height="100%" width="100%">
-	</iframe>
+		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/province.jsp" cache="true">
 </div>
 </body>
 </html>

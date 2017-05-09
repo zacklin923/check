@@ -574,45 +574,44 @@
       and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </update>
   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
-  	select * from
-  	(
-	  	select t1.*,rownum rn from
-	  	(
-		  	select * from SOURCE_THIRD_PARTY
-		  	<where>
-		  		<if test="str1!=null">
-			  		and CTM_BAR_CODE in (${str1})
+  	select * from (
+		select t1.*,rownum rn from (
+		    select s2.* from (select courier_number, max(return_date) tm from SOURCE_THIRD_PARTY group by courier_number) s1,SOURCE_THIRD_PARTY s2
+		    <where>
+		        s1.courier_number=s2.courier_number and s1.tm=s2.return_date
+		    	<if test="str1!=null">
+			  		and s2.CTM_BAR_CODE in (${str1})
 			  	</if>
 			  	<if test="date1!=null and date1!=''">
-		  			and SEND_TIME >= #{date1}
-		 		</if>
-		 		<if test="date2!=null and date2!=''">
-		  			and SEND_TIME &lt;= #{date2}
-		 		</if>
+		 			and s2.SEND_TIME >= #{date1}
+				</if>
+				<if test="date2!=null and date2!=''">
+		 			and s2.SEND_TIME &lt;= #{date2}
+				</if>
 			  	<if test="str2!=null and str2!=''">
-			  		and DELIVERY_STATE = #{str2}
+			  		and s2.DELIVERY_STATE = #{str2}
 			  	</if>
 			  	<if test="str3!=null and str3!=''">
-			  		and COURIER_NUMBER like '%${str3}%'
+			  		and s2.COURIER_NUMBER like '%${str3}%'
 			  	</if>
 			  	<if test="str4!=null and str4!=''">
-			  		and CTM_BAR_CODE like '%${str4}%'
+			  		and s2.CTM_BAR_CODE like '%${str4}%'
 			  	</if>
 			  	<if test="str5!=null and str5!=''">
-			  		and ORDER_NUMBER like '%${str5}%'
+			  		and s2.ORDER_NUMBER like '%${str5}%'
 			  	</if>
 			  	<if test="str6!=null and str6!=''">
-			  		and SHOP_NUMBER like '%${str6}%'
+			  		and s2.SHOP_NUMBER like '%${str6}%'
 			  	</if>
-		 	</where>
-		  	<if test="sort!=null and order!=null">
-		  		order by ${sort} ${order},CREATE_TIME desc
+		    </where>
+		    <if test="sort!=null and order!=null">
+		  		order by s2.${sort} ${order},s2.CREATE_TIME desc
 		  	</if>
 		  	<if test="sort==null or order==null">
-		  		order by CREATE_TIME desc
+		  		order by s2.CREATE_TIME desc
 		  	</if>
-	  	) t1
-	  	<where>
+		) t1
+		<where>
 	  		<if test="end!=null">
 	  			rownum &lt;= #{end}
 		  	</if>
@@ -625,32 +624,45 @@
   	</where>
   </select>
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
-  	select count(*) from SOURCE_THIRD_PARTY
-  	<where>
-  		<if test="str1!=null">
-	  		and CTM_BAR_CODE in (${str1})
+  	select count(*) from (select courier_number, max(return_date) tm from SOURCE_THIRD_PARTY group by courier_number) s1,SOURCE_THIRD_PARTY s2
+    <where>
+        s1.courier_number=s2.courier_number and s1.tm=s2.return_date
+    	<if test="str1!=null">
+	  		and s2.CTM_BAR_CODE in (${str1})
 	  	</if>
 	  	<if test="date1!=null and date1!=''">
-  			and SEND_TIME >= #{date1}
- 		</if>
- 		<if test="date2!=null and date2!=''">
-  			and SEND_TIME &lt;= #{date2}
- 		</if>
+ 			and s2.SEND_TIME >= #{date1}
+		</if>
+		<if test="date2!=null and date2!=''">
+ 			and s2.SEND_TIME &lt;= #{date2}
+		</if>
 	  	<if test="str2!=null and str2!=''">
-	  		and DELIVERY_STATE = #{str2}
+	  		and s2.DELIVERY_STATE = #{str2}
 	  	</if>
 	  	<if test="str3!=null and str3!=''">
-	  		and COURIER_NUMBER like '%${str3}%'
+	  		and s2.COURIER_NUMBER like '%${str3}%'
 	  	</if>
 	  	<if test="str4!=null and str4!=''">
-	  		and CTM_BAR_CODE like '%${str4}%'
+	  		and s2.CTM_BAR_CODE like '%${str4}%'
 	  	</if>
 	  	<if test="str5!=null and str5!=''">
-	  		and ORDER_NUMBER like '%${str5}%'
+	  		and s2.ORDER_NUMBER like '%${str5}%'
 	  	</if>
 	  	<if test="str6!=null and str6!=''">
-	  		and SHOP_NUMBER like '%${str6}%'
+	  		and s2.SHOP_NUMBER like '%${str6}%'
 	  	</if>
- 	</where>
+    </where>		
+  </select>
+  <select id="queryByNumber" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select * from SOURCE_THIRD_PARTY
+  	<where>
+  		COURIER_NUMBER = #{str1}
+  	</where>
+  	<if test="sort!=null and order!=null">
+  		order by ${sort} ${order},CREATE_TIME desc
+  	</if>
+  	<if test="sort==null or order==null">
+  		order by CREATE_TIME desc
+  	</if>
   </select>
 </mapper>

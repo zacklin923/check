@@ -49,7 +49,7 @@ function deleteAll(){
 	);
 }
 </script>
-<table id="dg" class="easyui-datagrid" border="true" title="快件信息>数据源导入错误"
+<table id="dg" border="true" title="快件信息>数据源导入错误"
 		url="<%=path %>/api/sourimportfail"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"

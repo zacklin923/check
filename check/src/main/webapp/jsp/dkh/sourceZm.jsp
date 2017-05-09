@@ -133,7 +133,7 @@ function upload(){
 	});
 }
 </script>
-<table id="dg" class="easyui-datagrid" border="true" title="快件信息>哲盟返回数据"
+<table id="dg" border="true" title="快件信息>哲盟返回数据"
 		url="<%=path %>/api/sourceZm"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -299,9 +299,7 @@ function upload(){
 		</form>
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
-		closed="true" modal="true">
-	<iframe src="<%=path%>/jsp/help/sourceZm.jsp" frameborder="0" height="100%" width="100%">
-	</iframe>
+		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceZm.jsp" cache="true">
 </div>
 </body>
 </html>

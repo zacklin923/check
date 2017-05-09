@@ -140,7 +140,7 @@ function negated(){
      }) 
 }
 </script>
-<table id="dg" class="easyui-datagrid" border="true" title="系统管理>角色管理"
+<table id="dg" border="true" title="系统管理>角色管理"
 		url="<%=path %>/api/role"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -220,9 +220,7 @@ function negated(){
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
-		closed="true" modal="true">
-	<iframe src="<%=path%>/jsp/help/role.jsp" frameborder="0" height="100%" width="100%">
-	</iframe>
+		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/role.jsp" cache="true">
 </div>
 </body>
 </html>

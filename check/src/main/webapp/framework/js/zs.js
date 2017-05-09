@@ -100,3 +100,28 @@ function getDateByMs(date,fgf){
 	var times=getYear+fgf+getMonth+fgf+getDate;
 	return times;
 }
+/*张顺，2017-5-9，解决easyui的datagrid万条以上时序号显示不全的问题*/
+$.extend($.fn.datagrid.methods, {    
+    fixRownumber : function (jq) {    
+        return jq.each(function () {    
+            var panel = $(this).datagrid("getPanel");    
+            var clone = $(".datagrid-cell-rownumber", panel).last().clone();    
+            clone.css({    
+                "position" : "absolute",    
+                left : -1000    
+            }).appendTo("body");    
+            var width = clone.width("auto").width();    
+            if (width > 25) {    
+                //多加5个像素,保持一点边距    
+                $(".datagrid-header-rownumber,.datagrid-cell-rownumber", panel).width(width + 5);    
+                $(this).datagrid("resize");    
+                //一些清理工作    
+                clone.remove();    
+                clone = null;    
+            } else {    
+                //还原成默认状态    
+                $(".datagrid-header-rownumber,.datagrid-cell-rownumber", panel).removeAttr("style");    
+            }    
+        });    
+    }    
+});
