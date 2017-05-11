@@ -423,9 +423,6 @@
 	  	(
 		  	select * from SOURCE_IMPORT
 		  	<where>
-			  	<if test="str1!=null">
-			  		and STU_NUM = #{str1}
-			  	</if>
 			  	<if test="str3!=null">
 			  		and COURIER_NUMBER like '%${str3}%'
 			  	</if>
@@ -465,9 +462,6 @@
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(*) from SOURCE_IMPORT
   	<where>
-  		<if test="str1!=null">
-	  		and STU_NUM = #{str1}
-	  	</if>
 	  	<if test="str3!=null">
 	  		and COURIER_NUMBER like '%${str3}%'
 	  	</if>
