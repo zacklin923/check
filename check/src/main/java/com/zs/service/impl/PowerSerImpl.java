@@ -61,8 +61,20 @@ public class PowerSerImpl implements PowerSer{
 		return powerMapper.queryforId(id);
 	}
 
-	public StaffPower selectByUrlAndMethod(String url, String method) {
-		return powerMapper.selectByUrlAndMethod(url, method);
+	public StaffPower selectByUrlAndMethodEqual(String url, String method) {
+		return powerMapper.selectByUrlAndMethodEqual(url, method);
+	}
+
+	public StaffPower selectByUrlAndMethodLike(String url, String method) {
+		List<StaffPower> list=powerMapper.selectByUrlAndMethodLike(url, method);
+		for (StaffPower p:list) {
+			if (p.getStpUrl().contains("%")) {
+				continue;
+			}else {
+				return p;
+			}
+		}
+		return list.size()>0?list.get(list.size()-1):null;
 	}
 
 	

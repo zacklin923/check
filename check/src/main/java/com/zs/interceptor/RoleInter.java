@@ -98,7 +98,10 @@ public class RoleInter extends HandlerInterceptorAdapter{
 			resp.sendRedirect("/check/jsp/part/error2.jsp");
 			return false;
 		}
-		StaffPower power=powerSer.selectByUrlAndMethod(url, method);
+		StaffPower power=powerSer.selectByUrlAndMethodEqual(url, method);
+		if (power==null) {
+			power=powerSer.selectByUrlAndMethodLike(url, method);
+		}
 		if (power!=null) {
 			boolean isPass=role.getPowers()!=null && (","+role.getPowers()+",").contains(","+power.getStpId()+",");
 			if (isPass==false) {
