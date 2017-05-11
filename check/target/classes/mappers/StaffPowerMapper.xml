@@ -252,7 +252,7 @@
     from STAFF_POWER
     <where>
     	and STP_METHOD = #{method}
-   		and STP_URL = #{url}
+   		and #{url} like STP_URL 
     </where>
   </select>
 </mapper>

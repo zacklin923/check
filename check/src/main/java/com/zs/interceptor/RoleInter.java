@@ -98,16 +98,6 @@ public class RoleInter extends HandlerInterceptorAdapter{
 			resp.sendRedirect("/check/jsp/part/error2.jsp");
 			return false;
 		}
-		if (method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE")) {
-			url=url.substring(0, url.lastIndexOf("/"))+"/";
-		}else if(method.equalsIgnoreCase("GET")){
-			if (appearNumber(url, "/")>=4 ) {
-				String[] a  = url.split("/");
-				if(a[4].equals("signle")){
-					url=url.substring(0, url.lastIndexOf("/"))+"/";
-				}
-			}
-		}
 		StaffPower power=powerSer.selectByUrlAndMethod(url, method);
 		if (power!=null) {
 			boolean isPass=role.getPowers()!=null && (","+role.getPowers()+",").contains(","+power.getStpId()+",");
