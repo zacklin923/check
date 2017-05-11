@@ -48,6 +48,35 @@ function deleteAll(){
 		}
 	);
 }
+
+function deleteAllData(){
+	$.messager.confirm(
+			"操作提示",
+			"您确定要删除所有数据吗？",
+			function(data){
+				if(data){
+					alert(1);
+					$.ajax({
+						url:"<%=path %>/api/sourimportfail/all/111111",
+						type:"delete",
+						success:function(data){
+							var json;
+							if(isJson(data)){
+								json=data;
+							}else{
+								json = eval('('+data+')');
+							}
+							if(json.result=='success'){
+								$('#dg').datagrid('reload');
+							}else{
+								console.log("错误:"+json.code);
+							}
+						}
+					});
+				}
+			}
+		);
+}
 function excel_export(){
 	$("#search").form("submit",{
 		url:"<%=path%>/api/sourimportfail/exportExcel",
@@ -180,6 +209,7 @@ function excel_export(){
 <div id="toolbar">
 	<div class="btn-separator-none">
 		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAllData()">删除所有数据</a>
 	</div>
 	<br class="clear"/>
 	<hr class="hr-geay">

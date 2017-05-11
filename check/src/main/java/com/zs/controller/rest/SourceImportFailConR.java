@@ -60,15 +60,9 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 		return null;
 	}
 
-	
-	@Override
-	public Result<Integer> doDeleteFalse(String id, HttpServletRequest req, HttpServletResponse resp) {
-		return null;
-	}
-
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
-	public Result<Integer> doDeleteTrue(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
+	public Result<Integer> doDeleteFalse(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
 		if(id!=null&&!id.equals("")){
 			try {
 				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.delete(id));
@@ -77,6 +71,17 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 			}
 		}
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
+	}
+
+	@RequestMapping(value="/all/{id}",method=RequestMethod.DELETE)
+	@Override
+	public Result<Integer> doDeleteTrue(@PathVariable("id")String id, HttpServletRequest req, HttpServletResponse resp) {
+		System.out.println(id);
+		try {
+			return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.deleteAll());
+		} catch (Exception e) {
+			return new Result<Integer>(ERROR, Code.ERROR, -1);
+		}
 	}
 
 	@RequestMapping(value="/exportExcel",method=RequestMethod.GET)

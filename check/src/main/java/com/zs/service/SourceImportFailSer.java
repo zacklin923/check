@@ -8,4 +8,6 @@ import com.zs.entity.other.EasyUIAccept;
 public interface SourceImportFailSer extends BaseService<SourceImportFailed,String>{
 
 	public String ExportData(EasyUIAccept accept,HttpServletRequest req);
+	
+	public int deleteAll();
 }

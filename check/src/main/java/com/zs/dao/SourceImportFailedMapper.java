@@ -35,4 +35,6 @@ public interface SourceImportFailedMapper {
     List<SourceImportFailed> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);
+    
+    int deleteAll();
 }

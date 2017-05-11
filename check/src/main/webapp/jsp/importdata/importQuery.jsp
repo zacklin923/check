@@ -51,36 +51,37 @@ function save(){
 		}
 	});
 }
-function deleteObj(){
-	var row=$("#dg").datagrid("getSelected");
-	var ucode=row.courierNumber;
-	if(row){
-		$.messager.confirm(
-			"操作提示",
-			"您确定要删除吗？",
-			function(data){
-				if(data){
-					$.ajax({
-						url:"<%=path %>/api/sourimport/"+ucode,
-						type:"delete",
-						success:function(data){
-							var json;
-							if(isJson(data)){
-								json=data;
-							}else{
-								json = eval('('+data+')');
+function deleteAll(){
+	$.messager.confirm(
+		"操作提示",
+		"您确定要删除吗？",
+		function(data){
+			if(data){
+				var checkedItems = $('#dg').datagrid('getChecked');
+				$.each(checkedItems, function(index, item){
+					if(item.sifId!=null){
+						$.ajax({
+							url:"<%=path %>/api/sourimportfail/"+item.sifId,
+							type:"delete",
+							success:function(data){
+								var json;
+								if(isJson(data)){
+									json=data;
+								}else{
+									json = eval('('+data+')');
+								}
+								if(json.result=='success'){
+									$('#dg').datagrid('reload');
+								}else{
+									console.log("错误:"+json.code);
+								}
 							}
-							if(json.result=='success'){
-								$('#dg').datagrid('reload');
-							}else{
-								alert("错误:"+json.code);
-							}
-						}
-					});
-				}
+						});
+					}
+				}); 
 			}
-		);
-	}
+		}
+	);
 }
 
 var a="${isLoading}";
@@ -174,6 +175,7 @@ function pushData(){
 		pageSize="25" pageList="[25,40,50,100,200,300,400,500]">
 	<thead>
 		<tr>
+			<th field="ck" checkbox="true"></th>
 			<th field="createDate" width="100" sortable="true">创建日期</th>
 			<th field="ctmName" width="100" sortable="true">客户名</th>
 			<th field="ctmBarCode" width="80" sortable="true">客户条码</th>
@@ -221,7 +223,8 @@ function pushData(){
 	<div class="btn-separator-none">
 		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
+	<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAllData()">删除所有数据</a>
 	</div>
 	<div class="btn-separator">
 		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="pushData()">上传数据</a>
