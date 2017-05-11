@@ -166,7 +166,7 @@ function upload(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="25" pageList="[25,40,50,100]" data-options="
+		pageSize="25" pageList="[25,40,50,100,500,1000]" data-options="
 			onDblClickRow:function(rowIndex, rowData){
 				dblclick(rowIndex, rowData);
 			},

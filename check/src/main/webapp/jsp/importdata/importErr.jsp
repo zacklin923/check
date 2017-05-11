@@ -55,9 +55,8 @@ function deleteAllData(){
 			"您确定要删除所有数据吗？",
 			function(data){
 				if(data){
-					alert(1);
 					$.ajax({
-						url:"<%=path %>/api/sourimportfail/all/1",
+						url:"<%=path %>/api/sourimportfail",
 						type:"delete",
 						success:function(data){
 							var json;
@@ -69,7 +68,7 @@ function deleteAllData(){
 							if(json.result=='success'){
 								$('#dg').datagrid('reload');
 							}else{
-								console.log("错误:"+json.code);
+								alert("错误:"+json.code+"  "+json.data);
 							}
 						}
 					});
@@ -111,8 +110,9 @@ function excel_export(){
 	<thead>
 		<tr>
 			<th field="ck" checkbox="true"></th>
-			<th field="createTime" width="150" sortable="true">时间</th>
-			<th field="failType" width="100" >失败类型</th>
+			<th field="createTime" width="150" sortable="true">导入时间</th>
+			<th field="failType" width="100" sortable="true">失败类型</th>
+            <th field="stuNum"	 width="70" sortable="true">导入人</th>
 			<th field="createDate" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
@@ -166,43 +166,43 @@ function excel_export(){
                              if(row.sourceImport){
 						return row.sourceImport.shopNumber;
                           }
-                      }" width="100">商家ID</th>
+                      }" width="90">商家ID</th>
 			<th field="courierCompany" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
 						return row.sourceImport.courierCompany;
                           }
-                      }" width="70">快递公司</th>
+                      }" width="60">快递公司</th>
 			<th field="goodsCost" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
 						return row.sourceImport.goodsCost;
                           }
-                      }" width="70">物品价值</th>
+                      }" width="60">物品价值</th>
 			<th field="goods" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
 						return row.sourceImport.goods;
                           }
-                      }" width="70">物品</th>
+                      }" width="60">物品</th>
 			<th field="numberType" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
 						return row.sourceImport.numberType;
                           }
-                      }" width="70">类型</th>
+                      }" width="60">类型</th>
             <th field="oneCode" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
 						return row.sourceImport.oneCode;
                           }
-                      }" width="70">一段码</th>
+                      }" width="60">一段码</th>
             <th field="province" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
 						return row.sourceImport.province;
                           }
-                      }" width="70">省份</th>
+                      }" width="60">省份</th>
 		</tr>
 	</thead>
 </table>

@@ -59,9 +59,9 @@ function deleteAll(){
 			if(data){
 				var checkedItems = $('#dg').datagrid('getChecked');
 				$.each(checkedItems, function(index, item){
-					if(item.sifId!=null){
+					if(item.courierNumber!=null){
 						$.ajax({
-							url:"<%=path %>/api/sourimportfail/"+item.sifId,
+							url:"<%=path %>/api/sourimport/"+item.courierNumber,
 							type:"delete",
 							success:function(data){
 								var json;
@@ -84,6 +84,33 @@ function deleteAll(){
 	);
 }
 
+function deleteAllData(){
+	$.messager.confirm(
+		"操作提示",
+		"您确定要删除所有数据吗？",
+		function(data){
+			if(data){
+				$.ajax({
+					url:"<%=path %>/api/sourimport",
+					type:"delete",
+					success:function(data){
+						var json;
+						if(isJson(data)){
+							json=data;
+						}else{
+							json = eval('('+data+')');
+						}
+						if(json.result=='success'){
+							$('#dg').datagrid('reload');
+						}else{
+							alert("错误:"+json.code+"  "+json.data);
+						}
+					}
+				});
+			}
+		}
+	);
+}
 var a="${isLoading}";
 var a1="${isLoading}";
 function checkIsUal(){
@@ -172,19 +199,30 @@ function pushData(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
+		checkOnSelect="false" selectOnCheck="false"
 		pageSize="25" pageList="[25,40,50,100,200,300,400,500]">
 	<thead>
 		<tr>
 			<th field="ck" checkbox="true"></th>
+			<th field="stuName" width="60">导入人</th>
 			<th field="createDate" width="100" sortable="true">创建日期</th>
-			<th field="ctmName" width="100" sortable="true">客户名</th>
+			<th field="ctmName" width="60" sortable="true">客户名</th>
 			<th field="ctmBarCode" width="80" sortable="true">客户条码</th>
-			<th field="courierNumber" width="150" sortable="true">快递单号</th>
-			<th field="address" width="300" sortable="true">地址</th>
+			<th field="courierNumber" width="120" sortable="true">快递单号</th>
+			<th field="oneCode" width="80" sortable="true">一段码</th>
+			<th field="isPushed" width="80" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(value=='0'){
+							return '否';
+                      }else if(value=='1'){
+                      		return '是';
+                      }
+               }">是否已上传</th>
 			<th field="orderNumber" width="150" sortable="true">订单编号</th>
-			<th field="addressee" width="100" sortable="true">收件人</th>
-			<th field="phone" width="150" sortable="true">联系方式</th>
-			<th field="shopNumber" width="180" sortable="true">商家ID</th>
+			<th field="address" width="300" sortable="true">地址</th>
+			<th field="addressee" width="60" sortable="true">收件人</th>
+			<th field="phone" width="120" sortable="true">联系方式</th>
+			<th field="shopNumber" width="120" sortable="true">商家ID</th>
 			<th field="courierCompany" width="80" sortable="true" data-options="
 				formatter:function(value,row,index){
                       if(value=='11'){
@@ -202,19 +240,9 @@ function pushData(){
                       }
                }">快递公司</th>
 			<th field="goodsCost" width="80" sortable="true">物品价值</th>
-			<th field="goods" width="100" sortable="true">物品</th>
+			<th field="goods" width="60" sortable="true">物品</th>
 			<th field="numberType" width="60" sortable="true">类型</th>
 			<th field="createTime" width="150" sortable="true">导入时间</th>
-			<th field="isPushed" width="80" sortable="true" data-options="
-				formatter:function(value,row,index){
-                      if(value=='0'){
-							return '否';
-                      }else if(value=='1'){
-                      		return '是';
-                      }
-               }">是否已上传</th>
-			<th field="stuName" width="80">导入人</th>
-			<th field="oneCode" width="80" sortable="true">一段码</th>
 			<th field="province" width="80" sortable="true">省份</th>
 		</tr>
 	</thead>

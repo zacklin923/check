@@ -12,6 +12,7 @@ public class LoginAndOutCon {
 	public String logout(HttpServletRequest request) {
 		request.getSession().removeAttribute("licence");
 		request.getSession().removeAttribute("user");
+		request.getSession().removeAttribute("isLoading");
 		return "/system/login";
 	}
 }

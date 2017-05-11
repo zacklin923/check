@@ -103,11 +103,15 @@ public class ReceiveFromZmConR {
 								}else if(im.getOneCode()!=null && !im.getOneCode().equals("")){//导入表有一段码
 									ProvinceCode provinceCode=provinceCodeSer.get(im.getOneCode());
 									if(provinceCode!=null) zm.setProvince(provinceCode.getProvince());
-								}else {//导入表既没有一段码也没有省份
-									log.error("【哲盟返回接口】该条记录无法计算出省份。"+zm);
 								}
 							}else{//哲盟返回了省份，其实是目的地，很长的一串文字，需要提取出省份
-								zm.setProvince(ProvinceHelper.getProvince(zm.getProvince()));
+								try{
+									zm.setProvince(ProvinceHelper.getProvince(zm.getProvince()));
+								}catch(Exception e){
+									e.printStackTrace();
+									//导入表既没有一段码也没有省份
+									log.error("【哲盟返回接口】该条记录无法计算出省份。"+zm);
+								}
 							}
 							//-----------计算超时时间----------------
 							if(zm.getProvince()!=null){

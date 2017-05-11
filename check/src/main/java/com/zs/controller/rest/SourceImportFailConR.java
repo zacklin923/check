@@ -78,7 +78,7 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 		return null;
 	}
 
-	@RequestMapping(value="/all/1",method=RequestMethod.DELETE)
+	@RequestMapping(value="",method=RequestMethod.DELETE)
 	public Result<Integer> doDeleteAll( HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.deleteAll());
