@@ -37,5 +37,6 @@ public interface StaffPowerMapper {
     
     List<StaffPower> queryforId(@Param("id") String id);
     
-    StaffPower selectByUrlAndMethod(@Param("url")String url,@Param("method")String method);
+    List<StaffPower> selectByUrlAndMethodLike(@Param("url")String url,@Param("method")String method);
+    StaffPower selectByUrlAndMethodEqual(@Param("url")String url,@Param("method")String method);
 }
