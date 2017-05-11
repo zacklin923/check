@@ -57,7 +57,7 @@ function deleteAllData(){
 				if(data){
 					alert(1);
 					$.ajax({
-						url:"<%=path %>/api/sourimportfail/all/111111",
+						url:"<%=path %>/api/sourimportfail/all/1",
 						type:"delete",
 						success:function(data){
 							var json;
