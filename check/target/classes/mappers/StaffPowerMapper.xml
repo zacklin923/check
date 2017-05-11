@@ -247,12 +247,20 @@
   		stp_id in ( ${id} )
   	</where>
   </select>
-  <select id="selectByUrlAndMethod" resultMap="BaseResultMap" parameterType="java.lang.String">
+  <select id="selectByUrlAndMethodLike" resultMap="BaseResultMap" parameterType="java.lang.String">
     select *
     from STAFF_POWER
     <where>
     	and STP_METHOD = #{method}
    		and #{url} like STP_URL 
+    </where>
+  </select>
+  <select id="selectByUrlAndMethodEqual" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select *
+    from STAFF_POWER
+    <where>
+    	and STP_METHOD = #{method}
+   		and STP_URL = #{url}  
     </where>
   </select>
 </mapper>
