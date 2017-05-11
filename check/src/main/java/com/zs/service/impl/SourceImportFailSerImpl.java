@@ -97,5 +97,9 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 		ExcelExport.OutExcel1(obj, objs, basePath+path);
 		return path;
 	}
+
+	public int deleteAll() {
+		return sourceImportFailedMapper.deleteAll();
+	}
 	
 }

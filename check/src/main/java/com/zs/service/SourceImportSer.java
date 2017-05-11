@@ -11,4 +11,6 @@ public interface SourceImportSer extends BaseService<SourceImport,String>{
 	public String sendToZm(String userNum);
 	
 	public void sendToZm2();
+	
+	public int deleteAll(String userNum);
 }

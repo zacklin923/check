@@ -265,4 +265,7 @@
   		</if>
  	</where>
   </select>
+  <delete id="deleteAll">
+    delete from SOURCE_IMPORT_FAILED
+  </delete>
 </mapper>

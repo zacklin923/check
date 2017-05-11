@@ -94,6 +94,16 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
+	@RequestMapping(value="",method=RequestMethod.DELETE)
+	public Result<Integer> doDeleteAll( HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
+			return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportSer.deleteAll(user.getStuNum()));
+		} catch (Exception e) {
+			return new Result<Integer>(ERROR, Code.ERROR, -1);
+		}
+	}
+	
 	@Override
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub

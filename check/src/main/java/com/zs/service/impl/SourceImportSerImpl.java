@@ -297,5 +297,14 @@ public class SourceImportSerImpl implements SourceImportSer{
 		Date d2=new Date();
 		log.error("【系统每天自动推送未发货】共推送["+zms.size()+"]条，成功["+succrows+"]条，耗时["+(d2.getTime()-d1.getTime())+"]ms。");
 	}
+
+	public int deleteAll(String stuNum) {
+		Calendar calendar=Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		return importMapper.deleteAll(calendar.getTime(),stuNum);
+	}
 	
 }
