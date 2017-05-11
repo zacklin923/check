@@ -221,7 +221,7 @@ public class ReceiveFromZmConR {
 									&& tp.getDeliveryState()!=null 
 									&& !tp.getDeliveryState().equals("签收")
 									&& !tp.getDeliveryState().equals("疑难")) {//剩余三种状态时才判断
-								if (zm.getTimeOut().after(new Date())) {//发货日期+规定消耗的时间  > 现在  ，就代表超期
+								if (new Date().after(zm.getTimeOut())) {//现在>超时时间  ，就代表超期
 									tp.setIsTimeOut(new BigDecimal(1));
 								}else {
 									tp.setIsTimeOut(new BigDecimal(0));
