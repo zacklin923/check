@@ -36,4 +36,6 @@ public interface SourceImportMapper {
     int getCount(EasyUIAccept accept);
     
     List<SourceImport> queryToZM(@Param("date") Date date,@Param("userNum") String userNum);
+    
+    int deleteAll(@Param("date") Date date,@Param("stuNum") String stuNum);
 }
