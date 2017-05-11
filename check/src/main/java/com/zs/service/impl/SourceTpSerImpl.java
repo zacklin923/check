@@ -73,8 +73,8 @@ public class SourceTpSerImpl implements SourceTpSer{
 					SourceThirdParty stp = new SourceThirdParty(Trans.tostring(list.get(i)[7]), Trans.TransToDate(list.get(i)[26]), list.get(i)[11], list.get(i)[12], list.get(i)[13], list.get(i)[17], list.get(i)[10], Trans.toBigDecimal(list.get(i)[9]), list.get(i)[18],list.get(i)[19], list.get(i)[20], list.get(i)[23], Trans.toBigDecimal(list.get(i)[24]),Trans.toBigDecimal(list.get(i)[25]));
 					if(isstp!=null){
 						SourceZm sz = new SourceZm(stp.getCourierNumber(), stp.getReturnDate(), stp.getProvince(),stp.getAddress(), stp.getShopNumber(),stp.getAddressee(),stp.getPhone(), stp.getGoods(), stp.getGoodsCost(), stp.getOrderNumber());
-						zmMapper.updateByPrimaryKey(sz);
-						thirdPartyMapper.updateByPrimaryKey(stp);
+						zmMapper.updateByPrimaryKeySelective(sz);
+						thirdPartyMapper.updateByPrimaryKeySelective(stp);
 					}else{
 						ls.add((i+1)+"");
 					}
