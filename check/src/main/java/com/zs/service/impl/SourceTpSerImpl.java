@@ -151,4 +151,15 @@ public class SourceTpSerImpl implements SourceTpSer{
 		return thirdPartyMapper.queryByNumber(accept);
 	}
 
+	public String updateState(String state) {
+	      if(state.equals("签收")){
+				return "配送成功";
+	      }else if(state.equals("收件")||state.equals("在途")||state.equals("派件")||state.equals("揽件")){
+	      		return "配送中";
+	      }else if(state.equals("疑难")){
+	      		return "配送异常";
+	      }
+		  return null;
+	}
+
 }

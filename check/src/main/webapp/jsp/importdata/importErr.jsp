@@ -106,7 +106,7 @@ function excel_export(){
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
 		checkOnSelect="false" selectOnCheck="false"
-		pageSize="25" pageList="[25,40,50,100,200,300,400,500]">
+		pageSize="100" pageList="[100,500,1000]">
 	<thead>
 		<tr>
 			<th field="ck" checkbox="true"></th>

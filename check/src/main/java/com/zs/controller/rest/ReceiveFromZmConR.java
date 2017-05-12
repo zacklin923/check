@@ -19,7 +19,6 @@ import com.google.gson.reflect.TypeToken;
 import com.zs.entity.ProvinceCode;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceThirdParty;
-import com.zs.entity.SourceThirdPartyKey;
 import com.zs.entity.SourceZm;
 import com.zs.entity.SourceZmKey;
 import com.zs.entity.TimeLimit;
@@ -31,8 +30,6 @@ import com.zs.service.SourceZmSer;
 import com.zs.service.TimeLimitSer;
 import com.zs.tools.ProvinceHelper;
 import com.zs.tools.Trans;
-
-import oracle.net.aso.d;
 
 /**
  * 接收哲盟返回数据
@@ -96,6 +93,7 @@ public class ReceiveFromZmConR {
 							zm.setGoodsCost(im.getGoodsCost());
 							zm.setCourierCompany(im.getCourierCompany());
 							zm.setOrderNumber(im.getOrderNumber());
+							zm.setShopNumber(im.getShopNumber());
 							//-------装填省份信息-----------------
 							if (zm.getProvince()==null || (zm.getProvince()!=null && zm.getProvince().trim().equals(""))) {//哲盟没有返回省份
 								if (im.getProvince()!=null && !im.getProvince().trim().equals("")) {//导入表有省份
@@ -140,6 +138,7 @@ public class ReceiveFromZmConR {
 							zm.setGoodsCost(null);
 							zm.setCourierCompany(null);
 							zm.setOrderNumber(null);
+							zm.setShopNumber(null);
 							//-----------计算超时时间----------------
 							if(zm.getProvince()!=null){
 								TimeLimit tl=timeLimitSer.selectByEndProvince(zm.getProvince());
@@ -231,6 +230,8 @@ public class ReceiveFromZmConR {
 									tp.setIsTimeOut(new BigDecimal(0));
 								}
 							}
+							//处理配送状态
+							tp.setDeliveryState(sourceTpSer.updateState(tp.getDeliveryState()));
 						}
 						sourceTpSer.add(tp);
 						rows++;
@@ -256,6 +257,8 @@ public class ReceiveFromZmConR {
 							tp.setCourierCompany(null);
 							tp.setGoods(null);
 							tp.setGoodsCost(null);
+							//处理配送状态
+							tp.setDeliveryState(sourceTpSer.updateState(tp.getDeliveryState()));
 							//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
 							SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), tp.getReturnDate()));
 							if (zm!=null && zm.getTimeOut()!=null) {

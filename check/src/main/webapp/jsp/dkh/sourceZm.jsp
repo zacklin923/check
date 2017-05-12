@@ -140,7 +140,7 @@ function upload(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="25" pageList="[25,40,50,100]" data-options="
+		pageSize="100" pageList="[100,500,1000]" data-options="
 			rowStyler: function(index,row){
 				if(row.noUpdate){
 					return 'background-color:red;color:#fff;';

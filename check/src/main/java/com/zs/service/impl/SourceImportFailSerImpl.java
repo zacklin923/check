@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.zs.dao.SourceImportFailedMapper;
+import com.zs.dao.StaffUserMapper;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.SourceZm;
+import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.SourceImportErr;
@@ -26,6 +28,9 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 	Gson g = new Gson(); 	
 	@Resource 
 	private SourceImportFailedMapper sourceImportFailedMapper;
+	@Resource
+	private StaffUserMapper userMapper;
+	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
 			Integer page=accept.getPage();
@@ -38,6 +43,19 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 			for (int i = 0; i < list.size(); i++) {
 				SourceImportFailed sif = (SourceImportFailed) list.get(i);
 				SourceImportErr sie = g.fromJson(sif.getFailInfo(), SourceImportErr.class);
+				if(sie.getStuNum()!=null && !sie.getStuNum().equals("")){
+					try {
+						StaffUser suer = userMapper.selectByPrimaryKey(sie.getStuNum());
+						System.out.println(suer.toString());
+						sie.setStuNum(suer.getStuName());
+						System.out.println("------------->>"+sie.getStuNum());
+					} catch (Exception e) {
+						sie.setStuNum("");
+					}
+					
+				}else{
+					sie.setStuNum("");
+				}
 				sif.setSourceImport(sie);
 			}
 			int rows=sourceImportFailedMapper.getCount(accept);
