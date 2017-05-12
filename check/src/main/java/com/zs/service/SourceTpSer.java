@@ -16,4 +16,7 @@ public interface SourceTpSer extends BaseService<SourceThirdParty, SourceThirdPa
 	public List<SourceThirdParty> queryHistory(EasyUIAccept accept);
 	
 	public String updateState(String state);
+
+	public boolean reckon(SourceThirdParty tp);
+	
 }

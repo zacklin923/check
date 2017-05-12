@@ -194,6 +194,11 @@ function upload(){
                       }else if(value=='1'){
                       		return '是';
                       }
+               },
+               styler:function(value,row,index){
+	               	if(value=='1'){
+						return 'color:#8000FF;';
+					}
                }">是否超时</th>
 			<th field="abnormalCause" width="100" sortable="true">异常原因</th>
 			<th field="deliveryState" width="100" sortable="true">配送状态</th>

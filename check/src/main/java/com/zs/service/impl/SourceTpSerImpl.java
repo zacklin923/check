@@ -1,14 +1,13 @@
 package com.zs.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.google.gson.Gson;
 import com.zs.dao.SourceThirdPartyMapper;
 import com.zs.dao.SourceZmMapper;
@@ -18,6 +17,7 @@ import com.zs.entity.SourceZm;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.service.SourceTpSer;
+import com.zs.service.SourceZmSer;
 import com.zs.tools.ExcelExport;
 import com.zs.tools.Trans;
 
@@ -29,6 +29,8 @@ public class SourceTpSerImpl implements SourceTpSer{
 	private SourceThirdPartyMapper thirdPartyMapper;
 	@Resource
 	private SourceZmMapper zmMapper;
+	@Resource
+	private SourceZmSer sourceZmSer;
 
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -40,6 +42,12 @@ public class SourceTpSerImpl implements SourceTpSer{
 			}
 			List list=thirdPartyMapper.queryFenye(accept);
 			int rows=thirdPartyMapper.getCount(accept);
+			for (int i = 0; i < list.size(); i++) {
+				SourceThirdParty tp=(SourceThirdParty) list.get(i);
+				if(reckon(tp)){
+					thirdPartyMapper.updateByPrimaryKeySelective(tp);
+				}
+			}
 			return new EasyUIPage(rows, list);
 		}
 		return null;
@@ -93,6 +101,12 @@ public class SourceTpSerImpl implements SourceTpSer{
 
 	public String ExportData(EasyUIAccept accept, HttpServletRequest req) {
 		List<SourceThirdParty> list=thirdPartyMapper.queryFenye(accept);
+		for (int i = 0; i < list.size(); i++) {
+			SourceThirdParty tp=(SourceThirdParty) list.get(i);
+			if(reckon(tp)){
+				thirdPartyMapper.updateByPrimaryKeySelective(tp);
+			}
+		}
 		String[] obj ={"创建日期","所属大区","所属区部","所属分部","所属分拨点","客户条码","客户名称","快递单号","发货日期","是否超时","异常原因","省份","地址","配送状态","签收人","签收时间","签收站点","收件人","订单编号","客户店铺","联系方式","重量","快递公司","物品","物品价值","费用","返回日期"};
 		String[][] objs = new String[list.size()][obj.length];
 		for (int i = 0; i < objs.length; i++) {
@@ -160,6 +174,29 @@ public class SourceTpSerImpl implements SourceTpSer{
 	      		return "配送异常";
 	      }
 		  return null;
+	}
+	//重新计算超时时间,true:改了，false：没改
+	public boolean reckon(SourceThirdParty tp) {
+		//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
+		SourceZm zm=sourceZmSer.last(tp.getCourierNumber());
+		BigDecimal b1=tp.getIsTimeOut();
+		if (zm!=null 
+				&& zm.getTimeOut()!=null 
+				&& tp.getDeliveryState()!=null 
+				&& !tp.getDeliveryState().equals("签收")
+				&& !tp.getDeliveryState().equals("疑难")) {//剩余三种状态时才判断
+			if (new Date().after(zm.getTimeOut())) {//现在>超时时间  ，就代表超期
+				tp.setIsTimeOut(new BigDecimal(1));
+			}else {
+				tp.setIsTimeOut(new BigDecimal(0));
+			}
+		}
+		BigDecimal b2=tp.getIsTimeOut();
+		if ((b1==null && b2==null) || (b1!=null && b2!=null && b1.equals(b2))) {
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 }
