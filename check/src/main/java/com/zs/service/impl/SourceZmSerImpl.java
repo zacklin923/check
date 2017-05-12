@@ -18,6 +18,8 @@ import com.zs.dao.SourceZmMapper;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.SourceZm;
+import com.zs.entity.SourceZmExample;
+import com.zs.entity.SourceZmExample.Criteria;
 import com.zs.entity.SourceZmKey;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -132,6 +134,16 @@ public class SourceZmSerImpl implements SourceZmSer{
 		}else{
 			return "";
 		}
+	}
+
+	/*得到最新的一条记录*/
+	public SourceZm last(String num) {
+		SourceZmExample example=new SourceZmExample();
+		example.setOrderByClause("return_date desc");
+		Criteria criteria=example.createCriteria();
+		criteria.andCourierNumberEqualTo(num);
+		List<SourceZm> list=zmMapper.selectByExample(example);
+		return list.size()>0?list.get(list.size()-1):null;
 	}
 
 }
