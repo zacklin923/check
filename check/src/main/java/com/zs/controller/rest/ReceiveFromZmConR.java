@@ -195,7 +195,7 @@ public class ReceiveFromZmConR {
 					SourceThirdParty tp=list.get(i);
 					tp.setReturnDate(Trans.timeToDate(new Date()));
 					//------------签收时间的处理------------
-					if (tp.getSignTime()!=null && tp.getSignTime().getTime()==new Long("-62135798400000")) {
+					if (tp.getSignTime()!=null && tp.getSignTime().getTime()==new Long("-2209017600000")) {
 						tp.setSignTime(null);
 					}
 					try {
@@ -221,16 +221,7 @@ public class ReceiveFromZmConR {
 							tp.setGoods(zm.getGoods());
 							tp.setGoodsCost(zm.getGoodsCost());
 							//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
-							if (zm.getTimeOut()!=null 
-									&& tp.getDeliveryState()!=null 
-									&& !tp.getDeliveryState().equals("签收")
-									&& !tp.getDeliveryState().equals("疑难")) {//剩余三种状态时才判断
-								if (new Date().after(zm.getTimeOut())) {//现在>超时时间  ，就代表超期
-									tp.setIsTimeOut(new BigDecimal(1));
-								}else {
-									tp.setIsTimeOut(new BigDecimal(0));
-								}
-							}
+							sourceTpSer.reckon(tp);
 						}
 						sourceTpSer.add(tp);
 						rows++;
@@ -258,13 +249,7 @@ public class ReceiveFromZmConR {
 							tp.setGoodsCost(null);
 							//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
 							SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(), tp.getReturnDate()));
-							if (zm!=null && zm.getTimeOut()!=null) {
-								if (zm.getTimeOut().after(new Date())) {//发货日期+规定消耗的时间  > 现在  ，就代表超期
-									tp.setIsTimeOut(new BigDecimal(1));
-								}else {
-									tp.setIsTimeOut(new BigDecimal(0));
-								}
-							}
+							sourceTpSer.reckon(tp);
 							sourceTpSer.update(tp);
 							rows++;
 						} catch (Exception e2) {
