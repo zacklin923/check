@@ -200,7 +200,7 @@ public class ReceiveFromZmConR {
 					}
 					try {
 						//--------装填其他信息-----------
-						SourceZm zm=sourceZmSer.get(new SourceZmKey(tp.getCourierNumber(),tp.getReturnDate()));
+						SourceZm zm=sourceZmSer.last(tp.getCourierNumber());
 						if (zm!=null) {
 							tp.setLargeArea(zm.getLargeArea());
 							tp.setSliceArea(zm.getSliceArea());
