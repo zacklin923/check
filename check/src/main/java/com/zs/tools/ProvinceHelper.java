@@ -19,7 +19,6 @@ public class ProvinceHelper {
 
 	
 	public static String getProvince(String address) {
-		System.out.println("省份："+address);
 		Logger log=Logger.getLogger(ProvinceHelper.class);
 		for (int i = 0; i < pros1.length; i++) {
 			if (address.indexOf(pros1[i])==0) {
