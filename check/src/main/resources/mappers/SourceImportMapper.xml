@@ -438,7 +438,7 @@
 			  	<if test="str7!=null">
 			  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str7}%')
 			  	</if>
-		  		and CREATE_TIME >= #{date1}
+		  		and (CREATE_TIME >= #{date1} or IS_PUSHED=0)
 		  	</where>
 		  	<if test="sort!=null and order!=null">
 		  		order by ${sort} ${order},CREATE_TIME desc
@@ -477,7 +477,7 @@
 	  	<if test="str7!=null">
 	  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str7}%')
 	  	</if>
-	  	and CREATE_TIME >= #{date1}
+	  	and (CREATE_TIME >= #{date1} or IS_PUSHED=0)
  	</where>
   </select>
   <select id="queryToZM" resultMap="BaseResultMap">

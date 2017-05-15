@@ -171,22 +171,30 @@ function upload(){
 	});
 }
 function pushData(){
+	show_hint([]);
 	$.ajax({
 		url:"<%=path %>/api/sourimport/push",
 		type:"get",
 		success:function(data){
-			var json;
-			if(isJson(data)){
-				json=data;
+			if(data){
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					hiden_hint();
+					$('#dg').datagrid('reload');
+					alert("成功。"+json.data);
+				}else{
+					hiden_hint();
+					alert("错误:"+json.code);
+					$('#dg').datagrid('reload');
+				}
 			}else{
-				json = eval('('+data+')');
-			}
-			if(json.result=='success'){
-				$('#dg').datagrid('reload');
-				alert("成功。"+json.data);
-			}else{
-				alert("错误:"+json.code);
-				$('#dg').datagrid('reload');
+				hiden_hint();
+				alert("错误:网络错误");
 			}
 		}
 	});
@@ -200,7 +208,7 @@ function pushData(){
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
 		checkOnSelect="false" selectOnCheck="false"
-		pageSize="25" pageList="[25,40,50,100,200,300,400,500]">
+		pageSize="100" pageList="[100,500,1000]">
 	<thead>
 		<tr>
 			<th field="ck" checkbox="true"></th>

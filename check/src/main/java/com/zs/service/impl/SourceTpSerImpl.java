@@ -9,13 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.Gson;
+import com.zs.dao.NoUpdateMapper;
 import com.zs.dao.SourceThirdPartyMapper;
 import com.zs.dao.SourceZmMapper;
+import com.zs.entity.NoUpdate;
 import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceThirdPartyKey;
 import com.zs.entity.SourceZm;
+import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
+import com.zs.service.NoUpdateSer;
 import com.zs.service.SourceTpSer;
 import com.zs.service.SourceZmSer;
 import com.zs.tools.ExcelExport;
@@ -31,6 +35,8 @@ public class SourceTpSerImpl implements SourceTpSer{
 	private SourceZmMapper zmMapper;
 	@Resource
 	private SourceZmSer sourceZmSer;
+	@Resource
+	private NoUpdateSer noUpdateSer;
 
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -69,17 +75,28 @@ public class SourceTpSerImpl implements SourceTpSer{
 		return thirdPartyMapper.selectByPrimaryKey(id);
 	}
 
-	public String importData(List<String[]> list) {
+	public String importData(List<String[]> list , HttpServletRequest req) {
 		List<String> ls = new ArrayList<String>();
 		for (int i = 1; i < list.size(); i++) {
-			if(list.get(i)[7].equals("")||list.get(i)[26].equals("")){
+			if(list.get(i)[0].equals("")||list.get(i)[7].equals("")){
 				ls.add((i+1)+",");
 			}else{
 				try {
-					SourceThirdPartyKey stpk = new SourceThirdPartyKey(Trans.tostring(list.get(i)[7]),Trans.TransToDate(list.get(i)[26]));
+					SourceThirdPartyKey stpk = new SourceThirdPartyKey(Trans.tostring(list.get(i)[0]),Trans.TransToDate(list.get(i)[7]));
 					SourceThirdParty isstp = thirdPartyMapper.selectByPrimaryKey(stpk);
-					SourceThirdParty stp = new SourceThirdParty(Trans.tostring(list.get(i)[7]), Trans.TransToDate(list.get(i)[26]), list.get(i)[11], list.get(i)[12], list.get(i)[13], list.get(i)[17], list.get(i)[10], Trans.toBigDecimal(list.get(i)[9]), list.get(i)[18],list.get(i)[19], list.get(i)[20], list.get(i)[23], Trans.toBigDecimal(list.get(i)[24]),Trans.toBigDecimal(list.get(i)[25]));
+					SourceThirdParty stp = new SourceThirdParty(Trans.tostring(list.get(i)[0]), Trans.TransToDate(list.get(i)[7]), list.get(i)[2], list.get(i)[3], Trans.toTimestamp(list.get(i)[4]), list.get(i)[1], list.get(i)[5], Trans.toBigDecimal(list.get(i)[6]));
 					if(isstp!=null){
+						if(list.get(i)[2].equals("配送成功")||list.get(i)[2].equals("配送失败")){
+							if(!isstp.getDeliveryState().equals(list.get(i)[2])){
+								NoUpdate nu = new NoUpdate();
+								nu.setCourierNumber(list.get(i)[0]);
+								nu.setNoUpdateName("delivery_state");
+								nu.setNoUpdateValue(list.get(i)[2]);
+								StaffUser u = (StaffUser) req.getSession().getAttribute("user");
+								nu.setStuNum(u.getStuNum());
+								noUpdateSer.add(nu);
+							}
+						}
 						SourceZm sz = new SourceZm(stp.getCourierNumber(), stp.getReturnDate(), stp.getProvince(),stp.getAddress(), stp.getShopNumber(),stp.getAddressee(),stp.getPhone(), stp.getGoods(), stp.getGoodsCost(), stp.getOrderNumber());
 						zmMapper.updateByPrimaryKeySelective(sz);
 						thirdPartyMapper.updateByPrimaryKeySelective(stp);
@@ -165,6 +182,16 @@ public class SourceTpSerImpl implements SourceTpSer{
 		return thirdPartyMapper.queryByNumber(accept);
 	}
 
+	public String updateState(String state) {
+	      if(state.equals("签收")){
+				return "配送成功";
+	      }else if(state.equals("收件")||state.equals("在途")||state.equals("派件")||state.equals("揽件")){
+	      		return "配送中";
+	      }else if(state.equals("疑难")){
+	      		return "配送异常";
+	      }
+		  return null;
+	}
 	//重新计算超时时间,true:改了，false：没改
 	public boolean reckon(SourceThirdParty tp) {
 		//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------

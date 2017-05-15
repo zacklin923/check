@@ -1,6 +1,7 @@
 package com.zs.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NoUpdateExample {
@@ -311,6 +312,136 @@ public class NoUpdateExample {
 
         public Criteria andNoUpdateValueNotBetween(String value1, String value2) {
             addCriterion("NO_UPDATE_VALUE not between", value1, value2, "noUpdateValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateIsNull() {
+            addCriterion("CREATE_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateIsNotNull() {
+            addCriterion("CREATE_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateEqualTo(Date value) {
+            addCriterion("CREATE_DATE =", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateNotEqualTo(Date value) {
+            addCriterion("CREATE_DATE <>", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateGreaterThan(Date value) {
+            addCriterion("CREATE_DATE >", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("CREATE_DATE >=", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateLessThan(Date value) {
+            addCriterion("CREATE_DATE <", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateLessThanOrEqualTo(Date value) {
+            addCriterion("CREATE_DATE <=", value, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateIn(List<Date> values) {
+            addCriterion("CREATE_DATE in", values, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateNotIn(List<Date> values) {
+            addCriterion("CREATE_DATE not in", values, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateBetween(Date value1, Date value2) {
+            addCriterion("CREATE_DATE between", value1, value2, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateDateNotBetween(Date value1, Date value2) {
+            addCriterion("CREATE_DATE not between", value1, value2, "createDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumIsNull() {
+            addCriterion("STU_NUM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumIsNotNull() {
+            addCriterion("STU_NUM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumEqualTo(String value) {
+            addCriterion("STU_NUM =", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumNotEqualTo(String value) {
+            addCriterion("STU_NUM <>", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumGreaterThan(String value) {
+            addCriterion("STU_NUM >", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumGreaterThanOrEqualTo(String value) {
+            addCriterion("STU_NUM >=", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumLessThan(String value) {
+            addCriterion("STU_NUM <", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumLessThanOrEqualTo(String value) {
+            addCriterion("STU_NUM <=", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumLike(String value) {
+            addCriterion("STU_NUM like", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumNotLike(String value) {
+            addCriterion("STU_NUM not like", value, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumIn(List<String> values) {
+            addCriterion("STU_NUM in", values, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumNotIn(List<String> values) {
+            addCriterion("STU_NUM not in", values, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumBetween(String value1, String value2) {
+            addCriterion("STU_NUM between", value1, value2, "stuNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andStuNumNotBetween(String value1, String value2) {
+            addCriterion("STU_NUM not between", value1, value2, "stuNum");
             return (Criteria) this;
         }
     }

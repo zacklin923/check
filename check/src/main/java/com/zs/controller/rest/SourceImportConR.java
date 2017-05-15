@@ -44,6 +44,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceImportSer.queryFenye(accept);
 			} catch (Exception e) {
+				e.printStackTrace();
 				return null;
 			}
 		}

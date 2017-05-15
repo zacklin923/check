@@ -317,6 +317,19 @@ public class SourceThirdParty extends SourceThirdPartyKey {
 		this.setCourierNumber(courierNumber);
 		this.setReturnDate(returnDate);
 	}
+	
+	
+
+	public SourceThirdParty(String courierNumber, Date returnDate, String deliveryState, String signatory,
+			Date signTime, String abnormalCause, String goods, BigDecimal goodsCost) {
+		super(courierNumber, returnDate);
+		this.deliveryState = deliveryState;
+		this.signatory = signatory;
+		this.signTime = signTime;
+		this.abnormalCause = abnormalCause;
+		this.goods = goods;
+		this.goodsCost = goodsCost;
+	}
 
 	public SourceThirdParty(String courierNumber, Date returnDate, String province, String address,
 			String deliveryState, String addressee, String abnormalCause, BigDecimal isTimeOut, String orderNumber,

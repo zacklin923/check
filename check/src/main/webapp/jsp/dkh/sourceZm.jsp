@@ -140,7 +140,7 @@ function upload(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="25" pageList="[25,40,50,100]" data-options="
+		pageSize="100" pageList="[100,500,1000]" data-options="
 			rowStyler: function(index,row){
 				if(row.noUpdate){
 					return 'background-color:red;color:#fff;';
@@ -196,8 +196,9 @@ function upload(){
 						return getDateByMs(new Date(row.returnDate),'/');
                           }
                       }">返回日期</th>
-			<th field="orderNumber" width="100" sortable="true">订单编号</th>
-			<th field="timeOut" width="100" sortable="true">超时时间</th>
+			<th field="orderNumber" width="160" sortable="true">订单编号</th>
+			<th field="timeOut" width="160" sortable="true">超时时间</th>
+			<th field="createTime" width="200" sortable="true">系统接收时间</th>
 		</tr>
 	</thead>
 </table>

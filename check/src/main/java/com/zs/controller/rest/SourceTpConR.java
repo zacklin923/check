@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zs.controller.rest.BaseRestController.Code;
+import com.zs.entity.NoUpdate;
 import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceThirdPartyKey;
 import com.zs.entity.SourceZm;
@@ -24,6 +25,7 @@ import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
+import com.zs.service.NoUpdateSer;
 import com.zs.service.SourceTpSer;
 import com.zs.service.SourceZmSer;
 import com.zs.tools.ColumnName;
@@ -38,6 +40,8 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 	private SourceTpSer sourceTpSer;
 	@Resource
 	private SourceZmSer sourceZmSer;
+	@Resource
+	private NoUpdateSer noUpdateSer;
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
@@ -74,11 +78,19 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 				obj.setCourierNumber(id[0]);
 				obj.setReturnDate(new Date(Long.valueOf(id[1])));
 				try {
-					//-------判断下配送状态到底改了没-------------
-					SourceThirdParty party=sourceTpSer.get(new SourceThirdPartyKey(id[0], new Date(Long.valueOf(id[1]))));
-					if ((party.getDeliveryState()!=null && obj.getDeliveryState()!=null && party.getDeliveryState().equals(obj.getDeliveryState()))
-							|| (party.getDeliveryState()==null && obj.getDeliveryState()==null)) {
-						obj.setDeliveryState(null);
+					//-------判断配送状态是否修改为系统不能修改的两个字段
+					if(obj.getDeliveryState().equals("配送成功")||obj.getDeliveryState().equals("配送失败")){
+						SourceThirdPartyKey stpk = new SourceThirdPartyKey(obj.getCourierNumber(), obj.getReturnDate());
+						SourceThirdParty stp = sourceTpSer.get(stpk);
+						if(!stp.getDeliveryState().equals(obj.getDeliveryState())){
+							NoUpdate nu = new NoUpdate();
+							nu.setCourierNumber(obj.getCourierNumber());
+							nu.setNoUpdateName("delivery_state");
+							nu.setNoUpdateValue(obj.getDeliveryState());
+							StaffUser u = (StaffUser) req.getSession().getAttribute("user");
+							nu.setStuNum(u.getStuNum());
+							noUpdateSer.add(nu);
+						}
 					}
 					//---------
 					SourceZm sz = new SourceZm(obj.getCourierNumber(), obj.getReturnDate(), obj.getProvince(),obj.getAddress(), obj.getShopNumber(),obj.getAddressee(),obj.getPhone(), obj.getGoods(), obj.getGoodsCost(), obj.getOrderNumber());
@@ -139,7 +151,7 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 		if (!file.isEmpty()) {
 			try {
 				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
-				s = s + sourceTpSer.importData(list);
+				s = s + sourceTpSer.importData(list,req);
 				if(s.equals("")){
 					req.getSession().setAttribute("isLoading", false);
 					return new Result<String>(SUCCESS,  Code.SUCCESS, s);

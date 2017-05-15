@@ -166,7 +166,7 @@ function upload(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="25" pageList="[25,40,50,100,500,1000]" data-options="
+		pageSize="100" pageList="[100,500,1000]" data-options="
 			onDblClickRow:function(rowIndex, rowData){
 				dblclick(rowIndex, rowData);
 			},
@@ -186,7 +186,7 @@ function upload(){
 			<th field="ctmBarCode" width="80" sortable="true">客户条码</th>
 			<th field="ctmName" width="80" sortable="true">客户名称</th>
 			<th field="courierNumber" width="150" sortable="true">快递单号</th>
-			<th field="sendTime" width="200" sortable="true">发货日期</th>
+			<th field="sendTime" width="160" sortable="true">发货日期</th>
 			<th field="isTimeOut" width="80" sortable="true" data-options="
 				formatter:function(value,row,index){
                       if(value=='0'){
@@ -201,12 +201,12 @@ function upload(){
 					}
                }">是否超时</th>
 			<th field="abnormalCause" width="100" sortable="true">异常原因</th>
-			<th field="province" width="100" sortable="true">省份</th>
-			<th field="address" width="200" sortable="true">地址</th>
 			<th field="deliveryState" width="100" sortable="true">配送状态</th>
-			<th field="signatory" width="80" sortable="true">签收人</th>
 			<th field="signTime" width="200" sortable="true">签收时间</th>
+			<th field="signatory" width="80" sortable="true">签收人</th>
             <th field="signPort" width="150" sortable="true">签收站点</th>
+			<th field="province" width="80" sortable="true">省份</th>
+			<th field="address" width="200" sortable="true">地址</th>
 			<th field="addressee" width="80" sortable="true">收件人</th>
 			<th field="orderNumber" width="100" sortable="true">订单编号</th>
 			<th field="shopNumber" width="150" sortable="true">客户店铺</th>
@@ -237,6 +237,7 @@ function upload(){
 							return getDateByMs(new Date(row.returnDate),'/');
                       }
                }">返回日期</th>
+            <th field="createTime" width="200" sortable="true">系统接收时间</th>
 		</tr>
 	</thead>
 </table>
@@ -264,11 +265,11 @@ function upload(){
 	    		配送状态：
 	    		<select name ="str2" style="width: 170px;">
 	    			<option value="">--请选择配送状态--</option>
-	    			<option value="签收">签收</option>
-	    			<option value="疑难">疑难</option>
-	    			<option value="在途">在途</option>
-	    			<option value="收件">收件</option>
-	    			<option value="派件">派件</option>
+	    			<option value="配送成功">配送成功</option>
+	    			<option value="配送失败">配送失败</option>
+	    			<option value="配送异常">配送异常</option>
+	    			<option value="配送中">配送中</option>
+	    			<option value="退回件">退回件</option>
 	    		</select>
     		</div>
     		<div>
@@ -334,11 +335,11 @@ function upload(){
 		<div class="fitem">
 			<label>配送状态:</label>
 			<select name="deliveryState">
-				<option value="签收">签收</option>
-				<option value="疑难">疑难</option>
-				<option value="在途">在途</option>
-				<option value="收件">收件</option>
-				<option value="派件">派件</option>
+				<option value="配送成功">配送成功</option>
+    			<option value="配送失败">配送失败</option>
+    			<option value="配送异常">配送异常</option>
+    			<option value="配送中">配送中</option>
+    			<option value="退回件">退回件</option>
 			</select>
 		</div>
 		<div class="fitem">
@@ -377,7 +378,7 @@ function upload(){
 <div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
 		closed="true" modal="true" title="数据源导入">
 		<div style="height:25px;line-height:25px;">数据导入模板
-			<a href="<%=path%>/file/哲盟返回第三方数据模板.xls" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
+			<a href="<%=path%>/file/哲盟返回第三方数据模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
 		</div></br></br></br>
 		<form id="fmfile"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>

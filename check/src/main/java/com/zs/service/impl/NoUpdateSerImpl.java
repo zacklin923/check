@@ -22,7 +22,7 @@ public class NoUpdateSerImpl implements NoUpdateSer{
 	}
 
 	public Integer add(NoUpdate obj) {
-		return null;
+		return noUpdateMapper.insertSelective(obj);
 	}
 
 	public Integer update(NoUpdate obj) {
