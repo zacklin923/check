@@ -152,7 +152,7 @@ public class ReceiveFromZmConR {
 							sourceZmSer.update(zm);
 							rows++;
 						} catch (Exception e2) {
-							e.printStackTrace();
+							e2.printStackTrace();
 							log.error("【哲盟返回接口】错误：该条数据既无法插入也无法修改："+zm);
 							failList.add(zm.getCourierNumber());
 						}
@@ -256,7 +256,7 @@ public class ReceiveFromZmConR {
 							sourceTpSer.update(tp);
 							rows++;
 						} catch (Exception e2) {
-							e.printStackTrace();
+							e2.printStackTrace();
 							log.error("【哲盟返回第三方接口】错误：该条数据既无法插入也无法修改："+tp);
 							failList.add(tp.getCourierNumber());
 						}
