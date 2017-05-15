@@ -200,8 +200,8 @@ public class SourceTpSerImpl implements SourceTpSer{
 		if (zm!=null 
 				&& zm.getTimeOut()!=null 
 				&& tp.getDeliveryState()!=null 
-				&& !tp.getDeliveryState().equals("签收")
-				&& !tp.getDeliveryState().equals("疑难")) {//剩余三种状态时才判断
+				&& !tp.getDeliveryState().equals("配送成功")
+				&& !tp.getDeliveryState().equals("配送异常")) {//剩余三种状态时才判断
 			if (new Date().after(zm.getTimeOut())) {//现在>超时时间  ，就代表超期
 				tp.setIsTimeOut(new BigDecimal(1));
 			}else {

@@ -152,7 +152,7 @@ public class ReceiveFromZmConR {
 							sourceZmSer.update(zm);
 							rows++;
 						} catch (Exception e2) {
-							e.printStackTrace();
+							e2.printStackTrace();
 							log.error("【哲盟返回接口】错误：该条数据既无法插入也无法修改："+zm);
 							failList.add(zm.getCourierNumber());
 						}
@@ -184,6 +184,7 @@ public class ReceiveFromZmConR {
 		Date date1=new Date();
 		int tols=-1;//统计接收到的最大数据
 		int rows=0;//统计执行的条数
+		int emptys=0;//除了单号其他为空的数据
 		boolean isError=false;//是否错误
 		ArrayList<String> failList=new ArrayList<String>();//接收失败单号的容器
 		if (data!=null && key!=null && key.equals("sz_zm_2017-4-26")) {
@@ -197,6 +198,12 @@ public class ReceiveFromZmConR {
 					if (tp.getSignTime()!=null 
 							&& (tp.getSignTime().getTime()==new Long("-2209017600000") || tp.getSignTime().getTime()==new Long("-62135798400000")) ) {
 						tp.setSignTime(null);
+					}
+					//------除了单号+时间其余全部为空的数据处理-----------
+					tp.trim();
+					if (tp.isEmptyFromZm()) {
+						emptys++;
+						continue;
 					}
 					try {
 						//--------装填其他信息-----------
@@ -256,7 +263,7 @@ public class ReceiveFromZmConR {
 							sourceTpSer.update(tp);
 							rows++;
 						} catch (Exception e2) {
-							e.printStackTrace();
+							e2.printStackTrace();
 							log.error("【哲盟返回第三方接口】错误：该条数据既无法插入也无法修改："+tp);
 							failList.add(tp.getCourierNumber());
 						}
@@ -269,7 +276,7 @@ public class ReceiveFromZmConR {
 			}
 		}
 		Date date2=new Date();
-		log.info("【哲盟返回第三方接口】本次共接收["+tols+"]条数据，成功保存["+rows+"]条数据,共耗时["+(date2.getTime()-date1.getTime())+"]ms");
+		log.info("【哲盟返回第三方接口】本次共接收["+tols+"]条数据，成功保存["+rows+"]条数据,除了单号其余为空数据有["+emptys+"]条(不存),共耗时["+(date2.getTime()-date1.getTime())+"]ms");
 		if (failList.size()>0) {
 			return new ResultFromSendToZM(StringUtils.join(failList.toArray(new String[failList.size()]), ","),"fail");
 		}else{

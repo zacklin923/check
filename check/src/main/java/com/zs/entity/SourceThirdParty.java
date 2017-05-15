@@ -363,4 +363,37 @@ public class SourceThirdParty extends SourceThirdPartyKey {
 				+ ", getCourierNumber()=" + getCourierNumber() + ", getReturnDate()=" + getReturnDate() + "]";
 	}
     
+	//哲盟返回字段字符串去空格，并且将空串转成空
+	public void trim() {
+		if (getCourierNumber()!=null) {
+			setCourierNumber(getCourierNumber().trim());
+			if (getCourierNumber().equals("")) {
+				setCourierNumber(null);
+			}
+		}
+		if (getDeliveryState()!=null) {
+			setDeliveryState(getDeliveryState().trim());
+			if (getDeliveryState().equals("")) {
+				setDeliveryState(null);
+			}
+		}
+		if (getSignPort()!=null) {
+			setSignPort(getSignPort().trim());
+			if (getSignPort().equals("")) {
+				setSignPort(null);
+			}
+		}
+	}
+	
+	//判断哲盟返回字段中是否除了主键外，其余字段为空
+	public boolean isEmptyFromZm() {
+		if (deliveryState==null
+				&& signTime==null
+				&& signPort==null) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 }
