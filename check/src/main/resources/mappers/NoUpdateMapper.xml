@@ -5,6 +5,8 @@
     <id column="COURIER_NUMBER" property="courierNumber" jdbcType="VARCHAR" />
     <id column="NO_UPDATE_NAME" property="noUpdateName" jdbcType="VARCHAR" />
     <result column="NO_UPDATE_VALUE" property="noUpdateValue" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="STU_NUM" property="stuNum" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    COURIER_NUMBER, NO_UPDATE_NAME, NO_UPDATE_VALUE
+    COURIER_NUMBER, NO_UPDATE_NAME, NO_UPDATE_VALUE, CREATE_DATE, STU_NUM
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.NoUpdateExample" >
     select
@@ -101,10 +103,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zs.entity.NoUpdate" >
-    insert into NO_UPDATE (COURIER_NUMBER, NO_UPDATE_NAME, NO_UPDATE_VALUE
-      )
-    values (#{courierNumber,jdbcType=VARCHAR}, #{noUpdateName,jdbcType=VARCHAR}, #{noUpdateValue,jdbcType=VARCHAR}
-      )
+    insert into NO_UPDATE (COURIER_NUMBER, NO_UPDATE_NAME, NO_UPDATE_VALUE, 
+      CREATE_DATE, STU_NUM)
+    values (#{courierNumber,jdbcType=VARCHAR}, #{noUpdateName,jdbcType=VARCHAR}, #{noUpdateValue,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{stuNum,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.NoUpdate" >
     insert into NO_UPDATE
@@ -118,6 +120,12 @@
       <if test="noUpdateValue != null" >
         NO_UPDATE_VALUE,
       </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="stuNum != null" >
+        STU_NUM,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courierNumber != null" >
@@ -128,6 +136,12 @@
       </if>
       <if test="noUpdateValue != null" >
         #{noUpdateValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stuNum != null" >
+        #{stuNum,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -149,6 +163,12 @@
       <if test="record.noUpdateValue != null" >
         NO_UPDATE_VALUE = #{record.noUpdateValue,jdbcType=VARCHAR},
       </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stuNum != null" >
+        STU_NUM = #{record.stuNum,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -158,7 +178,9 @@
     update NO_UPDATE
     set COURIER_NUMBER = #{record.courierNumber,jdbcType=VARCHAR},
       NO_UPDATE_NAME = #{record.noUpdateName,jdbcType=VARCHAR},
-      NO_UPDATE_VALUE = #{record.noUpdateValue,jdbcType=VARCHAR}
+      NO_UPDATE_VALUE = #{record.noUpdateValue,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      STU_NUM = #{record.stuNum,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -169,13 +191,21 @@
       <if test="noUpdateValue != null" >
         NO_UPDATE_VALUE = #{noUpdateValue,jdbcType=VARCHAR},
       </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stuNum != null" >
+        STU_NUM = #{stuNum,jdbcType=VARCHAR},
+      </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
       and NO_UPDATE_NAME = #{noUpdateName,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zs.entity.NoUpdate" >
     update NO_UPDATE
-    set NO_UPDATE_VALUE = #{noUpdateValue,jdbcType=VARCHAR}
+    set NO_UPDATE_VALUE = #{noUpdateValue,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      STU_NUM = #{stuNum,jdbcType=VARCHAR}
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
       and NO_UPDATE_NAME = #{noUpdateName,jdbcType=VARCHAR}
   </update>

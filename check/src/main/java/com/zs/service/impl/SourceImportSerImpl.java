@@ -156,7 +156,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 		int succrows=0;
 		//----------------
 		Calendar calendar=Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.HOUR_OF_DAY, -24);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
@@ -306,5 +306,4 @@ public class SourceImportSerImpl implements SourceImportSer{
 		calendar.set(Calendar.MILLISECOND, 0);
 		return importMapper.deleteAll(calendar.getTime(),stuNum);
 	}
-	
 }

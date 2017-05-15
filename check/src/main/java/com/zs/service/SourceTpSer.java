@@ -9,7 +9,7 @@ import com.zs.entity.SourceThirdPartyKey;
 import com.zs.entity.other.EasyUIAccept;
 
 public interface SourceTpSer extends BaseService<SourceThirdParty, SourceThirdPartyKey>{
-	public String importData(List<String[]> list);
+	public String importData(List<String[]> list ,HttpServletRequest req);
 
 	public String ExportData(EasyUIAccept accept,HttpServletRequest req);
 	

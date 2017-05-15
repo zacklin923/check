@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.annotation.Resource;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
@@ -26,9 +28,13 @@ public class ServiceTest extends AbstractJUnit4SpringContextTests{
 		System.out.println(zm);
 	}
 	
+	@Test
 	public void testDate() throws ParseException {
 		Date date=new SimpleDateFormat("yy/MM/dd HH:mm:ss").parse("1900/01/01 00:00:00");
 		System.out.println(date.getTime());
+		
+		Date date2=new SimpleDateFormat("yy/MM/dd HH:mm:ss").parse("0001/01/01 00:00:00");
+		System.out.println(date2.getTime());
 	}
 	
 	

@@ -194,7 +194,8 @@ public class ReceiveFromZmConR {
 					SourceThirdParty tp=list.get(i);
 					tp.setReturnDate(Trans.timeToDate(new Date()));
 					//------------签收时间的处理------------
-					if (tp.getSignTime()!=null && tp.getSignTime().getTime()==new Long("-2209017600000")) {
+					if (tp.getSignTime()!=null 
+							&& (tp.getSignTime().getTime()==new Long("-2209017600000") || tp.getSignTime().getTime()==new Long("-62135798400000")) ) {
 						tp.setSignTime(null);
 					}
 					try {

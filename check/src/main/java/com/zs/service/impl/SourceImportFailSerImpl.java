@@ -46,13 +46,10 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 				if(sie.getStuNum()!=null && !sie.getStuNum().equals("")){
 					try {
 						StaffUser suer = userMapper.selectByPrimaryKey(sie.getStuNum());
-						System.out.println(suer.toString());
 						sie.setStuNum(suer.getStuName());
-						System.out.println("------------->>"+sie.getStuNum());
 					} catch (Exception e) {
 						sie.setStuNum("");
 					}
-					
 				}else{
 					sie.setStuNum("");
 				}

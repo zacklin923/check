@@ -196,8 +196,9 @@ function upload(){
 						return getDateByMs(new Date(row.returnDate),'/');
                           }
                       }">返回日期</th>
-			<th field="orderNumber" width="100" sortable="true">订单编号</th>
-			<th field="timeOut" width="100" sortable="true">超时时间</th>
+			<th field="orderNumber" width="160" sortable="true">订单编号</th>
+			<th field="timeOut" width="160" sortable="true">超时时间</th>
+			<th field="createTime" width="200" sortable="true">系统接收时间</th>
 		</tr>
 	</thead>
 </table>
