@@ -257,7 +257,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 		//--------得到今天的15天前的日期-------------------
 		Calendar calendar=Calendar.getInstance();
 		calendar.setTime(ManagerId.getNow());
-		calendar.add(Calendar.DATE, -15);
+		calendar.add(Calendar.DATE, -30);
 		criteria.andReturnDateGreaterThan(calendar.getTime());
 		List<SourceZm> zms=zmMapper.selectByExample(example);
 		for (int i = 0; i < zms.size(); i++) {
