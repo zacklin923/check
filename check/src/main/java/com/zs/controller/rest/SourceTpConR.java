@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.NoUpdate;
+import com.zs.entity.NoUpdateKey;
 import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceThirdPartyKey;
 import com.zs.entity.SourceZm;
@@ -90,6 +91,12 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 							StaffUser u = (StaffUser) req.getSession().getAttribute("user");
 							nu.setStuNum(u.getStuNum());
 							noUpdateSer.add(nu);
+						}
+					}else{
+						try {
+							noUpdateSer.delete(new NoUpdateKey(obj.getCourierNumber(),"delivery_state"));
+						} catch (Exception e) {
+							
 						}
 					}
 					//---------

@@ -160,7 +160,7 @@ public class ReceiveFromZmConR {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.error("【哲盟返回接口】接收哲盟返回数据出错，原因不明。");
+				log.error("【哲盟返回接口】接收哲盟返回数据出错，原因不明。"+data);
 				isError=true;
 			}
 		}
@@ -271,7 +271,7 @@ public class ReceiveFromZmConR {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.error("【哲盟返回第三方接口】接收哲盟返回数据出错，原因不明。");
+				log.error("【哲盟返回第三方接口】接收哲盟返回数据出错，原因不明。"+data);
 				isError=true;
 			}
 		}

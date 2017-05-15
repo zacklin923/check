@@ -31,8 +31,7 @@ public class NoUpdateSerImpl implements NoUpdateSer{
 	}
 
 	public Integer delete(NoUpdateKey id) {
-		// TODO Auto-generated method stub
-		return null;
+		return noUpdateMapper.deleteByPrimaryKey(id);
 	}
 
 	public NoUpdate get(NoUpdateKey id) {

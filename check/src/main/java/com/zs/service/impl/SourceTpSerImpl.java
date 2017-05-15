@@ -13,6 +13,7 @@ import com.zs.dao.NoUpdateMapper;
 import com.zs.dao.SourceThirdPartyMapper;
 import com.zs.dao.SourceZmMapper;
 import com.zs.entity.NoUpdate;
+import com.zs.entity.NoUpdateKey;
 import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceThirdPartyKey;
 import com.zs.entity.SourceZm;
@@ -95,6 +96,12 @@ public class SourceTpSerImpl implements SourceTpSer{
 								StaffUser u = (StaffUser) req.getSession().getAttribute("user");
 								nu.setStuNum(u.getStuNum());
 								noUpdateSer.add(nu);
+							}
+						}else{
+							try {
+								noUpdateSer.delete(new NoUpdateKey(list.get(i)[0],"delivery_state"));
+							} catch (Exception e) {
+								
 							}
 						}
 						SourceZm sz = new SourceZm(stp.getCourierNumber(), stp.getReturnDate(), stp.getProvince(),stp.getAddress(), stp.getShopNumber(),stp.getAddressee(),stp.getPhone(), stp.getGoods(), stp.getGoodsCost(), stp.getOrderNumber());
