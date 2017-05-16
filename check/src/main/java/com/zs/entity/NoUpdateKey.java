@@ -20,4 +20,16 @@ public class NoUpdateKey {
     public void setNoUpdateName(String noUpdateName) {
         this.noUpdateName = noUpdateName == null ? null : noUpdateName.trim();
     }
+
+	public NoUpdateKey(String courierNumber, String noUpdateName) {
+		super();
+		this.courierNumber = courierNumber;
+		this.noUpdateName = noUpdateName;
+	}
+
+	public NoUpdateKey() {
+		super();
+	}
+    
+    
 }

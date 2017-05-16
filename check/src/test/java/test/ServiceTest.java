@@ -4,6 +4,8 @@ package test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -11,6 +13,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.zs.entity.SourceZm;
 import com.zs.service.SourceZmSer;
 
@@ -28,7 +33,6 @@ public class ServiceTest extends AbstractJUnit4SpringContextTests{
 		System.out.println(zm);
 	}
 	
-	@Test
 	public void testDate() throws ParseException {
 		Date date=new SimpleDateFormat("yy/MM/dd HH:mm:ss").parse("1900/01/01 00:00:00");
 		System.out.println(date.getTime());
@@ -37,5 +41,10 @@ public class ServiceTest extends AbstractJUnit4SpringContextTests{
 		System.out.println(date2.getTime());
 	}
 	
-	
+	@Test
+	public void testjson(){
+		String str = "{\"largeArea\":\"中部大区\",\"sliceArea\":\"龙华区\",\"fenbu\":\"东环分部\",\"fbdArea\":\"广东深圳公司市场开发部分部\",\"ctmBarCode\":\"518941\",\"courierNumber\":\"3844850000245\",\"sendTime\":null,\"weight\":0}";
+		SourceZm ss = new Gson().fromJson(str, SourceZm.class);
+		System.out.println(ss.toString());
+	}
 }
