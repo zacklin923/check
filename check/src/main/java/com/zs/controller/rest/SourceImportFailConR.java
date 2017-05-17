@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.SourceImportFailed;
+import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
@@ -81,7 +82,8 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 	@RequestMapping(value="",method=RequestMethod.DELETE)
 	public Result<Integer> doDeleteAll( HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.deleteAll());
+			StaffUser user=(StaffUser) req.getSession().getAttribute("user");
+			return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.deleteAll(user.getStuNum()));
 		} catch (Exception e) {
 			return new Result<Integer>(ERROR, Code.ERROR, -1);
 		}

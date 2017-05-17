@@ -113,8 +113,8 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 		return path;
 	}
 
-	public int deleteAll() {
-		return sourceImportFailedMapper.deleteAll();
+	public int deleteAll(String stuNum) {
+		return sourceImportFailedMapper.deleteAll(stuNum);
 	}
 	
 }
