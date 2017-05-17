@@ -190,19 +190,23 @@ public class SourceTpSerImpl implements SourceTpSer{
 	}
 
 	public String updateState(String state) {
-	    
-		if(state.equals("配送成功")||state.equals("配送中")||state.equals("配送异常")){
-			return state;
-		}else{
-			  if(state.equals("签收")){
-					return "配送成功";
-		      }else if(state.equals("收件")||state.equals("在途")||state.equals("派件")||state.equals("揽件")){
-		      		return "配送中";
-		      }else if(state.equals("疑难")){
-		      		return "配送异常";
-		      }
+		if(state==null){
+			return null;
 		}
-		  return null;
+		if(state.equals("配送成功")
+				||state.equals("配送中")
+				||state.equals("配送异常")
+				||state.equals("配送失败")){
+			return state;
+		}
+		if(state.equals("签收")){
+			return "配送成功";
+		}else if(state.equals("收件")||state.equals("在途")||state.equals("派件")||state.equals("揽件")){
+			return "配送中";
+		}else if(state.equals("疑难")){
+			return "配送异常";
+		}
+		return null;
 	}
 	//重新计算超时时间,true:改了，false：没改
 	public boolean reckon(SourceThirdParty tp) {
