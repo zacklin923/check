@@ -162,7 +162,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 	/**张顺，2017-4-28 
 	 * 推送数据到哲盟,当用户导入时就执行
 	 */
-	public String sendToZm(String userNum) {
+	public synchronized String sendToZm(String userNum) {
 		Date d1=new Date();
 		int succrows=0;
 		//----------------

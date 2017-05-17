@@ -9,5 +9,5 @@ public interface SourceImportFailSer extends BaseService<SourceImportFailed,Stri
 
 	public String ExportData(EasyUIAccept accept,HttpServletRequest req);
 	
-	public int deleteAll();
+	public int deleteAll(String stuNum);
 }

@@ -36,5 +36,5 @@ public interface SourceImportFailedMapper {
 	
     int getCount(EasyUIAccept accept);
     
-    int deleteAll();
+    int deleteAll(@Param("stuNum") String stuNum);
 }

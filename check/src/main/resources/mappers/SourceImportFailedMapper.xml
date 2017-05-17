@@ -267,5 +267,10 @@
   </select>
   <delete id="deleteAll">
     delete from SOURCE_IMPORT_FAILED
+    <where>
+    	<if test="stuNum!=null">
+    		and STU_NUM = #{stuNum}
+    	</if>
+    </where>
   </delete>
 </mapper>
