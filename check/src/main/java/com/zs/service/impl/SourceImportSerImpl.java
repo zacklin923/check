@@ -191,21 +191,21 @@ public class SourceImportSerImpl implements SourceImportSer{
 			if (result!=null) {
 				ResultFromSendToZM resultFromSendToZM=gson.fromJson(result, ResultFromSendToZM.class);
 				if(resultFromSendToZM.getResult().equals("fail")){
-					for (int i = 0; i < list.size(); i++) {
-						if ((","+resultFromSendToZM.getFailRows()+",").contains(","+list.get(i).getCourierNumber()+",")) {//失败的
-							list2.add(list.get(i));
+					for (int i = 0; i < listtmp.size(); i++) {
+						if ((","+resultFromSendToZM.getFailRows()+",").contains(","+listtmp.get(i).getCourierNumber()+",")) {//失败的
+							list2.add(listtmp.get(i));
 						}else {
 							SourceImport im2=new SourceImport();
-							im2.setCourierNumber(list.get(i).getCourierNumber());
+							im2.setCourierNumber(listtmp.get(i).getCourierNumber());
 							im2.setIsPushed(new BigDecimal(1));
 							importMapper.updateByPrimaryKeySelective(im2);
 							succrows++;
 						}
 					}
 				}else if(resultFromSendToZM.getResult().equals("success")){
-					for (int i = 0; i < list.size(); i++) {
+					for (int i = 0; i < listtmp.size(); i++) {
 						SourceImport im2=new SourceImport();
-						im2.setCourierNumber(list.get(i).getCourierNumber());
+						im2.setCourierNumber(listtmp.get(i).getCourierNumber());
 						im2.setIsPushed(new BigDecimal(1));
 						importMapper.updateByPrimaryKeySelective(im2);
 						succrows++;

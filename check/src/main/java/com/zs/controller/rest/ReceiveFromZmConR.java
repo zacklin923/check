@@ -226,10 +226,10 @@ public class ReceiveFromZmConR {
 							tp.setCourierCompany(zm.getCourierCompany());
 							tp.setGoods(zm.getGoods());
 							tp.setGoodsCost(zm.getGoodsCost());
-							//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
-							sourceTpSer.reckon(tp);
 							//处理配送状态
 							tp.setDeliveryState(sourceTpSer.updateState(tp.getDeliveryState()));
+							//----------开始计算是否超时---计算完之后，补上以下数据：[是否超时]----------
+							sourceTpSer.reckon(tp);
 						}
 						sourceTpSer.add(tp);
 						rows++;
