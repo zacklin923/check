@@ -172,7 +172,7 @@ function upload(){
 			},
 			rowStyler: function(index,row){
 				if(row.noUpdate){
-					return 'background-color:red;color:#fff;';
+					return 'background-color:#FFCACF;color:#000;';
 				}
 			}
 		">
