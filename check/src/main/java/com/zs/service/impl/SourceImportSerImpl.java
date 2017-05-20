@@ -111,31 +111,41 @@ public class SourceImportSerImpl implements SourceImportSer{
 				importFailMapper.insertSelective(sif);
 				inull=1;
 			}else{
-				SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
-				if(skey==null){
-					try {
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-						String oneCode=list.get(i)[12].length()>=3?list.get(i)[12].substring(0,3):null;
-						SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],sdf.parse(list.get(i)[0]),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),new BigDecimal("0"),stuNum,oneCode,list.get(i)[13]);
-						importMapper.insertSelective(s);
-					} catch (Exception e) {
-						e.printStackTrace();
-						SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8].replace(",", ""),list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
-						SourceImportFailed sif = new SourceImportFailed();
-						sif.setStuNum(stuNum);
-						sif.setFailInfo(gson.toJson(sie));
-						sif.setFailType("数据类型转换错误");
-						importFailMapper.insertSelective(sif);
-						inull=4;
+				if(Trans.tostring(list.get(i)[3]).matches("[0-9]*")){
+					SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
+					if(skey==null){
+						try {
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+							String oneCode=list.get(i)[12].length()>=3?list.get(i)[12].substring(0,3):null;
+							SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],sdf.parse(list.get(i)[0]),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),new BigDecimal("0"),stuNum,oneCode,list.get(i)[13]);
+							importMapper.insertSelective(s);
+						} catch (Exception e) {
+							e.printStackTrace();
+							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8].replace(",", ""),list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
+							SourceImportFailed sif = new SourceImportFailed();
+							sif.setStuNum(stuNum);
+							sif.setFailInfo(gson.toJson(sie));
+							sif.setFailType("数据类型转换错误");
+							importFailMapper.insertSelective(sif);
+							inull=4;
+						}
+					}else{
+						SourceImportErr sier = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
+						SourceImportFailed sifk = new SourceImportFailed();
+						sifk.setStuNum(stuNum);
+						sifk.setFailInfo(gson.toJson(sier));
+						sifk.setFailType("重复快递单号");
+						importFailMapper.insertSelective(sifk);
+						knull=2;
 					}
 				}else{
 					SourceImportErr sier = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
 					SourceImportFailed sifk = new SourceImportFailed();
 					sifk.setStuNum(stuNum);
 					sifk.setFailInfo(gson.toJson(sier));
-					sifk.setFailType("重复快递单号");
+					sifk.setFailType("快递单号不符合规范");
 					importFailMapper.insertSelective(sifk);
-					knull=2;
+					knull=8;
 				}
 			}
 		}
@@ -155,6 +165,10 @@ public class SourceImportSerImpl implements SourceImportSer{
 			str="数据类型转换错误，必填项有为空的数据，请到导入数据错误表中查看";
 		}else if(count==7){
 			str="数据类型转换错误，必填项有为空的数据，有重复快递单号，请到导入数据错误表中查看";
+		}else if(count==8){
+			str="快递单号不符合规范，请到导入数据错误表中查看";
+		}else if(count==9){
+			str="快递单号不符合规范，且存在必填项为空数据，请到导入数据错误表中查看";
 		}
 		return str;
 	}
