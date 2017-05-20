@@ -25,7 +25,7 @@ public class ManagerId {
 		if (user.getStuRole().equals(DEVELOPER) || user.getStuRole().equals(MANAGER_1) || user.getStuRole().equals(MANAGER_2)) {
 			return null;
 		}
-		return user.getOwnBarCode();
+		return Trans.handleCtmBarCode(user.getOwnBarCode());
 	}
 	
 	public static String isSeeAll2(HttpServletRequest req) {

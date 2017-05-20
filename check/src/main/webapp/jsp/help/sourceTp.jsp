@@ -36,7 +36,7 @@
 	注意事项：
 	<ol type="1" start="1">
 		<li>如果用户修改了配送状态，那么这个快递单号的配送状态将不会被哲盟返回的数据更新掉。</li>
-		<li><font style="background-color: red;color: white;">红色背景代表用户已经修改过配送状态。</font></li>
+		<li><font style="background-color: #FFCACF;color: #000;">粉底黑字代表用户已经修改过配送状态。</font></li>
 		<li>双击可以打开历史记录。</li>
 	</ol>
 	

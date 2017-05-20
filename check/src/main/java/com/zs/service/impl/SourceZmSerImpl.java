@@ -117,7 +117,17 @@ public class SourceZmSerImpl implements SourceZmSer{
 				try {
 					SourceZmKey szk = new SourceZmKey(Trans.tostring(list.get(i)[6]), Trans.TransToDate(list.get(i)[19]));
 					SourceZm iszs = zmMapper.selectByPrimaryKey(szk);
-					SourceZm sz = new SourceZm(list.get(i)[6].replace(",",""),Trans.TransToDate(list.get(i)[19]),list.get(i)[8],list.get(i)[9],list.get(i)[10], list.get(i)[11], list.get(i)[12], list.get(i)[16], Trans.toBigDecimal(list.get(i)[15]),list.get(i)[20]);
+					SourceZm sz = new SourceZm(
+							Trans.tostring(list.get(i)[6]),
+							Trans.TransToDate(list.get(i)[19]),
+							list.get(i)[8],
+							list.get(i)[9],
+							Trans.tostring(list.get(i)[10]),
+							list.get(i)[11],
+							Trans.tostring(list.get(i)[12]),
+							list.get(i)[16],
+							Trans.toBigDecimal(list.get(i)[15]),
+							Trans.tostring(list.get(i)[20]));
 					if(iszs!=null){
 						zmMapper.updateByPrimaryKeySelective(sz);
 					}else{
