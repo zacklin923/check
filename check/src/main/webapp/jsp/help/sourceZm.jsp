@@ -29,7 +29,7 @@
 	注意事项：
 	<ol type="1" start="1">
 		<li>如果用户修改了省份，那么这个快递单号的省份将不会被哲盟返回的数据更新掉。</li>
-		<li><font style="background-color: red;color: white;">红色背景代表用户已经修改过省份。</font></li>
+		<li><font style="background-color: #FFCACF;color: #000;">粉底黑字代表用户已经修改过省份。</font></li>
 		<li>条件查询里的按日期查询，开始时间为你要查的日期，结束时间为你要查的日期的后一天，比如我要查15号，那么开始为15，结束为16，假如我要查15到19号的，那么开始为15，结束为20。</li>
 	</ol>
 </body>

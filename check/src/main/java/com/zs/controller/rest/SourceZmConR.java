@@ -46,6 +46,7 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceZmSer.queryFenye(accept);
 			} catch (Exception e) {
+				e.printStackTrace();
 				return null;
 			}
 		}

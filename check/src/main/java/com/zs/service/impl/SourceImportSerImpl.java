@@ -114,9 +114,25 @@ public class SourceImportSerImpl implements SourceImportSer{
 				SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
 				if(skey==null){
 					try {
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						String oneCode=list.get(i)[12].length()>=3?list.get(i)[12].substring(0,3):null;
-						SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],sdf.parse(list.get(i)[0]),list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],Trans.toBigDecimal(list.get(i)[10]),list.get(i)[5],"大客户",new Timestamp(new Date().getTime()),new BigDecimal("0"),stuNum,oneCode,list.get(i)[13]);
+						SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),
+								list.get(i)[2].trim().replace(",", ""),
+								list.get(i)[1],
+								list.get(i)[8].trim().replace(",", ""),
+								Trans.TransToDate(list.get(i)[0]),
+								list.get(i)[4],
+								list.get(i)[6],
+								list.get(i)[7],
+								list.get(i)[9],
+								list.get(i)[11],
+								Trans.toBigDecimal(list.get(i)[10]),
+								list.get(i)[5].trim().replace(",", ""),
+								"大客户",
+								new Timestamp(new Date().getTime()),
+								new BigDecimal("0"),
+								stuNum,
+								oneCode,
+								list.get(i)[13]);
 						importMapper.insertSelective(s);
 					} catch (Exception e) {
 						e.printStackTrace();

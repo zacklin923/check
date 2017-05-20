@@ -143,7 +143,7 @@ function upload(){
 		pageSize="100" pageList="[100,500,1000]" data-options="
 			rowStyler: function(index,row){
 				if(row.noUpdate){
-					return 'background-color:red;color:#fff;';
+					return 'background-color:#FFCACF;color:#000;';
 				}
 			}
 		">

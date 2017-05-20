@@ -85,7 +85,15 @@ public class SourceTpSerImpl implements SourceTpSer{
 				try {
 					SourceThirdPartyKey stpk = new SourceThirdPartyKey(Trans.tostring(list.get(i)[0]),Trans.TransToDate(list.get(i)[7]));
 					SourceThirdParty isstp = thirdPartyMapper.selectByPrimaryKey(stpk);
-					SourceThirdParty stp = new SourceThirdParty(Trans.tostring(list.get(i)[0]), Trans.TransToDate(list.get(i)[7]), list.get(i)[2], list.get(i)[3], Trans.toTimestamp(list.get(i)[4]), list.get(i)[1], list.get(i)[5], Trans.toBigDecimal(list.get(i)[6]));
+					SourceThirdParty stp = new SourceThirdParty(
+							Trans.tostring(list.get(i)[0]), 
+							Trans.TransToDate(list.get(i)[7]), 
+							list.get(i)[2], 
+							list.get(i)[3], 
+							Trans.toTimestamp(list.get(i)[4]), 
+							list.get(i)[1], 
+							list.get(i)[5], 
+							Trans.toBigDecimal(list.get(i)[6]));
 					if(isstp!=null){
 						if(list.get(i)[2].equals("配送成功")||list.get(i)[2].equals("配送失败")){
 							if(!isstp.getDeliveryState().equals(list.get(i)[2])){

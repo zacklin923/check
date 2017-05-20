@@ -169,4 +169,16 @@ public class Trans {
 		}
 		return null;
 	}
+	
+	public static String handleCtmBarCode(String barcodes){
+		if (barcodes==null) {
+			return null;
+		}
+		String ss[]=barcodes.split(",");
+		String re="";
+		for (int i = 0; i < ss.length; i++) {
+			re=re+"'"+ss[i]+"',";
+		}
+		return re.substring(0, re.lastIndexOf(","));
+	}
 }
