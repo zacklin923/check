@@ -162,6 +162,7 @@ function upload(){
 					hiden_hint();
 					$("#fileImport").dialog("close");	
 					alert("错误:"+json.code+"错误原因："+json.data);
+					$('#dg').datagrid('reload');
 				}
 			}else{
 				hiden_hint();

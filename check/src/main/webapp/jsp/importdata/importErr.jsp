@@ -230,6 +230,7 @@ function excel_export(){
 			    			<option value="重复快递单号">重复快递单号</option>
 			    			<option value="数据必填项为空">数据必填项为空</option>
 			    			<option value="数据类型转换错误">数据类型转换错误</option>
+			    			<option value="快递单号不符合规范">快递单号不符合规范</option>
 			    	   </select>
     		</div>
     		<input type="hidden" name="_header" value="${licence }"/>

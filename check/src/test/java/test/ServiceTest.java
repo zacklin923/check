@@ -41,10 +41,17 @@ public class ServiceTest extends AbstractJUnit4SpringContextTests{
 		System.out.println(date2.getTime());
 	}
 	
-	@Test
 	public void testjson(){
 		String str = "{\"largeArea\":\"中部大区\",\"sliceArea\":\"龙华区\",\"fenbu\":\"东环分部\",\"fbdArea\":\"广东深圳公司市场开发部分部\",\"ctmBarCode\":\"518941\",\"courierNumber\":\"3844850000245\",\"sendTime\":null,\"weight\":0}";
 		SourceZm ss = new Gson().fromJson(str, SourceZm.class);
 		System.out.println(ss.toString());
 	}
+	
+	@Test
+	public void testString(){
+		String str ="15616161";
+		System.out.println(str.matches("[0-9]*"));
+	}
+
+
 }
