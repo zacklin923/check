@@ -286,48 +286,60 @@ public class SourceImportSerImpl implements SourceImportSer{
 		int succrows=0;
 		//-----找出未发货的数据，然后也推送过去--------------------------------
 		List<SourceImport> list=new ArrayList<SourceImport>();
-		SourceZmExample example=new SourceZmExample();
-		Criteria criteria=example.createCriteria();
-		criteria.andCourierStateEqualTo("0");
 		//--------得到今天的15天前的日期-------------------
 		Calendar calendar=Calendar.getInstance();
 		calendar.setTime(ManagerId.getNow());
 		calendar.add(Calendar.DATE, -30);
-		criteria.andReturnDateGreaterThan(calendar.getTime());
-		List<SourceZm> zms=zmMapper.selectByExample(example);
+		List<SourceZm> zms=zmMapper.querySendToZm2(calendar.getTime());
 		for (int i = 0; i < zms.size(); i++) {
 			SourceImport im=new SourceImport();
 			im.setCourierNumber(zms.get(i).getCourierNumber());
 			im.setCtmBarCode(zms.get(i).getCtmBarCode());
 			list.add(im);
 		}
-		String json=gson.toJson(list);
-		List<NameValuePair> formparams=new ArrayList<NameValuePair>();
-		formparams.add(new BasicNameValuePair("data", json));
-		String result=HttpHelper.postForm(URL_ZM, formparams);
-		log.error("【系统每天自动推送未发货】第一次推送的结果:"+result);
-		//-------未推送成功的再推送一次---------------------
-		List<SourceImport> list2=new ArrayList<SourceImport>();
-		if (result!=null) {
-			ResultFromSendToZM resultFromSendToZM=gson.fromJson(result, ResultFromSendToZM.class);
-			if(resultFromSendToZM.getResult().equals("fail")){
-				for (int i = 0; i < list.size(); i++) {
-					if ((","+resultFromSendToZM.getFailRows()+",").contains(","+list.get(i).getCourierNumber()+",")) {//失败的
-						list2.add(list.get(i));
-					}else{
-						succrows++;
+		
+		int count = list.size()/100;
+		List<SourceImport> listtmp = new ArrayList<SourceImport>();
+		for (int k = 0; k <= count; k++) {
+			if(k!=count){
+				listtmp = list.subList(k*100, (k+1)*100);
+			}else{
+				listtmp = list.subList(k*100, list.size());
+			}
+			String json=gson.toJson(listtmp);
+			List<NameValuePair> formparams=new ArrayList<NameValuePair>();
+			formparams.add(new BasicNameValuePair("data", json));
+			String result=HttpHelper.postForm(URL_ZM, formparams);
+			log.error("【系统每天自动推送未发货】第一次推送的结果:"+result);
+			//-------未推送成功的再推送一次---------------------
+			List<SourceImport> list2=new ArrayList<SourceImport>();
+			if (result!=null) {
+				try {
+					ResultFromSendToZM resultFromSendToZM=gson.fromJson(result, ResultFromSendToZM.class);
+					if(resultFromSendToZM.getResult().equals("fail")){
+						for (int i = 0; i < listtmp.size(); i++) {
+							if ((","+resultFromSendToZM.getFailRows()+",").contains(","+listtmp.get(i).getCourierNumber()+",")) {//失败的
+								list2.add(listtmp.get(i));
+							}else{
+								succrows++;
+							}
+						}
+					}else if(resultFromSendToZM.getResult().equals("success")){
+						succrows=succrows+listtmp.size();
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-		}
-		if(list2.size()>0){
-			String json2=gson.toJson(list2);
-			List<NameValuePair> formparams2=new ArrayList<NameValuePair>();
-			formparams2.add(new BasicNameValuePair("data", json2));
-			String result2=HttpHelper.postForm(URL_ZM, formparams2);
-			log.error("【系统每天自动推送未发货】第二次推送的结果,这次错误的将不会再处理:"+result2);
-			ResultFromSendToZM resultFromSendToZM=gson.fromJson(result2, ResultFromSendToZM.class);
-			succrows=succrows+(list2.size()-resultFromSendToZM.getFailRows().split(",").length);
+			if(list2.size()>0){
+				String json2=gson.toJson(list2);
+				List<NameValuePair> formparams2=new ArrayList<NameValuePair>();
+				formparams2.add(new BasicNameValuePair("data", json2));
+				String result2=HttpHelper.postForm(URL_ZM, formparams2);
+				log.error("【系统每天自动推送未发货】第二次推送的结果,这次错误的将不会再处理:"+result2);
+				ResultFromSendToZM resultFromSendToZM=gson.fromJson(result2, ResultFromSendToZM.class);
+				succrows=succrows+(list2.size()-resultFromSendToZM.getFailRows().split(",").length);
+			}
 		}
 		Date d2=new Date();
 		log.error("【系统每天自动推送未发货】共推送["+zms.size()+"]条，成功["+succrows+"]条，耗时["+(d2.getTime()-d1.getTime())+"]ms。");

@@ -32,4 +32,16 @@ public class NoUpdate extends NoUpdateKey {
     public void setStuNum(String stuNum) {
         this.stuNum = stuNum == null ? null : stuNum.trim();
     }
+
+	public NoUpdate(String courierNumber, String noUpdateName, String noUpdateValue, Date createDate, String stuNum) {
+		super(courierNumber, noUpdateName);
+		this.noUpdateValue = noUpdateValue;
+		this.createDate = createDate;
+		this.stuNum = stuNum;
+	}
+
+	public NoUpdate() {
+	}
+    
+    
 }

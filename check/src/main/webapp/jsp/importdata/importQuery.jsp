@@ -201,7 +201,7 @@ function pushData(){
 	});
 }
 </script>
-<table id="dg" border="true" title="快件信息>数据导入"
+<table id="dg" border="true" title="快件信息>导入数据"
 		url="<%=path %>/api/sourimport"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"

@@ -14,15 +14,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
+import com.zs.controller.rest.BaseRestController.Code;
+import com.zs.dao.NoUpdateMapper;
 import com.zs.dao.SourceZmMapper;
+import com.zs.entity.NoUpdate;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
+import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceZm;
 import com.zs.entity.SourceZmExample;
 import com.zs.entity.SourceZmExample.Criteria;
 import com.zs.entity.SourceZmKey;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
+import com.zs.entity.other.Result;
 import com.zs.entity.other.SourceImportErr;
 import com.zs.service.SourceZmSer;
 import com.zs.tools.ExcelExport;
@@ -34,6 +39,8 @@ public class SourceZmSerImpl implements SourceZmSer{
 
 	@Resource
 	private SourceZmMapper zmMapper;
+	@Resource
+	private NoUpdateMapper noUpdateMapper;
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -53,11 +60,19 @@ public class SourceZmSerImpl implements SourceZmSer{
 	public Integer add(SourceZm obj) {
 		return zmMapper.insertSelective(obj);
 	}
-
+	
+	@Deprecated
 	public Integer update(SourceZm obj) {
-		return zmMapper.updateByPrimaryKeySelective(obj);
+		return this.update(obj, null);
 	}
 
+	public Integer update(SourceZm zm, String stuNum) {
+		int i=zmMapper.updateByPrimaryKeySelective(zm);
+		checkUpdateProvince(zm, stuNum);
+		return i;
+	}
+	
+	
 	public Integer delete(SourceZmKey id) {
 		return zmMapper.deleteByPrimaryKey(id);
 	}
@@ -108,7 +123,7 @@ public class SourceZmSerImpl implements SourceZmSer{
 		return path;
 	}
 
-	public String importData(List<String[]> list) {
+	public String importData(List<String[]> list,String stuNum) {
 		List<String> ls = new ArrayList<String>();
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[6].equals("")||list.get(i)[19].equals("")){
@@ -129,7 +144,18 @@ public class SourceZmSerImpl implements SourceZmSer{
 							Trans.toBigDecimal(list.get(i)[15]),
 							Trans.tostring(list.get(i)[20]));
 					if(iszs!=null){
+						try {
+							//-------判断下省份到底改了没-------------
+							SourceZm sourceZm=get(new SourceZmKey(sz.getCourierNumber(), sz.getReturnDate()));
+							if ((sourceZm.getProvince()!=null && sz.getProvince()!=null && sourceZm.getProvince().equals(sz.getProvince()))
+									|| (sourceZm.getProvince()==null && sz.getProvince()==null)) {
+								sz.setProvince(null);
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 						zmMapper.updateByPrimaryKeySelective(sz);
+						checkUpdateProvince(sz, stuNum);
 					}else{
 						ls.add((i+1)+"");
 					}
@@ -156,4 +182,23 @@ public class SourceZmSerImpl implements SourceZmSer{
 		return list.size()>0?list.get(list.size()-1):null;
 	}
 
+	/**
+	 * 检查是否改了省份以及如何处理
+	 */
+	public void checkUpdateProvince(SourceZm zm,String stuNum){
+		if (zm!=null && zm.getProvince()!=null && zm.getCourierNumber()!=null) {
+			NoUpdate noUpdate=noUpdateMapper.selectByNumberOfZm(zm.getCourierNumber());
+			if (noUpdate==null) {
+				noUpdateMapper.insertSelective(new NoUpdate(zm.getCourierNumber(),"province",zm.getProvince(),new Date(),stuNum));
+			}else {
+				noUpdateMapper.updateByPrimaryKeySelective(new NoUpdate(zm.getCourierNumber(),"province",zm.getProvince(),new Date(),stuNum));
+			}
+		}
+	}
+
+	public List<SourceThirdParty> queryHistory(EasyUIAccept accept) {
+		return zmMapper.queryByNumber(accept);
+	}
+	
+	
 }

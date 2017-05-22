@@ -496,13 +496,12 @@
       and RETURN_DATE = #{returnDate,jdbcType=TIMESTAMP}
   </update>
   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
-  	select * from
-  	(
-	  	select t1.*,rownum rn from
-	  	(
-		  	select * from SOURCE_ZM
-		  	<where>
-		 		<if test="str1!=null and str1!=''">
+  	select * from (
+		select t1.*,rownum rn from (
+		    select s2.* from (select courier_number, max(return_date) tm from SOURCE_ZM group by courier_number) s1,SOURCE_ZM s2
+		    <where>
+		        s1.courier_number=s2.courier_number and s1.tm=s2.return_date
+		    	<if test="str1!=null and str1!=''">
 			  		and CTM_BAR_CODE in (${str1})
 			  	</if>
 		  		<if test="date1!=null and date1!=''">
@@ -526,15 +525,15 @@
 		  		<if test="int1!=null">
 		  			and COURIER_STATE = #{int1}
 		  		</if>
-			</where>
-		  	<if test="sort!=null and order!=null">
-		  		order by ${sort} ${order},CREATE_TIME desc
+		    </where>
+		    <if test="sort!=null and order!=null">
+		  		order by s2.${sort} ${order},s2.CREATE_TIME desc
 		  	</if>
 		  	<if test="sort==null or order==null">
-		  		order by CREATE_TIME desc
+		  		order by s2.CREATE_TIME desc
 		  	</if>
-	  	) t1
-	  	<where>
+		) t1
+		<where>
 	  		<if test="end!=null">
 	  			rownum &lt;= #{end}
 		  	</if>
@@ -547,9 +546,10 @@
   	</where>
   </select>
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
-  	select count(*) from SOURCE_ZM
-  	<where>
- 		<if test="str1!=null and str1!=''">
+  	select count(*) from (select courier_number, max(return_date) tm from SOURCE_ZM group by courier_number) s1,SOURCE_ZM s2
+    <where>
+        s1.courier_number=s2.courier_number and s1.tm=s2.return_date
+    	<if test="str1!=null and str1!=''">
 	  		and CTM_BAR_CODE in (${str1})
 	  	</if>
   		<if test="date1!=null and date1!=''">
@@ -573,6 +573,26 @@
   		<if test="int1!=null">
   			and COURIER_STATE = #{int1}
   		</if>
-	</where>
+    </where>	
+  </select>
+  <select id="querySendToZm2" resultMap="BaseResultMap" parameterType="java.util.Date">
+    select s2.* from (select courier_number, max(return_date) tm from SOURCE_ZM group by courier_number) s1,SOURCE_ZM s2
+    <where>
+        and s1.courier_number=s2.courier_number and s1.tm=s2.return_date
+        and s2.CREATE_DATE >= #{date}
+        and s2.COURIER_STATE=0
+    </where>
+  </select>
+  <select id="queryByNumber" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select * from SOURCE_ZM
+  	<where>
+  		COURIER_NUMBER = #{str1}
+  	</where>
+  	<if test="sort!=null and order!=null">
+  		order by ${sort} ${order},CREATE_TIME desc
+  	</if>
+  	<if test="sort==null or order==null">
+  		order by CREATE_TIME desc
+  	</if>
   </select>
 </mapper>

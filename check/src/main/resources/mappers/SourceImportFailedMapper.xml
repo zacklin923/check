@@ -7,6 +7,7 @@
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="FAIL_INFO" property="failInfo" jdbcType="VARCHAR" />
     <result column="FAIL_TYPE" property="failType" jdbcType="VARCHAR" />
+    <association column="STU_NUM" property="user" select="com.zs.dao.StaffUserMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -227,6 +228,9 @@
 		  		</if>
 		  		<if test="date2!=null">
 			  		and CREATE_TIME &lt;= #{date2}
+		  		</if>
+		  		<if test="str3!=null">
+			  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str3}%')
 		  		</if>
 		  	</where>
 		  	<if test="sort!=null and order!=null">

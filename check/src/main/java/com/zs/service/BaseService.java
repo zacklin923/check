@@ -9,6 +9,7 @@ public interface BaseService<T,ID_TYPE> {
 	
 	public Integer add(T obj);
 	
+	@Deprecated
 	public Integer update(T obj);
 	
 	public Integer delete(ID_TYPE id);
