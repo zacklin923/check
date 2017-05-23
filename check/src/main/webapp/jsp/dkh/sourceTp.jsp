@@ -159,7 +159,7 @@ function upload(){
 	});
 }
 </script>
-<table id="dg" border="true" title="快件信息>哲盟返回第三方数据"
+<table id="dg" border="true" title="快件信息>运单状态查询"
 		url="<%=path %>/api/sourceTp"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -388,7 +388,7 @@ function upload(){
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
 		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceTp.jsp" cache="true">
 </div>
-<div id="dlg_history" title="快件信息>哲盟返回第三方数据>历史数据" class="easyui-dialog" iconCls="icon-help" style="width:1400px;height:800px;"
+<div id="dlg_history" title="快件信息>运单状态查询>历史数据" class="easyui-dialog" iconCls="icon-help" style="width:1400px;height:800px;"
 		closed="true" modal="false" collapsible="true" cache="true">
 	<table id="dg_history" border="false"
 		method="get"

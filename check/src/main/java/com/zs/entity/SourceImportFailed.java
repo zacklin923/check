@@ -18,8 +18,19 @@ public class SourceImportFailed {
     private String failType;
     
     private SourceImportErr sourceImport;
+    //---------------
+    private StaffUser user;
+    //---------------
+    
+    public StaffUser getUser() {
+		return user;
+	}
 
-    public BigDecimal getSifId() {
+	public void setUser(StaffUser user) {
+		this.user = user;
+	}
+
+	public BigDecimal getSifId() {
         return sifId;
     }
 

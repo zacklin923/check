@@ -80,18 +80,19 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public Result<Integer> doUpdate(@PathVariable("id") String[] id, SourceZm obj, HttpServletRequest req, HttpServletResponse resp){
+		StaffUser user=(StaffUser) req.getSession().getAttribute("user");
 		try {
 			if(obj!=null){
 				obj.setCourierNumber(id[0]);
 				obj.setReturnDate(new Date(Long.valueOf(id[1])));
 				try {
-					//-------判断下配送状态到底改了没-------------
+					//-------判断下省份到底改了没-------------
 					SourceZm sourceZm=sourceZmSer.get(new SourceZmKey(id[0], new Date(Long.valueOf(id[1]))));
 					if ((sourceZm.getProvince()!=null && obj.getProvince()!=null && sourceZm.getProvince().equals(obj.getProvince()))
 							|| (sourceZm.getProvince()==null && obj.getProvince()==null)) {
 						obj.setProvince(null);
 					}
-					return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceZmSer.update(obj));
+					return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceZmSer.update(obj,user.getStuNum()));
 				} catch (Exception e) {
 					e.printStackTrace();
 					return new Result<Integer>(ERROR, Code.ERROR, -1);
@@ -144,11 +145,12 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 	@Override
 	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
 		req.getSession().setAttribute("isLoading", true);
+		StaffUser user=(StaffUser) req.getSession().getAttribute("user");
 		String s ="";
 		if (!file.isEmpty()) {
 			try {
 				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
-				s = s + sourceZmSer.importData(list);
+				s = s + sourceZmSer.importData(list,user.getStuNum());
 				if(s.equals("")){
 					req.getSession().setAttribute("isLoading", false);
 					return new Result<String>(SUCCESS,  Code.SUCCESS, s);
@@ -177,6 +179,21 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 			}
 		}
 		return false;
+	}
+	
+	@RequestMapping(value="/{number}/history",method=RequestMethod.GET)
+	public List<SourceThirdParty> queryHistory(@PathVariable("number") String number,EasyUIAccept accept) {
+		if (number!=null && accept!=null) {
+			try {
+				accept.setStr1(number);
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return sourceZmSer.queryHistory(accept);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return null;
 	}
 
 }

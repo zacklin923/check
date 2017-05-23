@@ -98,7 +98,7 @@ function excel_export(){
 	});
 }
 </script>
-<table id="dg" border="true" title="快件信息>数据源导入错误"
+<table id="dg" border="true" title="快件信息>错误数据"
 		url="<%=path %>/api/sourimportfail"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -112,7 +112,12 @@ function excel_export(){
 			<th field="ck" checkbox="true"></th>
 			<th field="createTime" width="150" sortable="true">导入时间</th>
 			<th field="failType" width="100" sortable="true">失败类型</th>
-            <th field="stuNum"	 width="70" sortable="true">导入人</th>
+            <th field="stuNum" width="70" sortable="true"  data-options="
+				formatter:function(value,row,index){
+                             if(row.user){
+						return row.user.stuName;
+                          }
+                      }">导入人</th>
 			<th field="createDate" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){
@@ -233,8 +238,11 @@ function excel_export(){
 			    			<option value="快递单号不符合规范">快递单号不符合规范</option>
 			    	   </select>
     		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
+    		<div>
+    			导入人：<input name="str3"/>
+    		</div>
    		</div>
+   		<input type="hidden" name="_header" value="${licence }"/>
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">

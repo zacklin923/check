@@ -96,6 +96,32 @@ function checkIsUal(){
 		alert("请到导入数据错误处查看是否有错误数据")
 	}
 }
+function dblclick(rowIndex, rowData){
+	$("#dlg_history").dialog("open");
+	if(rowData.courierNumber){
+		$("#dg_history").datagrid({
+			url:"<%=path%>/api/sourceZm/"+rowData.courierNumber+"/history",
+			loadFilter: function(data){
+				var a=eval('('+"{'total':'0',rows:''}"+')');
+				if (data){
+					if(data.result){
+						if(data.result=='error'){
+							alert("错误:"+data.code+"  "+data.data);
+							return a;
+						}
+					}else{
+						return data;
+					}
+				}else{
+					return a;
+				}
+			},
+			onLoadError:function(){
+				alert("错误:-1");
+			}
+		});
+	}
+}
 $(function(){
 	checkIsUal();
 });
@@ -133,7 +159,7 @@ function upload(){
 	});
 }
 </script>
-<table id="dg" border="true" title="快件信息>哲盟返回数据"
+<table id="dg" border="true" title="快件信息>运单信息查询"
 		url="<%=path %>/api/sourceZm"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -141,6 +167,9 @@ function upload(){
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
 		pageSize="100" pageList="[100,500,1000]" data-options="
+			onDblClickRow:function(rowIndex, rowData){
+				dblclick(rowIndex, rowData);
+			},
 			rowStyler: function(index,row){
 				if(row.noUpdate){
 					return 'background-color:#FFCACF;color:#000;';
@@ -315,5 +344,70 @@ function upload(){
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
 		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceZm.jsp" cache="true">
 </div>
+<div id="dlg_history" title="快件信息>运单信息查询>历史数据" class="easyui-dialog" iconCls="icon-help" style="width:1400px;height:800px;"
+		closed="true" modal="false" collapsible="true" cache="true">
+	<table id="dg_history" border="false"
+		method="get"
+		loadMsg="数据加载中请稍后……"
+		striped="true"
+		rownumbers="true" fitColumns="false" 
+		singleSelect="true" fit="true">
+		<thead>
+			<tr>
+			<th field="largeArea" width="80" sortable="true">所属大区</th>
+			<th field="sliceArea" width="80" sortable="true">所属区部</th>
+			<th field="fenbu" width="80" sortable="true">所属分部</th>
+			<th field="fbdArea" width="100" sortable="true">所属分拨点</th>
+			<th field="ctmBarCode" width="100" sortable="true">客户条码</th>
+			<th field="ctmName" width="100" sortable="true">客户名称</th>
+			<th field="courierNumber" width="120" sortable="true">快递单号</th>
+			<th field="sendTime" width="150" sortable="true">发货日期</th>
+			<th field="province" width="50" sortable="true">省份</th>
+			<th field="address" width="150" sortable="true">地址</th>
+			<th field="shopNumber" width="100" sortable="true">客户店铺</th>
+			<th field="addressee" width="60" sortable="true">收件人</th>
+			<th field="phone" width="100" sortable="true">联系方式</th>
+			<th field="weight" width="60" sortable="true">重量</th>
+			<th field="courierCompany" width="80" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(value=='11'){
+							return '韵达实物';
+                      }else if(value=='22'){
+                      		return '韵达刷单';
+                      }else if(value=='33'){
+                      		return '圆通';
+                      }else if(value=='44'){
+                      		return '顺丰';
+                      }else if(value=='55'){
+                      		return 'EMS';
+                      }else if(value=='66'){
+                      		return '邮政小包';
+                      }
+               }">快递公司</th>
+			<th field="goodsCost" width="80" sortable="true">物品价值</th>
+			<th field="goods" width="60" sortable="true">物品</th>
+			<th field="createDate" width="100" sortable="true">创建日期</th>
+			<th field="courierState" width="60" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(value=='0'){
+							return '未发货';
+                      }else if(value=='1'){
+                      		return '已发货';
+                      }
+               }">状态</th>
+			<th field="returnDate" width="100" sortable="true" data-options="
+				formatter:function(value,row,index){
+                      if(row.returnDate){
+						return getDateByMs(new Date(row.returnDate),'/');
+                          }
+                      }">返回日期</th>
+			<th field="orderNumber" width="160" sortable="true">订单编号</th>
+			<th field="timeOut" width="160" sortable="true">超时时间</th>
+			<th field="createTime" width="200" sortable="true">系统接收时间</th>
+		</tr>
+		</thead>
+	</table>
+</div>
+
 </body>
 </html>

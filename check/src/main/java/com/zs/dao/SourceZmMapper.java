@@ -1,10 +1,12 @@
 package com.zs.dao;
 
+import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceZm;
 import com.zs.entity.SourceZmExample;
 import com.zs.entity.SourceZmKey;
 import com.zs.entity.other.EasyUIAccept;
 
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -34,4 +36,8 @@ public interface SourceZmMapper {
     List<SourceZm> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);
+    
+    List<SourceZm> querySendToZm2(@Param("date")Date date);
+    
+    List<SourceThirdParty> queryByNumber(EasyUIAccept accept);
 }
