@@ -274,7 +274,7 @@ function pushData(){
 	<form id="search">
    		<div class="searchBar-input">
    			<div>
-	    		快递单号：<input name ="str3" />
+    			订单编号：<input name ="str6" />
     		</div>
     		<div>
     			客户条码：<input name ="str4" />
@@ -286,7 +286,7 @@ function pushData(){
 	    		客户名：<input name ="str5" />
     		</div>
     		<div>
-    			订单编号：<input name ="str6" />
+	    		快递单号：<input name ="str3" />
     		</div>
    		</div>
    		<div class="searchBar-input">
