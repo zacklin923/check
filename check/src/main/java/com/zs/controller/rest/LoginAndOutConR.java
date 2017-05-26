@@ -35,6 +35,9 @@ public class LoginAndOutConR{
 				    //---------存一下在session相关信息--------------
 					user.setLicence("111");
 					request.getSession().setAttribute("user", user);//待定
+					if (request.getSession().getAttribute("target")==null) {
+						request.getSession().setAttribute("target", "right");
+					}
 					result=new Result<String>(BaseRestController.SUCCESS, Code.SUCCESS, "登录成功");
 				}else {
 					result=new Result<String>(BaseRestController.ERROR, Code.LOGIN_PASS_ERROR, "密码错误");

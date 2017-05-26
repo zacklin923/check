@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.VersionUpdateMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.VersionUpdate" >
+    <id column="VER_NUM" property="verNum" jdbcType="VARCHAR" />
+    <result column="VER_DESC" property="verDesc" jdbcType="VARCHAR" />
+    <result column="VER_STU_NUMS" property="verStuNums" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    VER_NUM, VER_DESC, VER_STU_NUMS, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.VersionUpdateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from VERSION_UPDATE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from VERSION_UPDATE
+    where VER_NUM = #{verNum,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from VERSION_UPDATE
+    where VER_NUM = #{verNum,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.VersionUpdateExample" >
+    delete from VERSION_UPDATE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.VersionUpdate" >
+    insert into VERSION_UPDATE (VER_NUM, VER_DESC, VER_STU_NUMS, 
+      CREATE_TIME)
+    values (#{verNum,jdbcType=VARCHAR}, #{verDesc,jdbcType=VARCHAR}, #{verStuNums,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.VersionUpdate" >
+    insert into VERSION_UPDATE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="verNum != null" >
+        VER_NUM,
+      </if>
+      <if test="verDesc != null" >
+        VER_DESC,
+      </if>
+      <if test="verStuNums != null" >
+        VER_STU_NUMS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="verNum != null" >
+        #{verNum,jdbcType=VARCHAR},
+      </if>
+      <if test="verDesc != null" >
+        #{verDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="verStuNums != null" >
+        #{verStuNums,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.VersionUpdateExample" resultType="java.lang.Integer" >
+    select count(*) from VERSION_UPDATE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update VERSION_UPDATE
+    <set >
+      <if test="record.verNum != null" >
+        VER_NUM = #{record.verNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.verDesc != null" >
+        VER_DESC = #{record.verDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.verStuNums != null" >
+        VER_STU_NUMS = #{record.verStuNums,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update VERSION_UPDATE
+    set VER_NUM = #{record.verNum,jdbcType=VARCHAR},
+      VER_DESC = #{record.verDesc,jdbcType=VARCHAR},
+      VER_STU_NUMS = #{record.verStuNums,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.VersionUpdate" >
+    update VERSION_UPDATE
+    <set >
+      <if test="verDesc != null" >
+        VER_DESC = #{verDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="verStuNums != null" >
+        VER_STU_NUMS = #{verStuNums,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where VER_NUM = #{verNum,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.VersionUpdate" >
+    update VERSION_UPDATE
+    set VER_DESC = #{verDesc,jdbcType=VARCHAR},
+      VER_STU_NUMS = #{verStuNums,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where VER_NUM = #{verNum,jdbcType=VARCHAR}
+  </update>
+</mapper>

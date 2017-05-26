@@ -157,6 +157,7 @@ function upload(){
 				if(json.result=='success'){
 					hiden_hint();
 					$('#dg').datagrid('reload');
+					alert(json.data);
 					$("#fileImport").dialog("close");					
 				}else{
 					hiden_hint();

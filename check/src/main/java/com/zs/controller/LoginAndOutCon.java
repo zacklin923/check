@@ -13,6 +13,8 @@ public class LoginAndOutCon {
 		request.getSession().removeAttribute("licence");
 		request.getSession().removeAttribute("user");
 		request.getSession().removeAttribute("isLoading");
+		request.getSession().removeAttribute("target");
 		return "/system/login";
 	}
+	
 }
