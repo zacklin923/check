@@ -120,8 +120,8 @@ public class SourceImportSerImpl implements SourceImportSer{
 					SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
 					if(skey==null){
 						//张顺，2017-5-26,新增两种错误类型：1、条码不全是数字。2、条码不是6位数。
-						String ctmbarcode=Trans.tostring(list.get(i)[3]);
-						if (!isNumeric(ctmbarcode)) {//不是纯数字
+						String ctmbarcode=Trans.tostring(list.get(i)[2]);//客户条码
+						if (isNumeric(ctmbarcode)==false) {//不是纯数字
 							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),
 									list.get(i)[2].trim().replace(",", ""),
 									list.get(i)[1],list.get(i)[8],list.get(i)[0],
@@ -222,7 +222,8 @@ public class SourceImportSerImpl implements SourceImportSer{
 		}else if(count>0){
 			str="导入数据有多种错误，请到导入错误数据表中查看详情";
 		}
-		str=str+"\n共["+list.size()+"]条，成功["+succs+"]条，失败["+(list.size()-succs)+"]条。";
+		int rows=list.size()-1;
+		str=str+"\n共["+rows+"]条，成功["+succs+"]条，失败["+(rows-succs)+"]条。";
 		return str;
 	}
 
@@ -405,5 +406,10 @@ public class SourceImportSerImpl implements SourceImportSer{
 		   }
 		}
 		return true;
+	}
+	
+	
+	public static void main(String[] args) {
+		System.out.println(new SourceImportSerImpl().isNumeric("1asd"));
 	}
 }

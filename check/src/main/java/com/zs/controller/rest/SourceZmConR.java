@@ -27,6 +27,7 @@ import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
 import com.zs.service.SourceZmSer;
 import com.zs.tools.ColumnName;
+import com.zs.tools.DateTimeHelper;
 import com.zs.tools.ExcelImport;
 import com.zs.tools.ManagerId;
 
@@ -40,6 +41,7 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+		System.out.println(accept);
 		if (accept!=null) {
 			try {
 				accept.setStr1(ManagerId.isSeeAll(req));

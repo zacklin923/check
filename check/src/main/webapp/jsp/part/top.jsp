@@ -45,9 +45,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div style="margin-top: -44px;margin-left: 148px;">
 		<span style="color: #3E3A38;font-size: 37px;font-weight: bold;font-family: Microsoft YaHei;">大客户查件系统</span>
 	</div>
-	<div style="width: 300px;float: right;margin-top: -50px;text-align: right;margin-right: 28px;">
+	<div style="width: 300px;float: right;margin-top: -50px;text-align: right;margin-right: 28px;font-weight: bold;">
 		网页打开方式:
-		<select id="target" onchange="select_target()">
+		<select id="target" onchange="select_target()" style="background-color: #fff;font-weight: bold;">
 			<option value="right">本窗口</option>
 			<option value="_blank">新窗口</option>
 		</select>

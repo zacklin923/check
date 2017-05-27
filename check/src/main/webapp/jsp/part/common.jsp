@@ -27,7 +27,13 @@ $.ajaxSetup({
 	}
 });
 $(function(){
+	var f=$('#search');
+	var json;
+	if(f.form('validate')){
+		json=formToJson(f);
+	}
 	$("#dg").datagrid({
+		queryParams:json,
 		onLoadSuccess:function (data) {
 			$(this).datagrid("fixRownumber");
 		},

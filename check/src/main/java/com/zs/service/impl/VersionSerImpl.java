@@ -48,7 +48,7 @@ public class VersionSerImpl implements VersionSer{
 		VersionUpdateExample example=new VersionUpdateExample();
 		example.setOrderByClause("create_time desc");
 		List<VersionUpdate> list=updateMapper.selectByExample(example);
-		return list.size()>0?list.get(list.size()-1):null;
+		return list.size()>0?list.get(0):null;
 	}
 
 	//用户看了
