@@ -121,11 +121,9 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 			try {
 				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
 				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
-				s = s + sourceImportSer.importData(list,user.getStuNum());
-				if(s.equals("")){
-					req.getSession().setAttribute("isLoading", false);
-					return new Result<String>(SUCCESS,  Code.SUCCESS, s);
-				}
+				s=sourceImportSer.importData(list,user.getStuNum());
+				req.getSession().setAttribute("isLoading", false);
+				return new Result<String>(SUCCESS,  Code.SUCCESS, s);
 			} catch (IOException e) {
 				req.getSession().setAttribute("isLoading", false);
 				return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");

@@ -80,15 +80,17 @@ public class RoleInter extends HandlerInterceptorAdapter{
 			throws Exception {
 		init(request, response);
 		//例外列表
-		if (url.contains("framework")
-				|| url.contains("file")
-				|| url.contains("login")
-				|| url.contains("logout")
+		if (url.contains("/framework")
+				|| url.contains("/file")
+				|| url.contains("/login")
+				|| url.contains("/logout")
+				|| url.contains("/system/setting/target")
 				|| url.contains("/api/receive/zm")
 				|| url.contains("/api/receive/tp")
 				|| url.contains("/api/sourimport/isLoading")
 				|| url.contains("/api/sourceZm/isLoading")
 				|| url.contains("/api/provinceCode/province")
+				|| url.contains("/api/version")
 				|| url.contains("/api/sourceTp/isLoading")) {
 			return true;
 		}

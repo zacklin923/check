@@ -27,6 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<script type="text/javascript" src="<%=path %>/framework/js/myjs.js"></script>
 	<link rel="stylesheet" type="text/css" href="<%=path %>/framework/css/mycss.css">
+	<script type="text/javascript" src="<%=path %>/framework/js/zs.js"></script>
 	
 	<script>
 	$(function(){
@@ -40,6 +41,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				index = 0;
 			}
 		}, 3000);
+		$.ajax({
+			url:"<%=path%>/api/version/last",
+			success:function(data){
+				if(data){
+					var json;
+					if(isJson(data)){
+						json=data;
+					}else{
+						json = eval('('+data+')');
+					}
+					$("#version_update_desc").html(json.verDesc);
+					$("#version_update").dialog("open");
+				}
+			}
+		});
 	});
 	</script>
   </head>
@@ -125,13 +141,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					</div>
   					<div data-options="region:'center',split:true" title="签到" style="height:50%;padding:5px;">
 						<div class="easyui-calendar" style="width:70%;height:100%;display: inline-block;"></div> 
+						<div id="version_update" class="easyui-dialog" style="width:500px;height:650px;padding:10px 20px"
+							closed="true" modal="true" title="版本更新日志" data-options="
+								onClose:function(){
+									$.ajax({
+										url:'<%=path%>/api/version/last/read'
+									});
+								}
+							">
+							<div id="version_update_desc">
+							</div>
+						</div>
 					</div>
-  				
   				</div>
-  			
   			
   			</div>
 		</div>
   	</div>
+  	
+  	
+  	
   </body>
 </html>

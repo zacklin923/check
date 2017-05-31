@@ -148,8 +148,9 @@ public class Trans {
 	}
 	
 	public static String tostring(String str){
-		if(str!=null && !str.trim().equals("")){
-			str = str.trim().replace(",", "");
+		if(str!=null){
+			str=str.trim();
+			str=str.replace(",", "");
 		}
 		return str;
 	}

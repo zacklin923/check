@@ -3,6 +3,9 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+if(request.getSession().getAttribute("target")==null){
+	request.getSession().setAttribute("target", "right");
+}
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -48,42 +51,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		data-options="fillSpace:true,fit: true,animate: true,selected:false">
 	<div title="快件信息" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-	        <li><span><a href="<%=path %>/import" target="right">导入数据</a></span></li>
-       		<li><span><a href="<%=path %>/import/err" target="right">错误数据</a></span></li>
-	        <li><span><a href="<%=path %>/sourceZm" target="right">运单信息查询</a></span></li>
-	        <li><span><a href="<%=path %>/sourceTp" target="right">运单状态查询</a></span></li>
+	        <li><span><a href="<%=path %>/import" target="${target }">导入数据</a></span></li>
+       		<li><span><a href="<%=path %>/import/err" target="${target }">错误数据</a></span></li>
+	        <li><span><a href="<%=path %>/sourceZm" target="${target }">运单信息查询</a></span></li>
+	        <li><span><a href="<%=path %>/sourceTp" target="${target }">运单状态查询</a></span></li>
         </ul>
 	</div>
 	<div title="系统管理" data-options="iconCls:'icon-system'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-       		<li><span><a href="<%=path %>/user" target="right">用户管理</a></span></li>
-       		<li><span><a href="<%=path %>/role" target="right">角色管理</a></span></li>
-	        <li><span><a href="<%=path %>/power" target="right">权限管理</a></span></li>
+       		<li><span><a href="<%=path %>/user" target="${target }">用户管理</a></span></li>
+       		<li><span><a href="<%=path %>/role" target="${target }">角色管理</a></span></li>
+	        <li><span><a href="<%=path %>/power" target="${target }">权限管理</a></span></li>
         </ul>
 	</div>
 	<div title="基础信息维护" data-options="iconCls:'icon-data-add'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-	        <li><span><a href="<%=path %>/customer" target="right">大客户信息</a></span></li>
-	        <li><span><a href="<%=path %>/timeLimit" target="right">时效控制信息</a></span></li>
-	        <li><span><a href="<%=path %>/provinceCode" target="right">一段码省份对照表</a></span></li>
+	        <li><span><a href="<%=path %>/customer" target="${target }">大客户信息</a></span></li>
+	        <li><span><a href="<%=path %>/timeLimit" target="${target }">时效控制信息</a></span></li>
+	        <li><span><a href="<%=path %>/provinceCode" target="${target }">一段码省份对照表</a></span></li>
         </ul>
 	</div>
 	
 	<div title="帮助" data-options="iconCls:'icon-help'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-       		<li><span><a href="<%=path %>/jsp/part/error_code.jsp" target="right">错误码说明</a></span></li>
-       		<li><span><a href="<%=path %>/jsp/help/sourceImport.jsp" target="right">导入数据说明</a></span></li>
-       		<li><span><a href="<%=path %>/jsp/help/sourceZm.jsp" target="right">运单信息查询说明</a></span></li>
-       		<li><span><a href="<%=path %>/jsp/help/sourceTp.jsp" target="right">运单状态查询说明</a></span></li>
-       		<li><span><a href="<%=path %>/jsp/help/user.jsp" target="right">用户管理说明</a></span></li>
-       		<li><span><a href="<%=path %>/jsp/help/role.jsp" target="right">角色管理说明</a></span></li>
-       		<li><span><a href="<%=path %>/jsp/help/province.jsp" target="right">标准省份名称</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/part/error_code.jsp" target="${target }">错误码说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/sourceImport.jsp" target="${target }">导入数据说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/sourceZm.jsp" target="${target }">运单信息查询说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/sourceTp.jsp" target="${target }">运单状态查询说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/user.jsp" target="${target }">用户管理说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/role.jsp" target="${target }">角色管理说明</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/help/province.jsp" target="${target }">标准省份名称</a></span></li>
         </ul>
 	</div>
 	<!-- 
 	<div title="测试" data-options="iconCls:'icon-cancel'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
-       		<li><span><a href="<%=path %>/jsp/test/test.jsp" target="right">快速测试</a></span></li>
+       		<li><span><a href="<%=path %>/jsp/test/test.jsp" target="${target }">快速测试</a></span></li>
         </ul>
 	</div>
 	 -->

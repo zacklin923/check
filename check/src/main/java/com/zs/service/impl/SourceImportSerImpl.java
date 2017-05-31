@@ -92,6 +92,9 @@ public class SourceImportSerImpl implements SourceImportSer{
 		int inull2=0;
 		int inull3=0;
 		int inull4=0;
+		int inull5=0;
+		int inull6=0;
+		int succs=0;
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[0].equals("") 
 					|| list.get(i)[1].equals("")
@@ -116,36 +119,71 @@ public class SourceImportSerImpl implements SourceImportSer{
 				if(Trans.tostring(list.get(i)[3]).matches("[0-9]*")&&Trans.tostring(list.get(i)[3]).length()==13){
 					SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
 					if(skey==null){
-						try {
-							String oneCode=list.get(i)[12].length()>=3?list.get(i)[12].substring(0,3):null;
-							SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),
+						//张顺，2017-5-26,新增两种错误类型：1、条码不全是数字。2、条码不是6位数。
+						String ctmbarcode=Trans.tostring(list.get(i)[2]);//客户条码
+						if (isNumeric(ctmbarcode)==false) {//不是纯数字
+							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),
 									list.get(i)[2].trim().replace(",", ""),
-									list.get(i)[1],
-									list.get(i)[8].trim().replace(",", ""),
-									Trans.TransToDate(list.get(i)[0]),
-									list.get(i)[4],
-									list.get(i)[6],
-									list.get(i)[7],
-									list.get(i)[9],
-									list.get(i)[11],
-									Trans.toBigDecimal(list.get(i)[10]),
-									list.get(i)[5].trim().replace(",", ""),
-									"大客户",
-									new Timestamp(new Date().getTime()),
-									new BigDecimal("0"),
-									stuNum,
-									oneCode,
-									list.get(i)[13]);
-							importMapper.insertSelective(s);
-						} catch (Exception e) {
-							e.printStackTrace();
-							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8].replace(",", ""),list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
+									list.get(i)[1],list.get(i)[8],list.get(i)[0],
+									list.get(i)[4],list.get(i)[6],list.get(i)[7],
+									list.get(i)[9],list.get(i)[11],list.get(i)[10],
+									list.get(i)[5],"大客户",
+									new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
+									null,stuNum,list.get(i)[12],list.get(i)[13]);
 							SourceImportFailed sif = new SourceImportFailed();
 							sif.setStuNum(stuNum);
 							sif.setFailInfo(gson.toJson(sie));
-							sif.setFailType("数据类型转换错误");
+							sif.setFailType("客户条码不是纯数字");
 							importFailMapper.insertSelective(sif);
-							inull3=3;
+							inull5=5;
+						}else if(ctmbarcode.length()!=6){//不是6位数
+							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),
+									list.get(i)[2].trim().replace(",", ""),
+									list.get(i)[1],list.get(i)[8],list.get(i)[0],
+									list.get(i)[4],list.get(i)[6],list.get(i)[7],
+									list.get(i)[9],list.get(i)[11],list.get(i)[10],
+									list.get(i)[5],"大客户",
+									new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
+									null,stuNum,list.get(i)[12],list.get(i)[13]);
+							SourceImportFailed sif = new SourceImportFailed();
+							sif.setStuNum(stuNum);
+							sif.setFailInfo(gson.toJson(sie));
+							sif.setFailType("客户条码不是6位数");
+							importFailMapper.insertSelective(sif);
+							inull6=6;
+						}else{
+							try {
+								String oneCode=list.get(i)[12].length()>=3?list.get(i)[12].substring(0,3):null;
+								SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),
+										list.get(i)[2].trim().replace(",", ""),
+										list.get(i)[1],
+										list.get(i)[8].trim().replace(",", ""),
+										Trans.TransToDate(list.get(i)[0]),
+										list.get(i)[4],
+										list.get(i)[6],
+										list.get(i)[7],
+										list.get(i)[9],
+										list.get(i)[11],
+										Trans.toBigDecimal(list.get(i)[10]),
+										list.get(i)[5].trim().replace(",", ""),
+										"大客户",
+										new Timestamp(new Date().getTime()),
+										new BigDecimal("0"),
+										stuNum,
+										oneCode,
+										list.get(i)[13]);
+								importMapper.insertSelective(s);
+								succs++;
+							} catch (Exception e) {
+								e.printStackTrace();
+								SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8].replace(",", ""),list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
+								SourceImportFailed sif = new SourceImportFailed();
+								sif.setStuNum(stuNum);
+								sif.setFailInfo(gson.toJson(sie));
+								sif.setFailType("数据类型转换错误");
+								importFailMapper.insertSelective(sif);
+								inull3=3;
+							}
 						}
 					}else{
 						SourceImportErr sier = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
@@ -177,9 +215,15 @@ public class SourceImportSerImpl implements SourceImportSer{
 			str="数据类型转换错误，请到导入数据错误表中查看";
 		}else if(inull4==4){
 			str="快递单号不符合规范，请到导入数据错误表中查看";
+		}else if(inull5==5){
+			str="客户条码不是纯数字，请到导入数据错误表中查看";
+		}else if(inull6==6){
+			str="客户条码不是6位数，请到导入数据错误表中查看";
 		}else if(count>0){
 			str="导入数据有多种错误，请到导入错误数据表中查看详情";
 		}
+		int rows=list.size()-1;
+		str=str+"\n共["+rows+"]条，成功["+succs+"]条，失败["+(rows-succs)+"]条。";
 		return str;
 	}
 
@@ -352,5 +396,20 @@ public class SourceImportSerImpl implements SourceImportSer{
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		return importMapper.deleteAll(calendar.getTime(),stuNum);
+	}
+	
+	//用JAVA自带的函数判断是否是纯数字
+	private boolean isNumeric(String str){
+		for (int i = 0; i < str.length(); i++){
+		   if (!Character.isDigit(str.charAt(i))){
+			   return false;
+		   }
+		}
+		return true;
+	}
+	
+	
+	public static void main(String[] args) {
+		System.out.println(new SourceImportSerImpl().isNumeric("1asd"));
 	}
 }

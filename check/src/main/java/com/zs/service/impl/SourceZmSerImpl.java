@@ -186,7 +186,7 @@ public class SourceZmSerImpl implements SourceZmSer{
 	 * 检查是否改了省份以及如何处理
 	 */
 	public void checkUpdateProvince(SourceZm zm,String stuNum){
-		if (zm!=null && zm.getProvince()!=null && zm.getCourierNumber()!=null) {
+		if (zm!=null && zm.getProvince()!=null && zm.getCourierNumber()!=null && stuNum!=null) {
 			NoUpdate noUpdate=noUpdateMapper.selectByNumberOfZm(zm.getCourierNumber());
 			if (noUpdate==null) {
 				noUpdateMapper.insertSelective(new NoUpdate(zm.getCourierNumber(),"province",zm.getProvince(),new Date(),stuNum));
@@ -199,6 +199,5 @@ public class SourceZmSerImpl implements SourceZmSer{
 	public List<SourceThirdParty> queryHistory(EasyUIAccept accept) {
 		return zmMapper.queryByNumber(accept);
 	}
-	
 	
 }

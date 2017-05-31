@@ -236,6 +236,8 @@ function excel_export(){
 			    			<option value="数据必填项为空">数据必填项为空</option>
 			    			<option value="数据类型转换错误">数据类型转换错误</option>
 			    			<option value="快递单号不符合规范">快递单号不符合规范</option>
+			    			<option value="客户条码不是纯数字">客户条码不是纯数字</option>
+			    			<option value="客户条码不是6位数">客户条码不是6位数</option>
 			    	   </select>
     		</div>
     		<div>

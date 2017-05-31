@@ -502,28 +502,28 @@
 		    <where>
 		        s1.courier_number=s2.courier_number and s1.tm=s2.return_date
 		    	<if test="str1!=null and str1!=''">
-			  		and CTM_BAR_CODE in (${str1})
+			  		and s2.CTM_BAR_CODE in (${str1})
 			  	</if>
 		  		<if test="date1!=null and date1!=''">
-		  			and SEND_TIME >= #{date1}
+		  			and s2.SEND_TIME >= #{date1}
 		 		</if>
 		 		<if test="date2!=null and date2!=''">
-		  			and SEND_TIME &lt;= #{date2}
+		  			and s2.SEND_TIME &lt;= #{date2}
 		 		</if>
 		  		<if test="str2!=null and str2!=''">
-		  			and CTM_BAR_CODE like '%${str2}%'
+		  			and s2.CTM_BAR_CODE like '%${str2}%'
 		  		</if>
 		  		<if test="str3!=null and str3!=''">
-		  			and COURIER_NUMBER like '%${str3}%'
+		  			and s2.COURIER_NUMBER like '%${str3}%'
 		  		</if>
 		  		<if test="str4!=null and str4!=''">
-		  			and LARGE_AREA like '%${str4}%'
+		  			and s2.LARGE_AREA like '%${str4}%'
 		  		</if>
 		  		<if test="str5!=null and str5!=''">
-		  			and ORDER_NUMBER like '%${str5}%'
+		  			and s2.ORDER_NUMBER like '%${str5}%'
 		  		</if>
 		  		<if test="int1!=null">
-		  			and COURIER_STATE = #{int1}
+		  			and s2.COURIER_STATE = #{int1}
 		  		</if>
 		    </where>
 		    <if test="sort!=null and order!=null">
@@ -550,28 +550,28 @@
     <where>
         s1.courier_number=s2.courier_number and s1.tm=s2.return_date
     	<if test="str1!=null and str1!=''">
-	  		and CTM_BAR_CODE in (${str1})
+	  		and s2.CTM_BAR_CODE in (${str1})
 	  	</if>
   		<if test="date1!=null and date1!=''">
-  			and SEND_TIME >= #{date1}
+  			and s2.SEND_TIME >= #{date1}
  		</if>
  		<if test="date2!=null and date2!=''">
-  			and SEND_TIME &lt;= #{date2}
+  			and s2.SEND_TIME &lt;= #{date2}
  		</if>
   		<if test="str2!=null and str2!=''">
-  			and CTM_BAR_CODE like '%${str2}%'
+  			and s2.CTM_BAR_CODE like '%${str2}%'
   		</if>
   		<if test="str3!=null and str3!=''">
-  			and COURIER_NUMBER like '%${str3}%'
+  			and s2.COURIER_NUMBER like '%${str3}%'
   		</if>
   		<if test="str4!=null and str4!=''">
-  			and LARGE_AREA like '%${str4}%'
+  			and s2.LARGE_AREA like '%${str4}%'
   		</if>
   		<if test="str5!=null and str5!=''">
-  			and ORDER_NUMBER like '%${str5}%'
+  			and s2.ORDER_NUMBER like '%${str5}%'
   		</if>
   		<if test="int1!=null">
-  			and COURIER_STATE = #{int1}
+  			and s2.COURIER_STATE = #{int1}
   		</if>
     </where>	
   </select>

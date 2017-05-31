@@ -1,6 +1,7 @@
 package com.zs.controller.rest;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import com.zs.service.NoUpdateSer;
 import com.zs.service.SourceTpSer;
 import com.zs.service.SourceZmSer;
 import com.zs.tools.ColumnName;
+import com.zs.tools.DateTimeHelper;
 import com.zs.tools.ExcelImport;
 import com.zs.tools.ManagerId;
 
@@ -47,6 +49,7 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+		System.out.println(accept);
 		if (accept!=null) {
 			try {
 				accept.setStr1(ManagerId.isSeeAll(req));

@@ -1,3 +1,4 @@
+<%@page import="com.zs.tools.DateTimeHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -178,15 +179,13 @@ function upload(){
 		">
 	<thead>
 		<tr>
-			<th field="createDate" width="100" sortable="true">创建日期</th>
-			<th field="largeArea" width="80" sortable="true">所属大区</th>
-			<th field="sliceArea" width="80" sortable="true">所属区部</th>
-			<th field="fenbu" width="80" sortable="true">所属分部</th>
-			<th field="fbdArea" width="200" sortable="true">所属分拨点</th>
+			<th field="sendTime" width="160" sortable="true">发货日期</th>
 			<th field="ctmBarCode" width="80" sortable="true">客户条码</th>
 			<th field="ctmName" width="80" sortable="true">客户名称</th>
 			<th field="courierNumber" width="150" sortable="true">快递单号</th>
-			<th field="sendTime" width="160" sortable="true">发货日期</th>
+			<th field="province" width="80" sortable="true">省份</th>
+			<th field="address" width="200" sortable="true">地址</th>
+			<th field="deliveryState" width="100" sortable="true">配送状态</th>
 			<th field="isTimeOut" width="80" sortable="true" data-options="
 				formatter:function(value,row,index){
                       if(value=='0'){
@@ -200,16 +199,12 @@ function upload(){
 						return 'color:#8000FF;';
 					}
                }">是否超时</th>
-			<th field="abnormalCause" width="100" sortable="true">异常原因</th>
-			<th field="deliveryState" width="100" sortable="true">配送状态</th>
 			<th field="signTime" width="200" sortable="true">签收时间</th>
-			<th field="signatory" width="80" sortable="true">签收人</th>
             <th field="signPort" width="150" sortable="true">签收站点</th>
-			<th field="province" width="80" sortable="true">省份</th>
-			<th field="address" width="200" sortable="true">地址</th>
-			<th field="addressee" width="80" sortable="true">收件人</th>
+			<th field="abnormalCause" width="100" sortable="true">异常原因</th>
 			<th field="orderNumber" width="100" sortable="true">订单编号</th>
 			<th field="shopNumber" width="150" sortable="true">客户店铺</th>
+			<th field="addressee" width="80" sortable="true">收件人</th>
 			<th field="phone" width="100" sortable="true">联系方式</th>
 			<th field="weight" width="80" sortable="true">重量</th>
 			<th field="courierCompany" width="80" sortable="true" data-options="
@@ -231,13 +226,19 @@ function upload(){
 			<th field="goods" width="100" sortable="true">物品</th>
 			<th field="goodsCost" width="80" sortable="true">物品价值</th>
 			<th field="fee" width="80" sortable="true">费用</th>
+			<th field="largeArea" width="80" sortable="true">所属大区</th>
+			<th field="sliceArea" width="80" sortable="true">所属区部</th>
+			<th field="fenbu" width="80" sortable="true">所属分部</th>
+			<th field="fbdArea" width="200" sortable="true">所属分拨点</th>
 			<th field="returnDate" width="100" sortable="true" data-options="
 				formatter:function(value,row,index){
                       if(row.returnDate){
 							return getDateByMs(new Date(row.returnDate),'/');
                       }
                }">返回日期</th>
-            <th field="createTime" width="200" sortable="true">系统接收时间</th>
+			<!-- <th field="createDate" width="100" sortable="true">创建日期</th> -->
+			<!-- <th field="signatory" width="80" sortable="true">签收人</th> -->
+            <!-- <th field="createTime" width="200" sortable="true">系统接收时间</th> -->
 		</tr>
 	</thead>
 </table>
@@ -254,10 +255,10 @@ function upload(){
 	<form id="search">
 		<div class="searchBar-input">
     		<div>
-	    		发货日期开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
+	    		发货日期开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
     		</div>
     		<div>
-    			发货日期结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
+    			发货日期结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
     		</div>
    		</div>
    		<div class="searchBar-input">
@@ -267,8 +268,9 @@ function upload(){
 	    			<option value="">--请选择配送状态--</option>
 	    			<option value="配送成功">配送成功</option>
 	    			<option value="配送失败">配送失败</option>
-	    			<option value="配送异常">配送异常</option>
+	    			<option value="揽件">揽件</option>
 	    			<option value="配送中">配送中</option>
+	    			<option value="配送异常">配送异常</option>
 	    			<option value="退回件">退回件</option>
 	    		</select>
     		</div>

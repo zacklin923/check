@@ -17,10 +17,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<jsp:include page="/jsp/part/common.jsp"/>
 	<script type="text/javascript" src="<%=path %>/framework/js/myjs.js"></script>
 	<link rel="stylesheet" type="text/css" href="<%=path %>/framework/css/mycss.css">
-
-	
+	<script type="text/javascript">
+	$(function(){
+		$("#target").val("${target}");
+	});
+	function select_target(){
+		var t=$("#target").val();
+		$.ajax({
+			url:"<%=path%>/system/setting/target",
+			async:false,
+			data:{tar:t},
+			success:function(data){
+				window.parent.location.reload(true);  
+			}
+		});
+	}
+	</script>
   </head>
   
 <body style="margin: 0px;padding: 0px;background-color:#F9BE00;" >
@@ -29,6 +44,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<div style="margin-top: -44px;margin-left: 148px;">
 		<span style="color: #3E3A38;font-size: 37px;font-weight: bold;font-family: Microsoft YaHei;">大客户查件系统</span>
+	</div>
+	<div style="width: 300px;float: right;margin-top: -50px;text-align: right;margin-right: 28px;font-weight: bold;">
+		网页打开方式:
+		<select id="target" onchange="select_target()" style="background-color: #fff;font-weight: bold;">
+			<option value="right">本窗口</option>
+			<option value="_blank">新窗口</option>
+		</select>
 	</div>
 	<div style="margin-top: -17px;">
 	<c:choose>
