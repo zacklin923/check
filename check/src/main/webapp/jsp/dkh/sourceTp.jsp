@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>哲盟返回第三方数据</title>
+<title>运单状态查询</title>
 
 </head>
 <body>
@@ -238,7 +238,7 @@ function upload(){
                }">返回日期</th>
 			<!-- <th field="createDate" width="100" sortable="true">创建日期</th> -->
 			<!-- <th field="signatory" width="80" sortable="true">签收人</th> -->
-            <!-- <th field="createTime" width="200" sortable="true">系统接收时间</th> -->
+            <th field="createTime" width="200" sortable="true">系统接收时间</th>
 		</tr>
 	</thead>
 </table>
@@ -255,10 +255,10 @@ function upload(){
 	<form id="search">
 		<div class="searchBar-input">
     		<div>
-	    		发货日期开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
+	    		发货日期开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
     		</div>
     		<div>
-    			发货日期结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
+    			发货日期结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
     		</div>
    		</div>
    		<div class="searchBar-input">

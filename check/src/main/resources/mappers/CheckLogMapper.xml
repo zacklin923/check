@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.CheckLogMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.CheckLog" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOGISTICCODE" property="logisticcode" jdbcType="VARCHAR" />
+    <result column="ID_DATE" property="idDate" jdbcType="TIMESTAMP" />
+    <result column="TABLENAME" property="tablename" jdbcType="VARCHAR" />
+    <result column="OLDDATA" property="olddata" jdbcType="VARCHAR" />
+    <result column="CRETETIME" property="cretetime" jdbcType="TIMESTAMP" />
+    <result column="USER_NUMBER" property="userNumber" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, LOGISTICCODE, ID_DATE, TABLENAME, OLDDATA, CRETETIME, USER_NUMBER, TYPE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.CheckLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from CHECK_LOG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from CHECK_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from CHECK_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.CheckLogExample" >
+    delete from CHECK_LOG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.CheckLog" >
+    insert into CHECK_LOG (ID, LOGISTICCODE, ID_DATE, 
+      TABLENAME, OLDDATA, CRETETIME, 
+      USER_NUMBER, TYPE)
+    values (#{id,jdbcType=DECIMAL}, #{logisticcode,jdbcType=VARCHAR}, #{idDate,jdbcType=TIMESTAMP}, 
+      #{tablename,jdbcType=VARCHAR}, #{olddata,jdbcType=VARCHAR}, #{cretetime,jdbcType=TIMESTAMP}, 
+      #{userNumber,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.CheckLog" >
+    insert into CHECK_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="logisticcode != null" >
+        LOGISTICCODE,
+      </if>
+      <if test="idDate != null" >
+        ID_DATE,
+      </if>
+      <if test="tablename != null" >
+        TABLENAME,
+      </if>
+      <if test="olddata != null" >
+        OLDDATA,
+      </if>
+      <if test="cretetime != null" >
+        CRETETIME,
+      </if>
+      <if test="userNumber != null" >
+        USER_NUMBER,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="logisticcode != null" >
+        #{logisticcode,jdbcType=VARCHAR},
+      </if>
+      <if test="idDate != null" >
+        #{idDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tablename != null" >
+        #{tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="olddata != null" >
+        #{olddata,jdbcType=VARCHAR},
+      </if>
+      <if test="cretetime != null" >
+        #{cretetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userNumber != null" >
+        #{userNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.CheckLogExample" resultType="java.lang.Integer" >
+    select count(*) from CHECK_LOG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CHECK_LOG
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.logisticcode != null" >
+        LOGISTICCODE = #{record.logisticcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idDate != null" >
+        ID_DATE = #{record.idDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tablename != null" >
+        TABLENAME = #{record.tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.olddata != null" >
+        OLDDATA = #{record.olddata,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cretetime != null" >
+        CRETETIME = #{record.cretetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userNumber != null" >
+        USER_NUMBER = #{record.userNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CHECK_LOG
+    set ID = #{record.id,jdbcType=DECIMAL},
+      LOGISTICCODE = #{record.logisticcode,jdbcType=VARCHAR},
+      ID_DATE = #{record.idDate,jdbcType=TIMESTAMP},
+      TABLENAME = #{record.tablename,jdbcType=VARCHAR},
+      OLDDATA = #{record.olddata,jdbcType=VARCHAR},
+      CRETETIME = #{record.cretetime,jdbcType=TIMESTAMP},
+      USER_NUMBER = #{record.userNumber,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.CheckLog" >
+    update CHECK_LOG
+    <set >
+      <if test="logisticcode != null" >
+        LOGISTICCODE = #{logisticcode,jdbcType=VARCHAR},
+      </if>
+      <if test="idDate != null" >
+        ID_DATE = #{idDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tablename != null" >
+        TABLENAME = #{tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="olddata != null" >
+        OLDDATA = #{olddata,jdbcType=VARCHAR},
+      </if>
+      <if test="cretetime != null" >
+        CRETETIME = #{cretetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userNumber != null" >
+        USER_NUMBER = #{userNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.CheckLog" >
+    update CHECK_LOG
+    set LOGISTICCODE = #{logisticcode,jdbcType=VARCHAR},
+      ID_DATE = #{idDate,jdbcType=TIMESTAMP},
+      TABLENAME = #{tablename,jdbcType=VARCHAR},
+      OLDDATA = #{olddata,jdbcType=VARCHAR},
+      CRETETIME = #{cretetime,jdbcType=TIMESTAMP},
+      USER_NUMBER = #{userNumber,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select * from
+  	(
+	  	select t1.*,rownum rn from
+	  	(
+		  	select * from CHECK_LOG
+		  	<where>
+		  		<if test="date1!=null and date1!=''">
+		 			and CRETETIME >= #{date1}
+				</if>
+				<if test="date2!=null and date2!=''">
+		 			and CRETETIME &lt;= #{date2}
+				</if>
+				<if test="str1!=null and str1!=''">
+			  		and USER_NUMBER in (select stu_num from staff_user where stu_name like '%${str1}%')
+			  	</if>
+			  	<if test="str2!=null and str2!=''">
+			  		and TYPE like '%${str2}%'
+			  	</if>
+			  	<if test="str3!=null and str3!=''">
+			  		and TABLENAME = #{str3}
+			  	</if>
+			  	<if test="str4!=null and str4!=''">
+			  		and LOGISTICCODE like '%${str4}%'
+			  	</if>
+		  	</where>
+		  	<if test="sort!=null and order!=null">
+		  		order by ${sort} ${order},CRETETIME desc
+		  	</if>
+		  	<if test="sort==null or order==null">
+		  		order by CRETETIME desc
+		  	</if>
+	  	) t1
+	  	<where>
+	  		<if test="end!=null">
+	  			rownum &lt;= #{end}
+		  	</if>
+	  	</where>
+  	)
+  	<where>
+  		<if test="start!=null">
+  			rn > #{start}
+	  	</if>
+  	</where>
+  </select>
+  <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select count(*) from CHECK_LOG
+  </select>
+</mapper>

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.zs.controller.rest.BaseRestController.Code;
+import com.zs.entity.CheckLog;
 import com.zs.entity.SourceThirdParty;
 import com.zs.entity.SourceThirdPartyKey;
 import com.zs.entity.SourceZm;
@@ -25,6 +26,7 @@ import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
+import com.zs.service.CheckLogSer;
 import com.zs.service.SourceZmSer;
 import com.zs.tools.ColumnName;
 import com.zs.tools.DateTimeHelper;
@@ -37,11 +39,12 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 
 	@Resource
 	private SourceZmSer sourceZmSer;
+	@Resource
+	private CheckLogSer	checkLogSer;
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println(accept);
 		if (accept!=null) {
 			try {
 				accept.setStr1(ManagerId.isSeeAll(req));
@@ -94,7 +97,10 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 							|| (sourceZm.getProvince()==null && obj.getProvince()==null)) {
 						obj.setProvince(null);
 					}
-					return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceZmSer.update(obj,user.getStuNum()));
+					Integer iu = sourceZmSer.update(obj,user.getStuNum());
+					CheckLog clog = new CheckLog(null, obj.getCourierNumber(), obj.getReturnDate(), "source_zm",new Gson().toJson(sourceZm) , null,user.getStuNum() , "修改");
+					checkLogSer.add(clog);
+					return new Result<Integer>(SUCCESS,  Code.SUCCESS, iu);
 				} catch (Exception e) {
 					e.printStackTrace();
 					return new Result<Integer>(ERROR, Code.ERROR, -1);

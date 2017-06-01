@@ -62,6 +62,7 @@ if(request.getSession().getAttribute("target")==null){
        		<li><span><a href="<%=path %>/user" target="${target }">用户管理</a></span></li>
        		<li><span><a href="<%=path %>/role" target="${target }">角色管理</a></span></li>
 	        <li><span><a href="<%=path %>/power" target="${target }">权限管理</a></span></li>
+	        <li><span><a href="<%=path %>/checklog" target="${target }">查看日志</a></span></li>
         </ul>
 	</div>
 	<div title="基础信息维护" data-options="iconCls:'icon-data-add'" style="padding:10px;">

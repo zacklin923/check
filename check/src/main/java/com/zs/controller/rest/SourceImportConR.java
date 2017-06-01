@@ -1,12 +1,12 @@
 package com.zs.controller.rest;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.PathParam;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
-import com.zs.controller.rest.BaseRestController.Code;
+import com.zs.entity.CheckLog;
 import com.zs.entity.SourceImport;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
+import com.zs.service.CheckLogSer;
 import com.zs.service.SourceImportSer;
 import com.zs.tools.ColumnName;
 import com.zs.tools.ExcelImport;
@@ -33,7 +34,9 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 
 	@Resource
 	private SourceImportSer sourceImportSer;
-
+	@Resource
+	private CheckLogSer	checkLogSer;
+	
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
@@ -68,7 +71,12 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	public Result<Integer> doUpdate(SourceImport obj, HttpServletRequest req, HttpServletResponse resp) {
 		if(obj!=null){
 			try {
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportSer.update(obj));
+				SourceImport ols = sourceImportSer.get(obj.getCourierNumber());
+				Integer iu = sourceImportSer.update(obj);
+				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
+				CheckLog clog = new CheckLog(null, obj.getCourierNumber(), null, "source_import",new Gson().toJson(ols) , null,user.getStuNum() , "修改");
+				checkLogSer.add(clog);
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, iu);
 			} catch (Exception e) {
 				return new Result<Integer>(ERROR, Code.ERROR, -1);
 			}
@@ -87,7 +95,12 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	public Result<Integer> doDeleteTrue(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
 		if(id!=null&&!id.equals("")){
 			try {
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportSer.delete(id));
+				SourceImport ols = sourceImportSer.get(id);
+				Integer i = sourceImportSer.delete(id);
+				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
+				CheckLog clog = new CheckLog(null, id, null, "source_import",new Gson().toJson(ols) , null,user.getStuNum() , "删除单条");
+				checkLogSer.add(clog);
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, i);
 			} catch (Exception e) {
 				return new Result<Integer>(ERROR, Code.ERROR, -1);
 			}
@@ -99,7 +112,10 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	public Result<Integer> doDeleteAll( HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportSer.deleteAll(user.getStuNum()));
+			Integer i  = sourceImportSer.deleteAll(user.getStuNum());
+			CheckLog clog = new CheckLog(null, null, null, "source_import","删除了创建时间前的今天数据", null,user.getStuNum() , "删除今天数据");
+			checkLogSer.add(clog);
+			return new Result<Integer>(SUCCESS,  Code.SUCCESS, i);
 		} catch (Exception e) {
 			return new Result<Integer>(ERROR, Code.ERROR, -1);
 		}

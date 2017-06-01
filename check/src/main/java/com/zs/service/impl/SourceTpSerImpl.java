@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.Gson;
+import com.zs.dao.CheckLogMapper;
 import com.zs.dao.NoUpdateMapper;
 import com.zs.dao.SourceThirdPartyMapper;
 import com.zs.dao.SourceZmMapper;
+import com.zs.entity.CheckLog;
 import com.zs.entity.NoUpdate;
 import com.zs.entity.NoUpdateKey;
 import com.zs.entity.SourceThirdParty;
@@ -38,6 +40,9 @@ public class SourceTpSerImpl implements SourceTpSer{
 	private SourceZmSer sourceZmSer;
 	@Resource
 	private NoUpdateSer noUpdateSer;
+	@Resource
+	private CheckLogMapper checkLogMapper;
+	
 
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -77,6 +82,7 @@ public class SourceTpSerImpl implements SourceTpSer{
 	}
 
 	public String importData(List<String[]> list , HttpServletRequest req) {
+		StaffUser u = (StaffUser) req.getSession().getAttribute("user");
 		List<String> ls = new ArrayList<String>();
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[0].equals("")||list.get(i)[7].equals("")){
@@ -101,7 +107,6 @@ public class SourceTpSerImpl implements SourceTpSer{
 								nu.setCourierNumber(list.get(i)[0]);
 								nu.setNoUpdateName("delivery_state");
 								nu.setNoUpdateValue(list.get(i)[2]);
-								StaffUser u = (StaffUser) req.getSession().getAttribute("user");
 								nu.setStuNum(u.getStuNum());
 								noUpdateSer.add(nu);
 							}
@@ -115,6 +120,9 @@ public class SourceTpSerImpl implements SourceTpSer{
 						SourceZm sz = new SourceZm(stp.getCourierNumber(), stp.getReturnDate(), stp.getProvince(),stp.getAddress(), stp.getShopNumber(),stp.getAddressee(),stp.getPhone(), stp.getGoods(), stp.getGoodsCost(), stp.getOrderNumber());
 						zmMapper.updateByPrimaryKeySelective(sz);
 						thirdPartyMapper.updateByPrimaryKeySelective(stp);
+						//添加信息到日志表
+						CheckLog clog = new CheckLog(null, isstp.getCourierNumber(),isstp.getReturnDate(), "source_third_party",new Gson().toJson(isstp) , null,u.getStuNum(), "修改");
+						checkLogMapper.insertSelective(clog);
 					}else{
 						ls.add((i+1)+"");
 					}

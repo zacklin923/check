@@ -1,6 +1,8 @@
 package com.zs.tools;
 
 import java.util.Calendar;
+import java.util.Date;
+
 import com.zs.entity.other.MyDate;
 
 /**
@@ -32,5 +34,21 @@ public class DateTimeHelper {
 		calendar.add(Calendar.MILLISECOND, -1);
 		return new MyDate(calendar.getTime());
 	}
+	
+	//得到昨天8点的时间
+	public static MyDate getBeginOfOld() {
+		Calendar calendar=Calendar.getInstance();
+		Date date = new Date();
+		calendar.set(date.getYear()+1900,date.getMonth(),date.getDate()-1,8,0,0);
+		return new MyDate(calendar.getTime());
+	}
+	
+	//得到今天最7.59的时间
+		public static MyDate getEndOfOld() {
+			Calendar calendar=Calendar.getInstance();
+			Date date = new Date();
+			calendar.set(date.getYear()+1900,date.getMonth(),date.getDate(),7,59,59);
+			return new MyDate(calendar.getTime());
+		}
 	
 }
