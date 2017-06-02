@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.zs.controller.rest.BaseRestController.Code;
+import com.zs.entity.CheckLog;
 import com.zs.entity.NoUpdate;
 import com.zs.entity.NoUpdateKey;
 import com.zs.entity.SourceThirdParty;
@@ -27,6 +29,7 @@ import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
+import com.zs.service.CheckLogSer;
 import com.zs.service.NoUpdateSer;
 import com.zs.service.SourceTpSer;
 import com.zs.service.SourceZmSer;
@@ -34,6 +37,7 @@ import com.zs.tools.ColumnName;
 import com.zs.tools.DateTimeHelper;
 import com.zs.tools.ExcelImport;
 import com.zs.tools.ManagerId;
+import com.zs.tools.Trans;
 
 @RestController
 @RequestMapping("/api/sourceTp")
@@ -45,11 +49,12 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 	private SourceZmSer sourceZmSer;
 	@Resource
 	private NoUpdateSer noUpdateSer;
+	@Resource
+	private CheckLogSer	checkLogSer;
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println(accept);
 		if (accept!=null) {
 			try {
 				accept.setStr1(ManagerId.isSeeAll(req));
@@ -83,15 +88,15 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 				obj.setReturnDate(new Date(Long.valueOf(id[1])));
 				try {
 					//-------判断配送状态是否修改为系统不能修改的两个字段
+					SourceThirdPartyKey stpk = new SourceThirdPartyKey(obj.getCourierNumber(), obj.getReturnDate());
+					SourceThirdParty stp = sourceTpSer.get(stpk);
+					StaffUser u = (StaffUser) req.getSession().getAttribute("user");
 					if(obj.getDeliveryState().equals("配送成功")||obj.getDeliveryState().equals("配送失败")){
-						SourceThirdPartyKey stpk = new SourceThirdPartyKey(obj.getCourierNumber(), obj.getReturnDate());
-						SourceThirdParty stp = sourceTpSer.get(stpk);
 						if(!stp.getDeliveryState().equals(obj.getDeliveryState())){
 							NoUpdate nu = new NoUpdate();
 							nu.setCourierNumber(obj.getCourierNumber());
 							nu.setNoUpdateName("delivery_state");
 							nu.setNoUpdateValue(obj.getDeliveryState());
-							StaffUser u = (StaffUser) req.getSession().getAttribute("user");
 							nu.setStuNum(u.getStuNum());
 							noUpdateSer.add(nu);
 						}
@@ -102,10 +107,14 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 							
 						}
 					}
-					//---------
+					//-------同步到哲盟返回表
 					SourceZm sz = new SourceZm(obj.getCourierNumber(), obj.getReturnDate(), obj.getProvince(),obj.getAddress(), obj.getShopNumber(),obj.getAddressee(),obj.getPhone(), obj.getGoods(), obj.getGoodsCost(), obj.getOrderNumber());
 					sourceZmSer.update(sz);
-					return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceTpSer.update(obj));
+					Integer iu = sourceTpSer.update(obj);
+					//-------添加到日志表中
+					CheckLog clog = new CheckLog(null, obj.getCourierNumber(), obj.getReturnDate(), "source_third_party",new Gson().toJson(stp) , null,u.getStuNum() , "修改");
+					checkLogSer.add(clog);
+					return new Result<Integer>(SUCCESS,  Code.SUCCESS, iu);
 				} catch (Exception e) {
 					e.printStackTrace();
 					return new Result<Integer>(ERROR, Code.ERROR, -1);

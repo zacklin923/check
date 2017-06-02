@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 import com.zs.controller.rest.BaseRestController.Code;
+import com.zs.dao.CheckLogMapper;
 import com.zs.dao.NoUpdateMapper;
 import com.zs.dao.SourceZmMapper;
+import com.zs.entity.CheckLog;
 import com.zs.entity.NoUpdate;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
@@ -41,6 +43,8 @@ public class SourceZmSerImpl implements SourceZmSer{
 	private SourceZmMapper zmMapper;
 	@Resource
 	private NoUpdateMapper noUpdateMapper;
+	@Resource
+	private CheckLogMapper checkLogMapper;
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -155,6 +159,10 @@ public class SourceZmSerImpl implements SourceZmSer{
 							e.printStackTrace();
 						}
 						zmMapper.updateByPrimaryKeySelective(sz);
+						//添加信息到日志表
+						CheckLog clog = new CheckLog(null, Trans.tostring(list.get(i)[6]),Trans.TransToDate(list.get(i)[19]), "source_zm",new Gson().toJson(iszs) , null,stuNum , "修改");
+						checkLogMapper.insertSelective(clog);
+						//
 						checkUpdateProvince(sz, stuNum);
 					}else{
 						ls.add((i+1)+"");
