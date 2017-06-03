@@ -133,9 +133,24 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 	}
 	
 	
-	@RequestMapping(value="/exportExcel",method=RequestMethod.GET)
+//	@RequestMapping(value="/exportExcel",method=RequestMethod.GET)
 	@Override
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+//		if (accept!=null) {
+//			try {
+//				accept.setStr1(ManagerId.isSeeAll(req));
+//				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+//				return new Result<String>(SUCCESS,  Code.SUCCESS, sourceZmSer.ExportData(accept,req));
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				return new Result<String>(ERROR, Code.ERROR, "数据装载失败");
+//			}
+//		}
+		return null;
+	}
+
+	@RequestMapping(value="/exportExceltest",method=RequestMethod.GET)
+	public Result<String> excelExporttest(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
 				accept.setStr1(ManagerId.isSeeAll(req));
@@ -148,7 +163,7 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 		}
 		return null;
 	}
-
+	
 	@RequestMapping(value="/import",method=RequestMethod.POST)
 	@Override
 	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
@@ -158,7 +173,7 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 		if (!file.isEmpty()) {
 			try {
 				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
-				s = s + sourceZmSer.importData(list,user.getStuNum());
+				s = s + sourceZmSer.importDatatest(list,user.getStuNum());
 				if(s.equals("")){
 					req.getSession().setAttribute("isLoading", false);
 					return new Result<String>(SUCCESS,  Code.SUCCESS, s);

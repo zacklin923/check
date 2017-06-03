@@ -527,10 +527,10 @@
 		  		</if>
 		    </where>
 		    <if test="sort!=null and order!=null">
-		  		order by s2.${sort} ${order},s2.CREATE_TIME desc
+		  		order by s2.${sort} ${order},s2.RETURN_DATE desc ,s2.CREATE_TIME desc
 		  	</if>
 		  	<if test="sort==null or order==null">
-		  		order by s2.CREATE_TIME desc
+		  		order by s2.RETURN_DATE desc ,s2.CREATE_TIME desc
 		  	</if>
 		) t1
 		<where>

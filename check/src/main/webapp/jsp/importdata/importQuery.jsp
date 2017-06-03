@@ -265,7 +265,7 @@ function pushData(){
 	<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAllData()">删除所有数据</a>
 	</div>
 	<div class="btn-separator">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="pushData()">上传数据</a>
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="pushData()" disabled="true">上传数据</a>
 	</div>
 	<div class="btn-separator">
 		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>

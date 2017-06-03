@@ -54,12 +54,36 @@ function save(){
 		}
 	});
 }
+function selectAll(){
+	var a = $('#exportdiv input');
+	if(a[0].checked){
+		for(var i = 0;i<a.length;i++){
+			if(a[i].type == "checkbox") a[i].checked = false;
+		}
+	}else{
+		for(var i = 0;i<a.length;i++){
+			if(a[i].type == "checkbox") a[i].checked = true;
+		}
+	}
+}
+function negated(){
+	$("#exportdiv input:checkbox").each(function () {  
+        this.checked = !this.checked;  
+     }) 
+}
 function excel_export(){
+	var r=document.getElementsByName("exportline")
+	var str = "";
+	for(var i=0;i<r.length;i++){
+        if(r[i].checked){
+        	str = str + r[i].nextSibling.nodeValue+",";
+      }
+    };
+	$("#exportvalue").val(str);
 	$("#search").form("submit",{
-		url:"<%=path%>/api/sourceTp/exportExcel",
-		method:"get",
+		url:"<%=path%>/api/sourceTp/exportExceltest",
 		onSubmit: function(){   
-	    },   
+		},   
 	    success:function(data){   
 	    	var json;
 			if(isJson(data)){
@@ -69,6 +93,7 @@ function excel_export(){
 			}
 			if(json.result=='success'){
 				var d = eval('('+data+')');
+				$("#exportdiv").dialog("close");
 				window.location.href=d.data;
 			}else{
 				alert("错误:"+json.data);
@@ -298,13 +323,14 @@ function upload(){
 	    			<option value="1">是</option>
 	    		</select>
     		</div>
+    		<input type="hidden" name ="str7" id = "exportvalue"/>
    		</div>
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
 	<div class="pull-away"></div>
 </div>
 
@@ -458,6 +484,41 @@ function upload(){
 		</thead>
 	</table>
 </div>
-
+<div id="exportdiv" class="easyui-dialog" style="width:400px;height:700px;padding:10px 20px"
+		closed="true" buttons="#exportdiv-buttons" modal="true" title="导出选项">
+		请选择你需要导出的列：
+			<div><input type="checkbox" name="exportline" />所属大区</div>
+			<div><input type="checkbox" name="exportline" />所属区部</div>
+			<div><input type="checkbox" name="exportline" />所属分部</div>
+			<div><input type="checkbox" name="exportline" />所属分拨点</div>
+			<div><input type="checkbox" name="exportline" />客户条码</div>
+			<div><input type="checkbox" name="exportline" />客户名称</div>
+			<div><input type="checkbox" name="exportline" />快递单号</div>
+			<div><input type="checkbox" name="exportline" />发货日期</div>
+			<div><input type="checkbox" name="exportline" />是否超时</div>
+			<div><input type="checkbox" name="exportline" />异常原因</div>
+			<div><input type="checkbox" name="exportline" />省份</div>
+			<div><input type="checkbox" name="exportline" />地址</div>
+			<div><input type="checkbox" name="exportline" />配送状态</div>
+			<div><input type="checkbox" name="exportline" />签收人</div>
+			<div><input type="checkbox" name="exportline" />签收时间</div>
+			<div><input type="checkbox" name="exportline" />签收站点</div>
+			<div><input type="checkbox" name="exportline" />收件人</div>
+			<div><input type="checkbox" name="exportline" />订单编号</div>
+			<div><input type="checkbox" name="exportline" />客户店铺</div>
+			<div><input type="checkbox" name="exportline" />联系方式</div>
+			<div><input type="checkbox" name="exportline" />重量</div>
+			<div><input type="checkbox" name="exportline" />快递公司</div>
+			<div><input type="checkbox" name="exportline" />物品</div>
+			<div><input type="checkbox" name="exportline" />物品价值</div>
+			<div><input type="checkbox" name="exportline" />费用</div>
+			<div><input type="checkbox" name="exportline" />返回日期</div>
+</div>                                                      
+<div id="exportdiv-buttons">                                
+	<a class="easyui-linkbutton"  onclick="selectAll()">全选/全不选</a>
+	<a class="easyui-linkbutton"  onclick="negated()">反 选</a>
+	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="excel_export()">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+</div>
 </body>
 </html>
