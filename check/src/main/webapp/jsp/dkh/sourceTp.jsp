@@ -184,6 +184,24 @@ function upload(){
 		}
 	});
 }
+function search_toolbar1(){
+	var f=$('#search');
+	if(f.form('validate')){
+		var json=formToJson(f);
+		var reg=new RegExp("\r\n","g");
+		if(json.str3!=null){
+			var str3 = json.str3.replace(reg,",");
+			json.str3=str3;
+			console.log(str3);
+		}
+		if(json.str4!=null){
+			var str4 = json.str4.replace(reg,",");
+			json.str4=str4;
+			console.log(str4);
+		}
+		$('#dg').datagrid('load', json);
+	}
+}
 </script>
 <table id="dg" border="true" title="快件信息>运单状态查询"
 		url="<%=path %>/api/sourceTp"
@@ -279,11 +297,27 @@ function upload(){
 	<hr class="hr-geay">
 	<form id="search">
 		<div class="searchBar-input">
+	    	<div>	
+	    		<span style="display:block;float:left;margin-top:40px;">快递单号：</span><textarea name ="str3" style="height:98px;"></textarea>
+   			</div>
+   		</div>
+   		<div class="searchBar-input">
+	    	<div>	
+	    		<span style="display:block;float:left;margin-top:40px;">客户条码：</span><textarea name ="str4" style="height:98px;"></textarea>
+   			</div>
+   		</div>
+		<div class="searchBar-input">
     		<div>
 	    		发货日期开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
     		</div>
     		<div>
     			发货日期结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
+    		</div>
+    		<div>
+    			订单编号：<input name ="str5" />
+    		</div>
+    		<div>
+	    		客户店铺：<input name ="str6" />
     		</div>
    		</div>
    		<div class="searchBar-input">
@@ -300,22 +334,6 @@ function upload(){
 	    		</select>
     		</div>
     		<div>
-    			快递单号：<input name ="str3" />
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		客户条码：<input name ="str4" />
-    		</div>
-    		<div>
-    			订单编号：<input name ="str5" />
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		客户店铺：<input name ="str6" />
-    		</div>
-    		<div>
 	    		是否超时：
 	    		<select name ="int1" style="width: 170px;">
 	    			<option value="">--请选择是否超时--</option>
@@ -328,7 +346,7 @@ function upload(){
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
 	<div class="pull-away"></div>

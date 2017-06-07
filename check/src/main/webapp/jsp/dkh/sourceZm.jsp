@@ -185,6 +185,24 @@ function upload(){
 		}
 	});
 }
+function search_toolbar1(){
+	var f=$('#search');
+	if(f.form('validate')){
+		var json=formToJson(f);
+		var reg=new RegExp("\r\n","g");
+		if(json.str3!=null){
+			var str3 = json.str3.replace(reg,",");
+			json.str3=str3;
+			console.log(str3);
+		}
+		if(json.str2!=null){
+			var str2 = json.str2.replace(reg,",");
+			json.str2=str2;
+			console.log(str2);
+		}
+		$('#dg').datagrid('load', json);
+	}
+}
 </script>
 <table id="dg" border="true" title="快件信息>运单信息查询"
 		url="<%=path %>/api/sourceZm"
@@ -271,22 +289,22 @@ function upload(){
 	<form id="search">
 		<input type="hidden" name="_header" value="${user.licence }"/>
 		<div class="searchBar-input">
+	    	<div>	
+	    		<span style="display:block;float:left;margin-top:40px;">快递单号：</span><textarea name ="str3" style="height:98px;"></textarea>
+   			</div>
+   		</div>
+   		<div class="searchBar-input">
+	    	<div>	
+	    		<span style="display:block;float:left;margin-top:40px;">客户条码：</span><textarea name ="str2" style="height:98px;"></textarea>
+   			</div>
+   		</div>
+		<div class="searchBar-input">
     		<div>
 	    		发货开始日期：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
     		</div>
     		<div>
     			发货结束日期：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
     		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		客户条码：<input name ="str2" />
-    		</div>
-    		<div>
-    			快递单号：<input name ="str3" />
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
     		<div>
 	    		所属大区：<input name ="str4" />
     		</div>
@@ -308,7 +326,7 @@ function upload(){
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
 	<div class="pull-away"></div>

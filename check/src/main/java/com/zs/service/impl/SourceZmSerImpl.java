@@ -22,6 +22,7 @@ import com.zs.dao.NoUpdateMapper;
 import com.zs.dao.SourceZmMapper;
 import com.zs.entity.CheckLog;
 import com.zs.entity.Customer;
+import com.zs.entity.CustomerKey;
 import com.zs.entity.NoUpdate;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
@@ -254,7 +255,10 @@ public class SourceZmSerImpl implements SourceZmSer{
 				try {
 					SourceZmKey szk = new SourceZmKey(Trans.tostring(list.get(i)[6]), Trans.TransToDate(list.get(i)[19]));
 					SourceZm iszs = zmMapper.selectByPrimaryKey(szk);
-					Customer ct = custormerMapper.selectByPrimaryKey(list.get(i)[4]);
+					CustomerKey ck = new CustomerKey();
+					ck.setCteBarCode(list.get(i)[4]);
+					ck.setHistoryCount(new BigDecimal(0));
+					Customer ct = custormerMapper.selectByPrimaryKey(ck);
 					String ctm_name="";
 					if(ct!=null){
 						ctm_name = ct.getCteName();

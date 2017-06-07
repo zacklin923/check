@@ -47,6 +47,40 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
+				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
+					String [] ss = accept.getStr3().trim().split(",");
+					String str="";
+					for (int i = 0; i < ss.length; i++) {
+						String strt=ss[i].trim();
+						if(!strt.equals("")&&strt!=null){
+							if(i!=ss.length-1){
+								str=str+"'"+strt+"'"+",";
+							}else{
+								str=str+"'"+strt+"'";
+							}
+						}
+					}
+					if(str!=null&&!str.equals(",")){
+						accept.setStr3(str);
+					}
+				}
+				if(accept.getStr2()!=null&&!accept.getStr2().equals("")){
+					String [] ss2 = accept.getStr2().trim().split(",");
+					String str2="";
+					for (int i = 0; i < ss2.length; i++) {
+						String strt2=ss2[i].trim();
+						if(!strt2.equals("")&&strt2!=null){
+							if(i!=ss2.length-1){
+								str2=str2+"'"+strt2+"'"+",";
+							}else{
+								str2=str2+"'"+strt2+"'";
+							}
+						}
+					}
+					if(str2!=null&&!str2.equals(",")){
+						accept.setStr2(str2);
+					}
+				}
 				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceZmSer.queryFenye(accept);
@@ -153,6 +187,40 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 	public Result<String> excelExporttest(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
+				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
+					String [] ss = accept.getStr3().trim().split(",");
+					String str="";
+					for (int i = 0; i < ss.length; i++) {
+						String strt=ss[i].trim();
+						if(!strt.equals("")&&strt!=null){
+							if(i!=ss.length-1){
+								str=str+"'"+strt+"'"+",";
+							}else{
+								str=str+"'"+strt+"'";
+							}
+						}
+					}
+					if(str!=null&&!str.equals(",")){
+						accept.setStr3(str);
+					}
+				}
+				if(accept.getStr2()!=null&&!accept.getStr2().equals("")){
+					String [] ss2 = accept.getStr2().trim().split(",");
+					String str2="";
+					for (int i = 0; i < ss2.length; i++) {
+						String strt2=ss2[i].trim();
+						if(!strt2.equals("")&&strt2!=null){
+							if(i!=ss2.length-1){
+								str2=str2+"'"+strt2+"'"+",";
+							}else{
+								str2=str2+"'"+strt2+"'";
+							}
+						}
+					}
+					if(str2!=null&&!str2.equals(",")){
+						accept.setStr2(str2);
+					}
+				}
 				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>(SUCCESS,  Code.SUCCESS, sourceZmSer.ExportData(accept,req));

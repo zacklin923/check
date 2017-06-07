@@ -59,7 +59,7 @@ select{
 .searchBar-input	{
 	float: left;
 	width: 260px; 
-	height: 50px;
+	height: 105px;
 }
 .searchBar-input>div	{
 	line-height:220%;

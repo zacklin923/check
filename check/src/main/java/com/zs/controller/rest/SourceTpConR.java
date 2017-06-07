@@ -57,6 +57,40 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
+				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
+					String [] ss = accept.getStr3().trim().split(",");
+					String str="";
+					for (int i = 0; i < ss.length; i++) {
+						String strt=ss[i].trim();
+						if(!strt.equals("")&&strt!=null){
+							if(i!=ss.length-1){
+								str=str+"'"+strt+"'"+",";
+							}else{
+								str=str+"'"+strt+"'";
+							}
+						}
+					}
+					if(str!=null&&!str.equals(",")){
+						accept.setStr3(str);
+					}
+				}
+				if(accept.getStr4()!=null&&!accept.getStr4().equals("")){
+					String [] ss4 = accept.getStr4().trim().split(",");
+					String str4="";
+					for (int i = 0; i < ss4.length; i++) {
+						String strt4=ss4[i].trim();
+						if(!strt4.equals("")&&strt4!=null){
+							if(i!=ss4.length-1){
+								str4=str4+"'"+strt4+"'"+",";
+							}else{
+								str4=str4+"'"+strt4+"'";
+							}
+						}
+					}
+					if(str4!=null&&!str4.equals(",")){
+						accept.setStr4(str4);
+					}
+				}
 				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceTpSer.queryFenye(accept);
@@ -166,6 +200,40 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 	public Result<String> excelExporttest(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
+				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
+					String [] ss = accept.getStr3().trim().split(",");
+					String str="";
+					for (int i = 0; i < ss.length; i++) {
+						String strt=ss[i].trim();
+						if(!strt.equals("")&&strt!=null){
+							if(i!=ss.length-1){
+								str=str+"'"+strt+"'"+",";
+							}else{
+								str=str+"'"+strt+"'";
+							}
+						}
+					}
+					if(str!=null&&!str.equals(",")){
+						accept.setStr3(str);
+					}
+				}
+				if(accept.getStr4()!=null&&!accept.getStr4().equals("")){
+					String [] ss4 = accept.getStr4().trim().split(",");
+					String str4="";
+					for (int i = 0; i < ss4.length; i++) {
+						String strt4=ss4[i].trim();
+						if(!strt4.equals("")&&strt4!=null){
+							if(i!=ss4.length-1){
+								str4=str4+"'"+strt4+"'"+",";
+							}else{
+								str4=str4+"'"+strt4+"'";
+							}
+						}
+					}
+					if(str4!=null&&!str4.equals(",")){
+						accept.setStr4(str4);
+					}
+				}
 				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>(SUCCESS,  Code.SUCCESS, sourceTpSer.ExportData(accept,req));
