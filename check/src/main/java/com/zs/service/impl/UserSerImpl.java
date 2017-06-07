@@ -12,6 +12,7 @@ import com.zs.dao.CustomerMapper;
 import com.zs.dao.StaffRoleMapper;
 import com.zs.dao.StaffUserMapper;
 import com.zs.entity.Customer;
+import com.zs.entity.CustomerKey;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -43,7 +44,10 @@ public class UserSerImpl implements UserSer{
 				String ss[]=staffUser.getOwnBarCode()!=null?staffUser.getOwnBarCode().split(","):new String[0];
 				String str="";
 				for (int j = 0; j < ss.length; j++) {
-					Customer customer=customerMapper.selectByPrimaryKey(ss[j]);
+					CustomerKey ck = new CustomerKey();
+					ck.setCteBarCode(ss[j]);
+					ck.setHistoryCount(new BigDecimal(0));
+					Customer customer=customerMapper.selectByPrimaryKey(ck);
 					if (customer!=null) {
 						str=str+","+customer.getCteName();
 					}

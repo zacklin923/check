@@ -54,9 +54,34 @@ function save(){
 		}
 	});
 }
+function selectAll(){
+	var a = $('#exportdiv input');
+	if(a[0].checked){
+		for(var i = 0;i<a.length;i++){
+			if(a[i].type == "checkbox") a[i].checked = false;
+		}
+	}else{
+		for(var i = 0;i<a.length;i++){
+			if(a[i].type == "checkbox") a[i].checked = true;
+		}
+	}
+}
+function negated(){
+	$("#exportdiv input:checkbox").each(function () {  
+        this.checked = !this.checked;  
+     }) 
+}
 function excel_export(){
+	var r=document.getElementsByName("exportline")
+	var str = "";
+	for(var i=0;i<r.length;i++){
+        if(r[i].checked){
+        	str = str + r[i].nextSibling.nodeValue+",";
+      }
+    };
+	$("#exportvalue").val(str);
 	$("#search").form("submit",{
-		url:"<%=path%>/api/sourceZm/exportExcel",
+		url:"<%=path%>/api/sourceZm/exportExceltest",
 		onSubmit: function(){   
 		},   
 	    success:function(data){   
@@ -68,6 +93,7 @@ function excel_export(){
 			}
 			if(json.result=='success'){
 				var d = eval('('+data+')');
+				$("#exportdiv").dialog("close");
 				window.location.href=d.data;
 			}else{
 				alert("错误:"+json.data);
@@ -159,6 +185,24 @@ function upload(){
 		}
 	});
 }
+function search_toolbar1(){
+	var f=$('#search');
+	if(f.form('validate')){
+		var json=formToJson(f);
+		var reg=new RegExp("\r\n","g");
+		if(json.str3!=null){
+			var str3 = json.str3.replace(reg,",");
+			json.str3=str3;
+			console.log(str3);
+		}
+		if(json.str2!=null){
+			var str2 = json.str2.replace(reg,",");
+			json.str2=str2;
+			console.log(str2);
+		}
+		$('#dg').datagrid('load', json);
+	}
+}
 </script>
 <table id="dg" border="true" title="快件信息>运单信息查询"
 		url="<%=path %>/api/sourceZm"
@@ -245,28 +289,29 @@ function upload(){
 	<form id="search">
 		<input type="hidden" name="_header" value="${user.licence }"/>
 		<div class="searchBar-input">
+	    	<div>	
+	    		<span style="display:block;float:left;margin-top:40px;">快递单号：</span><textarea name ="str3" style="height:98px;"></textarea>
+   			</div>
+   		</div>
+   		<div class="searchBar-input">
+	    	<div>	
+	    		<span style="display:block;float:left;margin-top:40px;">客户条码：</span><textarea name ="str2" style="height:98px;"></textarea>
+   			</div>
+   		</div>
+		<div class="searchBar-input">
     		<div>
 	    		发货开始日期：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
     		</div>
     		<div>
     			发货结束日期：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
     		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		客户条码：<input name ="str2" />
-    		</div>
-    		<div>
-    			快递单号：<input name ="str3" />
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
     		<div>
 	    		所属大区：<input name ="str4" />
     		</div>
     		<div>
     			订单编号：<input name ="str5" />
     		</div>
+   			<input type="hidden" name ="str6" id = "exportvalue"/>
    		</div>
    		<div class="searchBar-input">
     		<div>
@@ -281,9 +326,9 @@ function upload(){
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
 	<div class="pull-away"></div>
 </div>
 
@@ -409,6 +454,38 @@ function upload(){
 		</thead>
 	</table>
 </div>
-
+<div id="exportdiv" class="easyui-dialog" style="width:400px;height:700px;padding:10px 20px"
+		closed="true" buttons="#exportdiv-buttons" modal="true" title="导出选项">
+		请选择你需要导出的列：
+			<div><input type="checkbox" name="exportline" value="1"/>所属大区</div>
+			<div><input type="checkbox" name="exportline" value="2"/>所属区部</div>
+			<div><input type="checkbox" name="exportline" value="3"/>所属分部</div>
+			<div><input type="checkbox" name="exportline" value="4"/>所属分拨点</div>
+			<div><input type="checkbox" name="exportline" value="5"/>客户条码</div>
+			<div><input type="checkbox" name="exportline" value="6"/>客户名称</div>
+			<div><input type="checkbox" name="exportline" value="7"/>快递单号</div>
+			<div><input type="checkbox" name="exportline" value="8"/>发货日期</div>
+			<div><input type="checkbox" name="exportline" value="9"/>省份</div>
+			<div><input type="checkbox" name="exportline" value="10"/>地址</div>
+			<div><input type="checkbox" name="exportline" value="11"/>客户店铺</div>
+			<div><input type="checkbox" name="exportline" value="12"/>收件人</div>
+			<div><input type="checkbox" name="exportline" value="13"/>联系方式</div>
+			<div><input type="checkbox" name="exportline" value="14"/>重量</div>
+			<div><input type="checkbox" name="exportline" value="15"/>快递公司</div>
+			<div><input type="checkbox" name="exportline" value="16"/>物品价值</div>
+			<div><input type="checkbox" name="exportline" value="17"/>物品</div>
+			<div><input type="checkbox" name="exportline" value="18"/>创建日期</div>
+			<div><input type="checkbox" name="exportline" value="19"/>状态</div>
+			<div><input type="checkbox" name="exportline" value="20"/>返回日期</div>
+			<div><input type="checkbox" name="exportline" value="21"/>订单编号</div>
+			<div><input type="checkbox" name="exportline" value="22"/>超时时间</div>
+			<div><input type="checkbox" name="exportline" value="23"/>系统接收时间</div>
+</div>
+<div id="exportdiv-buttons">
+	<a class="easyui-linkbutton"  onclick="selectAll()">全选/全不选</a>
+	<a class="easyui-linkbutton"  onclick="negated()">反 选</a>
+	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="excel_export()">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+</div>
 </body>
 </html>

@@ -423,11 +423,11 @@
 	  	(
 		  	select * from SOURCE_IMPORT
 		  	<where>
-			  	<if test="str3!=null">
-			  		and COURIER_NUMBER like '%${str3}%'
+			  	<if test="str3!=null and str3!=''">
+			  		and COURIER_NUMBER in (${str3})
 			  	</if>
-			  	<if test="str4!=null">
-			  		and CTM_BAR_CODE like '%${str4}%'
+			  	<if test="str4!=null and str4!=''">
+			  		and CTM_BAR_CODE in (${str4})
 			  	</if>
 			  	<if test="str5!=null">
 			  		and CTM_NAME like '%${str5}%'
@@ -437,6 +437,9 @@
 			  	</if>
 			  	<if test="str7!=null">
 			  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str7}%')
+			  	</if>
+			  	<if test="str8!=null">
+			  		and SHOP_NUMBER like '%${str8}%'
 			  	</if>
 		  		and (CREATE_TIME >= #{date1} or IS_PUSHED=0)
 		  	</where>
@@ -462,11 +465,11 @@
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(*) from SOURCE_IMPORT
   	<where>
-	  	<if test="str3!=null">
-	  		and COURIER_NUMBER like '%${str3}%'
+	  	<if test="str3!=null and str3!=''">
+	  		and COURIER_NUMBER in (${str3})
 	  	</if>
-	  	<if test="str4!=null">
-	  		and CTM_BAR_CODE like '%${str4}%'
+	  	<if test="str4!=null and str4!=''">
+	  		and CTM_BAR_CODE in (${str4})
 	  	</if>
 	  	<if test="str5!=null">
 	  		and CTM_NAME like '%${str5}%'
@@ -476,6 +479,9 @@
 	  	</if>
 	  	<if test="str7!=null">
 	  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str7}%')
+	  	</if>
+	  	<if test="str8!=null">
+	  		and SHOP_NUMBER like '%${str8}%'
 	  	</if>
 	  	and (CREATE_TIME >= #{date1} or IS_PUSHED=0)
  	</where>

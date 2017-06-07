@@ -593,10 +593,10 @@
 			  		and s2.DELIVERY_STATE = #{str2}
 			  	</if>
 			  	<if test="str3!=null and str3!=''">
-			  		and s2.COURIER_NUMBER like '%${str3}%'
+			  		and s2.COURIER_NUMBER in (${str3})
 			  	</if>
 			  	<if test="str4!=null and str4!=''">
-			  		and s2.CTM_BAR_CODE like '%${str4}%'
+			  		and s2.CTM_BAR_CODE in (${str4})
 			  	</if>
 			  	<if test="str5!=null and str5!=''">
 			  		and s2.ORDER_NUMBER like '%${str5}%'
@@ -644,10 +644,10 @@
 	  		and s2.DELIVERY_STATE = #{str2}
 	  	</if>
 	  	<if test="str3!=null and str3!=''">
-	  		and s2.COURIER_NUMBER like '%${str3}%'
+	  		and s2.COURIER_NUMBER in (${str3})
 	  	</if>
 	  	<if test="str4!=null and str4!=''">
-	  		and s2.CTM_BAR_CODE like '%${str4}%'
+	  		and s2.CTM_BAR_CODE in (${str4})
 	  	</if>
 	  	<if test="str5!=null and str5!=''">
 	  		and s2.ORDER_NUMBER like '%${str5}%'

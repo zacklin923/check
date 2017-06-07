@@ -511,10 +511,10 @@
 		  			and s2.SEND_TIME &lt;= #{date2}
 		 		</if>
 		  		<if test="str2!=null and str2!=''">
-		  			and s2.CTM_BAR_CODE like '%${str2}%'
+		  			and s2.CTM_BAR_CODE in (${str2})
 		  		</if>
 		  		<if test="str3!=null and str3!=''">
-		  			and s2.COURIER_NUMBER like '%${str3}%'
+		  			and s2.COURIER_NUMBER in (${str3})
 		  		</if>
 		  		<if test="str4!=null and str4!=''">
 		  			and s2.LARGE_AREA like '%${str4}%'
@@ -527,10 +527,10 @@
 		  		</if>
 		    </where>
 		    <if test="sort!=null and order!=null">
-		  		order by s2.${sort} ${order},s2.CREATE_TIME desc
+		  		order by s2.${sort} ${order},s2.RETURN_DATE desc ,s2.CREATE_TIME desc
 		  	</if>
 		  	<if test="sort==null or order==null">
-		  		order by s2.CREATE_TIME desc
+		  		order by s2.RETURN_DATE desc ,s2.CREATE_TIME desc
 		  	</if>
 		) t1
 		<where>
@@ -559,10 +559,10 @@
   			and s2.SEND_TIME &lt;= #{date2}
  		</if>
   		<if test="str2!=null and str2!=''">
-  			and s2.CTM_BAR_CODE like '%${str2}%'
+  			and s2.CTM_BAR_CODE in (${str2})
   		</if>
   		<if test="str3!=null and str3!=''">
-  			and s2.COURIER_NUMBER like '%${str3}%'
+  			and s2.COURIER_NUMBER in (${str3})
   		</if>
   		<if test="str4!=null and str4!=''">
   			and s2.LARGE_AREA like '%${str4}%'

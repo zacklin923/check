@@ -1,6 +1,7 @@
 package com.zs.controller.rest;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.Customer;
-import com.zs.entity.StaffRole;
+import com.zs.entity.CustomerKey;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -36,6 +36,23 @@ public class CustomerConR extends BaseRestController<Customer,String>{
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
+				if(accept.getStr1()!=null&&!accept.getStr1().equals("")){
+					String [] ss1 = accept.getStr1().trim().split(",");
+					String str1="";
+					for (int i = 0; i < ss1.length; i++) {
+						String strt1=ss1[i].trim();
+						if(!strt1.equals("")&&strt1!=null){
+							if(i!=ss1.length-1){
+								str1=str1+"'"+strt1+"'"+",";
+							}else{
+								str1=str1+"'"+strt1+"'";
+							}
+						}
+					}
+					if(str1!=null&&!str1.equals(",")){
+						accept.setStr1(str1);
+					}
+				}
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return customerSer.queryFenye(accept);
 			} catch (Exception e) {
@@ -91,7 +108,11 @@ public class CustomerConR extends BaseRestController<Customer,String>{
 	public Result<Integer> doDeleteTrue(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
 		if (id!=null) {
 			try {
-				return new Result<Integer>(SUCCESS, Code.SUCCESS, customerSer.delete(id));
+				CustomerKey ck = new CustomerKey();
+				String [] s = id.split("-");
+				ck.setCteBarCode(s[0]);
+				ck.setHistoryCount(new BigDecimal(s[1]));
+				return new Result<Integer>(SUCCESS, Code.SUCCESS, customerSer.delete(ck));
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new Result<Integer>(ERROR, Code.ERROR, -1);
@@ -112,8 +133,13 @@ public class CustomerConR extends BaseRestController<Customer,String>{
 		if (!file.isEmpty()) {
 			try {
 				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
-				customerSer.importData(list,null);
-				return new Result<String>(SUCCESS,  Code.SUCCESS, null);
+				StaffUser user = (StaffUser) req.getSession().getAttribute("user");
+				String errs = customerSer.importData(list,user.getStuNum());
+				if(errs.equals("")){
+					return new Result<String>(SUCCESS,  Code.SUCCESS, null);
+				}else{
+					return new Result<String>(ERROR,  Code.ERROR, errs);
+				}
 			} catch (IOException e) {
 				return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
 			}

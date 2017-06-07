@@ -13,6 +13,8 @@ import com.zs.entity.other.EasyUIAccept;
 public interface SourceZmSer extends BaseService<SourceZm, SourceZmKey>{
 	
 	public String importData(List<String[]> list,String stuNum);
+	
+	public String importDatatest(List<String[]> list,String stuNum);
 
 	public String ExportData(EasyUIAccept accept,HttpServletRequest req);
 	

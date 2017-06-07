@@ -3,7 +3,32 @@
 <mapper namespace="com.zs.dao.CustomerMapper" >
   <resultMap id="BaseResultMap" type="com.zs.entity.Customer" >
     <id column="CTE_BAR_CODE" property="cteBarCode" jdbcType="VARCHAR" />
+    <id column="HISTORY_COUNT" property="historyCount" jdbcType="DECIMAL" />
     <result column="CTE_NAME" property="cteName" jdbcType="VARCHAR" />
+    <result column="CUSTOM_SERVICE_CENTER" property="customServiceCenter" jdbcType="VARCHAR" />
+    <result column="CUSTOM_SERVICE_TOP" property="customServiceTop" jdbcType="VARCHAR" />
+    <result column="CUSTOM_SERVICE_LAST" property="customServiceLast" jdbcType="VARCHAR" />
+    <result column="CUSTOM_TYPE" property="customType" jdbcType="VARCHAR" />
+    <result column="LARGE_AREA" property="largeArea" jdbcType="VARCHAR" />
+    <result column="SLICE_AREA" property="sliceArea" jdbcType="VARCHAR" />
+    <result column="FENBU" property="fenbu" jdbcType="VARCHAR" />
+    <result column="OPEN_DATE" property="openDate" jdbcType="TIMESTAMP" />
+    <result column="OUT_DATE" property="outDate" jdbcType="TIMESTAMP" />
+    <result column="BUSINESS" property="business" jdbcType="VARCHAR" />
+    <result column="ACCOUNTS_TYPE" property="accountsType" jdbcType="VARCHAR" />
+    <result column="PAGE_TYPE" property="pageType" jdbcType="VARCHAR" />
+    <result column="DAILY_DELIVERY" property="dailyDelivery" jdbcType="DECIMAL" />
+    <result column="GOODS_DETAIL" property="goodsDetail" jdbcType="VARCHAR" />
+    <result column="CARRY_GOODS_TYPE" property="carryGoodsType" jdbcType="VARCHAR" />
+    <result column="PACKET_POINT" property="packetPoint" jdbcType="VARCHAR" />
+    <result column="RETURN_PIECE" property="returnPiece" jdbcType="VARCHAR" />
+    <result column="MATTER" property="matter" jdbcType="VARCHAR" />
+    <result column="COMPLAIN_REBATE" property="complainRebate" jdbcType="VARCHAR" />
+    <result column="OPTION_FINE" property="optionFine" jdbcType="VARCHAR" />
+    <result column="FEE_COMPENSATE" property="feeCompensate" jdbcType="VARCHAR" />
+    <result column="NOTE" property="note" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -64,7 +89,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CTE_BAR_CODE, CTE_NAME
+    CTE_BAR_CODE, HISTORY_COUNT, CTE_NAME, CUSTOM_SERVICE_CENTER, CUSTOM_SERVICE_TOP, 
+    CUSTOM_SERVICE_LAST, CUSTOM_TYPE, LARGE_AREA, SLICE_AREA, FENBU, OPEN_DATE, OUT_DATE, 
+    BUSINESS, ACCOUNTS_TYPE, PAGE_TYPE, DAILY_DELIVERY, GOODS_DETAIL, CARRY_GOODS_TYPE, 
+    PACKET_POINT, RETURN_PIECE, MATTER, COMPLAIN_REBATE, OPTION_FINE, FEE_COMPENSATE, 
+    NOTE, STATE, CREATE_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.CustomerExample" >
     select
@@ -81,15 +110,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.zs.entity.CustomerKey" >
     select 
     <include refid="Base_Column_List" />
     from CUSTOMER
     where CTE_BAR_CODE = #{cteBarCode,jdbcType=VARCHAR}
+      and HISTORY_COUNT = #{historyCount,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="com.zs.entity.CustomerKey" >
     delete from CUSTOMER
     where CTE_BAR_CODE = #{cteBarCode,jdbcType=VARCHAR}
+      and HISTORY_COUNT = #{historyCount,jdbcType=DECIMAL}
   </delete>
   <delete id="deleteByExample" parameterType="com.zs.entity.CustomerExample" >
     delete from CUSTOMER
@@ -98,8 +129,26 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.zs.entity.Customer" >
-    insert into CUSTOMER (CTE_BAR_CODE, CTE_NAME)
-    values (#{cteBarCode,jdbcType=VARCHAR}, #{cteName,jdbcType=VARCHAR})
+    insert into CUSTOMER (CTE_BAR_CODE, HISTORY_COUNT, CTE_NAME, 
+      CUSTOM_SERVICE_CENTER, CUSTOM_SERVICE_TOP, 
+      CUSTOM_SERVICE_LAST, CUSTOM_TYPE, LARGE_AREA, 
+      SLICE_AREA, FENBU, OPEN_DATE, 
+      OUT_DATE, BUSINESS, ACCOUNTS_TYPE, 
+      PAGE_TYPE, DAILY_DELIVERY, GOODS_DETAIL, 
+      CARRY_GOODS_TYPE, PACKET_POINT, RETURN_PIECE, 
+      MATTER, COMPLAIN_REBATE, OPTION_FINE, 
+      FEE_COMPENSATE, NOTE, STATE, 
+      CREATE_TIME)
+    values (#{cteBarCode,jdbcType=VARCHAR}, #{historyCount,jdbcType=DECIMAL}, #{cteName,jdbcType=VARCHAR}, 
+      #{customServiceCenter,jdbcType=VARCHAR}, #{customServiceTop,jdbcType=VARCHAR}, 
+      #{customServiceLast,jdbcType=VARCHAR}, #{customType,jdbcType=VARCHAR}, #{largeArea,jdbcType=VARCHAR}, 
+      #{sliceArea,jdbcType=VARCHAR}, #{fenbu,jdbcType=VARCHAR}, #{openDate,jdbcType=TIMESTAMP}, 
+      #{outDate,jdbcType=TIMESTAMP}, #{business,jdbcType=VARCHAR}, #{accountsType,jdbcType=VARCHAR}, 
+      #{pageType,jdbcType=VARCHAR}, #{dailyDelivery,jdbcType=DECIMAL}, #{goodsDetail,jdbcType=VARCHAR}, 
+      #{carryGoodsType,jdbcType=VARCHAR}, #{packetPoint,jdbcType=VARCHAR}, #{returnPiece,jdbcType=VARCHAR}, 
+      #{matter,jdbcType=VARCHAR}, #{complainRebate,jdbcType=VARCHAR}, #{optionFine,jdbcType=VARCHAR}, 
+      #{feeCompensate,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.Customer" >
     insert into CUSTOMER
@@ -107,16 +156,166 @@
       <if test="cteBarCode != null" >
         CTE_BAR_CODE,
       </if>
+      <if test="historyCount != null" >
+        HISTORY_COUNT,
+      </if>
       <if test="cteName != null" >
         CTE_NAME,
+      </if>
+      <if test="customServiceCenter != null" >
+        CUSTOM_SERVICE_CENTER,
+      </if>
+      <if test="customServiceTop != null" >
+        CUSTOM_SERVICE_TOP,
+      </if>
+      <if test="customServiceLast != null" >
+        CUSTOM_SERVICE_LAST,
+      </if>
+      <if test="customType != null" >
+        CUSTOM_TYPE,
+      </if>
+      <if test="largeArea != null" >
+        LARGE_AREA,
+      </if>
+      <if test="sliceArea != null" >
+        SLICE_AREA,
+      </if>
+      <if test="fenbu != null" >
+        FENBU,
+      </if>
+      <if test="openDate != null" >
+        OPEN_DATE,
+      </if>
+      <if test="outDate != null" >
+        OUT_DATE,
+      </if>
+      <if test="business != null" >
+        BUSINESS,
+      </if>
+      <if test="accountsType != null" >
+        ACCOUNTS_TYPE,
+      </if>
+      <if test="pageType != null" >
+        PAGE_TYPE,
+      </if>
+      <if test="dailyDelivery != null" >
+        DAILY_DELIVERY,
+      </if>
+      <if test="goodsDetail != null" >
+        GOODS_DETAIL,
+      </if>
+      <if test="carryGoodsType != null" >
+        CARRY_GOODS_TYPE,
+      </if>
+      <if test="packetPoint != null" >
+        PACKET_POINT,
+      </if>
+      <if test="returnPiece != null" >
+        RETURN_PIECE,
+      </if>
+      <if test="matter != null" >
+        MATTER,
+      </if>
+      <if test="complainRebate != null" >
+        COMPLAIN_REBATE,
+      </if>
+      <if test="optionFine != null" >
+        OPTION_FINE,
+      </if>
+      <if test="feeCompensate != null" >
+        FEE_COMPENSATE,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="cteBarCode != null" >
         #{cteBarCode,jdbcType=VARCHAR},
       </if>
+      <if test="historyCount != null" >
+        #{historyCount,jdbcType=DECIMAL},
+      </if>
       <if test="cteName != null" >
         #{cteName,jdbcType=VARCHAR},
+      </if>
+      <if test="customServiceCenter != null" >
+        #{customServiceCenter,jdbcType=VARCHAR},
+      </if>
+      <if test="customServiceTop != null" >
+        #{customServiceTop,jdbcType=VARCHAR},
+      </if>
+      <if test="customServiceLast != null" >
+        #{customServiceLast,jdbcType=VARCHAR},
+      </if>
+      <if test="customType != null" >
+        #{customType,jdbcType=VARCHAR},
+      </if>
+      <if test="largeArea != null" >
+        #{largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="sliceArea != null" >
+        #{sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="fenbu != null" >
+        #{fenbu,jdbcType=VARCHAR},
+      </if>
+      <if test="openDate != null" >
+        #{openDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outDate != null" >
+        #{outDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="business != null" >
+        #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="accountsType != null" >
+        #{accountsType,jdbcType=VARCHAR},
+      </if>
+      <if test="pageType != null" >
+        #{pageType,jdbcType=VARCHAR},
+      </if>
+      <if test="dailyDelivery != null" >
+        #{dailyDelivery,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsDetail != null" >
+        #{goodsDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="carryGoodsType != null" >
+        #{carryGoodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="packetPoint != null" >
+        #{packetPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="returnPiece != null" >
+        #{returnPiece,jdbcType=VARCHAR},
+      </if>
+      <if test="matter != null" >
+        #{matter,jdbcType=VARCHAR},
+      </if>
+      <if test="complainRebate != null" >
+        #{complainRebate,jdbcType=VARCHAR},
+      </if>
+      <if test="optionFine != null" >
+        #{optionFine,jdbcType=VARCHAR},
+      </if>
+      <if test="feeCompensate != null" >
+        #{feeCompensate,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -132,8 +331,83 @@
       <if test="record.cteBarCode != null" >
         CTE_BAR_CODE = #{record.cteBarCode,jdbcType=VARCHAR},
       </if>
+      <if test="record.historyCount != null" >
+        HISTORY_COUNT = #{record.historyCount,jdbcType=DECIMAL},
+      </if>
       <if test="record.cteName != null" >
         CTE_NAME = #{record.cteName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customServiceCenter != null" >
+        CUSTOM_SERVICE_CENTER = #{record.customServiceCenter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customServiceTop != null" >
+        CUSTOM_SERVICE_TOP = #{record.customServiceTop,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customServiceLast != null" >
+        CUSTOM_SERVICE_LAST = #{record.customServiceLast,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customType != null" >
+        CUSTOM_TYPE = #{record.customType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.largeArea != null" >
+        LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sliceArea != null" >
+        SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fenbu != null" >
+        FENBU = #{record.fenbu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openDate != null" >
+        OPEN_DATE = #{record.openDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.outDate != null" >
+        OUT_DATE = #{record.outDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.business != null" >
+        BUSINESS = #{record.business,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountsType != null" >
+        ACCOUNTS_TYPE = #{record.accountsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pageType != null" >
+        PAGE_TYPE = #{record.pageType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dailyDelivery != null" >
+        DAILY_DELIVERY = #{record.dailyDelivery,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goodsDetail != null" >
+        GOODS_DETAIL = #{record.goodsDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carryGoodsType != null" >
+        CARRY_GOODS_TYPE = #{record.carryGoodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packetPoint != null" >
+        PACKET_POINT = #{record.packetPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnPiece != null" >
+        RETURN_PIECE = #{record.returnPiece,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matter != null" >
+        MATTER = #{record.matter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.complainRebate != null" >
+        COMPLAIN_REBATE = #{record.complainRebate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optionFine != null" >
+        OPTION_FINE = #{record.optionFine,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feeCompensate != null" >
+        FEE_COMPENSATE = #{record.feeCompensate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null" >
+        NOTE = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -143,7 +417,32 @@
   <update id="updateByExample" parameterType="map" >
     update CUSTOMER
     set CTE_BAR_CODE = #{record.cteBarCode,jdbcType=VARCHAR},
-      CTE_NAME = #{record.cteName,jdbcType=VARCHAR}
+      HISTORY_COUNT = #{record.historyCount,jdbcType=DECIMAL},
+      CTE_NAME = #{record.cteName,jdbcType=VARCHAR},
+      CUSTOM_SERVICE_CENTER = #{record.customServiceCenter,jdbcType=VARCHAR},
+      CUSTOM_SERVICE_TOP = #{record.customServiceTop,jdbcType=VARCHAR},
+      CUSTOM_SERVICE_LAST = #{record.customServiceLast,jdbcType=VARCHAR},
+      CUSTOM_TYPE = #{record.customType,jdbcType=VARCHAR},
+      LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
+      FENBU = #{record.fenbu,jdbcType=VARCHAR},
+      OPEN_DATE = #{record.openDate,jdbcType=TIMESTAMP},
+      OUT_DATE = #{record.outDate,jdbcType=TIMESTAMP},
+      BUSINESS = #{record.business,jdbcType=VARCHAR},
+      ACCOUNTS_TYPE = #{record.accountsType,jdbcType=VARCHAR},
+      PAGE_TYPE = #{record.pageType,jdbcType=VARCHAR},
+      DAILY_DELIVERY = #{record.dailyDelivery,jdbcType=DECIMAL},
+      GOODS_DETAIL = #{record.goodsDetail,jdbcType=VARCHAR},
+      CARRY_GOODS_TYPE = #{record.carryGoodsType,jdbcType=VARCHAR},
+      PACKET_POINT = #{record.packetPoint,jdbcType=VARCHAR},
+      RETURN_PIECE = #{record.returnPiece,jdbcType=VARCHAR},
+      MATTER = #{record.matter,jdbcType=VARCHAR},
+      COMPLAIN_REBATE = #{record.complainRebate,jdbcType=VARCHAR},
+      OPTION_FINE = #{record.optionFine,jdbcType=VARCHAR},
+      FEE_COMPENSATE = #{record.feeCompensate,jdbcType=VARCHAR},
+      NOTE = #{record.note,jdbcType=VARCHAR},
+      STATE = #{record.state,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -154,13 +453,111 @@
       <if test="cteName != null" >
         CTE_NAME = #{cteName,jdbcType=VARCHAR},
       </if>
+      <if test="customServiceCenter != null" >
+        CUSTOM_SERVICE_CENTER = #{customServiceCenter,jdbcType=VARCHAR},
+      </if>
+      <if test="customServiceTop != null" >
+        CUSTOM_SERVICE_TOP = #{customServiceTop,jdbcType=VARCHAR},
+      </if>
+      <if test="customServiceLast != null" >
+        CUSTOM_SERVICE_LAST = #{customServiceLast,jdbcType=VARCHAR},
+      </if>
+      <if test="customType != null" >
+        CUSTOM_TYPE = #{customType,jdbcType=VARCHAR},
+      </if>
+      <if test="largeArea != null" >
+        LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="sliceArea != null" >
+        SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="fenbu != null" >
+        FENBU = #{fenbu,jdbcType=VARCHAR},
+      </if>
+      <if test="openDate != null" >
+        OPEN_DATE = #{openDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outDate != null" >
+        OUT_DATE = #{outDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="business != null" >
+        BUSINESS = #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="accountsType != null" >
+        ACCOUNTS_TYPE = #{accountsType,jdbcType=VARCHAR},
+      </if>
+      <if test="pageType != null" >
+        PAGE_TYPE = #{pageType,jdbcType=VARCHAR},
+      </if>
+      <if test="dailyDelivery != null" >
+        DAILY_DELIVERY = #{dailyDelivery,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsDetail != null" >
+        GOODS_DETAIL = #{goodsDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="carryGoodsType != null" >
+        CARRY_GOODS_TYPE = #{carryGoodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="packetPoint != null" >
+        PACKET_POINT = #{packetPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="returnPiece != null" >
+        RETURN_PIECE = #{returnPiece,jdbcType=VARCHAR},
+      </if>
+      <if test="matter != null" >
+        MATTER = #{matter,jdbcType=VARCHAR},
+      </if>
+      <if test="complainRebate != null" >
+        COMPLAIN_REBATE = #{complainRebate,jdbcType=VARCHAR},
+      </if>
+      <if test="optionFine != null" >
+        OPTION_FINE = #{optionFine,jdbcType=VARCHAR},
+      </if>
+      <if test="feeCompensate != null" >
+        FEE_COMPENSATE = #{feeCompensate,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where CTE_BAR_CODE = #{cteBarCode,jdbcType=VARCHAR}
+      and HISTORY_COUNT = #{historyCount,jdbcType=DECIMAL}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zs.entity.Customer" >
     update CUSTOMER
-    set CTE_NAME = #{cteName,jdbcType=VARCHAR}
+    set CTE_NAME = #{cteName,jdbcType=VARCHAR},
+      CUSTOM_SERVICE_CENTER = #{customServiceCenter,jdbcType=VARCHAR},
+      CUSTOM_SERVICE_TOP = #{customServiceTop,jdbcType=VARCHAR},
+      CUSTOM_SERVICE_LAST = #{customServiceLast,jdbcType=VARCHAR},
+      CUSTOM_TYPE = #{customType,jdbcType=VARCHAR},
+      LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
+      SLICE_AREA = #{sliceArea,jdbcType=VARCHAR},
+      FENBU = #{fenbu,jdbcType=VARCHAR},
+      OPEN_DATE = #{openDate,jdbcType=TIMESTAMP},
+      OUT_DATE = #{outDate,jdbcType=TIMESTAMP},
+      BUSINESS = #{business,jdbcType=VARCHAR},
+      ACCOUNTS_TYPE = #{accountsType,jdbcType=VARCHAR},
+      PAGE_TYPE = #{pageType,jdbcType=VARCHAR},
+      DAILY_DELIVERY = #{dailyDelivery,jdbcType=DECIMAL},
+      GOODS_DETAIL = #{goodsDetail,jdbcType=VARCHAR},
+      CARRY_GOODS_TYPE = #{carryGoodsType,jdbcType=VARCHAR},
+      PACKET_POINT = #{packetPoint,jdbcType=VARCHAR},
+      RETURN_PIECE = #{returnPiece,jdbcType=VARCHAR},
+      MATTER = #{matter,jdbcType=VARCHAR},
+      COMPLAIN_REBATE = #{complainRebate,jdbcType=VARCHAR},
+      OPTION_FINE = #{optionFine,jdbcType=VARCHAR},
+      FEE_COMPENSATE = #{feeCompensate,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
     where CTE_BAR_CODE = #{cteBarCode,jdbcType=VARCHAR}
+      and HISTORY_COUNT = #{historyCount,jdbcType=DECIMAL}
   </update>
   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
   	select * from
@@ -170,10 +567,13 @@
 		  	select * from CUSTOMER
 		  	<where>
 		  		<if test="str1!=null and str1!=''">
-		  			and CTE_BAR_CODE like '%${str1}%'
+		  			and CTE_BAR_CODE in (${str1})
 		  		</if>
 		  		<if test="str2!=null and str2!=''">
 		  			and CTE_NAME like '%${str2}%'
+		  		</if>
+		  		<if test="int1!=null">
+		  			and HISTORY_COUNT = 0
 		  		</if>
 		  	</where>
 		  	<if test="sort!=null and order!=null">
@@ -196,13 +596,14 @@
   	select count(*) from CUSTOMER
   	<where>
   		<if test="str1!=null and str1!=''">
-  			and CTE_BAR_CODE like '%${str1}%'
+  			and CTE_BAR_CODE in (${str1})
   		</if>
   		<if test="str2!=null and str2!=''">
   			and CTE_NAME like '%${str2}%'
   		</if>
-  	</where>
-  	<where>
+  		<if test="int1!=null">
+  			and HISTORY_COUNT = 0
+  		</if>
   	</where>
   </select>
 </mapper>

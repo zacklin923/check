@@ -2,6 +2,7 @@ package com.zs.dao;
 
 import com.zs.entity.Customer;
 import com.zs.entity.CustomerExample;
+import com.zs.entity.CustomerKey;
 import com.zs.entity.other.EasyUIAccept;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface CustomerMapper {
 
     int deleteByExample(CustomerExample example);
 
-    int deleteByPrimaryKey(String cteBarCode);
+    int deleteByPrimaryKey(CustomerKey key);
 
     int insert(Customer record);
 
@@ -20,7 +21,7 @@ public interface CustomerMapper {
 
     List<Customer> selectByExample(CustomerExample example);
 
-    Customer selectByPrimaryKey(String cteBarCode);
+    Customer selectByPrimaryKey(CustomerKey key);
 
     int updateByExampleSelective(@Param("record") Customer record, @Param("example") CustomerExample example);
 
@@ -29,7 +30,7 @@ public interface CustomerMapper {
     int updateByPrimaryKeySelective(Customer record);
 
     int updateByPrimaryKey(Customer record);
-	//-----------------------------
+    //-----------------------------
     List<Customer> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);
