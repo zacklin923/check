@@ -3,6 +3,8 @@ package com.zs.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Customer extends CustomerKey {
     private String cteName;
 
@@ -118,6 +120,7 @@ public class Customer extends CustomerKey {
         this.fenbu = fenbu == null ? null : fenbu.trim();
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
     public Date getOpenDate() {
         return openDate;
     }
@@ -126,6 +129,7 @@ public class Customer extends CustomerKey {
         this.openDate = openDate;
     }
 
+    @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
     public Date getOutDate() {
         return outDate;
     }

@@ -81,7 +81,7 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 						accept.setStr2(str2);
 					}
 				}
-				accept.setStr1(ManagerId.isSeeAll(req));
+//				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceZmSer.queryFenye(accept);
 			} catch (Exception e) {
@@ -221,7 +221,7 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 						accept.setStr2(str2);
 					}
 				}
-				accept.setStr1(ManagerId.isSeeAll(req));
+//				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>(SUCCESS,  Code.SUCCESS, sourceZmSer.ExportData(accept,req));
 			} catch (Exception e) {
@@ -286,5 +286,5 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 		}
 		return null;
 	}
-
+	
 }

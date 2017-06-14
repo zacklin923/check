@@ -89,8 +89,12 @@ public class RoleInter extends HandlerInterceptorAdapter{
 				|| url.contains("/api/receive/tp")
 				|| url.contains("/api/sourimport/isLoading")
 				|| url.contains("/api/sourceZm/isLoading")
-				|| url.equals("/check/customer")
+				|| url.contains("/check/api/module")
+				|| url.contains("/check/customer")
+				|| url.contains("/check/api/customer/style")
 				|| url.equals("/check/api/customer")
+				|| url.equals("/check/api/reportDate/style")
+				|| url.equals("/check/api/reportMonth/style")
 				|| url.contains("/api/provinceCode/province")
 				|| url.contains("/api/version")
 				|| url.contains("/api/sourceTp/isLoading")) {

@@ -283,21 +283,26 @@ public class SourceTpSerImpl implements SourceTpSer{
 	public String updateState(String state) {
 		if(state==null){
 			return null;
+		}else{
+			if(state.equals("配送成功")
+					||state.equals("配送中")
+					||state.equals("配送异常")
+					||state.equals("配送失败")){
+				return state;
+			}else{
+				if(state.equals("签收")){
+					return "配送成功";
+				}else if(state.equals("收件")||state.equals("在途")||state.equals("派件")){
+					return "配送中";
+				}else if(state.equals("疑难")){
+					return "配送异常";
+				}else if(state.equals("揽件")){
+					return "揽件";
+				}else{
+					return null;
+				}
+			}
 		}
-		if(state.equals("配送成功")
-				||state.equals("配送中")
-				||state.equals("配送异常")
-				||state.equals("配送失败")){
-			return state;
-		}
-		if(state.equals("签收")){
-			return "配送成功";
-		}else if(state.equals("收件")||state.equals("在途")||state.equals("派件")){
-			return "配送中";
-		}else if(state.equals("疑难")){
-			return "配送异常";
-		}
-		return null;
 	}
 	//重新计算超时时间,true:改了，false：没改
 	public boolean reckon(SourceThirdParty tp) {
@@ -307,7 +312,7 @@ public class SourceTpSerImpl implements SourceTpSer{
 		if (zm!=null 
 				&& zm.getTimeOut()!=null 
 				&& tp.getDeliveryState()!=null 
-				&& !tp.getDeliveryState().equals("配送成功")
+//				&& !tp.getDeliveryState().equals("配送成功")
 				&& !tp.getDeliveryState().equals("配送异常")) {//剩余三种状态时才判断
 			if (new Date().after(zm.getTimeOut())) {//现在>超时时间  ，就代表超期
 				tp.setIsTimeOut(new BigDecimal(1));

@@ -59,9 +59,19 @@ select{
 .searchBar-input	{
 	float: left;
 	width: 260px; 
-	height: 105px;
+	height: 50px;
 }
 .searchBar-input>div	{
+	line-height:220%;
+	float:right;
+}
+/*黄光辉   ，2017年3月1日，下面是查询栏位的样式*/
+.searchBar-input1	{
+	float: left;
+	width: 260px; 
+	height: 105px;
+}
+.searchBar-input1>div	{
 	line-height:220%;
 	float:right;
 }

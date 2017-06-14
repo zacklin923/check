@@ -522,6 +522,21 @@
 		  		<if test="str5!=null and str5!=''">
 		  			and s2.ORDER_NUMBER like '%${str5}%'
 		  		</if>
+		  		<if test="str7!=null and str7!=''">
+		  			and s2.SLICE_AREA like '%${str7}%'
+		  		</if>
+		  		<if test="str8!=null and str8!=''">
+		  			and s2.FENBU like '%${str8}%'
+		  		</if>
+		  		<if test="str9!=null and str9!=''">
+		  			and s2.FBD_AREA like '%${str9}%'
+		  		</if>
+		  		<if test="str10!=null and str10!=''">
+		  			and s2.PROVINCE like '%${str10}%'
+		  		</if>
+		  		<if test="str11!=null and str11!=''">
+		  			and s2.SHOP_NUMBER like '%${str11}%'
+		  		</if>
 		  		<if test="int1!=null">
 		  			and s2.COURIER_STATE = #{int1}
 		  		</if>
@@ -569,6 +584,21 @@
   		</if>
   		<if test="str5!=null and str5!=''">
   			and s2.ORDER_NUMBER like '%${str5}%'
+  		</if>
+  		<if test="str7!=null and str7!=''">
+  			and s2.SLICE_AREA like '%${str7}%'
+  		</if>
+  		<if test="str8!=null and str8!=''">
+  			and s2.FENBU like '%${str8}%'
+  		</if>
+  		<if test="str9!=null and str9!=''">
+  			and s2.FBD_AREA like '%${str9}%'
+  		</if>
+  		<if test="str10!=null and str10!=''">
+  			and s2.PROVINCE like '%${str10}%'
+  		</if>
+  		<if test="str11!=null and str11!=''">
+  			and s2.SHOP_NUMBER like '%${str11}%'
   		</if>
   		<if test="int1!=null">
   			and s2.COURIER_STATE = #{int1}

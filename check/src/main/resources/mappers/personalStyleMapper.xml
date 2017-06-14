@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.personalStyleMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.personalStyle" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <result column="STU_NUM" property="stuNum" jdbcType="VARCHAR" />
+    <result column="ORDER_STYLE" property="orderStyle" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, MODULE_NAME, STU_NUM, ORDER_STYLE, CREATE_TIME, STATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.personalStyleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from PERSONAL_STYLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from PERSONAL_STYLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from PERSONAL_STYLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.personalStyleExample" >
+    delete from PERSONAL_STYLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.personalStyle" >
+    insert into PERSONAL_STYLE (ID, MODULE_NAME, STU_NUM, 
+      ORDER_STYLE, CREATE_TIME, STATE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{moduleName,jdbcType=VARCHAR}, #{stuNum,jdbcType=VARCHAR}, 
+      #{orderStyle,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.personalStyle" >
+    insert into PERSONAL_STYLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="moduleName != null" >
+        MODULE_NAME,
+      </if>
+      <if test="stuNum != null" >
+        STU_NUM,
+      </if>
+      <if test="orderStyle != null" >
+        ORDER_STYLE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="moduleName != null" >
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuNum != null" >
+        #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStyle != null" >
+        #{orderStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.personalStyleExample" resultType="java.lang.Integer" >
+    select count(*) from PERSONAL_STYLE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update PERSONAL_STYLE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.moduleName != null" >
+        MODULE_NAME = #{record.moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuNum != null" >
+        STU_NUM = #{record.stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderStyle != null" >
+        ORDER_STYLE = #{record.orderStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update PERSONAL_STYLE
+    set ID = #{record.id,jdbcType=DECIMAL},
+      MODULE_NAME = #{record.moduleName,jdbcType=VARCHAR},
+      STU_NUM = #{record.stuNum,jdbcType=VARCHAR},
+      ORDER_STYLE = #{record.orderStyle,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      STATE = #{record.state,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.personalStyle" >
+    update PERSONAL_STYLE
+    <set >
+      <if test="moduleName != null" >
+        MODULE_NAME = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuNum != null" >
+        STU_NUM = #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStyle != null" >
+        ORDER_STYLE = #{orderStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.personalStyle" >
+    update PERSONAL_STYLE
+    set MODULE_NAME = #{moduleName,jdbcType=VARCHAR},
+      STU_NUM = #{stuNum,jdbcType=VARCHAR},
+      ORDER_STYLE = #{orderStyle,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      STATE = #{state,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="querystyle" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select * from PERSONAL_STYLE
+  	<where>
+  		<if test="str1!=null">
+  			and MODULE_NAME = #{str1}
+  		</if>
+  		<if test="str2!=null">
+  			and STU_NUM = #{str2}
+  		</if>
+  		<if test="str3!=null">
+  			and STATE = #{str3}
+  		</if>
+  	</where>
+  </select>
+</mapper>

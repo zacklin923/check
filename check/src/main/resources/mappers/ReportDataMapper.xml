@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.ReportDataMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.ReportData" >
+    <result column="COUNT_DATE" property="countDate" jdbcType="TIMESTAMP" />
+    <result column="LARGE_AREA" property="largeArea" jdbcType="VARCHAR" />
+    <result column="SLICE_AREA" property="sliceArea" jdbcType="VARCHAR" />
+    <result column="FEN_BU" property="fenBu" jdbcType="VARCHAR" />
+    <result column="CUSTOM_TYPE" property="customType" jdbcType="VARCHAR" />
+    <result column="CTM_BAR_CODE" property="ctmBarCode" jdbcType="VARCHAR" />
+    <result column="CTM_NAME" property="ctmName" jdbcType="VARCHAR" />
+    <result column="ELECTRONIC_SHEET" property="electronicSheet" jdbcType="DECIMAL" />
+    <result column="GENERIC_SHEET" property="genericSheet" jdbcType="DECIMAL" />
+    <result column="OTHER_SHEET" property="otherSheet" jdbcType="DECIMAL" />
+    <result column="COUNT_ALL" property="countAll" jdbcType="DECIMAL" />
+    <result column="FLAG" property="flag" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    COUNT_DATE, LARGE_AREA, SLICE_AREA, FEN_BU, CUSTOM_TYPE, CTM_BAR_CODE, CTM_NAME, 
+    ELECTRONIC_SHEET, GENERIC_SHEET, OTHER_SHEET, COUNT_ALL, FLAG
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.ReportDataExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from REPORT_DATA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.zs.entity.ReportDataExample" >
+    delete from REPORT_DATA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.ReportData" >
+    insert into REPORT_DATA (COUNT_DATE, LARGE_AREA, SLICE_AREA, 
+      FEN_BU, CUSTOM_TYPE, CTM_BAR_CODE, 
+      CTM_NAME, ELECTRONIC_SHEET, GENERIC_SHEET, 
+      OTHER_SHEET, COUNT_ALL, FLAG
+      )
+    values (#{countDate,jdbcType=TIMESTAMP}, #{largeArea,jdbcType=VARCHAR}, #{sliceArea,jdbcType=VARCHAR}, 
+      #{fenBu,jdbcType=VARCHAR}, #{customType,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, 
+      #{ctmName,jdbcType=VARCHAR}, #{electronicSheet,jdbcType=DECIMAL}, #{genericSheet,jdbcType=DECIMAL}, 
+      #{otherSheet,jdbcType=DECIMAL}, #{countAll,jdbcType=DECIMAL}, #{flag,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.ReportData" >
+    insert into REPORT_DATA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="countDate != null" >
+        COUNT_DATE,
+      </if>
+      <if test="largeArea != null" >
+        LARGE_AREA,
+      </if>
+      <if test="sliceArea != null" >
+        SLICE_AREA,
+      </if>
+      <if test="fenBu != null" >
+        FEN_BU,
+      </if>
+      <if test="customType != null" >
+        CUSTOM_TYPE,
+      </if>
+      <if test="ctmBarCode != null" >
+        CTM_BAR_CODE,
+      </if>
+      <if test="ctmName != null" >
+        CTM_NAME,
+      </if>
+      <if test="electronicSheet != null" >
+        ELECTRONIC_SHEET,
+      </if>
+      <if test="genericSheet != null" >
+        GENERIC_SHEET,
+      </if>
+      <if test="otherSheet != null" >
+        OTHER_SHEET,
+      </if>
+      <if test="countAll != null" >
+        COUNT_ALL,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="countDate != null" >
+        #{countDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="largeArea != null" >
+        #{largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="sliceArea != null" >
+        #{sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="fenBu != null" >
+        #{fenBu,jdbcType=VARCHAR},
+      </if>
+      <if test="customType != null" >
+        #{customType,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmBarCode != null" >
+        #{ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmName != null" >
+        #{ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="electronicSheet != null" >
+        #{electronicSheet,jdbcType=DECIMAL},
+      </if>
+      <if test="genericSheet != null" >
+        #{genericSheet,jdbcType=DECIMAL},
+      </if>
+      <if test="otherSheet != null" >
+        #{otherSheet,jdbcType=DECIMAL},
+      </if>
+      <if test="countAll != null" >
+        #{countAll,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.ReportDataExample" resultType="java.lang.Integer" >
+    select count(*) from REPORT_DATA
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update REPORT_DATA
+    <set >
+      <if test="record.countDate != null" >
+        COUNT_DATE = #{record.countDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.largeArea != null" >
+        LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sliceArea != null" >
+        SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fenBu != null" >
+        FEN_BU = #{record.fenBu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customType != null" >
+        CUSTOM_TYPE = #{record.customType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmBarCode != null" >
+        CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmName != null" >
+        CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.electronicSheet != null" >
+        ELECTRONIC_SHEET = #{record.electronicSheet,jdbcType=DECIMAL},
+      </if>
+      <if test="record.genericSheet != null" >
+        GENERIC_SHEET = #{record.genericSheet,jdbcType=DECIMAL},
+      </if>
+      <if test="record.otherSheet != null" >
+        OTHER_SHEET = #{record.otherSheet,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countAll != null" >
+        COUNT_ALL = #{record.countAll,jdbcType=DECIMAL},
+      </if>
+      <if test="record.flag != null" >
+        FLAG = #{record.flag,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update REPORT_DATA
+    set COUNT_DATE = #{record.countDate,jdbcType=TIMESTAMP},
+      LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
+      FEN_BU = #{record.fenBu,jdbcType=VARCHAR},
+      CUSTOM_TYPE = #{record.customType,jdbcType=VARCHAR},
+      CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
+      CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      ELECTRONIC_SHEET = #{record.electronicSheet,jdbcType=DECIMAL},
+      GENERIC_SHEET = #{record.genericSheet,jdbcType=DECIMAL},
+      OTHER_SHEET = #{record.otherSheet,jdbcType=DECIMAL},
+      COUNT_ALL = #{record.countAll,jdbcType=DECIMAL},
+      FLAG = #{record.flag,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="query" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+	select * from REPORT_DATA
+	<where>
+		<if test="date2!=null">
+	  		and count_date = #{date2}
+  		</if>
+  		<if test="int1!=null">
+	  		and flag = ${int1}
+  		</if>
+  		<if test="str1!=null">
+	  		and CTM_BAR_CODE = ${str1}
+  		</if>
+  		<if test="str2!=null">
+	  		and ctm_name = ${str2}
+  		</if>
+	</where>
+  </select>
+  <select id="callproduce"  parameterType="com.zs.entity.other.EasyUIAccept">
+	{call reportdata(#{date3},#{date4})} 
+  </select>
+</mapper>

@@ -17,15 +17,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	$.ajax({
+		url:"<%=path%>/api/customer/style/3",
+		type:"GET",
+		success:function(data){
+			var json;
+			if(isJson(data)){
+				json=data;
+			}else{
+				json = eval('('+data+')');
+			}
+			if(json.result=='success'){
+				console.log(json.data);
+				var str = json.data;
+				s="[["+str+"]]";
+				options={};
+				options.columns = eval(s)
+				$('#dg').datagrid(options);   
+			}else{
+				alert("错误:"+json.code);
+			}
+		}
+	});
+});
 var url;
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
+		var logt = (new Date(""+row.returnDate)).getTime();
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${licence }");
-		url="<%=path%>/api/sourceTp/"+row.courierNumber+","+row.returnDate;
+		url="<%=path%>/api/sourceTp/"+row.courierNumber+","+logt;
 	}
 }
 function save(){
@@ -202,6 +227,42 @@ function search_toolbar1(){
 		$('#dg').datagrid('load', json);
 	}
 }
+function moduleEdit(){
+	var r=document.getElementsByName("orderline")
+	console.log(r);
+	var str = "";
+	var str1="";
+	for(var i=0;i<r.length;i++){
+		if(r[i].value){
+        	str = str + r[i].value+",";
+			str1=str1+i+"a";
+        }
+    };
+    str=str+str1+"_运单状态查询";
+    $.ajax({
+		url:"<%=path%>/api/module/"+str,
+		type:"PUT",
+		success:function(data){
+			if(data){
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					$('#mbedit').dialog('close');
+				}else{
+					$('#mbedit').dialog('close');
+					alert("错误:"+json.code+"错误原因："+json.data);
+				}
+			}else{
+				hiden_hint();
+				alert("错误:网络错误");
+			}
+		}
+	});
+}
 </script>
 <table id="dg" border="true" title="快件信息>运单状态查询"
 		url="<%=path %>/api/sourceTp"
@@ -210,80 +271,8 @@ function search_toolbar1(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="100" pageList="[100,500,1000]" data-options="
-			onDblClickRow:function(rowIndex, rowData){
-				dblclick(rowIndex, rowData);
-			},
-			rowStyler: function(index,row){
-				if(row.noUpdate){
-					return 'background-color:#FFCACF;color:#000;';
-				}
-			}
-		">
-	<thead>
-		<tr>
-			<th field="sendTime" width="160" sortable="true">发货日期</th>
-			<th field="ctmBarCode" width="80" sortable="true">客户条码</th>
-			<th field="ctmName" width="80" sortable="true">客户名称</th>
-			<th field="courierNumber" width="150" sortable="true">快递单号</th>
-			<th field="province" width="80" sortable="true">省份</th>
-			<th field="address" width="200" sortable="true">地址</th>
-			<th field="deliveryState" width="100" sortable="true">配送状态</th>
-			<th field="isTimeOut" width="80" sortable="true" data-options="
-				formatter:function(value,row,index){
-                      if(value=='0'){
-							return '否';
-                      }else if(value=='1'){
-                      		return '是';
-                      }
-               },
-               styler:function(value,row,index){
-	               	if(value=='1'){
-						return 'color:#8000FF;';
-					}
-               }">是否超时</th>
-			<th field="signTime" width="200" sortable="true">签收时间</th>
-            <th field="signPort" width="150" sortable="true">签收站点</th>
-			<th field="abnormalCause" width="100" sortable="true">异常原因</th>
-			<th field="orderNumber" width="100" sortable="true">订单编号</th>
-			<th field="shopNumber" width="150" sortable="true">客户店铺</th>
-			<th field="addressee" width="80" sortable="true">收件人</th>
-			<th field="phone" width="100" sortable="true">联系方式</th>
-			<th field="weight" width="80" sortable="true">重量</th>
-			<th field="courierCompany" width="80" sortable="true" data-options="
-				formatter:function(value,row,index){
-                      if(value=='11'){
-							return '韵达实物';
-                      }else if(value=='22'){
-                      		return '韵达刷单';
-                      }else if(value=='33'){
-                      		return '圆通';
-                      }else if(value=='44'){
-                      		return '顺丰';
-                      }else if(value=='55'){
-                      		return 'EMS';
-                      }else if(value=='66'){
-                      		return '邮政小包';
-                      }
-               }">快递公司</th>
-			<th field="goods" width="100" sortable="true">物品</th>
-			<th field="goodsCost" width="80" sortable="true">物品价值</th>
-			<th field="fee" width="80" sortable="true">费用</th>
-			<th field="largeArea" width="80" sortable="true">所属大区</th>
-			<th field="sliceArea" width="80" sortable="true">所属区部</th>
-			<th field="fenbu" width="80" sortable="true">所属分部</th>
-			<th field="fbdArea" width="200" sortable="true">所属分拨点</th>
-			<th field="returnDate" width="100" sortable="true" data-options="
-				formatter:function(value,row,index){
-                      if(row.returnDate){
-							return getDateByMs(new Date(row.returnDate),'/');
-                      }
-               }">返回日期</th>
-			<!-- <th field="createDate" width="100" sortable="true">创建日期</th> -->
-			<!-- <th field="signatory" width="80" sortable="true">签收人</th> -->
-            <th field="createTime" width="200" sortable="true">系统接收时间</th>
-		</tr>
-	</thead>
+		pageSize="100" pageList="[100,500,1000]" >
+	
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
@@ -296,31 +285,23 @@ function search_toolbar1(){
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
-		<div class="searchBar-input">
+		<div class="searchBar-input1">
 	    	<div>	
 	    		<span style="display:block;float:left;margin-top:40px;">快递单号：</span><textarea name ="str3" style="height:98px;"></textarea>
    			</div>
    		</div>
-   		<div class="searchBar-input">
+   		<div class="searchBar-input1">
 	    	<div>	
 	    		<span style="display:block;float:left;margin-top:40px;">客户条码：</span><textarea name ="str4" style="height:98px;"></textarea>
    			</div>
    		</div>
-		<div class="searchBar-input">
+		<div class="searchBar-input1">
     		<div>
 	    		发货日期开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
     		</div>
     		<div>
     			发货日期结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
     		</div>
-    		<div>
-    			订单编号：<input name ="str5" />
-    		</div>
-    		<div>
-	    		客户店铺：<input name ="str6" />
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
     		<div>
 	    		配送状态：
 	    		<select name ="str2" style="width: 170px;">
@@ -341,14 +322,48 @@ function search_toolbar1(){
 	    			<option value="1">是</option>
 	    		</select>
     		</div>
+   		</div>
+   		<div class="searchBar-input1">
+    		<div>
+	    		所属大区：<input name ="str8" />
+    		</div>
+    		<div>
+	    		所属区部：<input name ="str9" />
+    		</div>
+    		<div>
+	    		所属分部：<input name ="str10" />
+    		</div>
+    		<div>
+	    		所属分拨点：<input name ="str11" />
+    		</div>
+   		</div>
+   		<div class="searchBar-input1">
+    		<div>
+    			订单编号：<input name ="str5" />
+    		</div>
+    		<div>
+	    		客户店铺：<input name ="str6" />
+    		</div>
+    		<div>
+	    		客户名称：<input name ="str12" />
+    		</div>
+    		<div>
+	    		省份：<input name ="str13" />
+    		</div>
     		<input type="hidden" name ="str7" id = "exportvalue"/>
    		</div>
+   		<div class="searchBar-input1">
+    		<div>
+    			签收站点：<input name ="str14" />
+    		</div>
+    	</div>
    	</form>
    	<div class="clear"></div>
    	<hr class="hr-geay">
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>
 	<div class="pull-away"></div>
 </div>
 
@@ -431,7 +446,7 @@ function search_toolbar1(){
 			<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;"/>
 		</form>
 </div>
-<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:500px;height:300px;padding:10px 20px"
 		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceTp.jsp" cache="true">
 </div>
 <div id="dlg_history" title="快件信息>运单状态查询>历史数据" class="easyui-dialog" iconCls="icon-help" style="width:1400px;height:800px;"
@@ -502,7 +517,7 @@ function search_toolbar1(){
 		</thead>
 	</table>
 </div>
-<div id="exportdiv" class="easyui-dialog" style="width:400px;height:700px;padding:10px 20px"
+<div id="exportdiv" class="easyui-dialog" style="width:400px;height:400px;padding:10px 20px"
 		closed="true" buttons="#exportdiv-buttons" modal="true" title="导出选项">
 		请选择你需要导出的列：
 			<div><input type="checkbox" name="exportline" />所属大区</div>
@@ -537,6 +552,58 @@ function search_toolbar1(){
 	<a class="easyui-linkbutton"  onclick="negated()">反 选</a>
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="excel_export()">导出</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+</div>
+<div id="mbedit"class="easyui-dialog" style="width:650px;height:400px;padding:10px 20px"
+		closed="true" buttons="#mbedit-buttons" modal="true" title="模板编辑">
+		<form id="moduleform" method="post">
+			<span style="font-size:20px;color:red;">顺序从0开始，全不选代表为最原始的状态</span>
+			<table>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>发货日期</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>客户条码</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>客户名称</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>快递单号</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>省份</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>地址</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>配送状态</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>是否超时</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>签收时间</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>签收站点</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>异常原因</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>订单编号</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>客户店铺</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>收件人</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>联系方式</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>重量</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>快递公司</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>物品</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>物品价值</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>费用</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>所属大区</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>所属区部</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>所属分部</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>所属分拨点</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>返回日期</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>系统接收时间</td>
+				</tr>
+			</table>
+		</form>
+</div>
+<div id="mbedit-buttons">
+	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="moduleEdit()">提交</a>
+	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#mbedit').dialog('close')">取消</a>
 </div>
 </body>
 </html>

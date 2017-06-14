@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.ReportMonthMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.ReportMonth" >
+    <result column="CTM_NAME" property="ctmName" jdbcType="VARCHAR" />
+    <result column="CTM_BAR_CODE" property="ctmBarCode" jdbcType="VARCHAR" />
+    <result column="CTM_TYPE" property="ctmType" jdbcType="VARCHAR" />
+    <result column="LARGE_AREA" property="largeArea" jdbcType="VARCHAR" />
+    <result column="SLICE_AREA" property="sliceArea" jdbcType="VARCHAR" />
+    <result column="FEN_BU" property="fenBu" jdbcType="VARCHAR" />
+    <result column="COUNT_ALL" property="countAll" jdbcType="DECIMAL" />
+    <result column="FLAG" property="flag" jdbcType="DECIMAL" />
+    <result column="YEARS" property="years" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CTM_NAME, CTM_BAR_CODE, CTM_TYPE, LARGE_AREA, SLICE_AREA, FEN_BU, COUNT_ALL, FLAG, 
+    YEARS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.ReportMonthExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from REPORT_MONTH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.zs.entity.ReportMonthExample" >
+    delete from REPORT_MONTH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.ReportMonth" >
+    insert into REPORT_MONTH (CTM_NAME, CTM_BAR_CODE, CTM_TYPE, 
+      LARGE_AREA, SLICE_AREA, FEN_BU, 
+      COUNT_ALL, FLAG, YEARS
+      )
+    values (#{ctmName,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, #{ctmType,jdbcType=VARCHAR}, 
+      #{largeArea,jdbcType=VARCHAR}, #{sliceArea,jdbcType=VARCHAR}, #{fenBu,jdbcType=VARCHAR}, 
+      #{countAll,jdbcType=DECIMAL}, #{flag,jdbcType=DECIMAL}, #{years,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.ReportMonth" >
+    insert into REPORT_MONTH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ctmName != null" >
+        CTM_NAME,
+      </if>
+      <if test="ctmBarCode != null" >
+        CTM_BAR_CODE,
+      </if>
+      <if test="ctmType != null" >
+        CTM_TYPE,
+      </if>
+      <if test="largeArea != null" >
+        LARGE_AREA,
+      </if>
+      <if test="sliceArea != null" >
+        SLICE_AREA,
+      </if>
+      <if test="fenBu != null" >
+        FEN_BU,
+      </if>
+      <if test="countAll != null" >
+        COUNT_ALL,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="years != null" >
+        YEARS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ctmName != null" >
+        #{ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmBarCode != null" >
+        #{ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmType != null" >
+        #{ctmType,jdbcType=VARCHAR},
+      </if>
+      <if test="largeArea != null" >
+        #{largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="sliceArea != null" >
+        #{sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="fenBu != null" >
+        #{fenBu,jdbcType=VARCHAR},
+      </if>
+      <if test="countAll != null" >
+        #{countAll,jdbcType=DECIMAL},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=DECIMAL},
+      </if>
+      <if test="years != null" >
+        #{years,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.ReportMonthExample" resultType="java.lang.Integer" >
+    select count(*) from REPORT_MONTH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update REPORT_MONTH
+    <set >
+      <if test="record.ctmName != null" >
+        CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmBarCode != null" >
+        CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmType != null" >
+        CTM_TYPE = #{record.ctmType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.largeArea != null" >
+        LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sliceArea != null" >
+        SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fenBu != null" >
+        FEN_BU = #{record.fenBu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countAll != null" >
+        COUNT_ALL = #{record.countAll,jdbcType=DECIMAL},
+      </if>
+      <if test="record.flag != null" >
+        FLAG = #{record.flag,jdbcType=DECIMAL},
+      </if>
+      <if test="record.years != null" >
+        YEARS = #{record.years,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update REPORT_MONTH
+    set CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
+      CTM_TYPE = #{record.ctmType,jdbcType=VARCHAR},
+      LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      SLICE_AREA = #{record.sliceArea,jdbcType=VARCHAR},
+      FEN_BU = #{record.fenBu,jdbcType=VARCHAR},
+      COUNT_ALL = #{record.countAll,jdbcType=DECIMAL},
+      FLAG = #{record.flag,jdbcType=DECIMAL},
+      YEARS = #{record.years,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="query" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+	select * from REPORT_MONTH
+	<where>
+  		<if test="int1!=null">
+	  		and flag = ${int1}
+  		</if>
+  		<if test="str1!=null">
+	  		and CTM_BAR_CODE = ${str1}
+  		</if>
+  		<if test="str2!=null">
+	  		and ctm_name = ${str2}
+  		</if>
+  		<if test="str3!=null">
+	  		and YEARS = ${str3}
+  		</if>
+	</where>
+  </select>
+  <select id="callproduce"  parameterType="com.zs.entity.other.EasyUIAccept">
+	{call reportdata(#{date3},#{date4},${str1})} 
+  </select>
+</mapper>

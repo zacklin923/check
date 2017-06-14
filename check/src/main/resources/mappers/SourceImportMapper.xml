@@ -423,6 +423,12 @@
 	  	(
 		  	select * from SOURCE_IMPORT
 		  	<where>
+			  	<if test="date1!=null and date1!=''">
+			  		and CREATE_TIME >= #{date1}
+			  	</if>
+			  	<if test="date2!=null and date2!=''">
+		  			and CREATE_TIME &lt;= #{date2}
+		 		</if>
 			  	<if test="str3!=null and str3!=''">
 			  		and COURIER_NUMBER in (${str3})
 			  	</if>
@@ -441,7 +447,6 @@
 			  	<if test="str8!=null">
 			  		and SHOP_NUMBER like '%${str8}%'
 			  	</if>
-		  		and (CREATE_TIME >= #{date1} or IS_PUSHED=0)
 		  	</where>
 		  	<if test="sort!=null and order!=null">
 		  		order by ${sort} ${order},CREATE_TIME desc
@@ -465,6 +470,12 @@
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(*) from SOURCE_IMPORT
   	<where>
+  		<if test="date1!=null and date1!=''">
+	  		and CREATE_TIME >= #{date1}
+	  	</if>
+	  	<if test="date2!=null and date2!=''">
+  			and CREATE_TIME &lt;= #{date2}
+ 		</if>
 	  	<if test="str3!=null and str3!=''">
 	  		and COURIER_NUMBER in (${str3})
 	  	</if>
@@ -483,7 +494,6 @@
 	  	<if test="str8!=null">
 	  		and SHOP_NUMBER like '%${str8}%'
 	  	</if>
-	  	and (CREATE_TIME >= #{date1} or IS_PUSHED=0)
  	</where>
   </select>
   <select id="queryToZM" resultMap="BaseResultMap">

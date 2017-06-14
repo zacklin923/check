@@ -16,6 +16,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	$.ajax({
+		url:"<%=path%>/api/customer/style/1",
+		type:"GET",
+		success:function(data){
+			var json;
+			if(isJson(data)){
+				json=data;
+			}else{
+				json = eval('('+data+')');
+			}
+			if(json.result=='success'){
+				console.log(json.data);
+				var str = json.data;
+				s="[["+str+"]]";
+				options={};
+				options.columns = eval(s)
+				$('#dg').datagrid(options);   
+			}else{
+				alert("错误:"+json.code);
+			}
+		}
+	});
+});
 var url;
 function addObj(){
 	$("#dlg").dialog("open").dialog("setTitle","新建");	
@@ -156,6 +180,42 @@ function search_toolbar1(){
 		$('#dg').datagrid('load', json);
 	}
 }
+function moduleEdit(){
+	var r=document.getElementsByName("orderline")
+	console.log(r);
+	var str = "";
+	var str1="";
+	for(var i=0;i<r.length;i++){
+		if(r[i].value){
+        	str = str + r[i].value+",";
+			str1=str1+i+"a";
+        }
+    };
+    str=str+str1+"_大客户信息";
+    $.ajax({
+		url:"<%=path%>/api/module/"+str,
+		type:"PUT",
+		success:function(data){
+			if(data){
+				var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					$('#mbedit').dialog('close');
+				}else{
+					$('#mbedit').dialog('close');
+					alert("错误:"+json.code+"错误原因："+json.data);
+				}
+			}else{
+				hiden_hint();
+				alert("错误:网络错误");
+			}
+		}
+	});
+}
 </script>
 <table id="dg" border="true" title="基础信息维护>客户信息"
 		url="<%=path %>/api/customer"
@@ -165,35 +225,6 @@ function search_toolbar1(){
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
 		pageSize="25" pageList="[25,40,50,100]">
-	<thead>
-		<tr>
-			<th field="cteBarCode" width="100" sortable="true">客户条码</th>
-			<th field="cteName" width="100" sortable="true">客户名字</th>
-			<th field="customServiceCenter" width="100" sortable="true">维护客服（中端）</th>
-			<th field="customServiceTop" width="100" sortable="true">维护客服（前端）</th>
-			<th field="customServiceLast" width="100" sortable="true">维护客服（后端）</th>
-			<th field="customType" width="100" sortable="true">客户类型</th>
-			<th field="largeArea" width="100" sortable="true">大区</th>
-			<th field="sliceArea" width="100" sortable="true">区部</th>
-			<th field="fenbu" width="100" sortable="true">分部</th>
-			<th field="openDate" width="100" sortable="true">开通时间</th>
-			<th field="outDate" width="100" sortable="true">暂停时间</th>
-			<th field="business" width="100" sortable="true">业务负责人</th>
-			<th field="accountsType" width="100" sortable="true">结算方式</th>
-			<th field="pageType" width="100" sortable="true">面单类型</th>
-			<th field="dailyDelivery" width="100" sortable="true">日均发货量</th>
-			<th field="goodsDetail" width="100" sortable="true">寄递货物详情</th>
-			<th field="carry_goods_type" width="100" sortable="true">提货方式</th>
-			<th field="packet_point" width="100" sortable="true">集包点</th>
-			<th field="return_piece" width="100" sortable="true">退件</th>
-			<th field="matter" width="100" sortable="true">物料</th>
-			<th field="complain_rebate" width="100" sortable="true">投诉返利</th>
-			<th field="option_fine" width="100" sortable="true">操作罚款</th>
-			<th field="fee_compensate" width="100" sortable="true">费用理赔</th>
-			<th field="note" width="100" sortable="true">备注</th>
-			<th field="state" width="100" sortable="true">启用状态</th>
-		</tr>
-	</thead>
 </table>
 <div id="toolbar">
 	<div class="btn-separator-none">
@@ -205,19 +236,47 @@ function search_toolbar1(){
 	<br class="clear"/>
 	<hr class="hr-geay">
 	<form id="search">
-   		<div class="searchBar-input">
+   		<div class="searchBar-input1">
 	    	<div>	
 	    		<span style="display:block;float:left;margin-top:40px;">客户条码：</span><textarea name ="str1" style="height:98px;"></textarea>
    			</div>
    		</div>
-   		<div class="searchBar-input">
-    		<div>
-    			客户名称：<input name ="str2" />
-    		</div>
+   		<div class="searchBar-input1">
     		<div style="float:left;margin-left:30px;">
     			历史记录:<input style="width:15px;height:15px;" name="int1" type="radio" value="1"/>是<input style="width:15px;height:15px;" name="int1" type="radio" value="0" checked="checked"/>否
     		</div>
+    		<div>
+    			客户名称：<input name ="str2" />
+    		</div>
+    		<div>
+    			维护(中端)：<input name ="str3" />
+    		</div>
+    		<div>
+    			维护(前端)：<input name ="str4" />
+    		</div>
     		<input type="hidden" name="_header" value="${licence }"/>
+   		</div>
+   		<div class="searchBar-input1">
+   			<div>
+    			维护(后端)：<input name ="str5" />
+    		</div>
+    		<div>
+    			客户类型：<input name ="str6" />
+    		</div>
+    		<div>
+    			大区：<input name ="str7" />
+    		</div>
+    		<div>
+    			区部：<input name ="str8" />
+    		</div>
+   		</div>
+   		<div class="searchBar-input1">
+   			<div>
+    			分部：<input name ="str9" />
+    		</div>
+    		<div>
+    			业务负责人：<input name ="str10" />
+    		</div>
    		</div>
    	</form>
    	<div class="clear"></div>
@@ -225,9 +284,9 @@ function search_toolbar1(){
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>
 	<div class="pull-away"></div>
 </div>
-
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">
 	<div class="ftitle">客户信息</div>
@@ -354,6 +413,54 @@ function search_toolbar1(){
 			<input type="file" name="file"/>
 			<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;"/>
 		</form>
+</div>
+<div id="mbedit"class="easyui-dialog" style="width:650px;height:400px;padding:10px 20px"
+		closed="true" buttons="#mbedit-buttons" modal="true" title="模板编辑">
+		<form id="moduleform" method="post">
+			<span style="font-size:20px;color:red;">顺序从0开始，全不选代表为最原始的状态</span>
+			<table>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>客户条码</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>客户名称</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>维护客服（中端）</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>维护客服（前端）</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>维护客服（后端）</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>客户类型</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>大区</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>区部</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>分部</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>开通时间</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>暂停时间</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>业务负责人</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>结算方式</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>面单类型</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>日均发货量</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>寄递货物详情</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>提货方式</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>集包点</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>退件</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>投诉返利</td>
+				</tr>
+				<tr>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>操作罚款</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>费用理赔</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>备注</td>
+					<td><input style="width:50px;" name ="orderline" type="number" min="1" max="25"/>启用状态</td>
+				</tr>
+			</table>
+		</form>
+</div>
+<div id="mbedit-buttons">
+	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="moduleEdit()">提交</a>
+	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#mbedit').dialog('close')">取消</a>
 </div>
 </body>
 </html>

@@ -94,31 +94,37 @@ public class ReceiveFromZmConR {
 							zm.setOrderNumber(im.getOrderNumber());
 							zm.setShopNumber(im.getShopNumber());
 							//-------装填省份信息-----------------
-							if (zm.getProvince()==null || (zm.getProvince()!=null && zm.getProvince().trim().equals(""))) {//哲盟没有返回省份
-								if (im.getProvince()!=null && !im.getProvince().trim().equals("")) {//导入表有省份
-									zm.setProvince(im.getProvince());
-								}else if(im.getOneCode()!=null && !im.getOneCode().equals("")){//导入表有一段码
-									ProvinceCode provinceCode=provinceCodeSer.get(im.getOneCode());
-									if(provinceCode!=null) zm.setProvince(provinceCode.getProvince());
-								}
-							}else{//哲盟返回了省份，其实是目的地，很长的一串文字，需要提取出省份
+							if(im.getProvince()==null||im.getProvince().equals("")){
 								try{
-									zm.setProvince(ProvinceHelper.getProvince(zm.getProvince()));
+									if(zm.getProvince()!=null){
+										zm.setProvince(ProvinceHelper.getProvince(zm.getProvince()));
+									}
 								}catch(Exception e){
 									e.printStackTrace();
 									//导入表既没有一段码也没有省份
 									log.error("【哲盟返回接口】该条记录无法计算出省份。"+zm);
 								}
+							}else{
+								zm.setProvince(im.getProvince());
 							}
-							//-----------计算超时时间----------------
-							if(zm.getProvince()!=null){
-								TimeLimit tl=timeLimitSer.selectByEndProvince(zm.getProvince());
-								if(tl!=null && zm.getSendTime()!=null){
-									Calendar calendar=Calendar.getInstance();
-									calendar.setTime(zm.getSendTime());
-									calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
-									zm.setTimeOut(calendar.getTime());
+						}else{
+							try{
+								if(zm.getProvince()!=null){
+									zm.setProvince(ProvinceHelper.getProvince(zm.getProvince()));
 								}
+							}catch(Exception e){
+								e.printStackTrace();
+								log.error("【哲盟返回接口】该条记录无法计算出省份。"+zm);
+							}
+						}
+						//-----------计算超时时间----------------
+						if(zm.getProvince()!=null){
+							TimeLimit tl=timeLimitSer.selectByEndProvince(zm.getProvince());
+							if(tl!=null && zm.getSendTime()!=null){
+								Calendar calendar=Calendar.getInstance();
+								calendar.setTime(zm.getSendTime());
+								calendar.add(Calendar.SECOND, (int)(tl.getHourCost().doubleValue()*(60*60)));
+								zm.setTimeOut(calendar.getTime());
 							}
 						}
 						sourceZmSer.add(zm);

@@ -27,4 +27,14 @@ public class MyDate extends Date{
 		return sdf.format(date);
 	}
 	
+	public String toString3(){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(date);
+	}
+	
+	public String toString4(){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");
+		return sdf.format(date);
+	}
+	
 }

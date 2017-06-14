@@ -577,42 +577,62 @@
   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
   	select * from (
 		select t1.*,rownum rn from (
-		    select s2.* from (select courier_number, max(return_date) tm from SOURCE_THIRD_PARTY group by courier_number) s1,SOURCE_THIRD_PARTY s2
+		    select * from SOURCE_THIRD_PARTY
 		    <where>
-		        s1.courier_number=s2.courier_number and s1.tm=s2.return_date
 		    	<if test="str1!=null">
-			  		and s2.CTM_BAR_CODE in (${str1})
+			  		and CTM_BAR_CODE in (${str1})
 			  	</if>
 			  	<if test="date1!=null and date1!=''">
-		 			and s2.SEND_TIME >= #{date1}
+		 			and SEND_TIME >= #{date1}
 				</if>
 				<if test="date2!=null and date2!=''">
-		 			and s2.SEND_TIME &lt;= #{date2}
+		 			and SEND_TIME &lt;= #{date2}
 				</if>
 			  	<if test="str2!=null and str2!=''">
-			  		and s2.DELIVERY_STATE = #{str2}
+			  		and DELIVERY_STATE = #{str2}
 			  	</if>
 			  	<if test="str3!=null and str3!=''">
-			  		and s2.COURIER_NUMBER in (${str3})
+			  		and COURIER_NUMBER in (${str3})
 			  	</if>
 			  	<if test="str4!=null and str4!=''">
-			  		and s2.CTM_BAR_CODE in (${str4})
+			  		and CTM_BAR_CODE in (${str4})
 			  	</if>
 			  	<if test="str5!=null and str5!=''">
-			  		and s2.ORDER_NUMBER like '%${str5}%'
+			  		and ORDER_NUMBER like '%${str5}%'
 			  	</if>
 			  	<if test="str6!=null and str6!=''">
-			  		and s2.SHOP_NUMBER like '%${str6}%'
+			  		and SHOP_NUMBER like '%${str6}%'
 			  	</if>
+			  	<if test="str8!=null and str8!=''">
+		  			and LARGE_AREA like '%${str8}%'
+		  		</if>
+			  	<if test="str9!=null and str9!=''">
+		  			and SLICE_AREA like '%${str9}%'
+		  		</if>
+		  		<if test="str10!=null and str10!=''">
+		  			and FENBU like '%${str10}%'
+		  		</if>
+		  		<if test="str11!=null and str11!=''">
+		  			and FBD_AREA like '%${str11}%'
+		  		</if>
+		  		<if test="str12!=null and str12!=''">
+		  			and CTM_NAME like '%${str12}%'
+		  		</if>
+		  		<if test="str13!=null and str13!=''">
+		  			and PROVINCE like '%${str13}%'
+		  		</if>
+		  		<if test="str14!=null and str14!=''">
+		  			and SIGN_PORT like '%${str14}%'
+		  		</if>
 			  	<if test="int1!=null">
 			  		and IS_TIME_OUT = #{int1}
 			  	</if>
 		    </where>
 		    <if test="sort!=null and order!=null">
-		  		order by s2.${sort} ${order},s2.CREATE_TIME desc
+		  		order by ${sort} ${order},CREATE_TIME desc
 		  	</if>
 		  	<if test="sort==null or order==null">
-		  		order by s2.CREATE_TIME desc
+		  		order by CREATE_TIME desc
 		  	</if>
 		) t1
 		<where>
@@ -628,33 +648,53 @@
   	</where>
   </select>
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
-  	select count(*) from (select courier_number, max(return_date) tm from SOURCE_THIRD_PARTY group by courier_number) s1,SOURCE_THIRD_PARTY s2
+  	select count(*) from SOURCE_THIRD_PARTY
     <where>
-        s1.courier_number=s2.courier_number and s1.tm=s2.return_date
     	<if test="str1!=null">
-	  		and s2.CTM_BAR_CODE in (${str1})
+	  		and CTM_BAR_CODE in (${str1})
 	  	</if>
 	  	<if test="date1!=null and date1!=''">
- 			and s2.SEND_TIME >= #{date1}
+ 			and SEND_TIME >= #{date1}
 		</if>
 		<if test="date2!=null and date2!=''">
- 			and s2.SEND_TIME &lt;= #{date2}
+ 			and SEND_TIME &lt;= #{date2}
 		</if>
 	  	<if test="str2!=null and str2!=''">
-	  		and s2.DELIVERY_STATE = #{str2}
+	  		and DELIVERY_STATE = #{str2}
 	  	</if>
 	  	<if test="str3!=null and str3!=''">
-	  		and s2.COURIER_NUMBER in (${str3})
+	  		and COURIER_NUMBER in (${str3})
 	  	</if>
 	  	<if test="str4!=null and str4!=''">
-	  		and s2.CTM_BAR_CODE in (${str4})
+	  		and CTM_BAR_CODE in (${str4})
 	  	</if>
 	  	<if test="str5!=null and str5!=''">
-	  		and s2.ORDER_NUMBER like '%${str5}%'
+	  		and ORDER_NUMBER like '%${str5}%'
 	  	</if>
 	  	<if test="str6!=null and str6!=''">
-	  		and s2.SHOP_NUMBER like '%${str6}%'
+	  		and SHOP_NUMBER like '%${str6}%'
 	  	</if>
+	  	<if test="str8!=null and str8!=''">
+  			and LARGE_AREA like '%${str8}%'
+  		</if>
+	  	<if test="str9!=null and str9!=''">
+  			and SLICE_AREA like '%${str9}%'
+  		</if>
+  		<if test="str10!=null and str10!=''">
+  			and FENBU like '%${str10}%'
+  		</if>
+  		<if test="str11!=null and str11!=''">
+  			and FBD_AREA like '%${str11}%'
+  		</if>
+  		<if test="str12!=null and str12!=''">
+  			and CTM_NAME like '%${str12}%'
+  		</if>
+  		<if test="str13!=null and str13!=''">
+  			and PROVINCE like '%${str13}%'
+  		</if>
+  		<if test="str14!=null and str14!=''">
+  			and SIGN_PORT like '%${str14}%'
+  		</if>
 	  	<if test="int1!=null">
 	  		and IS_TIME_OUT = #{int1}
 	  	</if>
