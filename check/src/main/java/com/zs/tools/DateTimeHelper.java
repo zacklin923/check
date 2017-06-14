@@ -1,8 +1,13 @@
 package com.zs.tools;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.junit.Test;
+
+import com.zs.entity.Sign;
 import com.zs.entity.other.MyDate;
 
 /**
@@ -44,11 +49,75 @@ public class DateTimeHelper {
 	}
 	
 	//得到今天最7.59的时间
-		public static MyDate getEndOfOld() {
-			Calendar calendar=Calendar.getInstance();
-			Date date = new Date();
-			calendar.set(date.getYear()+1900,date.getMonth(),date.getDate(),7,59,59);
-			return new MyDate(calendar.getTime());
-		}
+	public static MyDate getEndOfOld() {
+		Calendar calendar=Calendar.getInstance();
+		Date date = new Date();
+		calendar.set(date.getYear()+1900,date.getMonth(),date.getDate(),7,59,59);
+		return new MyDate(calendar.getTime());
+	}
 	
+	
+	/**
+	 * @author John丶辉
+	 * 得到传入时间的当天的23.59.59
+	 * @param date
+	 * @return
+	 */
+	public static Date getenddate(Date date){
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		calendar.add(Calendar.MILLISECOND, -1);
+		return calendar.getTime();
+	}
+	
+	/**
+	 * @author John丶辉
+	 * 得到传入时间的当天的0.0.0
+	 * @param date
+	 * @return
+	 */
+	public static MyDate getstartdate(Date date){
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.add(Calendar.MILLISECOND, 0);
+		return new MyDate(calendar.getTime());
+	}
+	
+	/**
+	 * @author John丶辉
+	 * 得到传入时间的第二天的7.59
+	 * @param date
+	 * @return
+	 */
+	public static Date getenddate8(Date date){
+		Calendar calendar=Calendar.getInstance();
+		calendar.set(date.getYear()+1900,date.getMonth(),date.getDate()+1,7,59,59);
+		calendar.set(Calendar.MILLISECOND ,0);
+		return calendar.getTime();
+	}
+	
+	/**
+	 * @author John丶辉
+	 * 得到传入时间的当天的8点
+	 * @param date
+	 * @return
+	 */
+	public static Date getstartdate8(Date date){
+		Calendar calendar=Calendar.getInstance();
+		calendar.set(date.getYear()+1900,date.getMonth(),date.getDate(),8,0,0);
+		calendar.set(Calendar.MILLISECOND ,0);
+		return calendar.getTime();
+	}
+	
+	public static MyDate getolddate(){
+		Calendar calendar=Calendar.getInstance();
+		Date date = new Date();
+		calendar.set(date.getYear()+1900,date.getMonth(),date.getDate()-1,0,0,0);
+		return new MyDate(calendar.getTime());
+	}
 }

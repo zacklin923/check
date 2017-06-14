@@ -15,7 +15,7 @@ public class DateConverter implements Converter<String, Date>{
 		}else {
 			SimpleDateFormat sdf=null;
 			try {
-				sdf=new SimpleDateFormat("yyyy-MM-dd");
+				sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				return sdf.parse(source);
 			} catch (Exception e) {
 				try {
@@ -27,7 +27,7 @@ public class DateConverter implements Converter<String, Date>{
 						return sdf.parse(source);
 					} catch (Exception e3) {
 						try {
-							sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+							sdf=new SimpleDateFormat("yyyy-MM-dd");
 							return sdf.parse(source);
 						} catch (Exception e4) {
 							e.printStackTrace();

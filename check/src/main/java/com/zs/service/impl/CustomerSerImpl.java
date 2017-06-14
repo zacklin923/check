@@ -36,8 +36,10 @@ public class CustomerSerImpl implements CustomerSer{
 		if (accept!=null) {
 			Integer page=accept.getPage();
 			Integer size=accept.getRows();
-			if(accept.getInt1()!=0){
-				accept.setInt1(null);
+			if(accept.getInt1()!=null){
+				if(accept.getInt1()!=0){
+					accept.setInt1(null);
+				}
 			}
 			if (page!=null && size!=null) {
 				accept.setStart((page-1)*size);

@@ -91,7 +91,7 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 						accept.setStr4(str4);
 					}
 				}
-				accept.setStr1(ManagerId.isSeeAll(req));
+//				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceTpSer.queryFenye(accept);
 			} catch (Exception e) {

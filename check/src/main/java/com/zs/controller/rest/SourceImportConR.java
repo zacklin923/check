@@ -77,7 +77,7 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 						accept.setStr4(str4);
 					}
 				}
-				accept.setDate1(ManagerId.getNow());
+//				accept.setDate1(ManagerId.getNow());
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return sourceImportSer.queryFenye(accept);
 			} catch (Exception e) {

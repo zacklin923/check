@@ -572,6 +572,30 @@
 		  		<if test="str2!=null and str2!=''">
 		  			and CTE_NAME like '%${str2}%'
 		  		</if>
+		  		<if test="str3!=null and str3!=''">
+		  			and CUSTOM_SERVICE_CENTER like '%${str3}%'
+		  		</if>
+		  		<if test="str4!=null and str4!=''">
+		  			and CUSTOM_SERVICE_TOP like '%${str4}%'
+		  		</if>
+		  		<if test="str5!=null and str5!=''">
+		  			and CUSTOM_SERVICE_LAST like '%${str5}%'
+		  		</if>
+		  		<if test="str6!=null and str6!=''">
+		  			and CUSTOM_TYPE like '%${str6}%'
+		  		</if>
+		  		<if test="str7!=null and str7!=''">
+		  			and LARGE_AREA like '%${str7}%'
+		  		</if>
+		  		<if test="str8!=null and str8!=''">
+		  			and SLICE_AREA like '%${str8}%'
+		  		</if>
+		  		<if test="str9!=null and str9!=''">
+		  			and FENBU like '%${str9}%'
+		  		</if>
+		  		<if test="str10!=null and str10!=''">
+		  			and BUSINESS like '%${str10}%'
+		  		</if>
 		  		<if test="int1!=null">
 		  			and HISTORY_COUNT = 0
 		  		</if>
@@ -600,6 +624,30 @@
   		</if>
   		<if test="str2!=null and str2!=''">
   			and CTE_NAME like '%${str2}%'
+  		</if>
+  		<if test="str3!=null and str3!=''">
+  			and CUSTOM_SERVICE_CENTER like '%${str3}%'
+  		</if>
+  		<if test="str4!=null and str4!=''">
+  			and CUSTOM_SERVICE_TOP like '%${str4}%'
+  		</if>
+  		<if test="str5!=null and str5!=''">
+  			and CUSTOM_SERVICE_LAST like '%${str5}%'
+  		</if>
+  		<if test="str6!=null and str6!=''">
+  			and CUSTOM_TYPE like '%${str6}%'
+  		</if>
+  		<if test="str7!=null and str7!=''">
+  			and LARGE_AREA like '%${str7}%'
+  		</if>
+  		<if test="str8!=null and str8!=''">
+  			and SLICE_AREA like '%${str8}%'
+  		</if>
+  		<if test="str9!=null and str9!=''">
+  			and FENBU like '%${str9}%'
+  		</if>
+  		<if test="str10!=null and str10!=''">
+  			and BUSINESS like '%${str10}%'
   		</if>
   		<if test="int1!=null">
   			and HISTORY_COUNT = 0

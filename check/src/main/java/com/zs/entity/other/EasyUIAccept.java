@@ -33,6 +33,11 @@ public class EasyUIAccept {
 	private String str8;
 	private String str9;
 	private String str10;
+	private String str11;
+	private String str12;
+	private String str13;
+	private String str14;
+	private String str15;
 	//---------
 	private Date date1;
 	private Date date2;
@@ -160,6 +165,36 @@ public class EasyUIAccept {
 	public void setStr10(String str10) {
 		this.str10 = str10;
 	}
+	public String getStr11() {
+		return str11;
+	}
+	public void setStr11(String str11) {
+		this.str11 = str11;
+	}
+	public String getStr12() {
+		return str12;
+	}
+	public void setStr12(String str12) {
+		this.str12 = str12;
+	}
+	public String getStr13() {
+		return str13;
+	}
+	public void setStr13(String str13) {
+		this.str13 = str13;
+	}
+	public String getStr14() {
+		return str14;
+	}
+	public void setStr14(String str14) {
+		this.str14 = str14;
+	}
+	public String getStr15() {
+		return str15;
+	}
+	public void setStr15(String str15) {
+		this.str15 = str15;
+	}
 	public Date getDate1() {
 		return date1;
 	}
@@ -232,7 +267,8 @@ public class EasyUIAccept {
 				+ start + ", end=" + end + ", int1=" + int1 + ", int2=" + int2 + ", int3=" + int3 + ", int4=" + int4
 				+ ", int5=" + int5 + ", str1=" + str1 + ", str2=" + str2 + ", str3=" + str3 + ", str4=" + str4
 				+ ", str5=" + str5 + ", str6=" + str6 + ", str7=" + str7 + ", str8=" + str8 + ", str9=" + str9
-				+ ", str10=" + str10 + ", date1=" + date1 + ", date2=" + date2 + ", date3=" + date3 + ", date4=" + date4
+				+ ", str10=" + str10 + ", str11=" + str11 + ", str12=" + str12 + ", str13=" + str13 + ", str14=" + str14
+				+ ", str15=" + str15 + ", date1=" + date1 + ", date2=" + date2 + ", date3=" + date3 + ", date4=" + date4
 				+ ", d1=" + d1 + ", d2=" + d2 + ", d3=" + d3 + ", d4=" + d4 + ", d5=" + d5 + "]";
 	}
 	

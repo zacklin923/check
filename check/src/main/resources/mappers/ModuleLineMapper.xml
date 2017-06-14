@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.ModuleLineMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.ModuleLine" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="LINE_FIELD" property="lineField" jdbcType="VARCHAR" />
+    <result column="LINE_WIDTH" property="lineWidth" jdbcType="VARCHAR" />
+    <result column="FORMATTER" property="formatter" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="SORTABLE" property="sortable" jdbcType="VARCHAR" />
+    <result column="ROWSPAN" property="rowspan" jdbcType="VARCHAR" />
+    <result column="COLSPAN" property="colspan" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, MODULE_NAME, TITLE, LINE_FIELD, LINE_WIDTH, FORMATTER, CREATE_TIME, SORTABLE, 
+    ROWSPAN, COLSPAN
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.ModuleLineExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from MODULE_LINE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from MODULE_LINE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from MODULE_LINE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.ModuleLineExample" >
+    delete from MODULE_LINE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.ModuleLine" >
+    insert into MODULE_LINE (ID, MODULE_NAME, TITLE, 
+      LINE_FIELD, LINE_WIDTH, FORMATTER, 
+      CREATE_TIME, SORTABLE, ROWSPAN, 
+      COLSPAN)
+    values (#{id,jdbcType=VARCHAR}, #{moduleName,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{lineField,jdbcType=VARCHAR}, #{lineWidth,jdbcType=VARCHAR}, #{formatter,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{sortable,jdbcType=VARCHAR}, #{rowspan,jdbcType=VARCHAR}, 
+      #{colspan,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.ModuleLine" >
+    insert into MODULE_LINE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="moduleName != null" >
+        MODULE_NAME,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="lineField != null" >
+        LINE_FIELD,
+      </if>
+      <if test="lineWidth != null" >
+        LINE_WIDTH,
+      </if>
+      <if test="formatter != null" >
+        FORMATTER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="sortable != null" >
+        SORTABLE,
+      </if>
+      <if test="rowspan != null" >
+        ROWSPAN,
+      </if>
+      <if test="colspan != null" >
+        COLSPAN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName != null" >
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="lineField != null" >
+        #{lineField,jdbcType=VARCHAR},
+      </if>
+      <if test="lineWidth != null" >
+        #{lineWidth,jdbcType=VARCHAR},
+      </if>
+      <if test="formatter != null" >
+        #{formatter,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sortable != null" >
+        #{sortable,jdbcType=VARCHAR},
+      </if>
+      <if test="rowspan != null" >
+        #{rowspan,jdbcType=VARCHAR},
+      </if>
+      <if test="colspan != null" >
+        #{colspan,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.ModuleLineExample" resultType="java.lang.Integer" >
+    select count(*) from MODULE_LINE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update MODULE_LINE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleName != null" >
+        MODULE_NAME = #{record.moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lineField != null" >
+        LINE_FIELD = #{record.lineField,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lineWidth != null" >
+        LINE_WIDTH = #{record.lineWidth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.formatter != null" >
+        FORMATTER = #{record.formatter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sortable != null" >
+        SORTABLE = #{record.sortable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rowspan != null" >
+        ROWSPAN = #{record.rowspan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.colspan != null" >
+        COLSPAN = #{record.colspan,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update MODULE_LINE
+    set ID = #{record.id,jdbcType=VARCHAR},
+      MODULE_NAME = #{record.moduleName,jdbcType=VARCHAR},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      LINE_FIELD = #{record.lineField,jdbcType=VARCHAR},
+      LINE_WIDTH = #{record.lineWidth,jdbcType=VARCHAR},
+      FORMATTER = #{record.formatter,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      SORTABLE = #{record.sortable,jdbcType=VARCHAR},
+      ROWSPAN = #{record.rowspan,jdbcType=VARCHAR},
+      COLSPAN = #{record.colspan,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.ModuleLine" >
+    update MODULE_LINE
+    <set >
+      <if test="moduleName != null" >
+        MODULE_NAME = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="lineField != null" >
+        LINE_FIELD = #{lineField,jdbcType=VARCHAR},
+      </if>
+      <if test="lineWidth != null" >
+        LINE_WIDTH = #{lineWidth,jdbcType=VARCHAR},
+      </if>
+      <if test="formatter != null" >
+        FORMATTER = #{formatter,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sortable != null" >
+        SORTABLE = #{sortable,jdbcType=VARCHAR},
+      </if>
+      <if test="rowspan != null" >
+        ROWSPAN = #{rowspan,jdbcType=VARCHAR},
+      </if>
+      <if test="colspan != null" >
+        COLSPAN = #{colspan,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.ModuleLine" >
+    update MODULE_LINE
+    set MODULE_NAME = #{moduleName,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      LINE_FIELD = #{lineField,jdbcType=VARCHAR},
+      LINE_WIDTH = #{lineWidth,jdbcType=VARCHAR},
+      FORMATTER = #{formatter,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      SORTABLE = #{sortable,jdbcType=VARCHAR},
+      ROWSPAN = #{rowspan,jdbcType=VARCHAR},
+      COLSPAN = #{colspan,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="queryTable" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from MODULE_LINE
+  	<where>
+  		<if test="tbn!=null and tbn!=''">
+  			and MODULE_NAME = #{tbn}
+  		</if>
+  	</where>
+  </select>
+</mapper>

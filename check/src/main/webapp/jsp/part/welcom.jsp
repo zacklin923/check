@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					</div>
   					<div data-options="region:'center',split:true" title="签到" style="height:50%;padding:5px;">
 						<div class="easyui-calendar" style="width:70%;height:100%;display: inline-block;"></div> 
-						<div id="version_update" class="easyui-dialog" style="width:500px;height:650px;padding:10px 20px"
+						<div id="version_update" class="easyui-dialog" style="width:500px;height:300px;padding:10px 20px"
 							closed="true" modal="true" title="版本更新日志" data-options="
 								onClose:function(){
 									$.ajax({
