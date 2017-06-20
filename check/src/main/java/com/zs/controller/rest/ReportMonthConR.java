@@ -35,8 +35,8 @@ public class ReportMonthConR{
 	public Result<String> refrence(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp){
 		if(accept!=null){
 			try {
-				//这里还有问题
-//				reportMonthSer.callproduce(accept);
+				System.out.println("成功进入");
+				reportMonthSer.callproduce(accept);
 				return new Result<String>("success", Code.SUCCESS, "成功刷新所选时间段的数据");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -79,7 +79,15 @@ public class ReportMonthConR{
 					   +"{field:'largeArea',title:'大区',width:40},"
 					   +"{field:'countAll',title:'总计',width:40,align:'right'},";
 		}
-		str = str + "{field:'countAll',title:'6月',width:40,align:'right'},";
+		if(accept.getInt2().equals(accept.getInt4())){
+			int ct = accept.getInt5()-accept.getInt3();
+			for (int i = 0; i <= ct; i++) {
+				accept.setStr3(accept.getInt2()+"-"+(accept.getInt3()+i));
+				if(reportMonthSer.queryislive(accept)>0){
+					str = str + "{field:'month"+(i+1)+"',title:'"+accept.getInt2()+"年"+(accept.getInt3()+i)+"月',width:40,align:'right'},";
+				}
+			}
+		}
 		str=str.substring(0, str.length()-1);
 		return new Result<String>("success", Code.SUCCESS, str);
 	}

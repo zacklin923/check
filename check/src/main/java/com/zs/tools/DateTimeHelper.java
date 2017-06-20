@@ -120,4 +120,38 @@ public class DateTimeHelper {
 		calendar.set(date.getYear()+1900,date.getMonth(),date.getDate()-1,0,0,0);
 		return new MyDate(calendar.getTime());
 	}
+	
+	public static int getyear(){
+		return new Date().getYear()+1900;
+	}
+	
+	public static int getmonth(){
+		return new Date().getMonth()+1;
+	}
+	
+	public static Date getmonthStart(int year,int month){
+		Calendar calendar=Calendar.getInstance();
+		calendar.set(year,month-1,1,0,0,0);
+		calendar.set(Calendar.MILLISECOND ,0);
+		return calendar.getTime();
+	}
+	
+	public static Date getmonthEnd(int year,int month){
+		Calendar calendar=Calendar.getInstance();
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.MONTH, month);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.add(Calendar.MILLISECOND, 0);
+		return calendar.getTime();
+	}
+	
+	@Test
+	public void test(){
+		int i = 1;
+		System.out.println();
+	}
 }

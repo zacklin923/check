@@ -8,5 +8,6 @@ public interface ReportMonthSer{
 	public List query(EasyUIAccept accept);
 	
 	public void callproduce(EasyUIAccept accept);
-	
+
+	public int queryislive(EasyUIAccept accept);
 }

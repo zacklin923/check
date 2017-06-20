@@ -88,8 +88,8 @@ public class ReportDateConR{
 		str=str +"{title:'"+sdf.format(new Date(accept.getDate1().getTime()))+"',width:120,colspan:3},";
 		str=str.substring(0, str.length()-1);
 		str=str+"_";
-		str = str + "{field:'electronicSheet',title:'电子面单',width:40,align:'right'},"
-				  +"{field:'genericSheet',title:'普件面单',width:40,align:'right'},"
+		str = str + "{field:'electronicSheet',title:'普件面单',width:40,align:'right'},"
+				  +"{field:'genericSheet',title:'电子面单',width:40,align:'right'},"
 				  +"{field:'otherSheet',title:'其他快递',width:40,align:'right'},";
 		str=str.substring(0, str.length()-1);
 		return new Result<String>("success", Code.SUCCESS, str);

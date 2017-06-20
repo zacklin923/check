@@ -32,10 +32,8 @@ function stylesheet(){
 				json = eval('('+data+')');
 			}
 			if(json.result=='success'){
-				console.log(json.data);
 				var str = json.data;
 				s="[["+str+"]]";
-				console.log(s);
 				options={};
 				options.columns = eval(s)
 				$('#dg').datagrid(options);   
@@ -47,7 +45,7 @@ function stylesheet(){
 }
 function refrence(){
 	$('#search').form("submit",{
-		url:"<%=path %>/api/reportDate/1",
+		url:"<%=path %>/api/reportMonth/1",
 		method:"GET",
 		onSubmit: function(){   
 		}, 
@@ -106,6 +104,7 @@ function search_toolbar1(){
 		$('#dg').datagrid('load', json);
 	}
 }
+
 </script>
 <table id="dg" border="true" title="报表>日报表"
 		url="<%=path %>/api/reportMonth"
@@ -126,7 +125,10 @@ function search_toolbar1(){
 	<form id="search">
    		<div class="searchBar-input">
     		<div>
-	    		数据日期：<input name="date1" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy/MM/dd'})" value="<%=DateTimeHelper.getolddate().toString4()%>"/>
+	    		开始月份<input id="syear" style="width:50px;" min="2015" name="int2" type="number" value="<%=DateTimeHelper.getyear()%>"/>&nbsp;年&nbsp;<input id="smonth" style="width:40px;" name="int3" min="1" max="12" type="number" value="1"/>&nbsp;月
+    		</div>
+    		<div>
+	    		结束月份<input id="eyear" style="width:50px;" min="2015" name="int4" type="number" value="<%=DateTimeHelper.getyear()%>"/>&nbsp;年&nbsp;<input id="emonth" style="width:40px;" name="int5" min="1" max="12" type="number" value="<%=DateTimeHelper.getmonth()%>"/>&nbsp;月
     		</div>
    		</div>
    		<div class="searchBar-input">

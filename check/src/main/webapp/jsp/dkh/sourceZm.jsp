@@ -216,6 +216,7 @@ function search_toolbar1(){
 	if(f.form('validate')){
 		var json=formToJson(f);
 		var reg=new RegExp("\r\n","g");
+		console.log(json.str3);
 		if(json.str3!=null){
 			var str3 = json.str3.replace(reg,",");
 			json.str3=str3;

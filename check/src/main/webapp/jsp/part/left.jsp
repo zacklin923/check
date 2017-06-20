@@ -61,6 +61,9 @@ if(request.getSession().getAttribute("target")==null){
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
        		<li><span><a href="<%=path %>/reportDate" target="${target }">日报表</a></span></li>
        		<li><span><a href="<%=path %>/reportMonth" target="${target }">月报表</a></span></li>
+       		<li><span><a href="<%=path %>/primeReport/Import" target="${target }">成本导入收集</a></span></li>
+       		<li><span><a href="<%=path %>/primeReport/collect" target="${target }">成本收集汇总</a></span></li>
+       		<li><span><a href="<%=path %>/primeReport/personle" target="${target }">成本按导入人汇总</a></span></li>
         </ul>
 	</div>
 	<div title="系统管理" data-options="iconCls:'icon-system'" style="padding:10px;">

@@ -82,7 +82,7 @@ public class SourceZmSerImpl implements SourceZmSer{
 	}
 
 	public Integer update(SourceZm zm, String stuNum) {
-		int i=zmMapper.updateByPrimaryKeySelective(zm);
+		Integer i=zmMapper.updateByPrimaryKeySelective(zm);
 		checkUpdateProvince(zm, stuNum);
 		return i;
 	}

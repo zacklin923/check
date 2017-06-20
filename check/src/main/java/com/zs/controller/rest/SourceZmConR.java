@@ -185,10 +185,12 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 
 	@RequestMapping(value="/exportExceltest",method=RequestMethod.GET)
 	public Result<String> excelExporttest(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+		System.out.println(accept);
 		if (accept!=null) {
 			try {
 				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
-					String [] ss = accept.getStr3().trim().split(",");
+					String st = accept.getStr3().replace("\r\n", ",");
+					String [] ss = st.trim().split(",");
 					String str="";
 					for (int i = 0; i < ss.length; i++) {
 						String strt=ss[i].trim();
@@ -205,7 +207,8 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 					}
 				}
 				if(accept.getStr2()!=null&&!accept.getStr2().equals("")){
-					String [] ss2 = accept.getStr2().trim().split(",");
+					String st1 = accept.getStr2().replace("\r\n", ",");
+					String [] ss2 = st1.trim().split(",");
 					String str2="";
 					for (int i = 0; i < ss2.length; i++) {
 						String strt2=ss2[i].trim();
