@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.PrimeCodeReportMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.PrimeCodeReport" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CTM_NAME" property="ctmName" jdbcType="VARCHAR" />
+    <result column="CTM_BAR_CODE" property="ctmBarCode" jdbcType="VARCHAR" />
+    <result column="CTM_TYPE" property="ctmType" jdbcType="VARCHAR" />
+    <result column="LARGE_AREA" property="largeArea" jdbcType="VARCHAR" />
+    <result column="COUNT_JD" property="countJd" jdbcType="DECIMAL" />
+    <result column="HOUR_JD" property="hourJd" jdbcType="DECIMAL" />
+    <result column="COUNT_CJ" property="countCj" jdbcType="DECIMAL" />
+    <result column="HOUR_CJ" property="hourCj" jdbcType="DECIMAL" />
+    <result column="COUNT_LY" property="countLy" jdbcType="DECIMAL" />
+    <result column="HOUR_LY" property="hourLy" jdbcType="DECIMAL" />
+    <result column="COUNT_GD" property="countGd" jdbcType="DECIMAL" />
+    <result column="HOUR_GD" property="hourGd" jdbcType="DECIMAL" />
+    <result column="COUNT_LPCL" property="countLpcl" jdbcType="DECIMAL" />
+    <result column="HOUR_LPCL" property="hourLpcl" jdbcType="DECIMAL" />
+    <result column="COUNT_KSCL" property="countKscl" jdbcType="DECIMAL" />
+    <result column="HOUR_KSCL" property="hourKscl" jdbcType="DECIMAL" />
+    <result column="COUNT_QSB" property="countQsb" jdbcType="DECIMAL" />
+    <result column="HOUR_QSB" property="hourQsb" jdbcType="DECIMAL" />
+    <result column="COUNT_TJCL" property="countTjcl" jdbcType="DECIMAL" />
+    <result column="HOUR_TJCL" property="hourTjcl" jdbcType="DECIMAL" />
+    <result column="COUNT_SD" property="countSd" jdbcType="DECIMAL" />
+    <result column="HOUR_SD" property="hourSd" jdbcType="DECIMAL" />
+    <result column="COUNT_DD" property="countDd" jdbcType="DECIMAL" />
+    <result column="HOUR_DD" property="hourDd" jdbcType="DECIMAL" />
+    <result column="DAY_COUNT" property="dayCount" jdbcType="DECIMAL" />
+    <result column="STU_NUM" property="stuNum" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap type="com.zs.entity.other.lyResultMap" id="LyResultMap">
+  	<result column="c1" property="c1" />
+  	<result column="c2" property="c2" />
+  </resultMap>
+  <resultMap type="com.zs.entity.other.OtherResultMap" id="OtherResultMap">
+  	<result column="c1" property="c1" />
+  	<result column="c2" property="c2" />
+  	<result column="c3" property="c3" />
+  	<result column="c4" property="c4" />
+  	<result column="c5" property="c5" />
+  	<result column="c6" property="c6" />
+  	<result column="c7" property="c7" />
+  </resultMap>
+  <resultMap type="com.zs.entity.other.PerResultMap" id="PerResultMap">
+  	<result column="stu_num" property="stuNum" />
+  	<result column="c1" property="c1" />
+  	<result column="c2" property="c2" />
+  	<result column="c3" property="c3" />
+  	<result column="c4" property="c4" />
+  	<result column="c5" property="c5" />
+  	<result column="c6" property="c6" />
+  	<result column="c7" property="c7" />
+  	<result column="c8" property="c8" />
+  	<result column="c9" property="c9" />
+  	<result column="c10" property="c10" />
+  	<result column="c11" property="c11" />
+  	<result column="c12" property="c12" />
+  	<result column="c13" property="c13" />
+  	<result column="c14" property="c14" />
+  	<result column="c15" property="c15" />
+  	<result column="c16" property="c16" />
+  	<result column="c17" property="c17" />
+  	<result column="c18" property="c18" />
+  	<result column="c19" property="c19" />
+  	<result column="c20" property="c20" />
+  	<result column="c21" property="c21" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, CTM_NAME, CTM_BAR_CODE, CTM_TYPE, LARGE_AREA, COUNT_JD, HOUR_JD, COUNT_CJ, HOUR_CJ, 
+    COUNT_LY, HOUR_LY, COUNT_GD, HOUR_GD, COUNT_LPCL, HOUR_LPCL, COUNT_KSCL, HOUR_KSCL, 
+    COUNT_QSB, HOUR_QSB, COUNT_TJCL, HOUR_TJCL, COUNT_SD, HOUR_SD, COUNT_DD, HOUR_DD, 
+    DAY_COUNT, STU_NUM, CREATE_DATE, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.PrimeCodeReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from PRIME_CODE_REPORT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from PRIME_CODE_REPORT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from PRIME_CODE_REPORT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zs.entity.PrimeCodeReportExample" >
+    delete from PRIME_CODE_REPORT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.PrimeCodeReport" >
+    insert into PRIME_CODE_REPORT (ID, CTM_NAME, CTM_BAR_CODE, 
+      CTM_TYPE, LARGE_AREA, COUNT_JD, 
+      HOUR_JD, COUNT_CJ, HOUR_CJ, 
+      COUNT_LY, HOUR_LY, COUNT_GD, 
+      HOUR_GD, COUNT_LPCL, HOUR_LPCL, 
+      COUNT_KSCL, HOUR_KSCL, COUNT_QSB, 
+      HOUR_QSB, COUNT_TJCL, HOUR_TJCL, 
+      COUNT_SD, HOUR_SD, COUNT_DD, 
+      HOUR_DD, DAY_COUNT, STU_NUM, 
+      CREATE_DATE, CREATE_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{ctmName,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, 
+      #{ctmType,jdbcType=VARCHAR}, #{largeArea,jdbcType=VARCHAR}, #{countJd,jdbcType=DECIMAL}, 
+      #{hourJd,jdbcType=DECIMAL}, #{countCj,jdbcType=DECIMAL}, #{hourCj,jdbcType=DECIMAL}, 
+      #{countLy,jdbcType=DECIMAL}, #{hourLy,jdbcType=DECIMAL}, #{countGd,jdbcType=DECIMAL}, 
+      #{hourGd,jdbcType=DECIMAL}, #{countLpcl,jdbcType=DECIMAL}, #{hourLpcl,jdbcType=DECIMAL}, 
+      #{countKscl,jdbcType=DECIMAL}, #{hourKscl,jdbcType=DECIMAL}, #{countQsb,jdbcType=DECIMAL}, 
+      #{hourQsb,jdbcType=DECIMAL}, #{countTjcl,jdbcType=DECIMAL}, #{hourTjcl,jdbcType=DECIMAL}, 
+      #{countSd,jdbcType=DECIMAL}, #{hourSd,jdbcType=DECIMAL}, #{countDd,jdbcType=DECIMAL}, 
+      #{hourDd,jdbcType=DECIMAL}, #{dayCount,jdbcType=DECIMAL}, #{stuNum,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.PrimeCodeReport" >
+    insert into PRIME_CODE_REPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="ctmName != null" >
+        CTM_NAME,
+      </if>
+      <if test="ctmBarCode != null" >
+        CTM_BAR_CODE,
+      </if>
+      <if test="ctmType != null" >
+        CTM_TYPE,
+      </if>
+      <if test="largeArea != null" >
+        LARGE_AREA,
+      </if>
+      <if test="countJd != null" >
+        COUNT_JD,
+      </if>
+      <if test="hourJd != null" >
+        HOUR_JD,
+      </if>
+      <if test="countCj != null" >
+        COUNT_CJ,
+      </if>
+      <if test="hourCj != null" >
+        HOUR_CJ,
+      </if>
+      <if test="countLy != null" >
+        COUNT_LY,
+      </if>
+      <if test="hourLy != null" >
+        HOUR_LY,
+      </if>
+      <if test="countGd != null" >
+        COUNT_GD,
+      </if>
+      <if test="hourGd != null" >
+        HOUR_GD,
+      </if>
+      <if test="countLpcl != null" >
+        COUNT_LPCL,
+      </if>
+      <if test="hourLpcl != null" >
+        HOUR_LPCL,
+      </if>
+      <if test="countKscl != null" >
+        COUNT_KSCL,
+      </if>
+      <if test="hourKscl != null" >
+        HOUR_KSCL,
+      </if>
+      <if test="countQsb != null" >
+        COUNT_QSB,
+      </if>
+      <if test="hourQsb != null" >
+        HOUR_QSB,
+      </if>
+      <if test="countTjcl != null" >
+        COUNT_TJCL,
+      </if>
+      <if test="hourTjcl != null" >
+        HOUR_TJCL,
+      </if>
+      <if test="countSd != null" >
+        COUNT_SD,
+      </if>
+      <if test="hourSd != null" >
+        HOUR_SD,
+      </if>
+      <if test="countDd != null" >
+        COUNT_DD,
+      </if>
+      <if test="hourDd != null" >
+        HOUR_DD,
+      </if>
+      <if test="dayCount != null" >
+        DAY_COUNT,
+      </if>
+      <if test="stuNum != null" >
+        STU_NUM,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="ctmName != null" >
+        #{ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmBarCode != null" >
+        #{ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmType != null" >
+        #{ctmType,jdbcType=VARCHAR},
+      </if>
+      <if test="largeArea != null" >
+        #{largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="countJd != null" >
+        #{countJd,jdbcType=DECIMAL},
+      </if>
+      <if test="hourJd != null" >
+        #{hourJd,jdbcType=DECIMAL},
+      </if>
+      <if test="countCj != null" >
+        #{countCj,jdbcType=DECIMAL},
+      </if>
+      <if test="hourCj != null" >
+        #{hourCj,jdbcType=DECIMAL},
+      </if>
+      <if test="countLy != null" >
+        #{countLy,jdbcType=DECIMAL},
+      </if>
+      <if test="hourLy != null" >
+        #{hourLy,jdbcType=DECIMAL},
+      </if>
+      <if test="countGd != null" >
+        #{countGd,jdbcType=DECIMAL},
+      </if>
+      <if test="hourGd != null" >
+        #{hourGd,jdbcType=DECIMAL},
+      </if>
+      <if test="countLpcl != null" >
+        #{countLpcl,jdbcType=DECIMAL},
+      </if>
+      <if test="hourLpcl != null" >
+        #{hourLpcl,jdbcType=DECIMAL},
+      </if>
+      <if test="countKscl != null" >
+        #{countKscl,jdbcType=DECIMAL},
+      </if>
+      <if test="hourKscl != null" >
+        #{hourKscl,jdbcType=DECIMAL},
+      </if>
+      <if test="countQsb != null" >
+        #{countQsb,jdbcType=DECIMAL},
+      </if>
+      <if test="hourQsb != null" >
+        #{hourQsb,jdbcType=DECIMAL},
+      </if>
+      <if test="countTjcl != null" >
+        #{countTjcl,jdbcType=DECIMAL},
+      </if>
+      <if test="hourTjcl != null" >
+        #{hourTjcl,jdbcType=DECIMAL},
+      </if>
+      <if test="countSd != null" >
+        #{countSd,jdbcType=DECIMAL},
+      </if>
+      <if test="hourSd != null" >
+        #{hourSd,jdbcType=DECIMAL},
+      </if>
+      <if test="countDd != null" >
+        #{countDd,jdbcType=DECIMAL},
+      </if>
+      <if test="hourDd != null" >
+        #{hourDd,jdbcType=DECIMAL},
+      </if>
+      <if test="dayCount != null" >
+        #{dayCount,jdbcType=DECIMAL},
+      </if>
+      <if test="stuNum != null" >
+        #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.PrimeCodeReportExample" resultType="java.lang.Integer" >
+    select count(*) from PRIME_CODE_REPORT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update PRIME_CODE_REPORT
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ctmName != null" >
+        CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmBarCode != null" >
+        CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctmType != null" >
+        CTM_TYPE = #{record.ctmType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.largeArea != null" >
+        LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countJd != null" >
+        COUNT_JD = #{record.countJd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hourJd != null" >
+        HOUR_JD = #{record.hourJd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countCj != null" >
+        COUNT_CJ = #{record.countCj,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hourCj != null" >
+        HOUR_CJ = #{record.hourCj,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countLy != null" >
+        COUNT_LY = #{record.countLy,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hourLy != null" >
+        HOUR_LY = #{record.hourLy,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countGd != null" >
+        COUNT_GD = #{record.countGd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hourGd != null" >
+        HOUR_GD = #{record.hourGd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countLpcl != null" >
+        COUNT_LPCL = #{record.countLpcl,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hourLpcl != null" >
+        HOUR_LPCL = #{record.hourLpcl,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countKscl != null" >
+        COUNT_KSCL = #{record.countKscl,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hourKscl != null" >
+        HOUR_KSCL = #{record.hourKscl,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countQsb != null" >
+        COUNT_QSB = #{record.countQsb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hourQsb != null" >
+        HOUR_QSB = #{record.hourQsb,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countTjcl != null" >
+        COUNT_TJCL = #{record.countTjcl,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hourTjcl != null" >
+        HOUR_TJCL = #{record.hourTjcl,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countSd != null" >
+        COUNT_SD = #{record.countSd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hourSd != null" >
+        HOUR_SD = #{record.hourSd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countDd != null" >
+        COUNT_DD = #{record.countDd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.hourDd != null" >
+        HOUR_DD = #{record.hourDd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dayCount != null" >
+        DAY_COUNT = #{record.dayCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stuNum != null" >
+        STU_NUM = #{record.stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update PRIME_CODE_REPORT
+    set ID = #{record.id,jdbcType=DECIMAL},
+      CTM_NAME = #{record.ctmName,jdbcType=VARCHAR},
+      CTM_BAR_CODE = #{record.ctmBarCode,jdbcType=VARCHAR},
+      CTM_TYPE = #{record.ctmType,jdbcType=VARCHAR},
+      LARGE_AREA = #{record.largeArea,jdbcType=VARCHAR},
+      COUNT_JD = #{record.countJd,jdbcType=DECIMAL},
+      HOUR_JD = #{record.hourJd,jdbcType=DECIMAL},
+      COUNT_CJ = #{record.countCj,jdbcType=DECIMAL},
+      HOUR_CJ = #{record.hourCj,jdbcType=DECIMAL},
+      COUNT_LY = #{record.countLy,jdbcType=DECIMAL},
+      HOUR_LY = #{record.hourLy,jdbcType=DECIMAL},
+      COUNT_GD = #{record.countGd,jdbcType=DECIMAL},
+      HOUR_GD = #{record.hourGd,jdbcType=DECIMAL},
+      COUNT_LPCL = #{record.countLpcl,jdbcType=DECIMAL},
+      HOUR_LPCL = #{record.hourLpcl,jdbcType=DECIMAL},
+      COUNT_KSCL = #{record.countKscl,jdbcType=DECIMAL},
+      HOUR_KSCL = #{record.hourKscl,jdbcType=DECIMAL},
+      COUNT_QSB = #{record.countQsb,jdbcType=DECIMAL},
+      HOUR_QSB = #{record.hourQsb,jdbcType=DECIMAL},
+      COUNT_TJCL = #{record.countTjcl,jdbcType=DECIMAL},
+      HOUR_TJCL = #{record.hourTjcl,jdbcType=DECIMAL},
+      COUNT_SD = #{record.countSd,jdbcType=DECIMAL},
+      HOUR_SD = #{record.hourSd,jdbcType=DECIMAL},
+      COUNT_DD = #{record.countDd,jdbcType=DECIMAL},
+      HOUR_DD = #{record.hourDd,jdbcType=DECIMAL},
+      DAY_COUNT = #{record.dayCount,jdbcType=DECIMAL},
+      STU_NUM = #{record.stuNum,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.PrimeCodeReport" >
+    update PRIME_CODE_REPORT
+    <set >
+      <if test="ctmName != null" >
+        CTM_NAME = #{ctmName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmBarCode != null" >
+        CTM_BAR_CODE = #{ctmBarCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctmType != null" >
+        CTM_TYPE = #{ctmType,jdbcType=VARCHAR},
+      </if>
+      <if test="largeArea != null" >
+        LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="countJd != null" >
+        COUNT_JD = #{countJd,jdbcType=DECIMAL},
+      </if>
+      <if test="hourJd != null" >
+        HOUR_JD = #{hourJd,jdbcType=DECIMAL},
+      </if>
+      <if test="countCj != null" >
+        COUNT_CJ = #{countCj,jdbcType=DECIMAL},
+      </if>
+      <if test="hourCj != null" >
+        HOUR_CJ = #{hourCj,jdbcType=DECIMAL},
+      </if>
+      <if test="countLy != null" >
+        COUNT_LY = #{countLy,jdbcType=DECIMAL},
+      </if>
+      <if test="hourLy != null" >
+        HOUR_LY = #{hourLy,jdbcType=DECIMAL},
+      </if>
+      <if test="countGd != null" >
+        COUNT_GD = #{countGd,jdbcType=DECIMAL},
+      </if>
+      <if test="hourGd != null" >
+        HOUR_GD = #{hourGd,jdbcType=DECIMAL},
+      </if>
+      <if test="countLpcl != null" >
+        COUNT_LPCL = #{countLpcl,jdbcType=DECIMAL},
+      </if>
+      <if test="hourLpcl != null" >
+        HOUR_LPCL = #{hourLpcl,jdbcType=DECIMAL},
+      </if>
+      <if test="countKscl != null" >
+        COUNT_KSCL = #{countKscl,jdbcType=DECIMAL},
+      </if>
+      <if test="hourKscl != null" >
+        HOUR_KSCL = #{hourKscl,jdbcType=DECIMAL},
+      </if>
+      <if test="countQsb != null" >
+        COUNT_QSB = #{countQsb,jdbcType=DECIMAL},
+      </if>
+      <if test="hourQsb != null" >
+        HOUR_QSB = #{hourQsb,jdbcType=DECIMAL},
+      </if>
+      <if test="countTjcl != null" >
+        COUNT_TJCL = #{countTjcl,jdbcType=DECIMAL},
+      </if>
+      <if test="hourTjcl != null" >
+        HOUR_TJCL = #{hourTjcl,jdbcType=DECIMAL},
+      </if>
+      <if test="countSd != null" >
+        COUNT_SD = #{countSd,jdbcType=DECIMAL},
+      </if>
+      <if test="hourSd != null" >
+        HOUR_SD = #{hourSd,jdbcType=DECIMAL},
+      </if>
+      <if test="countDd != null" >
+        COUNT_DD = #{countDd,jdbcType=DECIMAL},
+      </if>
+      <if test="hourDd != null" >
+        HOUR_DD = #{hourDd,jdbcType=DECIMAL},
+      </if>
+      <if test="dayCount != null" >
+        DAY_COUNT = #{dayCount,jdbcType=DECIMAL},
+      </if>
+      <if test="stuNum != null" >
+        STU_NUM = #{stuNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zs.entity.PrimeCodeReport" >
+    update PRIME_CODE_REPORT
+    set CTM_NAME = #{ctmName,jdbcType=VARCHAR},
+      CTM_BAR_CODE = #{ctmBarCode,jdbcType=VARCHAR},
+      CTM_TYPE = #{ctmType,jdbcType=VARCHAR},
+      LARGE_AREA = #{largeArea,jdbcType=VARCHAR},
+      COUNT_JD = #{countJd,jdbcType=DECIMAL},
+      HOUR_JD = #{hourJd,jdbcType=DECIMAL},
+      COUNT_CJ = #{countCj,jdbcType=DECIMAL},
+      HOUR_CJ = #{hourCj,jdbcType=DECIMAL},
+      COUNT_LY = #{countLy,jdbcType=DECIMAL},
+      HOUR_LY = #{hourLy,jdbcType=DECIMAL},
+      COUNT_GD = #{countGd,jdbcType=DECIMAL},
+      HOUR_GD = #{hourGd,jdbcType=DECIMAL},
+      COUNT_LPCL = #{countLpcl,jdbcType=DECIMAL},
+      HOUR_LPCL = #{hourLpcl,jdbcType=DECIMAL},
+      COUNT_KSCL = #{countKscl,jdbcType=DECIMAL},
+      HOUR_KSCL = #{hourKscl,jdbcType=DECIMAL},
+      COUNT_QSB = #{countQsb,jdbcType=DECIMAL},
+      HOUR_QSB = #{hourQsb,jdbcType=DECIMAL},
+      COUNT_TJCL = #{countTjcl,jdbcType=DECIMAL},
+      HOUR_TJCL = #{hourTjcl,jdbcType=DECIMAL},
+      COUNT_SD = #{countSd,jdbcType=DECIMAL},
+      HOUR_SD = #{hourSd,jdbcType=DECIMAL},
+      COUNT_DD = #{countDd,jdbcType=DECIMAL},
+      HOUR_DD = #{hourDd,jdbcType=DECIMAL},
+      DAY_COUNT = #{dayCount,jdbcType=DECIMAL},
+      STU_NUM = #{stuNum,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+   <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select * from
+  	(
+	  	select t1.*,rownum rn from
+	  	(
+		  	select * from PRIME_CODE_REPORT
+		  	<where>
+			  	<if test="date1!=null and date1!=''">
+			  		and CREATE_TIME >= #{date1}
+			  	</if>
+			  	<if test="date2!=null and date2!=''">
+		  			and CREATE_TIME &lt;= #{date2}
+		 		</if>
+			  	<if test="str3!=null and str3!=''">
+			  		and CTM_BAR_CODE in (${str3})
+			  	</if>
+			  	<if test="str4!=null and str4!=''">
+			  		and STU_NUM in (select stu_num from staff_user where stu_name in (${str4}))
+			  	</if>
+			  	<if test="str5!=null">
+			  		and CTM_NAME like '%${str5}%'
+			  	</if>
+			  	<if test="str6!=null">
+			  		and CTM_TYPE like '%${str6}%'
+			  	</if>
+			  	<if test="str7!=null">
+			  		and LARGE_AREA like '%${str7}%'
+			  	</if>
+		  	</where>
+		  	<if test="sort!=null and order!=null">
+		  		order by ${sort} ${order},CREATE_TIME desc
+		  	</if>
+		  	<if test="sort==null or order==null">
+		  		order by CREATE_TIME desc
+		  	</if>
+	  	) t1
+	  	<where>
+	  		<if test="end!=null">
+	  			rownum &lt;= #{end}
+		  	</if>
+	  	</where>
+  	)
+  	<where>
+  		<if test="start!=null">
+  			rn > #{start}
+	  	</if>
+  	</where>
+  </select>
+  <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select count(*) from PRIME_CODE_REPORT
+  	<where>
+  		<if test="date1!=null and date1!=''">
+	  		and CREATE_TIME >= #{date1}
+	  	</if>
+	  	<if test="date2!=null and date2!=''">
+  			and CREATE_TIME &lt;= #{date2}
+ 		</if>
+	  	<if test="str3!=null and str3!=''">
+	  		and CTM_BAR_CODE in (${str3})
+	  	</if>
+	  	<if test="str4!=null and str4!=''">
+	  		and STU_NUM in (select stu_num from staff_user where stu_name in (${str4}))
+	  	</if>
+	  	<if test="str5!=null">
+	  		and CTM_NAME like '%${str5}%'
+	  	</if>
+	  	<if test="str6!=null">
+	  		and CTM_TYPE like '%${str6}%'
+	  	</if>
+	  	<if test="str7!=null">
+	  		and LARGE_AREA like '%${str7}%'
+	  	</if>
+ 	</where>
+  </select>
+  <select id="getLy" resultMap="LyResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select SUM(count_ly) c1,COUNT(distinct stu_num) c2 from prime_code_report 
+  	<where>
+  		<if test="str1!=null">
+	  	 	 and ctm_type in ${str1}  
+  		</if>
+  		<if test="date1!=null and date1!=''">
+	  		and CREATE_TIME >= #{date1}
+	  	</if>
+	  	<if test="date2!=null and date2!=''">
+  			and CREATE_TIME &lt;= #{date2}
+ 		</if>
+  		and count_ly > 0
+  	 </where>
+  </select>
+  <select id="getOthers" resultMap="OtherResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select count(distinct ctm_bar_code) c1,sum(day_count) c2,count(distinct stu_num) c3,sum(count_qsb) c4,sum(count_tjcl) c5,sum(count_sd) c6,sum(count_dd) c7 
+  	from prime_code_report
+  	<where>
+  		<if test="str1!=null">
+	  	 	 and ctm_type in ${str1}
+  		</if>
+  		<if test="date1!=null and date1!=''">
+	  		and CREATE_TIME >= #{date1}
+	  	</if>
+	  	<if test="date2!=null and date2!=''">
+  			and CREATE_TIME &lt;= #{date2}
+ 		</if>
+  	 </where>
+  </select>
+  <select id="getOtherExcptions" resultMap="OtherResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select SUM(count_jd) c1,sum(count_cj) c2,sum(count_gd) c3,sum(count_lpcl) c4,sum(count_kscl) c5,COUNT(distinct stu_num) c6
+  	from prime_code_report
+  	<where>
+  		<if test="str1!=null">
+	  	 	 and ctm_type in ${str1}
+  		</if>
+  		<if test="date1!=null and date1!=''">
+	  		and CREATE_TIME >= #{date1}
+	  	</if>
+	  	<if test="date2!=null and date2!=''">
+  			and CREATE_TIME &lt;= #{date2}
+ 		</if>
+ 		and  (count_jd > 0 or count_cj >0 or count_gd>0 or count_lpcl>0 or count_kscl>0)
+  	 </where>
+  </select>
+  <select id="getPerReport" resultMap="PerResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select stu_num,sum(count_jd) c1,sum(hour_jd) c2,sum(count_cj) c3,sum(hour_cj) c4,sum(count_ly) c5,
+  	sum(hour_ly) c6 ,sum(count_gd) c7,sum(hour_gd) c8,sum(count_lpcl) c9,sum(hour_lpcl) c10,
+  	sum(count_kscl) c11,sum(hour_kscl) c12,sum(count_qsb) c13,sum(count_qsb) c14,
+  	sum(count_tjcl) c15,sum(hour_tjcl) c16,sum(count_sd) c17,sum(count_sd) c18,sum(count_dd) c19,sum(count_dd) c20,sum(day_count) c21  
+  	from prime_code_report
+  	<where>
+  		<if test="str1!=null">
+	  	 	 and stu_num in (#{str1})
+  		</if>
+  		<if test="date1!=null and date1!=''">
+	  		and CREATE_TIME >= #{date1}
+	  	</if>
+	  	<if test="date2!=null and date2!=''">
+  			and CREATE_TIME &lt;= #{date2}
+ 		</if>
+  	 </where>
+  	 group by stu_num
+  </select>
+</mapper>

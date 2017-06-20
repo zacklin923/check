@@ -182,4 +182,9 @@ public class Trans {
 		}
 		return re.substring(0, re.lastIndexOf(","));
 	}
+	
+	public static BigDecimal TimeForBig(Timestamp ts){
+		long bg =(ts.getHours()*60*60+ts.getMinutes()*60+ts.getSeconds());
+		return new BigDecimal(bg);
+	}
 }

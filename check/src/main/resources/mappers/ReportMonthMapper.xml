@@ -229,17 +229,28 @@
 	  		and flag = ${int1}
   		</if>
   		<if test="str1!=null">
-	  		and CTM_BAR_CODE = ${str1}
+	  		and CTM_BAR_CODE = #{str1}
   		</if>
   		<if test="str2!=null">
-	  		and ctm_name = ${str2}
+	  		and ctm_name =#{str2}
   		</if>
   		<if test="str3!=null">
-	  		and YEARS = ${str3}
+	  		and YEARS = #{str3}
   		</if>
 	</where>
   </select>
+  <select id="queryislive" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select count(*) from REPORT_MONTH
+  	<where>
+  		<if test="int1!=null">
+  			and flag = ${int1}
+  		</if>
+  		<if test="str3!=null">
+  			and YEARS = #{str3}
+  		</if>
+  	</where>
+  </select>
   <select id="callproduce"  parameterType="com.zs.entity.other.EasyUIAccept">
-	{call reportdata(#{date3},#{date4},${str1})} 
+	{call reportmonth(#{date3},#{date4},#{str3})} 
   </select>
 </mapper>

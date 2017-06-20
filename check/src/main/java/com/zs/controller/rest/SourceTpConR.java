@@ -201,7 +201,8 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 		if (accept!=null) {
 			try {
 				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
-					String [] ss = accept.getStr3().trim().split(",");
+					String st = accept.getStr3().replace("\r\n", ",");
+					String [] ss = st.trim().split(",");
 					String str="";
 					for (int i = 0; i < ss.length; i++) {
 						String strt=ss[i].trim();
@@ -218,7 +219,8 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 					}
 				}
 				if(accept.getStr4()!=null&&!accept.getStr4().equals("")){
-					String [] ss4 = accept.getStr4().trim().split(",");
+					String st1 = accept.getStr4().replace("\r\n", ",");
+					String [] ss4 = st1.trim().split(",");
 					String str4="";
 					for (int i = 0; i < ss4.length; i++) {
 						String strt4=ss4[i].trim();

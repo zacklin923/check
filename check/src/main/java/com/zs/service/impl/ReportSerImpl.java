@@ -78,9 +78,6 @@ public class ReportSerImpl implements ReportSer{
 				accept.setDate3(DateTimeHelper.getstartdate8(accept.getDate1()));
 				accept.setDate4(DateTimeHelper.getenddate8(accept.getDate1()));
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-				System.out.println(accept.getDate3().toLocaleString());
-				System.out.println(accept.getDate4().toLocaleString());
-				System.out.println(sdf.format(accept.getDate3()));
 				reportDataMapper.callproduce(accept);
 			}
 		}

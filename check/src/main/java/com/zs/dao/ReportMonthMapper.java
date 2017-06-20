@@ -25,4 +25,6 @@ public interface ReportMonthMapper {
     List<ReportMonth> query(EasyUIAccept accept);
     
     void callproduce(EasyUIAccept accept); 
+    
+    int queryislive(EasyUIAccept accept);
 }
