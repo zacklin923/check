@@ -64,6 +64,7 @@ if(request.getSession().getAttribute("target")==null){
        		<li><span><a href="<%=path %>/primeReport/Import" target="${target }">成本导入收集</a></span></li>
        		<li><span><a href="<%=path %>/primeReport/collect" target="${target }">成本收集汇总</a></span></li>
        		<li><span><a href="<%=path %>/primeReport/personle" target="${target }">成本按导入人汇总</a></span></li>
+       		<li><span><a href="<%=path %>/reportSign" target="${target }">签收报表</a></span></li>
         </ul>
 	</div>
 	<div title="系统管理" data-options="iconCls:'icon-system'" style="padding:10px;">
