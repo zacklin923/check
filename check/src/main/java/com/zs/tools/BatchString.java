@@ -21,9 +21,38 @@ public class BatchString {
 			}
 			if(str!=null&&!str.equals(",")){
 				return str;
+			}else{
+				return null;
 			}
+		}else{
+			return null;
 		}
-		log.error("批量查询字符串转换失败，失败字符串为"+str1);
-		return null;
+	}
+	
+	
+	public static String oldbatchstr(String str){
+		Logger log = Logger.getLogger(BatchString.class);
+		if(str!=null&&!str.equals("")){
+			String st = str.replace("\r\n", ",");
+			String [] ss = st.trim().split(",");
+			String retstr="";
+			for (int i = 0; i < ss.length; i++) {
+				String strt=ss[i].trim();
+				if(!strt.equals("")&&strt!=null){
+					if(i!=ss.length-1){
+						retstr=retstr+"'"+strt+"'"+",";
+					}else{
+						retstr=retstr+"'"+strt+"'";
+					}
+				}
+			}
+			if(retstr!=null&&!retstr.equals(",")){
+				return retstr;
+			}else{
+				return null;
+			}
+		}else{
+			return null;
+		}
 	}
 }

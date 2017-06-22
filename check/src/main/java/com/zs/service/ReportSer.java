@@ -2,6 +2,8 @@ package com.zs.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.zs.entity.other.EasyUIAccept;
 
 public interface ReportSer{
@@ -9,4 +11,5 @@ public interface ReportSer{
 	
 	public void callproduce(EasyUIAccept accept);
 	
+	public String exportData(EasyUIAccept accept,HttpServletRequest request);
 }

@@ -266,10 +266,10 @@
   		<if test="int1!=null">
 	  		and flag = ${int1}
   		</if>
-  		<if test="str1!=null">
+  		<if test="str1!=null and str1!=''">
 	  		and CTM_BAR_CODE = ${str1}
   		</if>
-  		<if test="str2!=null">
+  		<if test="str2!=null and str2!=''">
 	  		and ctm_name = ${str2}
   		</if>
 	</where>

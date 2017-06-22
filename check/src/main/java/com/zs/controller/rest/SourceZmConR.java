@@ -28,6 +28,7 @@ import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
 import com.zs.service.CheckLogSer;
 import com.zs.service.SourceZmSer;
+import com.zs.tools.BatchString;
 import com.zs.tools.ColumnName;
 import com.zs.tools.DateTimeHelper;
 import com.zs.tools.ExcelImport;
@@ -47,39 +48,11 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
-				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
-					String [] ss = accept.getStr3().trim().split(",");
-					String str="";
-					for (int i = 0; i < ss.length; i++) {
-						String strt=ss[i].trim();
-						if(!strt.equals("")&&strt!=null){
-							if(i!=ss.length-1){
-								str=str+"'"+strt+"'"+",";
-							}else{
-								str=str+"'"+strt+"'";
-							}
-						}
-					}
-					if(str!=null&&!str.equals(",")){
-						accept.setStr3(str);
-					}
+				if(accept.getStr3()!=null){
+					accept.setStr3(BatchString.batchstr(accept.getStr3()));
 				}
-				if(accept.getStr2()!=null&&!accept.getStr2().equals("")){
-					String [] ss2 = accept.getStr2().trim().split(",");
-					String str2="";
-					for (int i = 0; i < ss2.length; i++) {
-						String strt2=ss2[i].trim();
-						if(!strt2.equals("")&&strt2!=null){
-							if(i!=ss2.length-1){
-								str2=str2+"'"+strt2+"'"+",";
-							}else{
-								str2=str2+"'"+strt2+"'";
-							}
-						}
-					}
-					if(str2!=null&&!str2.equals(",")){
-						accept.setStr2(str2);
-					}
+				if(accept.getStr2()!=null){
+					accept.setStr2(BatchString.batchstr(accept.getStr2()));
 				}
 //				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
@@ -188,41 +161,11 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 		System.out.println(accept);
 		if (accept!=null) {
 			try {
-				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
-					String st = accept.getStr3().replace("\r\n", ",");
-					String [] ss = st.trim().split(",");
-					String str="";
-					for (int i = 0; i < ss.length; i++) {
-						String strt=ss[i].trim();
-						if(!strt.equals("")&&strt!=null){
-							if(i!=ss.length-1){
-								str=str+"'"+strt+"'"+",";
-							}else{
-								str=str+"'"+strt+"'";
-							}
-						}
-					}
-					if(str!=null&&!str.equals(",")){
-						accept.setStr3(str);
-					}
+				if(accept.getStr3()!=null){
+					accept.setStr3(BatchString.oldbatchstr(accept.getStr3()));
 				}
-				if(accept.getStr2()!=null&&!accept.getStr2().equals("")){
-					String st1 = accept.getStr2().replace("\r\n", ",");
-					String [] ss2 = st1.trim().split(",");
-					String str2="";
-					for (int i = 0; i < ss2.length; i++) {
-						String strt2=ss2[i].trim();
-						if(!strt2.equals("")&&strt2!=null){
-							if(i!=ss2.length-1){
-								str2=str2+"'"+strt2+"'"+",";
-							}else{
-								str2=str2+"'"+strt2+"'";
-							}
-						}
-					}
-					if(str2!=null&&!str2.equals(",")){
-						accept.setStr2(str2);
-					}
+				if(accept.getStr2()!=null){
+					accept.setStr2(BatchString.oldbatchstr(accept.getStr2()));
 				}
 //				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));

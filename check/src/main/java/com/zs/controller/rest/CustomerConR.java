@@ -25,6 +25,7 @@ import com.zs.entity.other.Result;
 import com.zs.service.CustomerSer;
 import com.zs.service.ModuleLineSer;
 import com.zs.service.PersonalStyleSer;
+import com.zs.tools.BatchString;
 import com.zs.tools.ColumnName;
 import com.zs.tools.ExcelImport;
 
@@ -44,22 +45,8 @@ public class CustomerConR extends BaseRestController<Customer,String>{
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
-				if(accept.getStr1()!=null&&!accept.getStr1().equals("")){
-					String [] ss1 = accept.getStr1().trim().split(",");
-					String str1="";
-					for (int i = 0; i < ss1.length; i++) {
-						String strt1=ss1[i].trim();
-						if(!strt1.equals("")&&strt1!=null){
-							if(i!=ss1.length-1){
-								str1=str1+"'"+strt1+"'"+",";
-							}else{
-								str1=str1+"'"+strt1+"'";
-							}
-						}
-					}
-					if(str1!=null&&!str1.equals(",")){
-						accept.setStr1(str1);
-					}
+				if(accept.getStr1()!=null){
+					accept.setStr1(BatchString.batchstr(accept.getStr1()));
 				}
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return customerSer.queryFenye(accept);

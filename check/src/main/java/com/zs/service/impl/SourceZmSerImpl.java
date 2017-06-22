@@ -312,6 +312,7 @@ public class SourceZmSerImpl implements SourceZmSer{
 		example.setOrderByClause("return_date desc");
 		Criteria criteria=example.createCriteria();
 		criteria.andCourierNumberEqualTo(num);
+		criteria.andTimeOutIsNotNull();
 		List<SourceZm> list=zmMapper.selectByExample(example);
 		return list.size()>0?list.get(list.size()-1):null;
 	}

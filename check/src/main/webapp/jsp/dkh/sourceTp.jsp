@@ -18,6 +18,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
 $(function(){
+	stylesheet();
+});
+function stylesheet(){
 	$.ajax({
 		url:"<%=path%>/api/customer/style/3",
 		type:"GET",
@@ -40,7 +43,7 @@ $(function(){
 			}
 		}
 	});
-});
+}
 var url;
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
@@ -210,6 +213,13 @@ function upload(){
 	});
 }
 function search_toolbar1(){
+	var r2=document.getElementsByName("str2");
+	var sr2 ="";
+	for(var i = 0 ; i<r2.length;i++){
+		if(r2[i].checked){
+			sr2=sr2+r2[i].value+",";
+		}
+	}
 	var f=$('#search');
 	if(f.form('validate')){
 		var json=formToJson(f);
@@ -223,6 +233,9 @@ function search_toolbar1(){
 			var str4 = json.str4.replace(reg,",");
 			json.str4=str4;
 			console.log(str4);
+		}
+		if(json.str2!=null){
+			json.str2=sr2;
 		}
 		$('#dg').datagrid('load', json);
 	}
@@ -252,6 +265,7 @@ function moduleEdit(){
 				}
 				if(json.result=='success'){
 					$('#mbedit').dialog('close');
+					stylesheet();
 				}else{
 					$('#mbedit').dialog('close');
 					alert("错误:"+json.code+"错误原因："+json.data);
@@ -264,7 +278,7 @@ function moduleEdit(){
 	});
 }
 </script>
-<table id="dg" border="true" title="快件信息>运单状态查询"
+<table id="dg" border="true"
 		url="<%=path %>/api/sourceTp"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -275,96 +289,107 @@ function moduleEdit(){
 	
 </table>
 <div id="toolbar">
-	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
+	<div id="myPanel" class="easyui-panel" style="width:100%;height:200px" title="快件信息>运单状态查询" data-options="collapsible:true">
+		<script>
+		    $("#myPanel").panel({
+		    	onCollapse:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        },
+		    	onExpand:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        }
+		    });
+		</script>
+		<div class="btn-separator-none">
+			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
+			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
+		</div>
+		<div class="btn-separator">
+			<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
+		</div>
+		<br class="clear"/>
+		<hr class="hr-geay">
+		<form id="search">
+			<div class="searchBar-logistic">
+				<div style="float:left;margin-left:5px;">	
+		    		快递单号：<textarea name ="str3" style="height:85px;width:100px;"></textarea>	   			
+	    		</div>
+	   		</div>
+	   		<div class="searchBar-logistic">
+		    	<div style="float:left;margin-left:5px;">	
+		    		客户条码：<textarea name ="str4" style="height:85px;width:100px;"></textarea>
+	   			</div>
+	   		</div>
+			<div class="searchBar-input1">
+	    		<div>
+		    		发货日期开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
+	    		</div>
+	    		<div>
+	    			发货日期结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
+	    		</div>
+	    		<div>
+		    		是否超时：
+		    		<select name ="int1" style="width: 140px;">
+		    			<option value="">--请选择是否超时--</option>
+		    			<option value="0">否</option>
+		    			<option value="1">是</option>
+		    		</select>
+	    		</div>
+	    		<div>
+	    			签收站点：<input name ="str14" />
+	    		</div>
+	   		</div>
+	   		<div class="searchBar-input1">
+	    		<div>
+		    		所属大区：<input name ="str8" />
+	    		</div>
+	    		<div>
+		    		所属区部：<input name ="str9" />
+	    		</div>
+	    		<div>
+		    		所属分部：<input name ="str10" />
+	    		</div>
+	    		<div>
+		    		所属分拨点：<input name ="str11" />
+	    		</div>
+	   		</div>
+	   		<div class="searchBar-input1">
+	    		<div>
+	    			订单编号：<input name ="str5" />
+	    		</div>
+	    		<div>
+		    		客户店铺：<input name ="str6" />
+	    		</div>
+	    		<div>
+		    		客户名称：<input name ="str12" />
+	    		</div>
+	    		<div>
+		    		省份：<input name ="str13" />
+	    		</div>
+	    		<input type="hidden" name ="str7" id = "exportvalue"/>
+	   		</div>
+			<div style="float: left;width:220px;height:105px;">
+	    		<span style="float:left;font-size:14px;display: block;margin-left:10px;">配送状态：</span>
+				<div style="float:left;font-size:13px;margin-left:10px;">
+		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送成功"/>配送成功
+		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送失败"/>配送失败
+		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="揽件"/>揽件
+		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送异常"/>配送异常
+		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送中"/>配送中
+		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="退回件"/>退回件
+	    		</div>
+	    	</div>
+	   	</form>
+	   	<div class="clear"></div>
+	   	<hr class="hr-geay">
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>
+		<div class="pull-away"></div>
 	</div>
-	<div class="btn-separator">
-		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
-	</div>
-	<br class="clear"/>
-	<hr class="hr-geay">
-	<form id="search">
-		<div class="searchBar-input1">
-	    	<div>	
-	    		<span style="display:block;float:left;margin-top:40px;">快递单号：</span><textarea name ="str3" style="height:98px;"></textarea>
-   			</div>
-   		</div>
-   		<div class="searchBar-input1">
-	    	<div>	
-	    		<span style="display:block;float:left;margin-top:40px;">客户条码：</span><textarea name ="str4" style="height:98px;"></textarea>
-   			</div>
-   		</div>
-		<div class="searchBar-input1">
-    		<div>
-	    		发货日期开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
-    		</div>
-    		<div>
-    			发货日期结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
-    		</div>
-    		<div>
-	    		配送状态：
-	    		<select name ="str2" style="width: 170px;">
-	    			<option value="">--请选择配送状态--</option>
-	    			<option value="配送成功">配送成功</option>
-	    			<option value="配送失败">配送失败</option>
-	    			<option value="揽件">揽件</option>
-	    			<option value="配送中">配送中</option>
-	    			<option value="配送异常">配送异常</option>
-	    			<option value="退回件">退回件</option>
-	    		</select>
-    		</div>
-    		<div>
-	    		是否超时：
-	    		<select name ="int1" style="width: 170px;">
-	    			<option value="">--请选择是否超时--</option>
-	    			<option value="0">否</option>
-	    			<option value="1">是</option>
-	    		</select>
-    		</div>
-   		</div>
-   		<div class="searchBar-input1">
-    		<div>
-	    		所属大区：<input name ="str8" />
-    		</div>
-    		<div>
-	    		所属区部：<input name ="str9" />
-    		</div>
-    		<div>
-	    		所属分部：<input name ="str10" />
-    		</div>
-    		<div>
-	    		所属分拨点：<input name ="str11" />
-    		</div>
-   		</div>
-   		<div class="searchBar-input1">
-    		<div>
-    			订单编号：<input name ="str5" />
-    		</div>
-    		<div>
-	    		客户店铺：<input name ="str6" />
-    		</div>
-    		<div>
-	    		客户名称：<input name ="str12" />
-    		</div>
-    		<div>
-	    		省份：<input name ="str13" />
-    		</div>
-    		<input type="hidden" name ="str7" id = "exportvalue"/>
-   		</div>
-   		<div class="searchBar-input1">
-    		<div>
-    			签收站点：<input name ="str14" />
-    		</div>
-    	</div>
-   	</form>
-   	<div class="clear"></div>
-   	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
-	<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>
-	<div class="pull-away"></div>
 </div>
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"

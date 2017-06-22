@@ -217,7 +217,7 @@ function moduleEdit(){
 	});
 }
 </script>
-<table id="dg" border="true" title="基础信息维护>客户信息"
+<table id="dg" border="true"
 		url="<%=path %>/api/customer"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -227,65 +227,78 @@ function moduleEdit(){
 		pageSize="25" pageList="[25,40,50,100]">
 </table>
 <div id="toolbar">
-	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加客户</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑客户</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除客户</a>
+	<div id="myPanel" class="easyui-panel" style="width:100%;height:200px" title="基础信息维护>客户信息" data-options="collapsible:true">
+		<script>
+		    $("#myPanel").panel({
+		    	onCollapse:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        },
+		    	onExpand:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        }
+		    });
+		</script>
+		<div class="btn-separator-none">
+			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
+			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加客户</a>
+			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑客户</a>
+			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除客户</a>
+		</div>
+		<br class="clear"/>
+		<hr class="hr-geay">
+		<form id="search">
+	   		<div class="searchBar-logistic">
+		    	<div style="float:left;margin-left:5px;">	
+		    		客户条码：<textarea name ="str1" style="height:85px;width:100px;"></textarea>
+	   			</div>
+	   		</div>
+	   		<div class="searchBar-input1">
+	    		<div style="float:left;margin-left:30px;">
+	    			历史记录:<input style="width:15px;height:15px;" name="int1" type="radio" value="1"/>是<input style="width:15px;height:15px;" name="int1" type="radio" value="0" checked="checked"/>否
+	    		</div>
+	    		<div>
+	    			客户名称：<input name ="str2" />
+	    		</div>
+	    		<div>
+	    			维护(中端)：<input name ="str3" />
+	    		</div>
+	    		<div>
+	    			维护(前端)：<input name ="str4" />
+	    		</div>
+	    		<input type="hidden" name="_header" value="${licence }"/>
+	   		</div>
+	   		<div class="searchBar-input1">
+	   			<div>
+	    			维护(后端)：<input name ="str5" />
+	    		</div>
+	    		<div>
+	    			客户类型：<input name ="str6" />
+	    		</div>
+	    		<div>
+	    			大区：<input name ="str7" />
+	    		</div>
+	    		<div>
+	    			区部：<input name ="str8" />
+	    		</div>
+	   		</div>
+	   		<div class="searchBar-input1">
+	   			<div>
+	    			分部：<input name ="str9" />
+	    		</div>
+	    		<div>
+	    			业务负责人：<input name ="str10" />
+	    		</div>
+	   		</div>
+	   	</form>
+	   	<div class="clear"></div>
+	   	<hr class="hr-geay">
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>
+		<div class="pull-away"></div>
 	</div>
-	<br class="clear"/>
-	<hr class="hr-geay">
-	<form id="search">
-   		<div class="searchBar-input1">
-	    	<div>	
-	    		<span style="display:block;float:left;margin-top:40px;">客户条码：</span><textarea name ="str1" style="height:98px;"></textarea>
-   			</div>
-   		</div>
-   		<div class="searchBar-input1">
-    		<div style="float:left;margin-left:30px;">
-    			历史记录:<input style="width:15px;height:15px;" name="int1" type="radio" value="1"/>是<input style="width:15px;height:15px;" name="int1" type="radio" value="0" checked="checked"/>否
-    		</div>
-    		<div>
-    			客户名称：<input name ="str2" />
-    		</div>
-    		<div>
-    			维护(中端)：<input name ="str3" />
-    		</div>
-    		<div>
-    			维护(前端)：<input name ="str4" />
-    		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
-   		</div>
-   		<div class="searchBar-input1">
-   			<div>
-    			维护(后端)：<input name ="str5" />
-    		</div>
-    		<div>
-    			客户类型：<input name ="str6" />
-    		</div>
-    		<div>
-    			大区：<input name ="str7" />
-    		</div>
-    		<div>
-    			区部：<input name ="str8" />
-    		</div>
-   		</div>
-   		<div class="searchBar-input1">
-   			<div>
-    			分部：<input name ="str9" />
-    		</div>
-    		<div>
-    			业务负责人：<input name ="str10" />
-    		</div>
-   		</div>
-   	</form>
-   	<div class="clear"></div>
-   	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
-	<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>
-	<div class="pull-away"></div>
 </div>
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">

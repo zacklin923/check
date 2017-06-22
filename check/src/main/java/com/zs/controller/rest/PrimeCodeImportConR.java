@@ -104,10 +104,11 @@ public class PrimeCodeImportConR extends BaseRestController<PrimeCodeReport,Stri
 		}
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
-
+	
+	@RequestMapping(value="/exportExceltest",method=RequestMethod.GET)
 	@Override
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+		System.out.println(accept);
 		return null;
 	}
 

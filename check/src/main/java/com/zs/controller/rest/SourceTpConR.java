@@ -33,6 +33,7 @@ import com.zs.service.CheckLogSer;
 import com.zs.service.NoUpdateSer;
 import com.zs.service.SourceTpSer;
 import com.zs.service.SourceZmSer;
+import com.zs.tools.BatchString;
 import com.zs.tools.ColumnName;
 import com.zs.tools.DateTimeHelper;
 import com.zs.tools.ExcelImport;
@@ -57,39 +58,14 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
-				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
-					String [] ss = accept.getStr3().trim().split(",");
-					String str="";
-					for (int i = 0; i < ss.length; i++) {
-						String strt=ss[i].trim();
-						if(!strt.equals("")&&strt!=null){
-							if(i!=ss.length-1){
-								str=str+"'"+strt+"'"+",";
-							}else{
-								str=str+"'"+strt+"'";
-							}
-						}
-					}
-					if(str!=null&&!str.equals(",")){
-						accept.setStr3(str);
-					}
+				if(accept.getStr3()!=null){
+					accept.setStr3(BatchString.batchstr(accept.getStr3()));
 				}
-				if(accept.getStr4()!=null&&!accept.getStr4().equals("")){
-					String [] ss4 = accept.getStr4().trim().split(",");
-					String str4="";
-					for (int i = 0; i < ss4.length; i++) {
-						String strt4=ss4[i].trim();
-						if(!strt4.equals("")&&strt4!=null){
-							if(i!=ss4.length-1){
-								str4=str4+"'"+strt4+"'"+",";
-							}else{
-								str4=str4+"'"+strt4+"'";
-							}
-						}
-					}
-					if(str4!=null&&!str4.equals(",")){
-						accept.setStr4(str4);
-					}
+				if(accept.getStr4()!=null){
+					accept.setStr4(BatchString.batchstr(accept.getStr4()));
+				}
+				if(accept.getStr2()!=null){
+					accept.setStr2(BatchString.batchstr(accept.getStr2()));
 				}
 //				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
@@ -200,41 +176,14 @@ public class SourceTpConR extends BaseRestController<SourceThirdParty, String[]>
 	public Result<String> excelExporttest(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
+				if(accept.getStr2()!=null&&!accept.getStr2().equals("")){
+					accept.setStr2(BatchString.batchstr(accept.getStr2()));
+				}
 				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
-					String st = accept.getStr3().replace("\r\n", ",");
-					String [] ss = st.trim().split(",");
-					String str="";
-					for (int i = 0; i < ss.length; i++) {
-						String strt=ss[i].trim();
-						if(!strt.equals("")&&strt!=null){
-							if(i!=ss.length-1){
-								str=str+"'"+strt+"'"+",";
-							}else{
-								str=str+"'"+strt+"'";
-							}
-						}
-					}
-					if(str!=null&&!str.equals(",")){
-						accept.setStr3(str);
-					}
+					accept.setStr3(BatchString.oldbatchstr(accept.getStr3()));
 				}
 				if(accept.getStr4()!=null&&!accept.getStr4().equals("")){
-					String st1 = accept.getStr4().replace("\r\n", ",");
-					String [] ss4 = st1.trim().split(",");
-					String str4="";
-					for (int i = 0; i < ss4.length; i++) {
-						String strt4=ss4[i].trim();
-						if(!strt4.equals("")&&strt4!=null){
-							if(i!=ss4.length-1){
-								str4=str4+"'"+strt4+"'"+",";
-							}else{
-								str4=str4+"'"+strt4+"'";
-							}
-						}
-					}
-					if(str4!=null&&!str4.equals(",")){
-						accept.setStr4(str4);
-					}
+					accept.setStr4(BatchString.oldbatchstr(accept.getStr4()));
 				}
 				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));

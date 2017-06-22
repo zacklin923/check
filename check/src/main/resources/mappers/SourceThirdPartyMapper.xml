@@ -590,7 +590,7 @@
 		 			and s2.SEND_TIME &lt;= #{date2}
 				</if>
 			  	<if test="str2!=null and str2!=''">
-			  		and s2.DELIVERY_STATE = #{str2}
+			  		and s2.DELIVERY_STATE in (${str2})
 			  	</if>
 			  	<if test="str3!=null and str3!=''">
 			  		and s2.COURIER_NUMBER in (${str3})
@@ -662,7 +662,7 @@
  			and s2.SEND_TIME &lt;= #{date2}
 		</if>
 	  	<if test="str2!=null and str2!=''">
-	  		and s2.DELIVERY_STATE = #{str2}
+	  		and s2.DELIVERY_STATE in (${str2})
 	  	</if>
 	  	<if test="str3!=null and str3!=''">
 	  		and s2.COURIER_NUMBER in (${str3})
