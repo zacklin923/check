@@ -537,6 +537,9 @@
 		  		<if test="str11!=null and str11!=''">
 		  			and s2.SHOP_NUMBER like '%${str11}%'
 		  		</if>
+		  		<if test="str12!=null and str12!=''">
+		  			and s2.ADDRESS like '%${str12}%'
+		  		</if>
 		  		<if test="int1!=null">
 		  			and s2.COURIER_STATE = #{int1}
 		  		</if>
@@ -599,6 +602,9 @@
   		</if>
   		<if test="str11!=null and str11!=''">
   			and s2.SHOP_NUMBER like '%${str11}%'
+  		</if>
+  		<if test="str12!=null and str12!=''">
+  			and s2.ADDRESS like '%${str12}%'
   		</if>
   		<if test="int1!=null">
   			and s2.COURIER_STATE = #{int1}

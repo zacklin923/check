@@ -18,6 +18,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
 $(function(){
+	stylesheet();
+});
+function stylesheet(){
 	$.ajax({
 		url:"<%=path%>/api/customer/style/2",
 		type:"GET",
@@ -40,7 +43,7 @@ $(function(){
 			}
 		}
 	});
-});
+}
 var url;
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
@@ -255,6 +258,7 @@ function moduleEdit(){
 				}
 				if(json.result=='success'){
 					$('#mbedit').dialog('close');
+					stylesheet();
 				}else{
 					$('#mbedit').dialog('close');
 					alert("错误:"+json.code+"错误原因："+json.data);
@@ -267,7 +271,7 @@ function moduleEdit(){
 	});
 }
 </script>
-<table id="dg" border="true" title="快件信息>运单信息查询"
+<table id="dg" border="true"
 		url="<%=path %>/api/sourceZm"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -277,77 +281,94 @@ function moduleEdit(){
 		pageSize="100" pageList="[100,500,1000]" >
 </table>
 <div id="toolbar">
-	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
+	<div id="myPanel" class="easyui-panel" style="width:100%;height:200px" title="快件信息>运单信息查询" data-options="collapsible:true">
+		<script>
+		    $("#myPanel").panel({
+		    	onCollapse:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        },
+		    	onExpand:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        }
+		    });
+		</script>
+		<div class="btn-separator-none">
+			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
+			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
+		</div>
+		<div class="btn-separator">
+			<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
+		</div>
+		<br class="clear"/>
+		<hr class="hr-geay">
+		<form id="search">
+			<input type="hidden" name="_header" value="${user.licence }"/>
+			<div class="searchBar-logistic">
+		    	<div style="float:left;margin-left:5px;">	
+		    		快递单号：<textarea name ="str3" style="height:85px;width:100px;"></textarea>	
+	   			</div>
+	   		</div>
+	   		<div class="searchBar-logistic">
+		    	<div style="float:left;margin-left:5px;">	
+		    		客户条码：<textarea name ="str2" style="height:85px;width:100px;"></textarea>	
+	   			</div>
+	   		</div>
+			<div class="searchBar-input1">
+	    		<div>
+		    		发货开始日期：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
+	    		</div>
+	    		<div>
+	    			发货结束日期：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
+	    		</div>
+	    		<div>
+	    			订单编号：<input name ="str5" />
+	    		</div>
+	    		<div>
+	    			状态：
+	    			<select name="int1" style="width: 140px;">
+	    				<option value="">--请选择发货状态--</option>
+	    				<option value="1">已发货</option>
+	    				<option value="0">未发货</option>
+	    			</select>
+	    		</div>
+	   			<input type="hidden" name ="str6" id = "exportvalue"/>
+	   		</div>
+	   		<div class="searchBar-input1">
+	    		<div>
+		    		所属大区：<input name ="str4" />
+	    		</div>
+	    		<div>
+		    		所属区部：<input name ="str7" />
+	    		</div>
+	    		<div>
+		    		所属分部：<input name ="str8" />
+	    		</div>
+	    		<div>
+		    		所属分拨点：<input name ="str9" />
+	    		</div>
+	   		</div>
+	   		<div class="searchBar-input1">
+	   			<div>
+		    		省份：<input name ="str10" />
+	    		</div>
+	    		<div>
+		    		客户店铺：<input name ="str11" />
+	    		</div>
+	    		<div>
+		    		地址：<input name ="str12" />
+	    		</div>
+	   		</div>
+	   	</form>
+	   	<div class="clear"></div>
+	   	<hr class="hr-geay">
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>
+		<div class="pull-away"></div>
 	</div>
-	<div class="btn-separator">
-		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
-	</div>
-	<br class="clear"/>
-	<hr class="hr-geay">
-	<form id="search">
-		<input type="hidden" name="_header" value="${user.licence }"/>
-		<div class="searchBar-input1">
-	    	<div>	
-	    		<span style="display:block;float:left;margin-top:40px;">快递单号：</span><textarea name ="str3" style="height:98px;"></textarea>
-   			</div>
-   		</div>
-   		<div class="searchBar-input1">
-	    	<div>	
-	    		<span style="display:block;float:left;margin-top:40px;">客户条码：</span><textarea name ="str2" style="height:98px;"></textarea>
-   			</div>
-   		</div>
-		<div class="searchBar-input1">
-    		<div>
-	    		发货开始日期：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
-    		</div>
-    		<div>
-    			发货结束日期：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
-    		</div>
-    		<div>
-    			订单编号：<input name ="str5" />
-    		</div>
-    		<div>
-    			状态：
-    			<select name="int1" style="width: 170px;">
-    				<option value="">--请选择发货状态--</option>
-    				<option value="1">已发货</option>
-    				<option value="0">未发货</option>
-    			</select>
-    		</div>
-   			<input type="hidden" name ="str6" id = "exportvalue"/>
-   		</div>
-   		<div class="searchBar-input1">
-    		<div>
-	    		所属大区：<input name ="str4" />
-    		</div>
-    		<div>
-	    		所属区部：<input name ="str7" />
-    		</div>
-    		<div>
-	    		所属分部：<input name ="str8" />
-    		</div>
-    		<div>
-	    		所属分拨点：<input name ="str9" />
-    		</div>
-   		</div>
-   		<div class="searchBar-input1">
-   			<div>
-	    		省份：<input name ="str10" />
-    		</div>
-    		<div>
-	    		客户店铺：<input name ="str11" />
-    		</div>
-   		</div>
-   	</form>
-   	<div class="clear"></div>
-   	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
-	<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>
-	<div class="pull-away"></div>
 </div>
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"

@@ -109,8 +109,30 @@ function search_toolbar1(){
 		$('#dg').datagrid('load', json);
 	}
 }
+function excel_export(){
+	$("#search").form("submit",{
+		url:"<%=path%>/api/reportDate/exportExceltest",
+		onSubmit: function(){   
+		},   
+	    success:function(data){   
+	    	var json;
+			if(isJson(data)){
+				json=data;
+			}else{
+				json = eval('('+data+')');
+			}
+			if(json.result=='success'){
+				var d = eval('('+data+')');
+				window.location.href=d.data;
+			}else{
+				alert("错误:"+json.data);
+			}
+	    } 
+	});
+	
+}
 </script>
-<table id="dg" border="true" title="报表>日报表"
+<table id="dg" border="true"
 		url="<%=path %>/api/reportDate"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -121,41 +143,55 @@ function search_toolbar1(){
 </table>
 
 <div id="toolbar">
-	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-hgh-refresh" plain="true" onclick="refrence()">重新生成</a>
+	<div id="myPanel" class="easyui-panel" style="width:100%;height:145px" title="报表>日报表" data-options="collapsible:true">
+		<script>
+		    $("#myPanel").panel({
+		    	onCollapse:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        },
+		    	onExpand:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        }
+		    });
+		</script>
+		<div class="btn-separator-none">
+			<a class="easyui-linkbutton" iconCls="icon-hgh-refresh" plain="true" onclick="refrence()">重新生成</a>
+		</div>
+		<br class="clear"/>
+		<hr class="hr-geay">
+		<form id="search">
+	   		<div class="searchBar-input">
+	    		<div>
+		    		数据日期：<input name="date1" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy/MM/dd'})" value="<%=DateTimeHelper.getolddate().toString4()%>"/>
+	    		</div>
+	   		</div>
+	   		<div class="searchBar-input">
+	    		<div>
+	    			条码：<input name ="str1" />
+	    		</div>
+	    		<div>
+	    			名称：<input name ="str2" />
+	    		</div>
+	    		<input type="hidden" name="_header" value="${licence }"/>
+	   		</div>
+	   		<div class="searchBar-input">
+	   			<div style="float:left;margin-left:30px;font-size:14px;">
+	    			统计方式:<input style="width:15px;height:15px;" name="int1" type="radio" value="4"/>大区
+	    			<input style="width:15px;height:15px;" name="int1" type="radio" value="3"/>区部</br>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    			<input style="width:15px;height:15px;" name="int1" type="radio" value="2"/>分部
+	    			<input style="width:15px;height:15px;" name="int1" type="radio" value="1" checked="checked"/>条码
+	    		</div>
+	   		</div>
+	   	</form>
+	   	<div class="clear"></div>
+	   	<hr class="hr-geay">
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
+		<div class="pull-away"></div>
 	</div>
-	<br class="clear"/>
-	<hr class="hr-geay">
-	<form id="search">
-   		<div class="searchBar-input">
-    		<div>
-	    		数据日期：<input name="date1" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy/MM/dd'})" value="<%=DateTimeHelper.getolddate().toString4()%>"/>
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-    			条码：<input name ="str1" />
-    		</div>
-    		<div>
-    			名称：<input name ="str2" />
-    		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
-   		</div>
-   		<div class="searchBar-input">
-   			<div style="float:left;margin-left:30px;font-size:14px;">
-    			统计方式:<input style="width:15px;height:15px;" name="int1" type="radio" value="4"/>大区
-    			<input style="width:15px;height:15px;" name="int1" type="radio" value="3"/>区部</br>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    			<input style="width:15px;height:15px;" name="int1" type="radio" value="2"/>分部
-    			<input style="width:15px;height:15px;" name="int1" type="radio" value="1" checked="checked"/>条码
-    		</div>
-   		</div>
-   	</form>
-   	<div class="clear"></div>
-   	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
-	<div class="pull-away"></div>
 </div>
 </body>
 </html>

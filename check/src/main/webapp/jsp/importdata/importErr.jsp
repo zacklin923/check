@@ -98,7 +98,7 @@ function excel_export(){
 	});
 }
 </script>
-<table id="dg" border="true" title="快件信息>错误数据"
+<table id="dg" border="true"
 		url="<%=path %>/api/sourimportfail"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -212,45 +212,59 @@ function excel_export(){
 	</thead>
 </table>
 <div id="toolbar">
-	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAllData()">删除所有数据</a>
+	<div id="myPanel" class="easyui-panel" style="width:100%;height:145px" title="快件信息>错误数据" data-options="collapsible:true">
+		<script>
+		    $("#myPanel").panel({
+		    	onCollapse:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        },
+		    	onExpand:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        }
+		    });
+		</script>
+		<div class="btn-separator-none">
+			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
+			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAllData()">删除所有数据</a>
+		</div>
+		<br class="clear"/>
+		<hr class="hr-geay">
+		<form id="search">
+			<input type="hidden" name="_header" value="${user.licence }"/>
+			<div class="searchBar-input">
+	    		<div>
+		    		导入时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
+	    		</div>
+	    		<div>
+	    			导入时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
+	    		</div>
+	   		</div>
+	   		<div class="searchBar-input">
+	    		<div>
+		    		失败类型：<select name ="str2" style="width: 170px;">
+				    			<option value="">--请选择--</option>
+				    			<option value="重复快递单号">重复快递单号</option>
+				    			<option value="数据必填项为空">数据必填项为空</option>
+				    			<option value="数据类型转换错误">数据类型转换错误</option>
+				    			<option value="快递单号不符合规范">快递单号不符合规范</option>
+				    			<option value="客户条码不是纯数字">客户条码不是纯数字</option>
+				    			<option value="客户条码不是6位数">客户条码不是6位数</option>
+				    	   </select>
+	    		</div>
+	    		<div>
+	    			导入人：<input name="str3"/>
+	    		</div>
+	   		</div>
+	   		<input type="hidden" name="_header" value="${licence }"/>
+	   	</form>
+	   	<div class="clear"></div>
+	   	<hr class="hr-geay">
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
+		<div class="pull-away"></div>
 	</div>
-	<br class="clear"/>
-	<hr class="hr-geay">
-	<form id="search">
-		<input type="hidden" name="_header" value="${user.licence }"/>
-		<div class="searchBar-input">
-    		<div>
-	    		导入时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
-    		</div>
-    		<div>
-    			导入时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		失败类型：<select name ="str2" style="width: 170px;">
-			    			<option value="">--请选择--</option>
-			    			<option value="重复快递单号">重复快递单号</option>
-			    			<option value="数据必填项为空">数据必填项为空</option>
-			    			<option value="数据类型转换错误">数据类型转换错误</option>
-			    			<option value="快递单号不符合规范">快递单号不符合规范</option>
-			    			<option value="客户条码不是纯数字">客户条码不是纯数字</option>
-			    			<option value="客户条码不是6位数">客户条码不是6位数</option>
-			    	   </select>
-    		</div>
-    		<div>
-    			导入人：<input name="str3"/>
-    		</div>
-   		</div>
-   		<input type="hidden" name="_header" value="${licence }"/>
-   	</form>
-   	<div class="clear"></div>
-   	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
-	<div class="pull-away"></div>
 </div>
 </body>
 </html>

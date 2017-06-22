@@ -19,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 
 </script>
-<table id="dg" border="true" title="系统管理>查看日志"
+<table id="dg" border="true" 
 		url="<%=path %>/api/checklog"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -49,45 +49,60 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</thead>
 </table>
 <div id="toolbar">
-	<hr class="hr-geay">
-	<form id="search">
-		<div class="searchBar-input">
-    		<div>
-	    		操作时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
-    		</div>
-    		<div>
-    			操作时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		操作用户：<input name ="str1" />
-    		</div>
-    		<div>
-    			操作类型：<input name ="str2" />
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		操作表名：<select name ="str3" style="width:170px;">
-	    					<option value ="">请选择。。。</option>
-	    					<option value ="source_zm">运单信息查询</option>
-	    					<option value ="source_third_party">运单状态查询</option>
-	    					<option value ="source_import">数据导入</option>
-	    				</select>
-    		</div>
-    		<div>
-    			操作单号：<input name ="str4" />
-    		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
-   		</div>
-   	</form>
-   	<div class="clear"></div>
-   	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
-	<div class="pull-away"></div>
+	<div id="myPanel" class="easyui-panel" style="width:100%;height:120px" title="系统管理>查看日志" data-options="collapsible:true">
+		<script>
+		    $("#myPanel").panel({
+		    	onCollapse:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        },
+		    	onExpand:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        }
+		    });
+		</script>
+		<hr class="hr-geay">
+		<form id="search">
+			<div class="searchBar-input">
+	    		<div>
+		    		操作时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
+	    		</div>
+	    		<div>
+	    			操作时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
+	    		</div>
+	   		</div>
+	   		<div class="searchBar-input">
+	    		<div>
+		    		操作用户：<input name ="str1" />
+	    		</div>
+	    		<div>
+	    			操作类型：<input name ="str2" />
+	    		</div>
+	   		</div>
+	   		<div class="searchBar-input">
+	    		<div>
+		    		操作表名：
+		    		<select name ="str3" style="width:140px;">
+    					<option value ="">请选择。。。</option>
+    					<option value ="source_zm">运单信息查询</option>
+    					<option value ="source_third_party">运单状态查询</option>
+    					<option value ="source_import">数据导入</option>
+    				</select>
+	    		</div>
+	    		<div>
+	    			操作单号：<input name ="str4" />
+	    		</div>
+	    		<input type="hidden" name="_header" value="${licence }"/>
+	   		</div>
+	   	</form>
+	   	<div class="clear"></div>
+	   	<hr class="hr-geay">
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
+		<div class="pull-away"></div>
+	</div>
 </div>
 </body>
 </html>

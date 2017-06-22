@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 
 import com.zs.dao.ReportDataMapper;
@@ -15,6 +17,7 @@ import com.zs.entity.ReportData;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.service.ReportSer;
 import com.zs.tools.DateTimeHelper;
+import com.zs.tools.ExcelExport;
 
 
 @Service("reportSer")
@@ -81,5 +84,30 @@ public class ReportSerImpl implements ReportSer{
 				reportDataMapper.callproduce(accept);
 			}
 		}
+	}
+
+	public String exportData(EasyUIAccept accept, HttpServletRequest req) {
+		System.out.println(accept);
+		List lists =  query(accept);
+		String [] obj ={"客户名称","客户条码","客户类型","大区","区部","分部","总计","普件面单","电子面单","其他快递"};
+		String[][] objs = new String [lists.size()][obj.length];
+		for (int i = 0; i < objs.length; i++) {
+			ReportData rd =  (ReportData) lists.get(i);
+			objs[i][0]=rd.getCtmName();
+			objs[i][1]=rd.getCtmBarCode();
+			objs[i][2]=rd.getCustomType();
+			objs[i][3]=rd.getLargeArea();
+			objs[i][4]=rd.getSliceArea();
+			objs[i][5]=rd.getFenBu();
+			objs[i][6]=rd.getCountAll().toString();
+			objs[i][7]=rd.getElectronicSheet().toString();
+			objs[i][8]=rd.getGenericSheet().toString();
+			objs[i][9]=rd.getOtherSheet().toString();
+		}
+		String basePath = req.getSession().getServletContext().getRealPath("/");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+		String path ="file/"+sdf.format(accept.getDate1())+"报表.xls";
+		ExcelExport.OutExcel1(obj, objs, basePath+path);
+		return path;
 	}
 }

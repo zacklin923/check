@@ -16,14 +16,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 
 <jsp:include page="/jsp/part/common.jsp"/>
-<table id="dg" border="true" title="快件信息>导入数据"
+<table id="dg" border="true"
 		url="<%=path %>/api/primeCodeImport/collect"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
+		fitColumns="true" singleSelect="true"
+		rownumbers="true" 
 		singleSelect="true" fit="true"
-		striped="true" pagination="true"
-		rownumbers="true" fitColumns="false" 
-		singleSelect="true" fit="true">
+		showFooter="true">
 	<thead>
 		<tr>
 			<th rowspan="2" field="ctmType" width="80" >客户类型</th>
@@ -52,24 +52,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</thead>
 </table>
 <div id="toolbar">
-	<hr class="hr-geay">
-	<form id="search">
-   		<div class="searchBar-input">
-   			<div>
-	    		导入开始日期：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
-    		</div>
-    		<div>
-    			导入结束日期：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
-    		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
-   		</div>
-   	</form>
-   	<div class="clear"></div>
-   	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">导出</a>
-	<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
-	<div class="pull-away"></div>
+	<div id="myPanel" class="easyui-panel" style="width:100%;height:120px" title="报表>成本收集汇总" data-options="collapsible:true">
+		<script>
+		    $("#myPanel").panel({
+		    	onCollapse:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        },
+		    	onExpand:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        }
+		    });
+		</script>
+		<hr class="hr-geay">
+		<form id="search">
+	   		<div class="searchBar-input">
+	   			<div>
+		    		导入开始日期：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
+	    		</div>
+	    		<div>
+	    			导入结束日期：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
+	    		</div>
+	    		<input type="hidden" name="_header" value="${licence }"/>
+	   		</div>
+	   	</form>
+	   	<div class="clear"></div>
+	   	<hr class="hr-geay">
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">导出</a>
+		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
+		<div class="pull-away"></div>
+	</div>
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:500px;height:300px;padding:10px 20px"
 		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceImport.jsp" cache="true">

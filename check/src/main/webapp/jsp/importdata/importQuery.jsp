@@ -224,14 +224,14 @@ function search_toolbar1(){
 	}
 }
 </script>
-<table id="dg" border="true" title="快件信息>导入数据"
+<table id="dg" border="true" 
 		url="<%=path %>/api/sourimport"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		checkOnSelect="false" selectOnCheck="false"
+		checkOnSelect="false" selectOnCheck="true"
 		pageSize="100" pageList="[100,500,1000]">
 	<thead>
 		<tr>
@@ -280,61 +280,79 @@ function search_toolbar1(){
 	</thead>
 </table>
 <div id="toolbar">
-	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
-	<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAllData()">删除所有数据</a>
+	<div id="myPanel" class="easyui-panel" style="width:100%;height:200px" title="快件信息>导入数据" data-options="collapsible:true">
+		<script>
+		    $("#myPanel").panel({
+		    	onCollapse:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        },
+		    	onExpand:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        }
+		    });
+		</script>
+		<div class="btn-separator-none">
+			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
+			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
+			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAllData()">删除所有数据</a>
+		</div>
+		<!-- 
+		<div class="btn-separator">
+			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="pushData()" disabled="true">上传数据</a>
+		</div>
+		 -->
+		<div class="btn-separator">
+			<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
+		</div>
+		<br class="clear"/>
+		<hr class="hr-geay">
+		<form id="search">
+	   		<div class="searchBar-logistic">
+		    	<div style="float:left;margin-left:5px;">	
+		    		快递单号：<textarea name ="str3" style="height:85px;width:100px;"></textarea>
+	   			</div>
+	   		</div>
+	   		<div class="searchBar-logistic">
+		    	<div style="float:left;margin-left:5px;">	
+		    		客户条码：<textarea name ="str4" style="height:85px;width:100px;"></textarea>
+	   			</div>
+	   		</div>
+	   		<div class="searchBar-input1">
+	   			<div>
+		    		导入开始日期：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
+	    		</div>
+	    		<div>
+	    			导入结束日期：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
+	    		</div>
+	   			<div>
+	    			订单编号：<input name ="str6" />
+	    		</div>
+	    		<div>
+		    		客户名：<input name ="str5" />
+	    		</div>
+	    		<input type="hidden" name="_header" value="${licence }"/>
+	   		</div>
+	   		<div class="searchBar-input1">
+	   			<div>
+		    		导入人：<input name ="str7" />
+	    		</div>
+	    		<div>
+		    		商家ID：<input name ="str8" />
+	    		</div>
+	   		</div>
+	   	</form>
+	   	<div class="clear"></div>
+	   	<hr class="hr-geay">
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
+		<!-- 
+		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">导出</a>
+		 -->
+		<div class="pull-away"></div>
 	</div>
-	<div class="btn-separator">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="pushData()" disabled="true">上传数据</a>
-	</div>
-	<div class="btn-separator">
-		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
-	</div>
-	<br class="clear"/>
-	<hr class="hr-geay">
-	<form id="search">
-   		<div class="searchBar-input1">
-	    	<div>	
-	    		<span style="display:block;float:left;margin-top:40px;">快递单号：</span><textarea name ="str3" style="height:98px;"></textarea>
-   			</div>
-   		</div>
-   		<div class="searchBar-input1">
-	    	<div>	
-	    		<span style="display:block;float:left;margin-top:40px;">客户条码：</span><textarea name ="str4" style="height:98px;"></textarea>
-   			</div>
-   		</div>
-   		<div class="searchBar-input1">
-   			<div>
-	    		导入开始日期：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
-    		</div>
-    		<div>
-    			导入结束日期：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
-    		</div>
-   			<div>
-    			订单编号：<input name ="str6" />
-    		</div>
-    		<div>
-	    		客户名：<input name ="str5" />
-    		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
-   		</div>
-   		<div class="searchBar-input1">
-   			<div>
-	    		导入人：<input name ="str7" />
-    		</div>
-    		<div>
-	    		商家ID：<input name ="str8" />
-    		</div>
-   		</div>
-   	</form>
-   	<div class="clear"></div>
-   	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">导出</a>
-	<div class="pull-away"></div>
 </div>
 <div id="dlg" class="easyui-dialog" style="width:600px;height:660px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">

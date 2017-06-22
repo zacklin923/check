@@ -108,7 +108,7 @@ function excel_export(){
 	});
 }
 </script>
-<table id="dg" border="true" title="基础信息维护>一段码省份对照表"
+<table id="dg" border="true" 
 		url="<%=path %>/api/provinceCode"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -124,32 +124,46 @@ function excel_export(){
 	</thead>
 </table>
 <div id="toolbar">
-	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
+	<div id="myPanel" class="easyui-panel" style="width:100%;height:145px" title="基础信息维护>一段码省份对照表" data-options="collapsible:true">
+		<script>
+		    $("#myPanel").panel({
+		    	onCollapse:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        },
+		    	onExpand:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        }
+		    });
+		</script>
+		<div class="btn-separator-none">
+			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加数据</a>
+			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
+			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
+		</div>
+		<div class="btn-separator">
+			<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
+		</div>
+		<br class="clear"/>
+		<hr class="hr-geay">
+		<form id="search">
+	   		<div class="searchBar-input">
+	    		<div>
+		    		省份名称：<input name ="str1" />
+	    		</div>
+	    		<div>
+	    			一段码：<input name ="str2" />
+	    		</div>
+	   		</div>
+	   	</form>
+	   	<div class="clear"></div>
+	   	<hr class="hr-geay">
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
+		<div class="pull-away"></div>
 	</div>
-	<div class="btn-separator">
-		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
-	</div>
-	<br class="clear"/>
-	<hr class="hr-geay">
-	<form id="search">
-   		<div class="searchBar-input">
-    		<div>
-	    		省份名称：<input name ="str1" />
-    		</div>
-    		<div>
-    			一段码：<input name ="str2" />
-    		</div>
-   		</div>
-   	</form>
-   	<div class="clear"></div>
-   	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
-	<div class="pull-away"></div>
 </div>
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"

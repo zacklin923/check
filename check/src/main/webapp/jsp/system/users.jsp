@@ -130,7 +130,7 @@ function obcSave(){
     $("#obc").dialog("close");
 }
 </script>
-<table id="dg" border="true" title="系统管理>用户管理"
+<table id="dg" border="true"
 		url="<%=path %>/api/user"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
@@ -156,41 +156,55 @@ function obcSave(){
 	</thead>
 </table>
 <div id="toolbar">
-	<div class="btn-separator-none">
-		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加用户</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑用户</a>
-		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除用户</a>
+	<div id="myPanel" class="easyui-panel" style="width:100%;height:145px" title="系统管理>用户管理" data-options="collapsible:true">
+		<script>
+		    $("#myPanel").panel({
+		    	onCollapse:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        },
+		    	onExpand:function() {
+		    		$('#dg').datagrid('resize');
+		            console.log(12131231);
+		        }
+		    });
+		</script>
+		<div class="btn-separator-none">
+			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加用户</a>
+			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑用户</a>
+			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除用户</a>
+		</div>
+		<div class="btn-separator">
+			<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
+		</div>
+		<br class="clear"/>
+		<hr class="hr-geay">
+		<form id="search">
+			<div class="searchBar-input">
+	    		<div>
+		    		创建时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
+	    		</div>
+	    		<div>
+	    			创建时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
+	    		</div>
+	   		</div>
+	   		<div class="searchBar-input">
+	    		<div>
+		    		账号：<input name ="str1" />
+	    		</div>
+	    		<div>
+	    			用户名：<input name ="str2" />
+	    		</div>
+	    		<input type="hidden" name="_header" value="${licence }"/>
+	   		</div>
+	   	</form>
+	   	<div class="clear"></div>
+	   	<hr class="hr-geay">
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
+		<div class="pull-away"></div>
 	</div>
-	<div class="btn-separator">
-		<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
-	</div>
-	<br class="clear"/>
-	<hr class="hr-geay">
-	<form id="search">
-		<div class="searchBar-input">
-    		<div>
-	    		创建时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
-    		</div>
-    		<div>
-    			创建时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
-    		</div>
-   		</div>
-   		<div class="searchBar-input">
-    		<div>
-	    		账号：<input name ="str1" />
-    		</div>
-    		<div>
-    			用户名：<input name ="str2" />
-    		</div>
-    		<input type="hidden" name="_header" value="${licence }"/>
-   		</div>
-   	</form>
-   	<div class="clear"></div>
-   	<hr class="hr-geay">
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
-	<div class="pull-away"></div>
 </div>
 
 <div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
