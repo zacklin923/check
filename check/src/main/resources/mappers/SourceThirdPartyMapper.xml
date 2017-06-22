@@ -32,6 +32,18 @@
     <result column="SIGN_PORT" property="signPort" jdbcType="VARCHAR" />
     <association column="COURIER_NUMBER" property="noUpdate" select="com.zs.dao.NoUpdateMapper.selectByNumberOfTp"/>
   </resultMap>
+  <resultMap id="ReportSignResultMap" type="com.zs.entity.ReportSign" >
+    <id column="CTM_BAR_CODE" property="ctmBarCode" jdbcType="VARCHAR" />
+    <id column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="BEGIN_CITY" property="beginCity" jdbcType="VARCHAR" />
+    <result column="CTM_NAME" property="ctmName" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="COST_HOUR" property="costHour" jdbcType="DECIMAL" />
+    <result column="TOTAL_SEND" property="totalSend" jdbcType="DECIMAL" />
+    <result column="TOTAL_SUCC" property="totalSucc" jdbcType="DECIMAL" />
+    <result column="TOTAL_SUCC_TIMEOUT" property="totalSuccTimeout" jdbcType="DECIMAL" />
+    <result column="WAIT_COURIER_NUMBER" property="waitCourierNumber" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -713,5 +725,62 @@
   	<if test="sort==null or order==null">
   		order by CREATE_TIME desc
   	</if>
+  </select>
+  <select id="queryReportSign" resultMap="ReportSignResultMap" parameterType="java.lang.String">
+  	select a.*,b.hour_cost as cost_hour
+	 from
+	 (select
+	  '深圳' as begin_city,
+	   ctm_name,
+	   CTM_BAR_CODE,PROVINCE, 
+	   to_date(to_char(max(SEND_TIME),'yyyy-MM-dd'),'yyyy-MM-dd') as SEND_TIME,
+	   count(ctm_bar_code) as total_send
+	    from SOURCE_THIRD_PARTY
+	    where
+	    to_char(SEND_TIME,'yyyy-MM-dd')=#{date,jdbcType=VARCHAR}
+	    and province is not null
+	    and ctm_bar_code is not null
+	    <if test="ctmBarCode!=null">
+	    and ctm_bar_code = #{ctmBarCode}
+	    </if>
+	    <if test="province!=null">
+	    and province = #{province}
+	    </if>
+	    group by 
+	    CTM_BAR_CODE,PROVINCE,ctm_name)a
+	    left join 
+	    (select * from time_limit) b
+	    on a.province=b.end_province
+  </select>
+  <select id="queryReportSignSucc" resultType="int" parameterType="java.lang.String">
+  	select count(CTM_BAR_CODE) from SOURCE_THIRD_PARTY
+  	where 
+  	to_char(SEND_TIME,'yyyy-MM-dd')=#{0,jdbcType=VARCHAR}
+  	and CTM_BAR_CODE=#{1,jdbcType=VARCHAR}
+  	and ctm_name=#{2,jdbcType=VARCHAR}
+  	and province=#{3,jdbcType=VARCHAR}
+  	and DELIVERY_STATE='配送成功'
+  </select>
+  <select id="queryReportSignSuccTimeout" resultType="int" parameterType="java.lang.String">
+  	select count(a.CTM_BAR_CODE) from SOURCE_THIRD_PARTY a
+  	left join 
+  	(select * from source_zm) b
+  	on a.COURIER_NUMBER=b.COURIER_NUMBER and a.RETURN_DATE=b.RETURN_DATE
+  	where 
+  	to_char(a.SEND_TIME,'yyyy-MM-dd')=#{0,jdbcType=VARCHAR}
+  	and a.CTM_BAR_CODE=#{1,jdbcType=VARCHAR}
+  	and a.ctm_name=#{2,jdbcType=VARCHAR}
+  	and a.province=#{3,jdbcType=VARCHAR}
+  	and a.DELIVERY_STATE='配送成功'
+  	and a.sign_time >b.time_out
+  </select>
+  <select id="queryReportSignWait"  resultType="int" parameterType="java.lang.String">
+  	select count(CTM_BAR_CODE) from SOURCE_THIRD_PARTY
+  	where 
+  	to_char(SEND_TIME,'yyyy-MM-dd')=#{0,jdbcType=VARCHAR}
+  	and CTM_BAR_CODE=#{1,jdbcType=VARCHAR}
+  	and ctm_name=#{2,jdbcType=VARCHAR}
+  	and province=#{3,jdbcType=VARCHAR}
+  	and DELIVERY_STATE in ('配送中','揽件','配送异常')
   </select>
 </mapper>
