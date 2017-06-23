@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import com.zs.entity.other.PerResultMap;
 import com.zs.entity.other.PrimeCodeCollect;
 import com.zs.entity.other.lyResultMap;
 import com.zs.service.PrimeCodeImportSer;
+import com.zs.tools.ExcelExport;
 import com.zs.tools.Trans;
 
 @Service("primeCodeImportSer")
@@ -186,6 +188,126 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 			prm.setStuNum(str);
 		}
 		return new EasyUIPage(20, list);
+	}
+
+	public String exportDataImport(EasyUIAccept accept, HttpServletRequest req) {
+		String[][] obj = {{"","","","","截单","","查件","","留言","","跟单","","理赔处理","","客诉处理","","签收表","","退件处理","","审单","","导单","","","",""},
+						 {"客户名称","条码","客户类型","所属大区","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","日出货量（票）","登记人","导入时间"}};
+		List list=primeCodeReportMapper.queryFenye(accept);
+		String[][] objs = new String[list.size()][obj[1].length];
+		for (int i = 0; i < list.size(); i++) {
+			PrimeCodeReport si = (PrimeCodeReport) list.get(i);
+			if(si.getStuNum()!=null && !si.getStuNum().equals("")){
+				StaffUser suer = userMapper.selectByPrimaryKey(si.getStuNum());
+				si.setStuNum(suer.getStuName());
+			}else{
+				si.setStuNum("");
+			}
+			objs[i][0]=si.getCtmName();
+			objs[i][1]=si.getCtmBarCode();
+			objs[i][2]=si.getCtmType();
+			objs[i][3]=si.getLargeArea();
+			objs[i][4]=Trans.toStringBig(si.getCountJd()).toString();
+			objs[i][5]=Trans.BigDecimalForHours(si.getHourJd());
+			objs[i][6]=Trans.toStringBig(si.getCountCj()).toString();
+			objs[i][7]=Trans.BigDecimalForHours(si.getHourCj());
+			objs[i][8]=Trans.toStringBig(si.getCountLy()).toString();
+			objs[i][9]=Trans.BigDecimalForHours(si.getHourLy());
+			objs[i][10]=Trans.toStringBig(si.getCountGd()).toString();
+			objs[i][11]=Trans.BigDecimalForHours(si.getHourGd());
+			objs[i][12]=Trans.toStringBig(si.getCountLpcl()).toString();
+			objs[i][13]=Trans.BigDecimalForHours(si.getHourLpcl());
+			objs[i][14]=Trans.toStringBig(si.getCountKscl()).toString();
+			objs[i][15]=Trans.BigDecimalForHours(si.getHourKscl());
+			objs[i][16]=Trans.toStringBig(si.getCountQsb()).toString();
+			objs[i][17]=Trans.BigDecimalForHours(si.getHourQsb());
+			objs[i][18]=Trans.toStringBig(si.getCountTjcl()).toString();
+			objs[i][19]=Trans.BigDecimalForHours(si.getHourTjcl());
+			objs[i][20]=Trans.toStringBig(si.getCountSd()).toString();
+			objs[i][21]=Trans.BigDecimalForHours(si.getHourSd());
+			objs[i][22]=Trans.toStringBig(si.getCountDd()).toString();
+			objs[i][23]=Trans.BigDecimalForHours(si.getHourDd());
+			objs[i][24]=Trans.toStringBig(si.getDayCount()).toString();
+			objs[i][25]=si.getStuNum();
+			objs[i][26]=Trans.TimestampTransToString(si.getCreateTime());
+		}
+		String basePath = req.getSession().getServletContext().getRealPath("/");
+		String path ="file/成本导入收集.xls";
+		ExcelExport.OutExcel2line(obj, objs, basePath+path,"成本导入收集");
+		return path;
+	}
+
+	public String exportDataCollect(EasyUIAccept accept, HttpServletRequest request) {
+		EasyUIPage eup = queryCollect(accept);
+		String[][] obj = {{"","","","","","留言处理","","","其他异常处理","","","其他异常具体情况","","","","",""},
+				 		 {"客户类型","客户数量","出货量","上班人数","人均效能","处理量（票）","处理人数","人均处理量","处理量（票）","处理人数","人均处理量","截单（票）","查件（票）","跟单（票）","客诉理赔（票）","报表制作","制单（票）"}};
+		String[][] objs = new String[ eup.getRows().size()][obj[1].length];
+		for (int i = 0; i < eup.getRows().size(); i++) {
+			PrimeCodeCollect pcc =(PrimeCodeCollect) eup.getRows().get(i);
+			objs[i][0]=pcc.getCtmType();
+			objs[i][1]=pcc.getCtmCount()+"";
+			objs[i][2]=pcc.getCountAll()+"";
+			objs[i][3]=pcc.getPerWork()+"";
+			objs[i][4]=pcc.getPerEfficiency()+"";
+			objs[i][5]=pcc.getLyNum()+"";
+			objs[i][6]=pcc.getLyPer()+"";
+			objs[i][7]=pcc.getLyEfficiency()+"";
+			objs[i][8]=pcc.getOtherNum()+"";
+			objs[i][9]=pcc.getOtherPer()+"";
+			objs[i][10]=pcc.getOtherEfficiency()+"";
+			objs[i][11]=pcc.getJdNum()+"";
+			objs[i][12]=pcc.getCjNum()+"";
+			objs[i][13]=pcc.getGdNum()+"";
+			objs[i][14]=pcc.getKslpNum()+"";
+			objs[i][15]=pcc.getBbzz()+"";
+			objs[i][16]=pcc.getZdNum()+"";
+		}
+		String basePath = request.getSession().getServletContext().getRealPath("/");
+		String path ="file/成本收集汇总.xls";
+		ExcelExport.OutExcel2line(obj, objs, basePath+path,"成本收集汇总");
+		return path;
+	}
+
+	public String exportDataPersonle(EasyUIAccept accept, HttpServletRequest request) {
+		List list = primeCodeReportMapper.getPerReport(accept);
+		String[][] obj = {{"","截单","","查件","","留言","","跟单","","理赔处理","","客诉处理","","签收表","","退件处理","","审单","","导单",""},
+				 {"处理人","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","日出货量"}};
+		String[][] objs = new String[list.size()][obj[1].length];
+		for (int i = 0; i < list.size(); i++) {
+			PerResultMap prm = (PerResultMap) list.get(i);
+			String str = "";
+			if(prm.getStuNum()!=null){
+				StaffUser user =  userMapper.selectByPrimaryKey(prm.getStuNum());
+				str = user.getStuName();
+			}
+			prm.setStuNum(str);
+			objs[i][0]=prm.getStuNum();
+			objs[i][1]=prm.getC1()+"";
+			objs[i][2]=prm.getC2()+"";
+			objs[i][3]=prm.getC3()+"";
+			objs[i][4]=prm.getC4()+"";
+			objs[i][5]=prm.getC5()+"";
+			objs[i][6]=prm.getC6()+"";
+			objs[i][7]=prm.getC7()+"";
+			objs[i][8]=prm.getC8()+"";
+			objs[i][9]=prm.getC9()+"";
+			objs[i][10]=prm.getC10()+"";;
+			objs[i][11]=prm.getC11()+"";;
+			objs[i][12]=prm.getC12()+"";;
+			objs[i][13]=prm.getC13()+"";;
+			objs[i][14]=prm.getC14()+"";;
+			objs[i][15]=prm.getC15()+"";;
+			objs[i][16]=prm.getC16()+"";;
+			objs[i][17]=prm.getC17()+"";;
+			objs[i][18]=prm.getC18()+"";;
+			objs[i][19]=prm.getC19()+"";;
+			objs[i][20]=prm.getC20()+"";;
+			objs[i][21]=prm.getC21()+"";;
+		}
+		String basePath = request.getSession().getServletContext().getRealPath("/");
+		String path ="file/成本收集按人汇总.xls";
+		ExcelExport.OutExcel2line(obj, objs, basePath+path,"成本收集按人汇总");
+		return path;
 	}
 
 

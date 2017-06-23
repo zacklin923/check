@@ -13,10 +13,13 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
+import com.zs.dao.CustomerMapper;
 import com.zs.dao.SourceImportFailedMapper;
 import com.zs.dao.SourceImportMapper;
 import com.zs.dao.SourceZmMapper;
 import com.zs.dao.StaffUserMapper;
+import com.zs.entity.Customer;
+import com.zs.entity.CustomerKey;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.SourceZm;
@@ -43,6 +46,9 @@ public class SourceImportSerImpl implements SourceImportSer{
 	private StaffUserMapper userMapper;
 	@Resource
 	private SourceZmMapper zmMapper;
+	@Resource
+	private CustomerMapper customerMapper;
+	
 	private Gson gson=new Gson();
 	private final String URL_ZM="http://116.204.8.6:8020/InBarCode.aspx";
 	private Logger log=Logger.getLogger(getClass());
@@ -121,7 +127,11 @@ public class SourceImportSerImpl implements SourceImportSer{
 					if(skey==null){
 						//张顺，2017-5-26,新增两种错误类型：1、条码不全是数字。2、条码不是6位数。
 						String ctmbarcode=Trans.tostring(list.get(i)[2]);//客户条码
-						if (isNumeric(ctmbarcode)==false) {//不是纯数字
+						CustomerKey ck = new CustomerKey();
+						ck.setCteBarCode(ctmbarcode);
+						ck.setHistoryCount(new BigDecimal(0));
+						Customer isct =  customerMapper.selectByPrimaryKey(ck);
+						if(isct==null){
 							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),
 									list.get(i)[2].trim().replace(",", ""),
 									list.get(i)[1],list.get(i)[8],list.get(i)[0],
@@ -133,24 +143,40 @@ public class SourceImportSerImpl implements SourceImportSer{
 							SourceImportFailed sif = new SourceImportFailed();
 							sif.setStuNum(stuNum);
 							sif.setFailInfo(gson.toJson(sie));
-							sif.setFailType("客户条码不是纯数字");
+							sif.setFailType("客户条码不存在");
 							importFailMapper.insertSelective(sif);
 							inull5=5;
-						}else if(ctmbarcode.length()!=6){//不是6位数
-							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),
-									list.get(i)[2].trim().replace(",", ""),
-									list.get(i)[1],list.get(i)[8],list.get(i)[0],
-									list.get(i)[4],list.get(i)[6],list.get(i)[7],
-									list.get(i)[9],list.get(i)[11],list.get(i)[10],
-									list.get(i)[5],"大客户",
-									new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
-									null,stuNum,list.get(i)[12],list.get(i)[13]);
-							SourceImportFailed sif = new SourceImportFailed();
-							sif.setStuNum(stuNum);
-							sif.setFailInfo(gson.toJson(sie));
-							sif.setFailType("客户条码不是6位数");
-							importFailMapper.insertSelective(sif);
-							inull6=6;
+							
+//						if (isNumeric(ctmbarcode)==false) {//不是纯数字
+//							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),
+//									list.get(i)[2].trim().replace(",", ""),
+//									list.get(i)[1],list.get(i)[8],list.get(i)[0],
+//									list.get(i)[4],list.get(i)[6],list.get(i)[7],
+//									list.get(i)[9],list.get(i)[11],list.get(i)[10],
+//									list.get(i)[5],"大客户",
+//									new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
+//									null,stuNum,list.get(i)[12],list.get(i)[13]);
+//							SourceImportFailed sif = new SourceImportFailed();
+//							sif.setStuNum(stuNum);
+//							sif.setFailInfo(gson.toJson(sie));
+//							sif.setFailType("客户条码不是纯数字");
+//							importFailMapper.insertSelective(sif);
+//							inull5=5;
+//						}else if(ctmbarcode.length()!=6){//不是6位数
+//							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),
+//									list.get(i)[2].trim().replace(",", ""),
+//									list.get(i)[1],list.get(i)[8],list.get(i)[0],
+//									list.get(i)[4],list.get(i)[6],list.get(i)[7],
+//									list.get(i)[9],list.get(i)[11],list.get(i)[10],
+//									list.get(i)[5],"大客户",
+//									new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
+//									null,stuNum,list.get(i)[12],list.get(i)[13]);
+//							SourceImportFailed sif = new SourceImportFailed();
+//							sif.setStuNum(stuNum);
+//							sif.setFailInfo(gson.toJson(sie));
+//							sif.setFailType("客户条码不符合规范");
+//							importFailMapper.insertSelective(sif);
+//							inull6=6;
 						}else{
 							try {
 								String oneCode=list.get(i)[12].length()>=3?list.get(i)[12].substring(0,3):null;
@@ -216,9 +242,9 @@ public class SourceImportSerImpl implements SourceImportSer{
 		}else if(inull4==4){
 			str="快递单号不符合规范，请到导入数据错误表中查看";
 		}else if(inull5==5){
-			str="客户条码不是纯数字，请到导入数据错误表中查看";
-		}else if(inull6==6){
-			str="客户条码不是6位数，请到导入数据错误表中查看";
+			str="客户条码不存在，请到导入数据错误表中查看";
+//		}else if(inull6==6){
+//			str="客户条码不是6位数，请到导入数据错误表中查看";
 		}else if(count>0){
 			str="导入数据有多种错误，请到导入错误数据表中查看详情";
 		}

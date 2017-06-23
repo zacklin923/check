@@ -30,6 +30,7 @@ import com.zs.service.PrimeCodeImportSer;
 import com.zs.tools.BatchString;
 import com.zs.tools.ColumnName;
 import com.zs.tools.ExcelImport;
+import com.zs.tools.ManagerId;
 
 
 @RestController
@@ -108,7 +109,46 @@ public class PrimeCodeImportConR extends BaseRestController<PrimeCodeReport,Stri
 	@RequestMapping(value="/exportExceltest",method=RequestMethod.GET)
 	@Override
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		System.out.println(accept);
+		if (accept!=null) {
+			try {
+				accept.setStr1(ManagerId.isSeeAll(req));
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return new Result<String>("success",  Code.SUCCESS, primeCodeImportSer.exportDataImport(accept,req));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new Result<String>("error", Code.ERROR, "数据装载失败");
+			}
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/exportExcelCollect",method=RequestMethod.GET)
+	public Result<String> excelExportCollect(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+		if (accept!=null) {
+			try {
+				accept.setStr1(ManagerId.isSeeAll(req));
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return new Result<String>("success",  Code.SUCCESS, primeCodeImportSer.exportDataCollect(accept,req));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new Result<String>("error", Code.ERROR, "数据装载失败");
+			}
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/exportExcelPersonle",method=RequestMethod.GET)
+	public Result<String> excelExportPersonle(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+		if (accept!=null) {
+			try {
+				accept.setStr1(ManagerId.isSeeAll(req));
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return new Result<String>("success",  Code.SUCCESS, primeCodeImportSer.exportDataPersonle(accept,req));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new Result<String>("error", Code.ERROR, "数据装载失败");
+			}
+		}
 		return null;
 	}
 

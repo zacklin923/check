@@ -212,16 +212,14 @@ function excel_export(){
 	</thead>
 </table>
 <div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;height:145px" title="快件信息>错误数据" data-options="collapsible:true">
+	<div id="myPanel" class="easyui-panel" style="width:100%;" title="快件信息>错误数据" data-options="collapsible:true">
 		<script>
 		    $("#myPanel").panel({
 		    	onCollapse:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        },
 		    	onExpand:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        }
 		    });
 		</script>
@@ -243,14 +241,13 @@ function excel_export(){
 	   		</div>
 	   		<div class="searchBar-input">
 	    		<div>
-		    		失败类型：<select name ="str2" style="width: 170px;">
+		    		失败类型：<select name ="str2" style="width: 150px;">
 				    			<option value="">--请选择--</option>
 				    			<option value="重复快递单号">重复快递单号</option>
 				    			<option value="数据必填项为空">数据必填项为空</option>
 				    			<option value="数据类型转换错误">数据类型转换错误</option>
 				    			<option value="快递单号不符合规范">快递单号不符合规范</option>
-				    			<option value="客户条码不是纯数字">客户条码不是纯数字</option>
-				    			<option value="客户条码不是6位数">客户条码不是6位数</option>
+				    			<option value="客户条码不存在">客户条码不存在</option>
 				    	   </select>
 	    		</div>
 	    		<div>

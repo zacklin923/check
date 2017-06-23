@@ -3,18 +3,23 @@ package com.zs.service.impl;
 
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.zs.dao.ReportMonthMapper;
-import com.zs.entity.ReportData;
 import com.zs.entity.ReportMonth;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.ReportAllMonth;
 import com.zs.service.ReportMonthSer;
 import com.zs.tools.DateTimeHelper;
+import com.zs.tools.ExcelExport;
+import com.zs.tools.Trans;
 
 
 @Service("reportMonthSer")
@@ -24,6 +29,7 @@ public class ReportMonthSerImpl implements ReportMonthSer{
 	private ReportMonthMapper reportMonthMapper;
 
 	public List query(EasyUIAccept accept) {
+		System.out.println(accept);
 		if(accept!=null){
 			List<ReportAllMonth> listall = new ArrayList<ReportAllMonth>();
 			if(accept.getInt2().equals(accept.getInt4())){
@@ -494,5 +500,42 @@ public class ReportMonthSerImpl implements ReportMonthSer{
 	
 	public int queryislive(EasyUIAccept accept) {
 		return reportMonthMapper.queryislive(accept);
+	}
+
+	public String exportData(EasyUIAccept accept, HttpServletRequest req) {
+		System.out.println(accept);
+		if(accept.getStr2().equals("")){
+			accept.setStr2(null);
+		}
+		List lists=  query(accept);
+		System.out.println(new Gson().toJson(lists));
+		String [] obj = {"客户名称","客户条码","客户类型","大区","区部","分部","总量","1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"};
+		String[][] objs =  new String[lists.size()][obj.length];
+		for (int i = 0; i < objs.length; i++) {
+			ReportAllMonth rm = (ReportAllMonth) lists.get(i);
+			objs[i][0]=rm.getCtmName();
+			objs[i][1]=rm.getCtmBarCode();
+			objs[i][2]=rm.getCtmType();
+			objs[i][3]=rm.getLargeArea();
+			objs[i][4]=rm.getSliceArea();
+			objs[i][5]=rm.getFenBu();
+			objs[i][6]=Trans.toStringBig(rm.getCountAll()).toString();
+			objs[i][7]=Trans.toStringBig(rm.getMonth1()).toString();
+			objs[i][8]=Trans.toStringBig(rm.getMonth2()).toString();
+			objs[i][9]=Trans.toStringBig(rm.getMonth3()).toString();
+			objs[i][10]=Trans.toStringBig(rm.getMonth4()).toString();
+			objs[i][11]=Trans.toStringBig(rm.getMonth5()).toString();
+			objs[i][12]=Trans.toStringBig(rm.getMonth6()).toString();
+			objs[i][13]=Trans.toStringBig(rm.getMonth7()).toString();
+			objs[i][14]=Trans.toStringBig(rm.getMonth8()).toString();
+			objs[i][15]=Trans.toStringBig(rm.getMonth9()).toString();
+			objs[i][16]=Trans.toStringBig(rm.getMonth10()).toString();
+			objs[i][17]=Trans.toStringBig(rm.getMonth11()).toString();
+			objs[i][18]=Trans.toStringBig(rm.getMonth12()).toString();
+		}
+		String basePath = req.getSession().getServletContext().getRealPath("/");
+		String path ="file/月报表.xls";
+		ExcelExport.OutExcel1(obj, objs, basePath+path);
+		return path;
 	}
 }

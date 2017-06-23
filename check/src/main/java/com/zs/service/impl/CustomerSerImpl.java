@@ -82,33 +82,34 @@ public class CustomerSerImpl implements CustomerSer{
 		Gson g = new Gson();
 		List<String> ls = new ArrayList<String>();
 		for (int i = 1; i < list.size(); i++) {
-			if(list.get(i)[0]!=null&&!list.get(i)[0].equals("")){
-				CustomerKey ck = new CustomerKey();
-				ck.setCteBarCode(list.get(i)[0]);
-				ck.setHistoryCount(new BigDecimal(0));
-				Customer isct =  get(ck);
-				try {
-					Customer code=new Customer(list.get(i)[1],list.get(i)[2],list.get(i)[3],list.get(i)[4],
-							list.get(i)[5],list.get(i)[6],list.get(i)[7],list.get(i)[8],Trans.TransToDate(list.get(i)[9]),
-							Trans.TransToDate(list.get(i)[10]),list.get(i)[11],list.get(i)[12],list.get(i)[13],
-							Trans.toBigDecimal(list.get(i)[14]),list.get(i)[15],list.get(i)[16],list.get(i)[17],
-							list.get(i)[18],list.get(i)[19],list.get(i)[20],list.get(i)[21],list.get(i)[22],
-							list.get(i)[23],"启用",new Timestamp(new Date().getTime()));
-					code.setCteBarCode(list.get(i)[0]);
-					code.setHistoryCount(new BigDecimal(0));
-					if(isct==null){
-						CheckLog cLog = new CheckLog(null,list.get(i)[0] ,null,"customer",g.toJson(code) ,null, stuNum,"添加");
-						logMapper.insertSelective(cLog);
-						customerMapper.insertSelective(code);
-					}else{
-						CheckLog cLog = new CheckLog(null,list.get(i)[0] ,null,"customer",g.toJson(isct) ,null, stuNum,"修改");
-						logMapper.insertSelective(cLog);
-						customerMapper.updateByPrimaryKeySelective(code);
+			if(list.get(i)[0]!=null&&!list.get(i)[0].trim().equals("")&&list.get(i)[0].trim().length()==6&&isNumeric(Trans.tostring(list.get(i)[0]))==true){
+					CustomerKey ck = new CustomerKey();
+					ck.setCteBarCode(list.get(i)[0]);
+					ck.setHistoryCount(new BigDecimal(0));
+					Customer isct =  get(ck);
+					try {
+						Customer code=new Customer(list.get(i)[1],list.get(i)[2],list.get(i)[3],list.get(i)[4],
+								list.get(i)[5],list.get(i)[6],list.get(i)[7],list.get(i)[8],Trans.TransToDate(list.get(i)[9]),
+								Trans.TransToDate(list.get(i)[10]),list.get(i)[11],list.get(i)[12],list.get(i)[13],
+								Trans.toBigDecimal(list.get(i)[14]),list.get(i)[15],list.get(i)[16],list.get(i)[17],
+								list.get(i)[18],list.get(i)[19],list.get(i)[20],list.get(i)[21],list.get(i)[22],
+								list.get(i)[23],"启用",new Timestamp(new Date().getTime()));
+						code.setCteBarCode(list.get(i)[0]);
+						code.setHistoryCount(new BigDecimal(0));
+						if(isct==null){
+							CheckLog cLog = new CheckLog(null,list.get(i)[0] ,null,"customer",g.toJson(code) ,null, stuNum,"添加");
+							logMapper.insertSelective(cLog);
+							customerMapper.insertSelective(code);
+						}else{
+							CheckLog cLog = new CheckLog(null,list.get(i)[0] ,null,"customer",g.toJson(isct) ,null, stuNum,"修改");
+							logMapper.insertSelective(cLog);
+							customerMapper.updateByPrimaryKeySelective(code);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						ls.add((i+1)+"");
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
-					ls.add((i+1)+"");
-				}
+				
 			}else{
 				ls.add((i+1)+"");
 			}
@@ -118,6 +119,16 @@ public class CustomerSerImpl implements CustomerSer{
 		}else{
 			return "";
 		}
+	}
+
+	//用JAVA自带的函数判断是否是纯数字
+	private boolean isNumeric(String str){
+		for (int i = 0; i < str.length(); i++){
+		   if (!Character.isDigit(str.charAt(i))){
+			   return false;
+		   }
+		}
+		return true;
 	}
 
 	public String exportData(EasyUIAccept accept, HttpServletRequest request) {

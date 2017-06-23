@@ -231,7 +231,7 @@ function search_toolbar1(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		checkOnSelect="false" selectOnCheck="true"
+		checkOnSelect="false" selectOnCheck="false"
 		pageSize="100" pageList="[100,500,1000]">
 	<thead>
 		<tr>
@@ -280,16 +280,14 @@ function search_toolbar1(){
 	</thead>
 </table>
 <div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;height:200px" title="快件信息>导入数据" data-options="collapsible:true">
+	<div id="myPanel" class="easyui-panel" style="width:100%;" title="快件信息>导入数据" data-options="collapsible:true">
 		<script>
 		    $("#myPanel").panel({
 		    	onCollapse:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        },
 		    	onExpand:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        }
 		    });
 		</script>

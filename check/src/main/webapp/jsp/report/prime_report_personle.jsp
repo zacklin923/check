@@ -14,7 +14,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </head>
 <body>
-
+<script type="text/javascript">
+	function export_excel(){
+		$("#search").form("submit",{
+			url:"<%=path%>/api/primeCodeImport/exportExcelPersonle",
+			onSubmit: function(){   
+			},   
+		    success:function(data){   
+		    	var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					var d = eval('('+data+')');
+					window.location.href="<%=path%>/"+d.data;
+				}else{
+					alert("错误:"+json.data);
+				}
+		    } 
+		});
+	}
+</script>
 <jsp:include page="/jsp/part/common.jsp"/>
 
 <table id="dg" border="true"
@@ -264,16 +286,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</thead>
 </table>
 <div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;height:120px" title="报表>成本按导入人汇总" data-options="collapsible:true">
+	<div id="myPanel" class="easyui-panel" style="width:100%;" title="报表>成本按导入人汇总" data-options="collapsible:true">
 		<script>
 		    $("#myPanel").panel({
 		    	onCollapse:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        },
 		    	onExpand:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        }
 		    });
 		</script>
@@ -297,7 +317,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   	<div class="clear"></div>
 	   	<hr class="hr-geay">
 		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">导出</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="export_excel()">导出</a>
 		<div class="pull-away"></div>
 	</div>
 </div>

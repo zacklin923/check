@@ -187,4 +187,38 @@ public class Trans {
 		long bg =(ts.getHours()*60*60+ts.getMinutes()*60+ts.getSeconds());
 		return new BigDecimal(bg);
 	}
+	
+	public static Integer toStringBig(BigDecimal b){
+		if(b!=null){
+			Integer in =Integer.parseInt(b.toString());
+			return in;
+		}else{
+			return 0;
+		}
+		
+	}
+	
+	public static String BigDecimalForHours(BigDecimal b){
+		if(b!=null){
+			Integer it = Integer.parseInt(b.toString());
+			Integer h =it/3600;
+			Integer m =(it%3600)/60;
+			Integer s =(it%3600)%60;
+			String mm = "";
+			String ss = "";
+			if(m<10){
+				mm="0"+m;
+			}else{
+				mm=""+m;
+			}
+			if(s<10){
+				ss="0"+s;
+			}else{
+				ss=""+s;
+			}
+			return h + ":" +mm+":"+ss;
+		}else{
+			return 0+":00"+":00";
+		}
+	}
 }

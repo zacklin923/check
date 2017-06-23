@@ -14,6 +14,8 @@ import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.Result;
 import com.zs.service.ReportMonthSer;
+import com.zs.tools.ColumnName;
+import com.zs.tools.ManagerId;
 
 @RestController
 @RequestMapping("/api/reportMonth")
@@ -46,9 +48,18 @@ public class ReportMonthConR{
 		return null;
 	}
 
-
+	@RequestMapping(value="/exportExceltest",method=RequestMethod.GET)
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+		if (accept!=null) {
+			try {
+				accept.setStr1(ManagerId.isSeeAll(req));
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return new Result<String>("success",  Code.SUCCESS, reportMonthSer.exportData(accept,req));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new Result<String>("error", Code.ERROR, "数据装载失败");
+			}
+		}
 		return null;
 	}
 

@@ -190,8 +190,6 @@ function search_toolbar1(){
 			json.str4=str4;
 			console.log(str4);
 		}
-		console.log(json.date1);
-		console.log(json.date2);
 		$('#dg').datagrid('load', json);
 	}
 }
@@ -209,7 +207,7 @@ function export_excel(){
 			}
 			if(json.result=='success'){
 				var d = eval('('+data+')');
-				window.location.href=d.data;
+				window.location.href="<%=path%>/"+d.data;
 			}else{
 				alert("错误:"+json.data);
 			}
@@ -247,7 +245,7 @@ function export_excel(){
 			<th rowspan="2" field="dayCount" width="60" sortable="true">日出货量</th>
 			<th rowspan="2" field="stuNum" width="60" sortable="true">登记人</th>
 			<th rowspan="2" field="createTime" width="150" sortable="true">导入时间</th>
-			<th rowspan="2" field="id">id</th>
+			<th rowspan="2" field="id" hidden="true">id</th>
 		</tr>
 		<tr>
 			<th field="countJd" width="100" sortable="true">处理量（票）</th>
@@ -474,16 +472,14 @@ function export_excel(){
 	</thead>
 </table>
 <div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;height:200px" title="快件信息>成本导入收集" data-options="collapsible:true">
+	<div id="myPanel" class="easyui-panel" style="width:100%;" title="快件信息>成本导入收集" data-options="collapsible:true">
 		<script>
 		    $("#myPanel").panel({
 		    	onCollapse:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        },
 		    	onExpand:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        }
 		    });
 		</script>

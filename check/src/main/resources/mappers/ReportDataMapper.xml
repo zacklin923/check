@@ -273,6 +273,12 @@
 	  		and ctm_name = ${str2}
   		</if>
 	</where>
+	<if test="sort!=null and order!=null">
+  		order by ${sort} ${order},CTM_BAR_CODE desc
+  	</if>
+  	<if test="sort==null or order==null">
+  		order by CTM_BAR_CODE desc
+  	</if>
   </select>
   <select id="callproduce"  parameterType="com.zs.entity.other.EasyUIAccept">
 	{call reportdata(#{date3},#{date4})} 
