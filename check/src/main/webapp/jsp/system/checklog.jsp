@@ -49,16 +49,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</thead>
 </table>
 <div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;height:120px" title="系统管理>查看日志" data-options="collapsible:true">
+	<div id="myPanel" class="easyui-panel" style="width:100%;" title="系统管理>查看日志" data-options="collapsible:true">
 		<script>
 		    $("#myPanel").panel({
 		    	onCollapse:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        },
 		    	onExpand:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        }
 		    });
 		</script>

@@ -281,7 +281,7 @@ function moduleEdit(){
 		pageSize="100" pageList="[100,500,1000]" >
 </table>
 <div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;height:200px" title="快件信息>运单信息查询" data-options="collapsible:true">
+	<div id="myPanel" class="easyui-panel" style="width:100%;" title="快件信息>运单信息查询" data-options="collapsible:true">
 		<script>
 		    $("#myPanel").panel({
 		    	onCollapse:function() {

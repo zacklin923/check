@@ -124,16 +124,14 @@ function excel_export(){
 	</thead>
 </table>
 <div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;height:145px" title="基础信息维护>一段码省份对照表" data-options="collapsible:true">
+	<div id="myPanel" class="easyui-panel" style="width:100%;" title="基础信息维护>一段码省份对照表" data-options="collapsible:true">
 		<script>
 		    $("#myPanel").panel({
 		    	onCollapse:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        },
 		    	onExpand:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        }
 		    });
 		</script>

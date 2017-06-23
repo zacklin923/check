@@ -156,16 +156,14 @@ function obcSave(){
 	</thead>
 </table>
 <div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;height:145px" title="系统管理>用户管理" data-options="collapsible:true">
+	<div id="myPanel" class="easyui-panel" style="width:100%;" title="系统管理>用户管理" data-options="collapsible:true">
 		<script>
 		    $("#myPanel").panel({
 		    	onCollapse:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        },
 		    	onExpand:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        }
 		    });
 		</script>

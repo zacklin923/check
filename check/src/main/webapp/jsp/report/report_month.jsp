@@ -104,7 +104,28 @@ function search_toolbar1(){
 		$('#dg').datagrid('load', json);
 	}
 }
-
+function excel_export(){
+	$("#search").form("submit",{
+		url:"<%=path%>/api/reportMonth/exportExceltest",
+		onSubmit: function(){   
+		},   
+	    success:function(data){   
+	    	var json;
+			if(isJson(data)){
+				json=data;
+			}else{
+				json = eval('('+data+')');
+			}
+			if(json.result=='success'){
+				var d = eval('('+data+')');
+				window.location.href=d.data;
+			}else{
+				alert("错误:"+json.data);
+			}
+	    } 
+	});
+	
+}
 </script>
 <table id="dg" border="true"
 		url="<%=path %>/api/reportMonth"
@@ -117,16 +138,14 @@ function search_toolbar1(){
 </table>
 
 <div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;height:145px" title="报表>月报表" data-options="collapsible:true">
+	<div id="myPanel" class="easyui-panel" style="width:100%;" title="报表>月报表" data-options="collapsible:true">
 		<script>
 		    $("#myPanel").panel({
 		    	onCollapse:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        },
 		    	onExpand:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        }
 		    });
 		</script>
@@ -165,7 +184,7 @@ function search_toolbar1(){
 	   	<div class="clear"></div>
 	   	<hr class="hr-geay">
 		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
-		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
 		<div class="pull-away"></div>
 	</div>
 </div>

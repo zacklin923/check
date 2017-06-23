@@ -289,16 +289,14 @@ function moduleEdit(){
 	
 </table>
 <div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;height:200px" title="快件信息>运单状态查询" data-options="collapsible:true">
+	<div id="myPanel" class="easyui-panel" style="width:100%;" title="快件信息>运单状态查询" data-options="collapsible:true">
 		<script>
 		    $("#myPanel").panel({
 		    	onCollapse:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        },
 		    	onExpand:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        }
 		    });
 		</script>

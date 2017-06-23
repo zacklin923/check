@@ -189,7 +189,7 @@ public class ExcelExport {
 					HSSFCell cell1 = row.createCell((int) j);
 					cell1.setCellType(HSSFCell.CELL_TYPE_STRING); 
 //				cell1.setEncoding(HSSFCell.ENCODING_UTF_16);
-					cell1.setCellValue(obj1[j].toString());
+					cell1.setCellValue(obj1[i][j].toString());
 				}
 				
 			}

@@ -131,7 +131,7 @@ public class CustomerConR extends BaseRestController<Customer,String>{
 				StaffUser user = (StaffUser) req.getSession().getAttribute("user");
 				String errs = customerSer.importData(list,user.getStuNum());
 				if(errs.equals("")){
-					return new Result<String>(SUCCESS,  Code.SUCCESS, null);
+					return new Result<String>(SUCCESS,  Code.SUCCESS, "导入成功");
 				}else{
 					return new Result<String>(ERROR,  Code.ERROR, errs);
 				}
