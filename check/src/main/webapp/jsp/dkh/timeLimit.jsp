@@ -99,14 +99,33 @@ function excel_export(){
 		url:"<%=path%>/api/timeLimit/excelExport",
 		method:"get",
 		onSubmit: function(){   
-	        // do some check   
-	        // return false to prevent submit;   
+			show_hint([]);
 	    },   
-	    success:function(data){   
-			if(data!=null){
-		    	var d = eval('('+data+')');
-		    	window.location.href=d.data;
-			}
+	    success:function(data){
+	    	hiden_hint();
+	    	if(data){
+	    		var json=null;
+				if(isJson(data)){
+					json=data;
+				}else{
+					try {
+						json = eval('('+data+')');
+					} catch (e) {
+						alert(data);
+					}
+				}
+				if(json!=null){
+					if(json.result=='success'){
+						window.location.href=json.data;
+					}else{
+						alert("错误:"+json.data+" "+json.data);
+					}
+				}else{
+					alert("错误:json解析错误");
+				}
+	    	}else{
+	    		alert("错误:网络错误");
+	    	}
 	    } 
 	});
 }
@@ -178,7 +197,7 @@ $(function(){
 	   	<hr class="hr-geay">
 		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
 		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
 		<div class="pull-away"></div>
 	</div>
 </div>

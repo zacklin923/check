@@ -2,6 +2,7 @@ package com.zs.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ import com.zs.entity.CustomerKey;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.service.CustomerSer;
+import com.zs.tools.ExcelExport;
 import com.zs.tools.Trans;
 
 @Service("customerSer")
@@ -130,8 +132,49 @@ public class CustomerSerImpl implements CustomerSer{
 	}
 
 	public String exportData(EasyUIAccept accept, HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		if(accept.getInt1()!=null){
+			if(accept.getInt1()!=0){
+				accept.setInt1(null);
+			}
+		}
+		List<Customer> list=customerMapper.queryFenye(accept);
+		String[] obj ={"客户条码","客户名称","维护客户（中端）","维护客服（前端）","维护客服（后端）","客户类型","大区","区部","分部","开通时间",
+				"暂停时间","业务负责人","结算方式","面单类型","日均发货量","寄递货物详情","提货方式","集包点","退件","物料","投诉返利",
+				"操作罚款","费用理赔","备注","启用状态"};
+		String[][] objs = new String[list.size()][obj.length];
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (int i = 0; i < objs.length; i++) {
+			Customer customer=list.get(i);
+			objs[i][0] = customer.getCteBarCode();
+			objs[i][1] = customer.getCteName();
+			objs[i][2] = customer.getCustomServiceCenter();
+			objs[i][3] = customer.getCustomServiceTop();
+			objs[i][4] = customer.getCustomServiceLast();
+			objs[i][5] = customer.getCustomType();
+			objs[i][6] = customer.getLargeArea();
+			objs[i][7] = customer.getSliceArea();
+			objs[i][8] = customer.getFenbu();
+			objs[i][9] = customer.getOpenDate()==null?"":sdf.format(customer.getOpenDate());
+			objs[i][10] = customer.getOutDate()==null?"":sdf.format(customer.getOutDate());
+			objs[i][11] = customer.getBusiness();
+			objs[i][12] = customer.getAccountsType();
+			objs[i][13] = customer.getPageType();
+			objs[i][14] = customer.getDailyDelivery()==null?"":customer.getDailyDelivery().toString();
+			objs[i][15] = customer.getGoodsDetail();
+			objs[i][16] = customer.getCarryGoodsType();
+			objs[i][17] = customer.getPacketPoint();
+			objs[i][18] = customer.getReturnPiece();
+			objs[i][19] = customer.getMatter();
+			objs[i][20] = customer.getComplainRebate();
+			objs[i][21] = customer.getOptionFine();
+			objs[i][22] = customer.getFeeCompensate();
+			objs[i][23] = customer.getNote();
+			objs[i][24] = customer.getState();
+		}
+		String basePath = request.getSession().getServletContext().getRealPath("/");
+		String path ="file/大客户信息.xls";
+		ExcelExport.OutExcel1(obj, objs, basePath+path);
+		return path;
 	}
 
 	

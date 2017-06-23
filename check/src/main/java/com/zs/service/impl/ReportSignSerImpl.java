@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.ReportSignBean;
 import com.zs.service.ReportSignSer;
 import com.zs.service.SourceTpSer;
+import com.zs.tools.ColumnName;
+import com.zs.tools.ExcelExport;
 
 @Service("reportSignSer")
 public class ReportSignSerImpl implements ReportSignSer{
@@ -108,7 +111,8 @@ public class ReportSignSerImpl implements ReportSignSer{
 		Calendar calendar=Calendar.getInstance();
 		calendar.setTime(accept.getDate2());
 		calendar.add(Calendar.DATE, 1);
-		return reportSignMapper.obtainOfCtmAndProvince(accept.getDate1(), calendar.getTime(),accept.getStr1(),accept.getStr2());
+		accept.setDate2(calendar.getTime());
+		return reportSignMapper.obtainOfCtmAndProvince(accept);
 	}
 
 	//获取签收率，按客户
@@ -116,14 +120,101 @@ public class ReportSignSerImpl implements ReportSignSer{
 		Calendar calendar=Calendar.getInstance();
 		calendar.setTime(accept.getDate2());
 		calendar.add(Calendar.DATE, 1);
-		return reportSignMapper.obtainOfCtm(accept.getDate1(), calendar.getTime(),accept.getStr1(),accept.getStr2());
+		accept.setDate2(calendar.getTime());
+		return reportSignMapper.obtainOfCtm(accept);
 	}
 	//计算签收率，总量
 	public List<ReportSignBean> obtainOfSum(EasyUIAccept accept) {
 		Calendar calendar=Calendar.getInstance();
 		calendar.setTime(accept.getDate2());
 		calendar.add(Calendar.DATE, 1);
-		return reportSignMapper.obtainOfSum(accept.getDate1(), calendar.getTime());
+		accept.setDate2(calendar.getTime());
+		return reportSignMapper.obtainOfSum(accept);
+	}
+
+	public String importData(List<String[]> list, String stuNum) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String exportData(EasyUIAccept accept, HttpServletRequest request) {
+		List<ReportSignBean> list=null;
+		String[] obj;
+		String[][] objs;
+		String basePath;
+		String path;
+		if (accept!=null && accept.getInt1()!=null) {
+			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+			switch (accept.getInt1()) {
+			case 1://客户+省份
+				list=this.obtainOfCtmAndProvince(accept);
+				obj =new String[]{"出发","客户","客户条码","目的地","时效","客户各省签收率","客户各省超时率"};
+				objs = new String[list.size()][obj.length];
+				for (int i = 0; i < list.size(); i++) {
+					ReportSignBean bean=list.get(i);
+					objs[i][0]=bean.getBeginCity();
+					objs[i][1]=bean.getCtmName();
+					objs[i][2]=bean.getCtmBarCode();
+					objs[i][3]=bean.getProvince();
+					objs[i][4]=bean.getCostHour()+"";
+					objs[i][5]=bean.getRatioSign()+"";
+					objs[i][6]=bean.getRatioTimeout()+"";
+				}
+				basePath = request.getSession().getServletContext().getRealPath("/");
+				path ="file/客户各省签收报表.xls";
+				ExcelExport.OutExcel1(obj, objs, basePath+path);
+				return path;
+			case 2://客户
+				list=this.obtainOfCtm(accept);
+				obj =new String[]{"出发","客户","客户条码","客户签收率","客户超时率"};
+				objs = new String[list.size()][obj.length];
+				for (int i = 0; i < list.size(); i++) {
+					ReportSignBean bean=list.get(i);
+					objs[i][0]=bean.getBeginCity();
+					objs[i][1]=bean.getCtmName();
+					objs[i][2]=bean.getCtmBarCode();
+					objs[i][3]=bean.getRatioSign()+"";
+					objs[i][4]=bean.getRatioTimeout()+"";
+				}
+				basePath = request.getSession().getServletContext().getRealPath("/");
+				path ="file/客户签收报表.xls";
+				ExcelExport.OutExcel1(obj, objs, basePath+path);
+				return path;
+			case 3://总
+				list=this.obtainOfSum(accept);
+				obj =new String[]{"出发","总签收率","总超时率"};
+				objs = new String[list.size()][obj.length];
+				for (int i = 0; i < list.size(); i++) {
+					ReportSignBean bean=list.get(i);
+					objs[i][0]=bean.getBeginCity();
+					objs[i][1]=bean.getRatioSign()+"";
+					objs[i][2]=bean.getRatioTimeout()+"";
+				}
+				basePath = request.getSession().getServletContext().getRealPath("/");
+				path ="file/总签收报表.xls";
+				ExcelExport.OutExcel1(obj, objs, basePath+path);
+				return path;
+			default://默认走客户+省份
+				list=this.obtainOfCtmAndProvince(accept);
+				obj =new String[]{"出发","客户","客户条码","目的地","时效","客户各省签收率","客户各省超时率"};
+				objs = new String[list.size()][obj.length];
+				for (int i = 0; i < list.size(); i++) {
+					ReportSignBean bean=list.get(i);
+					objs[i][0]=bean.getBeginCity();
+					objs[i][1]=bean.getCtmName();
+					objs[i][2]=bean.getCtmBarCode();
+					objs[i][3]=bean.getProvince();
+					objs[i][4]=bean.getCostHour()+"";
+					objs[i][5]=bean.getRatioSign()+"";
+					objs[i][6]=bean.getRatioTimeout()+"";
+				}
+				basePath = request.getSession().getServletContext().getRealPath("/");
+				path ="file/签收报表.xls";
+				ExcelExport.OutExcel1(obj, objs, basePath+path);
+				return path;
+			}
+		}
+		return null;
 	}
 	
 

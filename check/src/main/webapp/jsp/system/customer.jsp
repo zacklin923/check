@@ -118,17 +118,36 @@ function deleteObj(){
 }
 function excel_export(){
 	$("#search").form("submit",{
-		url:"<%=path%>/api/power/excelExport",
+		url:"<%=path%>/api/customer/excelExport",
 		method:"get",
 		onSubmit: function(){   
-	        // do some check   
-	        // return false to prevent submit;   
+			show_hint([]);
 	    },   
-	    success:function(data){   
-			if(data!=null){
-		    	var d = eval('('+data+')');
-		    	window.location.href=d.data;
-			}
+	    success:function(data){
+	    	hiden_hint();
+	    	if(data){
+	    		var json=null;
+				if(isJson(data)){
+					json=data;
+				}else{
+					try {
+						json = eval('('+data+')');
+					} catch (e) {
+						alert(data);
+					}
+				}
+				if(json!=null){
+					if(json.result=='success'){
+						window.location.href=json.data;
+					}else{
+						alert("错误:"+json.data+" "+json.data);
+					}
+				}else{
+					alert("错误:json解析错误");
+				}
+	    	}else{
+	    		alert("错误:网络错误");
+	    	}
 	    } 
 	});
 }
@@ -293,7 +312,7 @@ function moduleEdit(){
 	   	<div class="clear"></div>
 	   	<hr class="hr-geay">
 		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
-		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
 		<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>
 		<div class="pull-away"></div>
 	</div>

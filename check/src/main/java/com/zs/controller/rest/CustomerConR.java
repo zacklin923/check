@@ -116,9 +116,18 @@ public class CustomerConR extends BaseRestController<Customer,String>{
 		return new Result<Integer>(ERROR, Code.ERROR, null);
 	}
 
+	@RequestMapping(value="/excelExport",method=RequestMethod.GET)
 	@Override
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+		if (accept!=null) {
+			try {
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+				return new Result<String>(SUCCESS,  Code.SUCCESS, customerSer.exportData(accept,req));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new Result<String>(ERROR, Code.ERROR, "数据装载失败");
+			}
+		}
 		return null;
 	}
 
