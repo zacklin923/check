@@ -17,6 +17,8 @@ public class EasyUIAccept {
 	private Integer start;//开始条数,>开始条数
 	private Integer end;//结束条数,<=结束条数
 	//以下是属性条件查询字段
+	private String id;
+	//------------------
 	private Integer int1;
 	private Integer int2;
 	private Integer int3;
@@ -51,6 +53,12 @@ public class EasyUIAccept {
 	private Double d5;
 	
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getSort() {
 		return sort;
 	}

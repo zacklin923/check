@@ -348,14 +348,17 @@
 		case when sum(total_send) =0 then 0 else sum(total_succ)/sum(total_send) end as ratioSign,
 		case when sum(total_succ) =0 then 0 else sum(total_succ_timeout)/sum(total_succ) end as ratioTimeout
 	from report_sign
-	where send_time >= #{param1} and send_time &lt; #{param2} 
-	<if test="param3!=null">
-		and ctm_bar_code=#{param3,jdbcType=VARCHAR}
+	where send_time >= #{date1} and send_time &lt; #{date2} 
+	<if test="str1!=null and str1!=''">
+		and ctm_name like '%${str1}%'
 	</if>
-	<if test="param4!=null">
-		and ctm_name=#{param4,jdbcType=VARCHAR}
+	<if test="str2!=null and str2!=''">
+		and ctm_bar_code like '%${str2}%'
 	</if>
 	group by ctm_bar_code,province,cost_hour,ctm_name,begin_city
+	<if test="sort!=null and order!=null">
+  		order by ${sort} ${order}
+  	</if>
   </select>
   <select id="obtainOfCtm" resultMap="BeanResultMap">
 	select
@@ -365,14 +368,17 @@
 		case when sum(total_send) =0 then 0 else sum(total_succ)/sum(total_send) end as ratioSign,
 		case when sum(total_succ) =0 then 0 else sum(total_succ_timeout)/sum(total_succ) end as ratioTimeout
 	from report_sign
-	where send_time >= #{param1} and send_time &lt; #{param2} 
-	<if test="param3!=null">
-		and ctm_bar_code=#{param3,jdbcType=VARCHAR}
+	where send_time >= #{date1} and send_time &lt; #{date2} 
+	<if test="str1!=null and str1!=''">
+		and ctm_name like '%${str1}%'
 	</if>
-	<if test="param4!=null">
-		and ctm_name=#{param4,jdbcType=VARCHAR}
+	<if test="str2!=null and str2!=''">
+		and ctm_bar_code like '%${str2}%'
 	</if>
 	group by ctm_bar_code,ctm_name,begin_city
+	<if test="sort!=null and order!=null">
+  		order by ${sort} ${order}
+  	</if>
   </select>
   <select id="obtainOfSum" resultMap="BeanResultMap">
 	select
@@ -380,7 +386,10 @@
 		case when sum(total_send) =0 then 0 else sum(total_succ)/sum(total_send) end as ratioSign,
 		case when sum(total_succ) =0 then 0 else sum(total_succ_timeout)/sum(total_succ) end as ratioTimeout
 	from report_sign
-	where send_time >= #{0} and send_time &lt; #{1}
+	where send_time >= #{date1} and send_time &lt; #{date2} 
 	group by begin_city
+	<if test="sort!=null and order!=null">
+  		order by ${sort} ${order}
+  	</if>
   </select>
 </mapper>

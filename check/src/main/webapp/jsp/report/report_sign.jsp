@@ -83,6 +83,41 @@ function search_toolbar_1(){
 	}
 	search_toolbar();
 }
+function excel_export(){
+	$("#search").form("submit",{
+		url:"<%=path%>/api/reportSign/excelExport",
+		method:"get",
+		onSubmit: function(){   
+			show_hint([]);
+	    },   
+	    success:function(data){
+	    	hiden_hint();
+	    	if(data){
+	    		var json=null;
+				if(isJson(data)){
+					json=data;
+				}else{
+					try {
+						json = eval('('+data+')');
+					} catch (e) {
+						alert(data);
+					}
+				}
+				if(json!=null){
+					if(json.result=='success'){
+						window.location.href=json.data;
+					}else{
+						alert("错误:"+json.data+" "+json.data);
+					}
+				}else{
+					alert("错误:json解析错误");
+				}
+	    	}else{
+	    		alert("错误:网络错误");
+	    	}
+	    } 
+	});
+}
 </script>
 <table id="dg" border="true" title="报表>签收报表"
 		url="<%=path %>/api/reportSign"
@@ -93,11 +128,11 @@ function search_toolbar_1(){
 		singleSelect="true" fit="true">
 	<thead>
 		<tr>
-			<th field="beginCity" width="100">出发</th>
-			<th field="ctmName" width="150">客户</th>
-			<th field="ctmBarCode" width="200">客户条码</th>
-			<th field="province" width="200">目的地</th>
-			<th field="costHour" width="200">时效</th>
+			<th field="beginCity" width="100" sortable="true">出发</th>
+			<th field="ctmName" width="150" sortable="true">客户</th>
+			<th field="ctmBarCode" width="200" sortable="true">客户条码</th>
+			<th field="province" width="200" sortable="true">目的地</th>
+			<th field="costHour" width="200" sortable="true">时效</th>
 			<th field="ratioSign1" width="200" data-options="
 				formatter:function(value,row,index){
                     if(row.ratioSign){
@@ -187,7 +222,7 @@ function search_toolbar_1(){
    	<hr class="hr-geay">
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar_1()">查询</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()" disabled="true">导出</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
 	<div class="pull-away"></div>
 </div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"

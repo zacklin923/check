@@ -9,9 +9,11 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import com.zs.dao.ProvinceCodeMapper;
 import com.zs.entity.ProvinceCode;
+import com.zs.entity.TimeLimit;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.service.ProvinceCodeSer;
+import com.zs.tools.ExcelExport;
 
 import oracle.net.aso.a;
 
@@ -36,8 +38,18 @@ public class ProvinceCodeSerImpl implements ProvinceCodeSer{
 	}
 
 	public String exportData(EasyUIAccept accept, HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ProvinceCode> list=codeMapper.queryFenye(accept);
+		String[] obj =new String[]{"一段码","省份名称"};
+		String[][] objs = new String[list.size()][obj.length];
+		for (int i = 0; i < list.size(); i++) {
+			ProvinceCode code=list.get(i);
+			objs[i][0]=code.getProvinceCode();
+			objs[i][1]=code.getProvince();
+		}
+		String basePath = request.getSession().getServletContext().getRealPath("/");
+		String path ="file/一段码省份对照表.xls";
+		ExcelExport.OutExcel1(obj, objs, basePath+path);
+		return path;
 	}
 
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
