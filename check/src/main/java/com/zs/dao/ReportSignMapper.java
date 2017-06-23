@@ -39,9 +39,9 @@ public interface ReportSignMapper {
     
     int deleteByDate(@Param("date") String date,@Param("ctmBarCode")String ctmBarCode,@Param("province")String province);
     
-    List<ReportSignBean> obtainOfCtmAndProvince(Date d1,Date d2,String str1,String str2);
-    List<ReportSignBean> obtainOfCtm(Date d1,Date d2,String str1,String str2);
-    List<ReportSignBean> obtainOfSum(Date d1,Date d2);
+    List<ReportSignBean> obtainOfCtmAndProvince(EasyUIAccept accept);
+    List<ReportSignBean> obtainOfCtm(EasyUIAccept accept);
+    List<ReportSignBean> obtainOfSum(EasyUIAccept accept);
     
     
 }

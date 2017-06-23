@@ -8,7 +8,7 @@ import com.zs.entity.ReportSignKey;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.ReportSignBean;
 
-public interface ReportSignSer extends BaseService<ReportSign, ReportSignKey>{
+public interface ReportSignSer extends BaseServiceExcel<ReportSign, ReportSignKey>{
 	
 	
 	public void obtainReportSign(String date,String ctmBarCode,String province);

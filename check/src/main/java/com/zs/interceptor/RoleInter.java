@@ -101,10 +101,24 @@ public class RoleInter extends HandlerInterceptorAdapter{
 			return true;
 		}
 		if (user==null) {
-			resp.sendRedirect("/check/jsp/part/error1.jsp");
+			if (url.contains("/api/")) {
+				PrintWriter pw=resp.getWriter();
+				pw.write("错误代码：691\n您还没有登录，请先登录。");
+				pw.flush();
+				pw.close();
+			}else{
+				resp.sendRedirect("/check/jsp/part/error1.jsp");
+			}
 			return false;
 		}else if(role==null){
-			resp.sendRedirect("/check/jsp/part/error2.jsp");
+			if (url.contains("/api/")) {
+				PrintWriter pw=resp.getWriter();
+				pw.write("错误代码：300\n您的权限不够，请联系管理员。");
+				pw.flush();
+				pw.close();
+			}else{
+				resp.sendRedirect("/check/jsp/part/error2.jsp");
+			}
 			return false;
 		}
 		StaffPower power=powerSer.selectByUrlAndMethodEqual(url, method);
