@@ -52,7 +52,7 @@ function save(){
 					$('#dg').datagrid('reload');
 					$("#dlg").dialog("close");
 				}else{
-					alert("错误:"+json.code);
+					alert("错误:"+json.code+"  "+json.data);
 				}
 			}else{
 				alert("错误:网络错误");
@@ -126,6 +126,41 @@ function excel_export(){
 	    } 
 	});
 }
+function accept(){
+	if (endEditing()){
+		var rows=$('#dg').datagrid('getChanges');
+		for (var i = 0; i < rows.length; i++) {
+			var row=rows[i];
+			row._method="put";
+			row._header="${licence}";
+			console.log(row);
+			$.ajax({
+				url:"<%=path%>/api/provinceCode/"+row.provinceCode,
+				type:"post",
+				data:row,
+				dataType:"json",
+				success:function(data){
+					if(data){
+						var json;
+						if(isJson(data)){
+							json=data;
+						}else{
+							json = eval('('+data+')');
+						}
+						if(json.result=='success'){
+							$('#dg').datagrid('reload');
+							$("#dlg").dialog("close");
+						}else{
+							alert("错误:"+json.code+"  "+json.data);
+						}
+					}else{
+						alert("错误:网络错误");
+					}
+				}
+			});
+		}
+	}
+}
 </script>
 <table id="dg" border="true" 
 		url="<%=path %>/api/provinceCode"
@@ -134,11 +169,14 @@ function excel_export(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="25" pageList="[25,40,50,100]">
+		pageSize="25" pageList="[25,40,50,100]"
+		data-options="
+				onClickCell: onClickCell
+			">
 	<thead>
 		<tr>
-			<th field="provinceCode" width="100" sortable="true">一段码</th>
-			<th field="province" width="200" sortable="true">省份名称</th>
+			<th field="provinceCode" width="100" sortable="true" editor="text">一段码</th>
+			<th field="province" width="200" sortable="true" editor="text">省份名称</th>
 		</tr>
 	</thead>
 </table>
@@ -158,6 +196,7 @@ function excel_export(){
 			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addObj()">添加数据</a>
 			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
 			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteObj()">删除数据</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">保存</a>
 		</div>
 		<div class="btn-separator">
 			<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
@@ -204,8 +243,8 @@ function excel_export(){
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">提交</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
-<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:500px;height:300px;padding:10px 20px"
-		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/province.jsp" cache="true">
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:100%;padding:10px 20px"
+		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/province.jsp" cache="true" resizable="true">
 </div>
 </body>
 </html>

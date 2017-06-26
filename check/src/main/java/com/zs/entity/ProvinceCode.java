@@ -30,6 +30,11 @@ public class ProvinceCode {
 	public ProvinceCode() {
 		super();
 	}
+
+	@Override
+	public String toString() {
+		return "ProvinceCode [provinceCode=" + provinceCode + ", province=" + province + "]";
+	}
     
     
 }

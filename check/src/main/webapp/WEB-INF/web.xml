@@ -61,7 +61,16 @@
 	    <filter-name>httpMethodFilter</filter-name>
 	    <servlet-name>SpringMVC</servlet-name>
 	</filter-mapping>
-
+	
+	<filter>
+        <filter-name>HttpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>HttpMethodFilter</filter-name>
+        <servlet-name>SpringMVC</servlet-name>
+    </filter-mapping>
+	
 	<!-- Spring MVC servlet -->
 	<servlet>
 		<servlet-name>SpringMVC</servlet-name>
