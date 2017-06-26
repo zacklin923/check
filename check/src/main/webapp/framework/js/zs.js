@@ -146,7 +146,6 @@ $.extend($.fn.datagrid.methods, {
 		});
 	}
 });
-
 var editIndex = undefined;
 function endEditing(){
 	if (editIndex == undefined){return true}
@@ -164,4 +163,14 @@ function onClickCell(index, field){
 				.datagrid('editCell', {index:index,field:field});
 		editIndex = index;
 	}
+}
+//张顺，2017-6-26，json转url参数,只转第一层的属性，子对象不会被转
+function jsonObjTransToUrlparam(param){
+	var str="";
+	for(var p in param){
+		if(param[p]!=null && isJson(param[p])==false){
+			str=str+"&"+p+"="+param[p];
+		}
+	}
+	return str.substr(1);
 }
