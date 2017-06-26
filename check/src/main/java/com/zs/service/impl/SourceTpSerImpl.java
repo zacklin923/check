@@ -287,10 +287,12 @@ public class SourceTpSerImpl implements SourceTpSer{
 		BigDecimal b1=tp.getIsTimeOut();
 		if (zm!=null&& zm.getTimeOut()!=null&& tp.getDeliveryState()!=null&& !tp.getDeliveryState().equals("配送异常")) {
 			if(tp.getDeliveryState().equals("配送成功")){
-				if(tp.getSignTime().after(zm.getTimeOut())){ //签收时间>超时时间，就代表超时
-					tp.setIsTimeOut(new BigDecimal(1));
-				}else {
-					tp.setIsTimeOut(new BigDecimal(0));
+				if(tp.getSignTime()!=null && zm.getTimeOut()!=null){
+					if(tp.getSignTime().after(zm.getTimeOut())){ //签收时间>超时时间，就代表超时
+						tp.setIsTimeOut(new BigDecimal(1));
+					}else {
+						tp.setIsTimeOut(new BigDecimal(0));
+					}
 				}
 			}else{
 				//剩余三种状态时才判断

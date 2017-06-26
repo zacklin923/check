@@ -32,7 +32,6 @@ function stylesheet(){
 				json = eval('('+data+')');
 			}
 			if(json.result=='success'){
-				console.log(json.data);
 				var str = json.data;
 				s="[["+str+"]]";
 				options={};
@@ -133,7 +132,6 @@ function excel_export(){
 var a="${isLoading}";
 var a1="${isLoading}";
 function checkIsUal(){
-	console.log("a:"+a);
 	if(a=="" || a=="false"){
 		hiden_hint();
 	}else{
@@ -190,7 +188,6 @@ function upload(){
 			return $(this).form('validate');
 		},
 		success:function(data){
-			console.log(data);
 			if(data){
 				var json;
 				if(isJson(data)){
@@ -219,23 +216,19 @@ function search_toolbar1(){
 	if(f.form('validate')){
 		var json=formToJson(f);
 		var reg=new RegExp("\r\n","g");
-		console.log(json.str3);
 		if(json.str3!=null){
 			var str3 = json.str3.replace(reg,",");
 			json.str3=str3;
-			console.log(str3);
 		}
 		if(json.str2!=null){
 			var str2 = json.str2.replace(reg,",");
 			json.str2=str2;
-			console.log(str2);
 		}
 		$('#dg').datagrid('load', json);
 	}
 }
 function moduleEdit(){
 	var r=document.getElementsByName("orderline")
-	console.log(r);
 	var str = "";
 	var str1="";
 	for(var i=0;i<r.length;i++){
@@ -277,14 +270,14 @@ function accept(){
 			var row=rows[i];
 			row._method="put";
 			row._header="${licence}";
-			console.log(row);
 			var logt = (new Date(""+row.returnDate)).getTime();
+			$('#dg').datagrid('loading');
 			$.ajax({
-				url:"<%=path%>/api/sourceZm/"+row.courierNumber+","+logt,
-				type:"post",
-				data:row,
+				url:"<%=path%>/api/sourceZm/"+row.courierNumber+","+logt+"?"+jsonObjTransToUrlparam(row),
+				type:"put",
 				dataType:"json",
 				success:function(data){
+					$('#dg').datagrid('loaded');
 					if(data){
 						var json;
 						if(isJson(data)){
@@ -316,6 +309,11 @@ function accept(){
 		singleSelect="true" fit="true"
 		pageSize="100" pageList="[100,500,1000]"
 		data-options="
+				rowStyler:function(index,row){
+					if (row.noUpdate){
+						return 'background-color:#FFCACF;';
+					}
+				},
 				onClickCell: onClickCell
 			">
 </table>
@@ -325,11 +323,9 @@ function accept(){
 		    $("#myPanel").panel({
 		    	onCollapse:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        },
 		    	onExpand:function() {
 		    		$('#dg').datagrid('resize');
-		            console.log(12131231);
 		        }
 		    });
 		</script>
