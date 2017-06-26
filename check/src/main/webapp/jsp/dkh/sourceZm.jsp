@@ -270,6 +270,42 @@ function moduleEdit(){
 		}
 	});
 }
+function accept(){
+	if (endEditing()){
+		var rows=$('#dg').datagrid('getChanges');
+		for (var i = 0; i < rows.length; i++) {
+			var row=rows[i];
+			row._method="put";
+			row._header="${licence}";
+			console.log(row);
+			var logt = (new Date(""+row.returnDate)).getTime();
+			$.ajax({
+				url:"<%=path%>/api/sourceZm/"+row.courierNumber+","+logt,
+				type:"post",
+				data:row,
+				dataType:"json",
+				success:function(data){
+					if(data){
+						var json;
+						if(isJson(data)){
+							json=data;
+						}else{
+							json = eval('('+data+')');
+						}
+						if(json.result=='success'){
+							$('#dg').datagrid('reload');
+							$("#dlg").dialog("close");
+						}else{
+							alert("错误:"+json.code+"  "+json.data);
+						}
+					}else{
+						alert("错误:网络错误");
+					}
+				}
+			});
+		}
+	}
+}
 </script>
 <table id="dg" border="true"
 		url="<%=path %>/api/sourceZm"
@@ -278,7 +314,10 @@ function moduleEdit(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="100" pageList="[100,500,1000]" >
+		pageSize="100" pageList="[100,500,1000]"
+		data-options="
+				onClickCell: onClickCell
+			">
 </table>
 <div id="toolbar">
 	<div id="myPanel" class="easyui-panel" style="width:100%;" title="快件信息>运单信息查询" data-options="collapsible:true">
@@ -297,6 +336,7 @@ function moduleEdit(){
 		<div class="btn-separator-none">
 			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">保存</a>
 		</div>
 		<div class="btn-separator">
 			<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
@@ -429,8 +469,8 @@ function moduleEdit(){
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:500px;height:300px;padding:10px 20px"
 		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceZm.jsp" cache="true">
 </div>
-<div id="dlg_history" title="快件信息>运单信息查询>历史数据" class="easyui-dialog" iconCls="icon-help" style="width:1400px;height:800px;"
-		closed="true" modal="false" collapsible="true" cache="true">
+<div id="dlg_history" title="快件信息>运单信息查询>历史数据" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:100%;"
+		closed="true" modal="false" collapsible="true" cache="true" resizable="true" resizable="true">
 	<table id="dg_history" border="false"
 		method="get"
 		loadMsg="数据加载中请稍后……"

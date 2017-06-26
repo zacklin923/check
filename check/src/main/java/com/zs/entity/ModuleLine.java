@@ -23,6 +23,8 @@ public class ModuleLine {
 
     private String colspan;
 
+    private String editor;
+
     public String getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class ModuleLine {
 
     public void setColspan(String colspan) {
         this.colspan = colspan == null ? null : colspan.trim();
+    }
+
+    public String getEditor() {
+        return editor;
+    }
+
+    public void setEditor(String editor) {
+        this.editor = editor == null ? null : editor.trim();
     }
 }

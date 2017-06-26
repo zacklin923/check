@@ -794,6 +794,76 @@ public class ModuleLineExample {
             addCriterion("COLSPAN not between", value1, value2, "colspan");
             return (Criteria) this;
         }
+
+        public Criteria andEditorIsNull() {
+            addCriterion("EDITOR is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorIsNotNull() {
+            addCriterion("EDITOR is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorEqualTo(String value) {
+            addCriterion("EDITOR =", value, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorNotEqualTo(String value) {
+            addCriterion("EDITOR <>", value, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorGreaterThan(String value) {
+            addCriterion("EDITOR >", value, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorGreaterThanOrEqualTo(String value) {
+            addCriterion("EDITOR >=", value, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorLessThan(String value) {
+            addCriterion("EDITOR <", value, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorLessThanOrEqualTo(String value) {
+            addCriterion("EDITOR <=", value, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorLike(String value) {
+            addCriterion("EDITOR like", value, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorNotLike(String value) {
+            addCriterion("EDITOR not like", value, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorIn(List<String> values) {
+            addCriterion("EDITOR in", values, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorNotIn(List<String> values) {
+            addCriterion("EDITOR not in", values, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorBetween(String value1, String value2) {
+            addCriterion("EDITOR between", value1, value2, "editor");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditorNotBetween(String value1, String value2) {
+            addCriterion("EDITOR not between", value1, value2, "editor");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

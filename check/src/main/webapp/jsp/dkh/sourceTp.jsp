@@ -469,8 +469,8 @@ function moduleEdit(){
 			<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;"/>
 		</form>
 </div>
-<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:500px;height:300px;padding:10px 20px"
-		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceTp.jsp" cache="true">
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:100%;padding:10px 20px"
+		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceTp.jsp" cache="true" resizable="true">
 </div>
 <div id="dlg_history" title="快件信息>运单状态查询>历史数据" class="easyui-dialog" iconCls="icon-help" style="width:1400px;height:800px;"
 		closed="true" modal="false" collapsible="true" cache="true">

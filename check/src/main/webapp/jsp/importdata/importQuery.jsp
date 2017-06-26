@@ -427,8 +427,8 @@ function search_toolbar1(){
 			<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;"/>
 		</form>
 </div>
-<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:500px;height:300px;padding:10px 20px"
-		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceImport.jsp" cache="true">
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:100%;padding:10px 20px"
+		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceImport.jsp" cache="true" resizable="true">
 </div>
 
 </body>

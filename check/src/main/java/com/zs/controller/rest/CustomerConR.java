@@ -3,17 +3,14 @@ package com.zs.controller.rest;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.zs.entity.Customer;
 import com.zs.entity.personalStyle;
 import com.zs.entity.CustomerKey;
@@ -178,9 +175,9 @@ public class CustomerConR extends BaseRestController<Customer,String>{
 		String dss[] = new String[mls.size()];
 		for (int i = 0; i < dss.length; i++) {
 			if(mls.get(i).getFormatter()!=null){
-				dss[i]="{field:'"+mls.get(i).getLineField()+"',title:'"+mls.get(i).getTitle()+"',width:"+mls.get(i).getLineWidth()+",sortable:"+mls.get(i).getSortable()+",formatter:"+mls.get(i).getFormatter()+"},";
+				dss[i]="{field:'"+mls.get(i).getLineField()+"',title:'"+mls.get(i).getTitle()+"',width:"+mls.get(i).getLineWidth()+",sortable:"+mls.get(i).getSortable()+",editor:'"+mls.get(i).getEditor()+"',formatter:"+mls.get(i).getFormatter()+"},";
 			}else{
-				dss[i]="{field:'"+mls.get(i).getLineField()+"',title:'"+mls.get(i).getTitle()+"',width:"+mls.get(i).getLineWidth()+",sortable:"+mls.get(i).getSortable()+"},";
+				dss[i]="{field:'"+mls.get(i).getLineField()+"',title:'"+mls.get(i).getTitle()+"',width:"+mls.get(i).getLineWidth()+",sortable:"+mls.get(i).getSortable()+",editor:'"+mls.get(i).getEditor()+"'},";
 			}
 		} 
 		if(user!=null){
