@@ -28,15 +28,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 function login(){
 	$("#hint").html("");//清空提示信息
+	$("#login_btn").val("登陆中...请稍等...");
+	$("#login_btn").attr("disabled", true);
+	$("#login_btn").css("background", "#959595");
 	var f=$('#ff');
 	var json=formToJson(f);
-	console.log(json);
 	$.ajax({
 		url:"<%=path%>/api/login",
 		type:"get",
 		data:json,
 		success:function(data){
-			console.log(data);
+			$("#login_btn").val("登陆");
+			$("#login_btn").attr("disabled", false);
+			$("#login_btn").css("background", "#FFC000");
 			if(data.result=="success"){
 				console.log("登录成功");
 				window.location.href="<%=path%>/jsp/part/main.jsp";
@@ -69,7 +73,7 @@ function login(){
                     <input name="upass" placeholder="请输入密码" class="name" type="password">
                  </div>
                  <div id="errorMsg"></div>
-                 <input name="submit" class="btn" type="button" value="登录" onclick="login()">
+                 <input name="submit" id="login_btn" class="btn" type="button" value="登录" onclick="login()">
             </form>
         </div>
     </div>
