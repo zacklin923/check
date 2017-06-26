@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +32,7 @@ public class ProvinceCodeConR extends BaseRestController<ProvinceCode, String>{
 
 	@Resource
 	private ProvinceCodeSer provinceCodeSer;
+	private Logger log=Logger.getLogger(getClass());
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@Override
@@ -71,6 +74,7 @@ public class ProvinceCodeConR extends BaseRestController<ProvinceCode, String>{
 			try {
 				return new Result<Integer>(SUCCESS, Code.SUCCESS, provinceCodeSer.update(obj));
 			} catch (Exception e) {
+				e.printStackTrace();
 				return new Result<Integer>(ERROR, Code.ERROR, -1);
 			}
 		}

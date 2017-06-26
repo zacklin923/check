@@ -91,7 +91,10 @@ public class SourceZmConR extends BaseRestController<SourceZm, String[]>{
 	}
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public Result<Integer> doUpdate(@PathVariable("id") String[] id, SourceZm obj, HttpServletRequest req, HttpServletResponse resp){
+	public Result<Integer> doUpdate(@PathVariable("id") String[] id,SourceZm obj, HttpServletRequest req, HttpServletResponse resp){
+		System.out.println(id[0]+" "+id[1]);
+		System.out.println(obj);
+		System.out.println(req.getParameterMap().size());
 		StaffUser user=(StaffUser) req.getSession().getAttribute("user");
 		try {
 			if(obj!=null){

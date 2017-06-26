@@ -12,6 +12,7 @@
     <result column="SORTABLE" property="sortable" jdbcType="VARCHAR" />
     <result column="ROWSPAN" property="rowspan" jdbcType="VARCHAR" />
     <result column="COLSPAN" property="colspan" jdbcType="VARCHAR" />
+    <result column="EDITOR" property="editor" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, MODULE_NAME, TITLE, LINE_FIELD, LINE_WIDTH, FORMATTER, CREATE_TIME, SORTABLE, 
-    ROWSPAN, COLSPAN
+    ROWSPAN, COLSPAN, EDITOR
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.ModuleLineExample" >
     select
@@ -110,11 +111,11 @@
     insert into MODULE_LINE (ID, MODULE_NAME, TITLE, 
       LINE_FIELD, LINE_WIDTH, FORMATTER, 
       CREATE_TIME, SORTABLE, ROWSPAN, 
-      COLSPAN)
+      COLSPAN, EDITOR)
     values (#{id,jdbcType=VARCHAR}, #{moduleName,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
       #{lineField,jdbcType=VARCHAR}, #{lineWidth,jdbcType=VARCHAR}, #{formatter,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{sortable,jdbcType=VARCHAR}, #{rowspan,jdbcType=VARCHAR}, 
-      #{colspan,jdbcType=VARCHAR})
+      #{colspan,jdbcType=VARCHAR}, #{editor,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.ModuleLine" >
     insert into MODULE_LINE
@@ -149,6 +150,9 @@
       <if test="colspan != null" >
         COLSPAN,
       </if>
+      <if test="editor != null" >
+        EDITOR,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -180,6 +184,9 @@
       </if>
       <if test="colspan != null" >
         #{colspan,jdbcType=VARCHAR},
+      </if>
+      <if test="editor != null" >
+        #{editor,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -222,6 +229,9 @@
       <if test="record.colspan != null" >
         COLSPAN = #{record.colspan,jdbcType=VARCHAR},
       </if>
+      <if test="record.editor != null" >
+        EDITOR = #{record.editor,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -238,7 +248,8 @@
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       SORTABLE = #{record.sortable,jdbcType=VARCHAR},
       ROWSPAN = #{record.rowspan,jdbcType=VARCHAR},
-      COLSPAN = #{record.colspan,jdbcType=VARCHAR}
+      COLSPAN = #{record.colspan,jdbcType=VARCHAR},
+      EDITOR = #{record.editor,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -273,6 +284,9 @@
       <if test="colspan != null" >
         COLSPAN = #{colspan,jdbcType=VARCHAR},
       </if>
+      <if test="editor != null" >
+        EDITOR = #{editor,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -286,7 +300,8 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       SORTABLE = #{sortable,jdbcType=VARCHAR},
       ROWSPAN = #{rowspan,jdbcType=VARCHAR},
-      COLSPAN = #{colspan,jdbcType=VARCHAR}
+      COLSPAN = #{colspan,jdbcType=VARCHAR},
+      EDITOR = #{editor,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <select id="queryTable" resultMap="BaseResultMap" parameterType="java.lang.String">
