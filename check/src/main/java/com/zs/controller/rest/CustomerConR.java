@@ -175,9 +175,9 @@ public class CustomerConR extends BaseRestController<Customer,String>{
 		String dss[] = new String[mls.size()];
 		for (int i = 0; i < dss.length; i++) {
 			if(mls.get(i).getFormatter()!=null){
-				dss[i]="{field:'"+mls.get(i).getLineField()+"',title:'"+mls.get(i).getTitle()+"',width:"+mls.get(i).getLineWidth()+",sortable:"+mls.get(i).getSortable()+",editor:'"+mls.get(i).getEditor()+"',formatter:"+mls.get(i).getFormatter()+"},";
+				dss[i]="{field:\""+mls.get(i).getLineField()+"\",title:\""+mls.get(i).getTitle()+"\",width:"+mls.get(i).getLineWidth()+",sortable:"+mls.get(i).getSortable()+",editor:"+mls.get(i).getEditor()+",formatter:"+mls.get(i).getFormatter()+"},";
 			}else{
-				dss[i]="{field:'"+mls.get(i).getLineField()+"',title:'"+mls.get(i).getTitle()+"',width:"+mls.get(i).getLineWidth()+",sortable:"+mls.get(i).getSortable()+",editor:'"+mls.get(i).getEditor()+"'},";
+				dss[i]="{field:\""+mls.get(i).getLineField()+"\",title:\""+mls.get(i).getTitle()+"\",width:"+mls.get(i).getLineWidth()+",sortable:"+mls.get(i).getSortable()+",editor:"+mls.get(i).getEditor()+"},";
 			}
 		} 
 		if(user!=null){

@@ -133,13 +133,14 @@ function accept(){
 			var row=rows[i];
 			row._method="put";
 			row._header="${licence}";
-			console.log(row);
+			$('#dg').datagrid('loading');
 			$.ajax({
 				url:"<%=path%>/api/provinceCode/"+row.provinceCode,
 				type:"post",
 				data:row,
 				dataType:"json",
 				success:function(data){
+					$('#dg').datagrid('loaded');
 					if(data){
 						var json;
 						if(isJson(data)){
@@ -175,7 +176,7 @@ function accept(){
 			">
 	<thead>
 		<tr>
-			<th field="provinceCode" width="100" sortable="true" editor="text">一段码</th>
+			<th field="provinceCode" width="100" sortable="true">一段码</th>
 			<th field="province" width="200" sortable="true" editor="text">省份名称</th>
 		</tr>
 	</thead>

@@ -277,6 +277,42 @@ function moduleEdit(){
 		}
 	});
 }
+function accept(){
+	if (endEditing()){
+		var rows=$('#dg').datagrid('getChanges');
+		for (var i = 0; i < rows.length; i++) {
+			var row=rows[i];
+			row._method="put";
+			row._header="${licence}";
+			var logt = (new Date(""+row.returnDate)).getTime();
+			$('#dg').datagrid('loading');
+			$.ajax({
+				url:"<%=path%>/api/sourceTp/"+row.courierNumber+","+logt+"?"+jsonObjTransToUrlparam(row),
+				type:"put",
+				dataType:"json",
+				success:function(data){
+					if(data){
+						$('#dg').datagrid('loaded');
+						var json;
+						if(isJson(data)){
+							json=data;
+						}else{
+							json = eval('('+data+')');
+						}
+						if(json.result=='success'){
+							$('#dg').datagrid('reload');
+							$("#dlg").dialog("close");
+						}else{
+							alert("错误:"+json.code+"  "+json.data);
+						}
+					}else{
+						alert("错误:网络错误");
+					}
+				}
+			});
+		}
+	}
+}
 </script>
 <table id="dg" border="true"
 		url="<%=path %>/api/sourceTp"
@@ -285,7 +321,15 @@ function moduleEdit(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="100" pageList="[100,500,1000]" >
+		pageSize="100" pageList="[100,500,1000]"
+		data-options="
+				rowStyler:function(index,row){
+					if (row.noUpdate){
+						return 'background-color:#FFCACF;';
+					}
+				},
+				onClickCell: onClickCell
+			">
 	
 </table>
 <div id="toolbar">
@@ -303,6 +347,7 @@ function moduleEdit(){
 		<div class="btn-separator-none">
 			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">保存</a>
 		</div>
 		<div class="btn-separator">
 			<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>
@@ -397,13 +442,6 @@ function moduleEdit(){
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
-		<div class="fitem">
-			<label>是否超时:</label>
-			<select name="isTimeOut">
-				<option value="0">否</option>
-				<option value="1">是</option>
-			</select>
-		</div>
 		<div class="fitem">
 			<label>异常原因:</label>
 			<input name="abnormalCause" required="true">
