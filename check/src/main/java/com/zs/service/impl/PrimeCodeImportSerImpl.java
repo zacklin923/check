@@ -114,7 +114,7 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 								null,list.get(i)[0],list.get(i)[1].trim().replace(",", ""),list.get(i)[2],list.get(i)[3],
 								b1,Trans.TimeForBig(tt1),b2,Trans.TimeForBig(tt2),b3,Trans.TimeForBig(tt3),
 								b4,Trans.TimeForBig(tt4),b5,Trans.TimeForBig(tt5),b6,Trans.TimeForBig(tt6),
-								b7,Trans.TimeForBig(tt4),b8,Trans.TimeForBig(tt8),b9,Trans.TimeForBig(tt9),
+								b7,Trans.TimeForBig(tt7),b8,Trans.TimeForBig(tt8),b9,Trans.TimeForBig(tt9),
 								b10,Trans.TimeForBig(tt10),b11,stuNum,new Date(),null);
 						primeCodeReportMapper.insertSelective(pcr);
 					}catch (Exception e) {

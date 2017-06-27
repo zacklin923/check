@@ -748,8 +748,8 @@
   <select id="getPerReport" resultMap="PerResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
   	select stu_num,sum(count_jd) c1,sum(hour_jd) c2,sum(count_cj) c3,sum(hour_cj) c4,sum(count_ly) c5,
   	sum(hour_ly) c6 ,sum(count_gd) c7,sum(hour_gd) c8,sum(count_lpcl) c9,sum(hour_lpcl) c10,
-  	sum(count_kscl) c11,sum(hour_kscl) c12,sum(count_qsb) c13,sum(count_qsb) c14,
-  	sum(count_tjcl) c15,sum(hour_tjcl) c16,sum(count_sd) c17,sum(count_sd) c18,sum(count_dd) c19,sum(count_dd) c20,sum(day_count) c21  
+  	sum(count_kscl) c11,sum(hour_kscl) c12,sum(count_qsb) c13,sum(hour_qsb) c14,
+  	sum(count_tjcl) c15,sum(hour_tjcl) c16,sum(count_sd) c17,sum(hour_sd) c18,sum(count_dd) c19,sum(hour_dd) c20,sum(day_count) c21  
   	from prime_code_report
   	<where>
   		<if test="str1!=null">
