@@ -2,6 +2,8 @@ package com.zs.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class VersionUpdate {
     private String verNum;
 
@@ -34,7 +36,7 @@ public class VersionUpdate {
     public void setVerStuNums(String verStuNums) {
         this.verStuNums = verStuNums == null ? null : verStuNums.trim();
     }
-
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

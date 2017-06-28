@@ -45,18 +45,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			url:"<%=path%>/api/version/last",
 			success:function(data){
 				if(data){
-					var json;
-					if(isJson(data)){
-						json=data;
-					}else{
-						json = eval('('+data+')');
+					if(data){
+						var json;
+						if(isJson(data)){
+							json=data;
+						}else{
+							json = eval('('+data+')');
+						}
+						var str="";
+						str=str+"<h3>版本号:"+json.verNum+"</h3>"+json.verDesc+"<br>更新时间："+json.createTime;
+						$("#version_update_desc").html(str);
+						$("#version_update").dialog("open");
 					}
-					$("#version_update_desc").html(json.verDesc);
-					$("#version_update").dialog("open");
 				}
 			}
 		});
 	});
+	function read(){
+		$('#version_update').dialog('close');
+		$.ajax({
+			url:'<%=path%>/api/version/last/read'
+		});
+	}
 	</script>
   </head>
   
@@ -142,15 +152,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					<div data-options="region:'center',split:true" title="签到" style="height:50%;padding:5px;">
 						<div class="easyui-calendar" style="width:70%;height:100%;display: inline-block;"></div> 
 						<div id="version_update" class="easyui-dialog" style="width:500px;height:300px;padding:10px 20px"
-							closed="true" modal="true" title="版本更新日志" data-options="
-								onClose:function(){
-									$.ajax({
-										url:'<%=path%>/api/version/last/read'
-									});
-								}
-							">
+							closed="true" modal="false" title="版本更新日志" buttons="#read_btn" resizable="true">
 							<div id="version_update_desc">
 							</div>
+						</div>
+						<div id="read_btn">
+							<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true" onclick="read()">不再显示</a>
+							<a class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true" onclick="javascript:$('#version_update').dialog('close')">我知道了</a>
 						</div>
 					</div>
   				</div>

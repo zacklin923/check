@@ -19,18 +19,24 @@ public interface CheckLogMapper {
 
     int insertSelective(CheckLog record);
 
+    List<CheckLog> selectByExampleWithBLOBs(CheckLogExample example);
+
     List<CheckLog> selectByExample(CheckLogExample example);
 
     CheckLog selectByPrimaryKey(BigDecimal id);
 
     int updateByExampleSelective(@Param("record") CheckLog record, @Param("example") CheckLogExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") CheckLog record, @Param("example") CheckLogExample example);
+
     int updateByExample(@Param("record") CheckLog record, @Param("example") CheckLogExample example);
 
     int updateByPrimaryKeySelective(CheckLog record);
 
+    int updateByPrimaryKeyWithBLOBs(CheckLog record);
+
     int updateByPrimaryKey(CheckLog record);
-  //-----------------------------
+	//-----------------------------
     List<CheckLog> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);
