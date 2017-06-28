@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,9 +20,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zs.entity.SourceZm;
+import com.zs.entity.other.EasyUIAccept;
+import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.ReportSignBean;
 import com.zs.service.ReportSignSer;
 import com.zs.service.SourceZmSer;
+import com.zs.service.ZmReturnDataSer;
+import com.zs.tools.BatchString;
+import com.zs.tools.ColumnName;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:spring-mybatis.xml")
@@ -32,6 +39,10 @@ public class ServiceTest extends AbstractJUnit4SpringContextTests{
 	private com.zs.service.SourceTpSer SourceTpSer;
 	@Resource
 	private ReportSignSer reportSignSer;
+	@Resource
+	private ZmReturnDataSer zmReturnDataSer;
+	
+	
 	
 	Gson gson=new Gson();
 	
@@ -78,5 +89,20 @@ public class ServiceTest extends AbstractJUnit4SpringContextTests{
 	public void obtainReportSign() {
 		reportSignSer.obtainReportSign("2017-06-01",null,null);
 	}
-
+	public void doQueryOfZm() {
+		EasyUIAccept accept=new EasyUIAccept();
+		if (accept!=null) {
+			try {
+				if(accept.getStr3()!=null){
+					accept.setStr3(BatchString.batchstr(accept.getStr3()));
+				}
+				if(accept.getStr2()!=null){
+					accept.setStr2(BatchString.batchstr(accept.getStr2()));
+				}
+				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

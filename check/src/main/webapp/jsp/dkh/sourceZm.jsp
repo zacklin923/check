@@ -52,10 +52,12 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${licence }");
-		url="<%=path%>/api/sourceZm/"+row.courierNumber+","+logt;
+		url="<%=path%>/api/zmReturnData/"+row.courierNumber;
 	}
 }
 function save(){
+	$("#dlg").dialog("close");
+	$('#dg').datagrid('loading');
 	$("#fm").form("submit",{
 		url:url,		
 		onSubmit:function(){
@@ -71,7 +73,7 @@ function save(){
 				}
 				if(json.result=='success'){
 					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");
+					$('#dg').datagrid('loaded');
 				}else{
 					alert("错误:"+json.code);
 				}
@@ -108,7 +110,7 @@ function excel_export(){
     };
 	$("#exportvalue").val(str);
 	$("#search").form("submit",{
-		url:"<%=path%>/api/sourceZm/exportExceltest",
+		url:"<%=path%>/api/zmReturnData/zm/exportExceltest",
 		onSubmit: function(){   
 		},   
 	    success:function(data){   
@@ -137,7 +139,7 @@ function checkIsUal(){
 	}else{
 		show_hint([]);
 		$.ajax({
-			url:"<%=path%>/api/sourceZm/isLoading",
+			url:"<%=path%>/api/zmReturnData/isLoading",
 			success:function(data){
 				a=data;
 			}
@@ -149,12 +151,12 @@ function checkIsUal(){
 		alert("请到导入数据错误处查看是否有错误数据")
 	}
 }
-
+/*
 function dblclick(rowIndex, rowData){
 	$("#dlg_history").dialog("open");
 	if(rowData.courierNumber){
 		$("#dg_history").datagrid({
-			url:"<%=path%>/api/sourceZm/"+rowData.courierNumber+"/history",
+			url:"",
 			loadFilter: function(data){
 				var a=eval('('+"{'total':'0',rows:''}"+')');
 				if (data){
@@ -176,6 +178,7 @@ function dblclick(rowIndex, rowData){
 		});
 	}
 }
+*/
 $(function(){
 	checkIsUal();
 });
@@ -183,7 +186,7 @@ function upload(){
 	$("#fileImport").dialog("close");
 	show_hint([]);
 	$("#fmfile").form("submit",{
-		url:"<%=path %>/api/sourceZm/import",		
+		url:"<%=path %>/api/zmReturnData/zm/import",		
 		onSubmit:function(){
 			return $(this).form('validate');
 		},
@@ -238,10 +241,13 @@ function moduleEdit(){
         }
     };
     str=str+str1+"_运单信息查询";
+	$("#mbedit").dialog("close");	
+    $('#dg').datagrid('loading');
     $.ajax({
 		url:"<%=path%>/api/module/"+str,
 		type:"PUT",
 		success:function(data){
+			$('#dg').datagrid('loaded');
 			if(data){
 				var json;
 				if(isJson(data)){
@@ -273,7 +279,7 @@ function accept(){
 			var logt = (new Date(""+row.returnDate)).getTime();
 			$('#dg').datagrid('loading');
 			$.ajax({
-				url:"<%=path%>/api/sourceZm/"+row.courierNumber+","+logt+"?"+jsonObjTransToUrlparam(row),
+				url:"<%=path%>/api/zmReturnData/"+row.courierNumber+"?"+jsonObjTransToUrlparam(row),
 				type:"put",
 				dataType:"json",
 				success:function(data){
@@ -301,7 +307,7 @@ function accept(){
 }
 </script>
 <table id="dg" border="true"
-		url="<%=path %>/api/sourceZm"
+		url="<%=path %>/api/zmReturnData/zm"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
@@ -310,7 +316,7 @@ function accept(){
 		pageSize="100" pageList="[100,500,1000]"
 		data-options="
 				rowStyler:function(index,row){
-					if (row.noUpdate){
+					if (row.noUpdateProvince){
 						return 'background-color:#FFCACF;';
 					}
 				},
@@ -414,6 +420,7 @@ function accept(){
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
+		<input type="hidden" name="courierNumber"/>
 		<div class="fitem">
 			<label>省份:</label>
 			<input name="province" required="true">
@@ -465,6 +472,7 @@ function accept(){
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:500px;height:300px;padding:10px 20px"
 		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceZm.jsp" cache="true">
 </div>
+<!-- 
 <div id="dlg_history" title="快件信息>运单信息查询>历史数据" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:100%;"
 		closed="true" modal="false" collapsible="true" cache="true" resizable="true" resizable="true">
 	<table id="dg_history" border="false"
@@ -529,6 +537,7 @@ function accept(){
 		</thead>
 	</table>
 </div>
+ -->
 <div id="exportdiv" class="easyui-dialog" style="width:400px;height:400px;padding:10px 20px"
 		closed="true" buttons="#exportdiv-buttons" modal="true" title="导出选项">
 		请选择你需要导出的列：
@@ -551,10 +560,9 @@ function accept(){
 			<div><input type="checkbox" name="exportline" value="17"/>物品</div>
 			<div><input type="checkbox" name="exportline" value="18"/>创建日期</div>
 			<div><input type="checkbox" name="exportline" value="19"/>状态</div>
-			<div><input type="checkbox" name="exportline" value="20"/>返回日期</div>
-			<div><input type="checkbox" name="exportline" value="21"/>订单编号</div>
-			<div><input type="checkbox" name="exportline" value="22"/>超时时间</div>
-			<div><input type="checkbox" name="exportline" value="23"/>系统接收时间</div>
+			<div><input type="checkbox" name="exportline" value="20"/>订单编号</div>
+			<div><input type="checkbox" name="exportline" value="21"/>超时时间</div>
+			<div><input type="checkbox" name="exportline" value="22"/>系统接收时间</div>
 </div>
 <div id="exportdiv-buttons">
 	<a class="easyui-linkbutton"  onclick="selectAll()">全选/全不选</a>
@@ -562,7 +570,7 @@ function accept(){
 	<a class="easyui-linkbutton" iconCls="icon-ok" onclick="excel_export()">导出</a>
 	<a class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
-<div id="mbedit"class="easyui-dialog" style="width:650px;height:400px;padding:10px 20px"
+<div id="mbedit" class="easyui-dialog" style="width:650px;height:400px;padding:10px 20px"
 		closed="true" buttons="#mbedit-buttons" modal="true" title="模板编辑">
 		<form id="moduleform" method="post">
 			<span style="font-size:20px;color:red;">顺序从0开始，全不选代表为最原始的状态</span>

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.zs.dao.CheckLogMapper;
 import com.zs.dao.StaffUserMapper;
 import com.zs.entity.CheckLog;
@@ -22,6 +23,7 @@ public class CheckLogSerImpl implements CheckLogSer{
 	private CheckLogMapper checkLogMapper;
 	@Resource
 	private StaffUserMapper userMapper;
+	private final Gson gson=new Gson();
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -60,5 +62,23 @@ public class CheckLogSerImpl implements CheckLogSer{
 	public CheckLog get(BigDecimal id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**张顺，2017-6-27
+	 * 异步存储方法,之所以要异步，因为存储导入，导出，查询的日志时，gson会转很大的数据，会非常耗时，故采用异步
+	 */
+	public void saveOfAsyn(final CheckLog log,final Object oldData,final Object bigData) {
+		new Thread(){
+			@Override
+			public void run() {
+				try {
+					log.setOlddata(gson.toJson(oldData));
+					log.setBigdata(gson.toJson(bigData));
+					checkLogMapper.insertSelective(log);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
 	}
 }

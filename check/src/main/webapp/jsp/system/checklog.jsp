@@ -40,11 +40,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								return '运单信息查询';
                           }else if(value =='source_import'){
 								return '导入数据';
+                          }else{
+                          	return value;
                           }
                       }" width="200">操作表名</th>
 			<th field="logisticcode" width="150" sortable="true">操作单号</th>
-			<th field="idDate" width="100">时间</th>
+			<th field="idDate" width="100">id时间</th>
 			<th field="olddata" width="800">原数据</th>
+			<th field="bigdata" width="800">大数据</th>
 		</tr>
 	</thead>
 </table>
