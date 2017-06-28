@@ -22,6 +22,16 @@ public class CheckLog {
 
     private String type;
 
+    private String bigdata;
+	//--张顺，2017-6-27，用于规范类型----------
+    public static final String TYPE_QUERY="查询";
+    public static final String TYPE_ADD="添加";
+    public static final String TYPE_UPDATE="修改";
+    public static final String TYPE_DELETE="删除";
+    public static final String TYPE_GET="查看";
+    public static final String TYPE_IMPORT="导入";
+    public static final String TYPE_EXPORT="导出";
+	
     public BigDecimal getId() {
         return id;
     }
@@ -37,8 +47,7 @@ public class CheckLog {
     public void setLogisticcode(String logisticcode) {
         this.logisticcode = logisticcode == null ? null : logisticcode.trim();
     }
-
-    @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
     public Date getIdDate() {
         return idDate;
     }
@@ -62,8 +71,7 @@ public class CheckLog {
     public void setOlddata(String olddata) {
         this.olddata = olddata == null ? null : olddata.trim();
     }
-
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss.SSS",timezone = "GMT+8")
     public Date getCretetime() {
         return cretetime;
     }
@@ -88,6 +96,13 @@ public class CheckLog {
         this.type = type == null ? null : type.trim();
     }
 
+    public String getBigdata() {
+        return bigdata;
+    }
+
+    public void setBigdata(String bigdata) {
+        this.bigdata = bigdata == null ? null : bigdata.trim();
+    }
 	public CheckLog(BigDecimal id, String logisticcode, Date idDate, String tablename, String olddata, Date cretetime,
 			String userNumber, String type) {
 		super();
@@ -104,6 +119,34 @@ public class CheckLog {
 	public CheckLog() {
 		super();
 	}
-    
-    
+
+	public CheckLog(String logisticcode, String tablename, String olddata, String userNumber, String type,
+			String bigdata) {
+		super();
+		this.logisticcode = logisticcode;
+		this.tablename = tablename;
+		this.olddata = olddata;
+		this.userNumber = userNumber;
+		this.type = type;
+		this.bigdata = bigdata;
+	}
+
+	public CheckLog(String tablename, String olddata, String userNumber, String type, String bigdata) {
+		super();
+		this.tablename = tablename;
+		this.olddata = olddata;
+		this.userNumber = userNumber;
+		this.type = type;
+		this.bigdata = bigdata;
+	}
+
+	public CheckLog(String logisticcode, String tablename, String userNumber, String type) {
+		super();
+		this.logisticcode = logisticcode;
+		this.tablename = tablename;
+		this.userNumber = userNumber;
+		this.type = type;
+	}
+
+	
 }

@@ -97,7 +97,9 @@ public class RoleInter extends HandlerInterceptorAdapter{
 				|| url.equals("/check/api/reportMonth/style")
 				|| url.contains("/api/provinceCode/province")
 				|| url.contains("/api/version")
-				|| url.contains("/api/sourceTp/isLoading")) {
+				|| url.contains("/api/sourceTp/isLoading")
+				|| url.contains("/api/zmReturnData/isLoading")
+				) {
 			return true;
 		}
 		if (user==null) {
@@ -140,9 +142,11 @@ public class RoleInter extends HandlerInterceptorAdapter{
 			log.error("没有这个权限   "+url+"  "+method);
 			Result<String> result=new Result<String>(BaseRestController.ERROR, Code.PERMISSION_NO_EXIST, "该模块还没有设计权限，暂时不能操作");
 			PrintWriter pw=resp.getWriter();
-			pw.print(gson.toJson(result));
-			pw.flush();
-			pw.close();
+			if(pw!=null){
+				pw.print(gson.toJson(result));
+				pw.flush();
+				pw.close();
+			}
 			return false;
 		}
 	}

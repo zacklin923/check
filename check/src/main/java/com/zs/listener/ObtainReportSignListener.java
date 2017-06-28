@@ -33,6 +33,10 @@ public class ObtainReportSignListener implements ServletContextListener{
 		thread=null;
 	}
 	
+	/**
+	 * 每天14点计算昨天的数据
+	 * @author 张顺，2017-6-26
+	 */
 	private class ObtainThread implements Runnable{
 		private ReportSignSer reportSignSer;
 		private Calendar calendar;
@@ -52,6 +56,7 @@ public class ObtainReportSignListener implements ServletContextListener{
 					calendar=Calendar.getInstance();
 					if (calendar.get(Calendar.HOUR_OF_DAY)==SEND_TIME_HOUR && hasPushedOnDay==false) {
 						log.error("[签收报表]我走了一次");
+						Date d1=new Date();
 						Calendar calendar=Calendar.getInstance();
 						calendar.add(Calendar.DATE, -1);
 						Date d=calendar.getTime();
@@ -60,13 +65,15 @@ public class ObtainReportSignListener implements ServletContextListener{
 						reportSignSer.obtainReportSign(date,null,null);
 						reportSignSer.obtainReportSignUpdate();
 						hasPushedOnDay=true;
+						Date d2=new Date();
+						log.error("[签收报表]本次计算的是["+date+"]的数据，耗时["+(d2.getTime()-d1.getTime())+"ms]");
 					}else{
 						if (calendar.get(Calendar.HOUR_OF_DAY)!=SEND_TIME_HOUR && hasPushedOnDay==true) {
 							log.error("[签收报表]我改了一次");
 							hasPushedOnDay=false;
 						}
 						Thread.sleep(10000);
-						log.error("[签收报表]我在正常的循环");
+//						log.error("[签收报表]我在正常的循环");
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();

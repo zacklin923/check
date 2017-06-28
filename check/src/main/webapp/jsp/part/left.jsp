@@ -57,7 +57,7 @@ if(request.getSession().getAttribute("target")==null){
 	        <li><span><a href="<%=path %>/sourceTp" target="${target }">运单状态查询</a></span></li>
         </ul>
 	</div>
-	<div title="报表" data-options="iconCls:'icon-ok'" style="padding:10px;">
+	<div title="报表" data-options="iconCls:'icon-zs-form-table'" style="padding:10px;">
 		<ul id="tt" class="easyui-tree" data-options="animate:true,lines:true">
        		<li><span><a href="<%=path %>/reportDate" target="${target }">日报表</a></span></li>
        		<li><span><a href="<%=path %>/reportMonth" target="${target }">月报表</a></span></li>

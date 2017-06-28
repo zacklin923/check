@@ -53,16 +53,19 @@ function updateObj(){
 		$("#fm").form("load",row);
 		$("#fm input[name='_method']").val("put");
 		$("#fm input[name='_header']").val("${licence }");
-		url="<%=path%>/api/sourceTp/"+row.courierNumber+","+logt;
+		url="<%=path%>/api/zmReturnData/"+row.courierNumber;
 	}
 }
 function save(){
+	$("#dlg").dialog("close");
+	$('#dg').datagrid('loading');
 	$("#fm").form("submit",{
 		url:url,		
 		onSubmit:function(){
 			return $(this).form('validate');
 		},
 		success:function(data){
+			$('#dg').datagrid('loaded');
 			if(data){
 				var json;
 				if(isJson(data)){
@@ -109,7 +112,7 @@ function excel_export(){
     };
 	$("#exportvalue").val(str);
 	$("#search").form("submit",{
-		url:"<%=path%>/api/sourceTp/exportExceltest",
+		url:"<%=path%>/api/zmReturnData/tp/exportExceltest",
 		onSubmit: function(){   
 		},   
 	    success:function(data){   
@@ -138,7 +141,7 @@ function checkIsUal(){
 	}else{
 		show_hint([]);
 		$.ajax({
-			url:"<%=path%>/api/sourceTp/isLoading",
+			url:"<%=path%>/api/zmReturnData/isLoading",
 			success:function(data){
 				a=data;
 			}
@@ -150,11 +153,12 @@ function checkIsUal(){
 		alert("请到导入数据错误处查看是否有错误数据")
 	}
 }
+/*
 function dblclick(rowIndex, rowData){
 	$("#dlg_history").dialog("open");
 	if(rowData.courierNumber){
 		$("#dg_history").datagrid({
-			url:"<%=path%>/api/sourceTp/"+rowData.courierNumber+"/history",
+			url:"",
 			loadFilter: function(data){
 				var a=eval('('+"{'total':'0',rows:''}"+')');
 				if (data){
@@ -176,6 +180,7 @@ function dblclick(rowIndex, rowData){
 		});
 	}
 }
+*/
 $(function(){
 	checkIsUal();
 });
@@ -183,7 +188,7 @@ function upload(){
 	$("#fileImport").dialog("close");
 	show_hint([]);
 	$("#fmfile").form("submit",{
-		url:"<%=path %>/api/sourceTp/import",		
+		url:"<%=path %>/api/zmReturnData/tp/import",		
 		onSubmit:function(){
 			return $(this).form('validate');
 		},
@@ -287,7 +292,7 @@ function accept(){
 			var logt = (new Date(""+row.returnDate)).getTime();
 			$('#dg').datagrid('loading');
 			$.ajax({
-				url:"<%=path%>/api/sourceTp/"+row.courierNumber+","+logt+"?"+jsonObjTransToUrlparam(row),
+				url:"<%=path%>/api/zmReturnData/"+row.courierNumber+"?"+jsonObjTransToUrlparam(row),
 				type:"put",
 				dataType:"json",
 				success:function(data){
@@ -315,7 +320,7 @@ function accept(){
 }
 </script>
 <table id="dg" border="true"
-		url="<%=path %>/api/sourceTp"
+		url="<%=path %>/api/zmReturnData/tp"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
@@ -324,7 +329,7 @@ function accept(){
 		pageSize="100" pageList="[100,500,1000]"
 		data-options="
 				rowStyler:function(index,row){
-					if (row.noUpdate){
+					if (row.noUpdateDeliveryState){
 						return 'background-color:#FFCACF;';
 					}
 				},
@@ -413,6 +418,11 @@ function accept(){
 	    		</div>
 	    		<input type="hidden" name ="str7" id = "exportvalue"/>
 	   		</div>
+	   		<div class="searchBar-input1">
+	    		<div>
+	    			地址：<input name ="str15" />
+	    		</div>
+	   		</div>
 			<div style="float: left;width:220px;height:105px;">
 	    		<span style="float:left;font-size:14px;display: block;margin-left:10px;">配送状态：</span>
 				<div style="float:left;font-size:13px;margin-left:10px;">
@@ -442,6 +452,7 @@ function accept(){
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
+		<input type="hidden" name="courierNumber"/>
 		<div class="fitem">
 			<label>异常原因:</label>
 			<input name="abnormalCause" required="true">
@@ -510,6 +521,7 @@ function accept(){
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:100%;padding:10px 20px"
 		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceTp.jsp" cache="true" resizable="true">
 </div>
+<!-- 
 <div id="dlg_history" title="快件信息>运单状态查询>历史数据" class="easyui-dialog" iconCls="icon-help" style="width:1400px;height:800px;"
 		closed="true" modal="false" collapsible="true" cache="true">
 	<table id="dg_history" border="false"
@@ -578,6 +590,7 @@ function accept(){
 		</thead>
 	</table>
 </div>
+ -->
 <div id="exportdiv" class="easyui-dialog" style="width:400px;height:400px;padding:10px 20px"
 		closed="true" buttons="#exportdiv-buttons" modal="true" title="导出选项">
 		请选择你需要导出的列：
@@ -606,7 +619,6 @@ function accept(){
 			<div><input type="checkbox" name="exportline" />物品</div>
 			<div><input type="checkbox" name="exportline" />物品价值</div>
 			<div><input type="checkbox" name="exportline" />费用</div>
-			<div><input type="checkbox" name="exportline" />返回日期</div>
 </div>                                                      
 <div id="exportdiv-buttons">                                
 	<a class="easyui-linkbutton"  onclick="selectAll()">全选/全不选</a>

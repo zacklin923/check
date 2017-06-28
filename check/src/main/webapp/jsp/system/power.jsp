@@ -181,7 +181,12 @@ function excel_export(){
 		</div>
 		<div class="fitem">
 			<label>method:</label>
-			<input name="stpMethod" class="easyui-validatebox" required="true">
+			<select name="stpMethod" style="width: 280px;">
+				<option value="GET">GET</option>
+				<option value="POST">POST</option>
+				<option value="PUT">PUT</option>
+				<option value="DELETE">DELETE</option>
+			</select>
 		</div>
 	</form>
 </div>
