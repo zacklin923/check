@@ -147,6 +147,14 @@ public class Trans {
 		return null;
 	}
 	
+	public static BigDecimal toBigDecimal0(String str){
+		if (str!=null && !str.trim().equals("")) {
+			str=str.replace("," , "");
+			return new BigDecimal(str);
+		}
+		return new BigDecimal(0);
+	}
+	
 	public static String tostring(String str){
 		if(str!=null){
 			str=str.trim();
@@ -201,6 +209,29 @@ public class Trans {
 	public static String BigDecimalForHours(BigDecimal b){
 		if(b!=null){
 			Integer it = Integer.parseInt(b.toString());
+			Integer h =it/3600;
+			Integer m =(it%3600)/60;
+			Integer s =(it%3600)%60;
+			String mm = "";
+			String ss = "";
+			if(m<10){
+				mm="0"+m;
+			}else{
+				mm=""+m;
+			}
+			if(s<10){
+				ss="0"+s;
+			}else{
+				ss=""+s;
+			}
+			return h + ":" +mm+":"+ss;
+		}else{
+			return 0+":00"+":00";
+		}
+	}
+	
+	public static String intForHours(int it){
+		if(it!=0){
 			Integer h =it/3600;
 			Integer m =(it%3600)/60;
 			Integer s =(it%3600)%60;
