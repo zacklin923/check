@@ -38,10 +38,11 @@
 	<listener>  
 	  <listener-class>com.zs.listener.SendToZmListener</listener-class>  
 	</listener>
+	 -->
 	<listener>  
 	  <listener-class>com.zs.listener.ObtainReportSignListener</listener-class>  
 	</listener>
-	 -->
+	
 	<listener>  
 	  <listener-class>com.zs.listener.KdniaoData</listener-class>  
 	</listener>

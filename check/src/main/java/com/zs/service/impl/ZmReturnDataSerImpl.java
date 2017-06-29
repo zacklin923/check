@@ -65,8 +65,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 	/*有省份判断，和配送状态判断*/
 	public Integer update(ZmReturnData obj,HttpServletRequest req) {
 		StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
-		checkUpdateProvince(obj, user.getStuNum());
-		checkUpdateDeliveryState(obj, user.getStuNum());
+		if(user!=null){
+			checkUpdateProvince(obj,user.getStuNum());
+			checkUpdateDeliveryState(obj, user.getStuNum());
+		}
 		Integer i=zmReturnDataMapper.updateByPrimaryKeySelective(obj);
 		//添加信息到日志表
 		CheckLog clog = new CheckLog(obj.getCourierNumber(),"zm_return_data",user==null?null:user.getStuNum(), CheckLog.TYPE_UPDATE);
