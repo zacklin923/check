@@ -599,7 +599,7 @@
     COURIER_NUMBER, SEND_TIME, CTM_NAME, CTM_BAR_CODE, PROVINCE, ADDRESS, 
     DELIVERY_STATE, SIGNATORY, ADDRESSEE, SIGN_TIME, ABNORMAL_CAUSE, ORDER_NUMBER, 
     SHOP_NUMBER, PHONE, WEIGHT, COURIER_COMPANY, GOODS, GOODS_COST, FEE, UPDATE_TIME, 
-    LARGE_AREA, SLICE_AREA, FENBU, CREATE_DATE, FBD_AREA, SIGN_PORT
+    LARGE_AREA, SLICE_AREA, FENBU, CREATE_DATE, FBD_AREA, SIGN_PORT,TIME_OUT
   </sql>
   <resultMap id="ReportSignResultMap" type="com.zs.entity.ReportSign" >
     <id column="CTM_BAR_CODE" property="ctmBarCode" jdbcType="VARCHAR" />
@@ -662,9 +662,20 @@
 		  		<if test="int1!=null">
 		  			and COURIER_STATE = #{int1}
 		  		</if>
+		  		and 
+		  		(
+		  		LARGE_AREA is not null
+		  		or slice_area is not null
+		  		or fenbu is not null
+		  		or fbd_area is not null
+		  		or ctm_bar_code is not null
+		  		or send_time is not null
+		  		or weight is not null
+		  		or province is not null
+		  		) 
 		    </where>
 		    <if test="sort!=null and order!=null">
-		  		order by ${sort} ${order},UPDATE_TIME desc , 
+		  		order by ${sort} ${order},UPDATE_TIME desc
 		  	</if>
 		  	<if test="sort==null or order==null">
 		  		order by UPDATE_TIME desc
@@ -727,6 +738,17 @@
   		<if test="int1!=null">
   			and COURIER_STATE = #{int1}
   		</if>
+  		and 
+  		(
+  		LARGE_AREA is not null
+  		or slice_area is not null
+  		or fenbu is not null
+  		or fbd_area is not null
+  		or ctm_bar_code is not null
+  		or send_time is not null
+  		or weight is not null
+  		or province is not null
+  		) 
     </where>	
   </select>
   <select id="querySendToZm2" resultMap="BaseResultMap" parameterType="java.util.Date">
@@ -805,8 +827,20 @@
 		  			and ADDRESS like '%${str15}%'
 		  		</if>
 			  	<if test="int1!=null">
-			  		and IS_TIME_OUT = #{int1}
+			  		and 
+			  		(case  
+			  		when DELIVERY_STATE='配送成功' and sign_time>time_out then 1
+			  		when DELIVERY_STATE in ('配送中','揽件') and sysdate>time_out then 1
+			  		when DELIVERY_STATE='配送成功' and sign_time &lt;= time_out then 0
+			  		when DELIVERY_STATE in ('配送中','揽件') and sysdate &lt;= time_out then 0
+			  		else 2 end)=#{int1}
 			  	</if>
+			  	and
+			  	(
+			  	delivery_state is not null
+			  	or sign_time is not null
+			  	or sign_port is not null
+			  	)
 		    </where>
 		    <if test="sort!=null and order!=null">
 		  		order by ${sort} ${order},UPDATE_TIME desc
@@ -879,8 +913,20 @@
   			and ADDRESS like '%${str15}%'
   		</if>
 	  	<if test="int1!=null">
-	  		and IS_TIME_OUT = #{int1}
+	  		and 
+	  		(case  
+	  		when DELIVERY_STATE='配送成功' and sign_time>time_out then 1
+	  		when DELIVERY_STATE in ('配送中','揽件') and sysdate>time_out then 1
+	  		when DELIVERY_STATE='配送成功' and sign_time &lt;= time_out then 0
+	  		when DELIVERY_STATE in ('配送中','揽件') and sysdate &lt;= time_out then 0
+	  		else 2 end)=#{int1}
 	  	</if>
+	  	and
+	  	(
+	  	delivery_state is not null
+	  	or sign_time is not null
+	  	or sign_port is not null
+	  	)
     </where>		
   </select>
   <select id="queryByNumberOfTp" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
@@ -900,8 +946,9 @@
 	 from
 	 (select
 	  '深圳' as begin_city,
-	   ctm_name,
-	   CTM_BAR_CODE,PROVINCE, 
+	   max(ctm_name) as ctm_name,
+	   CTM_BAR_CODE,
+	   PROVINCE, 
 	   to_date(to_char(max(SEND_TIME),'yyyy-MM-dd'),'yyyy-MM-dd') as SEND_TIME,
 	   count(ctm_bar_code) as total_send
 	    from ZM_RETURN_DATA
@@ -916,7 +963,7 @@
 	    and province = #{province}
 	    </if>
 	    group by 
-	    CTM_BAR_CODE,PROVINCE,ctm_name)a
+	    CTM_BAR_CODE,PROVINCE)a
 	    left join 
 	    (select * from time_limit) b
 	    on a.province=b.end_province

@@ -340,11 +340,11 @@
   </delete>
   <select id="obtainOfCtmAndProvince" resultMap="BeanResultMap">
 	select
-		begin_city,
-		ctm_name,
+		max(begin_city) as begin_city,
+		max(ctm_name) as ctm_name,
 		ctm_bar_code,
 		province,
-		cost_hour,
+		max(cost_hour) as cost_hour,
 		case when sum(total_send) =0 then 0 else sum(total_succ)/sum(total_send) end as ratioSign,
 		case when sum(total_succ) =0 then 0 else sum(total_succ_timeout)/sum(total_succ) end as ratioTimeout
 	from report_sign
@@ -355,15 +355,15 @@
 	<if test="str2!=null and str2!=''">
 		and ctm_bar_code like '%${str2}%'
 	</if>
-	group by ctm_bar_code,province,cost_hour,ctm_name,begin_city
+	group by ctm_bar_code,province
 	<if test="sort!=null and order!=null">
   		order by ${sort} ${order}
   	</if>
   </select>
   <select id="obtainOfCtm" resultMap="BeanResultMap">
 	select
-		begin_city,
-		ctm_name,
+		max(begin_city) as begin_city,
+		max(ctm_name) as ctm_name,
 		ctm_bar_code,
 		case when sum(total_send) =0 then 0 else sum(total_succ)/sum(total_send) end as ratioSign,
 		case when sum(total_succ) =0 then 0 else sum(total_succ_timeout)/sum(total_succ) end as ratioTimeout
@@ -375,7 +375,7 @@
 	<if test="str2!=null and str2!=''">
 		and ctm_bar_code like '%${str2}%'
 	</if>
-	group by ctm_bar_code,ctm_name,begin_city
+	group by ctm_bar_code
 	<if test="sort!=null and order!=null">
   		order by ${sort} ${order}
   	</if>

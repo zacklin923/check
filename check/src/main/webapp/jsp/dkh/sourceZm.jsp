@@ -17,13 +17,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-$(function(){
-	stylesheet();
-});
 function stylesheet(){
+	var a;
 	$.ajax({
 		url:"<%=path%>/api/customer/style/2",
 		type:"GET",
+		async:false,
 		success:function(data){
 			var json;
 			if(isJson(data)){
@@ -34,14 +33,13 @@ function stylesheet(){
 			if(json.result=='success'){
 				var str = json.data;
 				s="[["+str+"]]";
-				options={};
-				options.columns = eval(s)
-				$('#dg').datagrid(options);   
+				a=eval(s);
 			}else{
 				alert("错误:"+json.code);
 			}
 		}
 	});
+	return a;
 }
 var url;
 function updateObj(){
@@ -214,7 +212,7 @@ function upload(){
 		}
 	});
 }
-function search_toolbar1(){
+function search_toolbar(){
 	var f=$('#search');
 	if(f.form('validate')){
 		var json=formToJson(f);
@@ -227,6 +225,7 @@ function search_toolbar1(){
 			var str2 = json.str2.replace(reg,",");
 			json.str2=str2;
 		}
+		isDgInit=true;
 		$('#dg').datagrid('load', json);
 	}
 }
@@ -257,13 +256,12 @@ function moduleEdit(){
 				}
 				if(json.result=='success'){
 					$('#mbedit').dialog('close');
-					stylesheet();
+					setColumns(stylesheet());
 				}else{
 					$('#mbedit').dialog('close');
 					alert("错误:"+json.code+"错误原因："+json.data);
 				}
 			}else{
-				hiden_hint();
 				alert("错误:网络错误");
 			}
 		}
@@ -405,7 +403,7 @@ function accept(){
 	   	</form>
 	   	<div class="clear"></div>
 	   	<hr class="hr-geay">
-		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
 		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
 		<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
 		<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>

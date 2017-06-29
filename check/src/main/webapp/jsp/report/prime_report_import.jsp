@@ -190,6 +190,7 @@ function search_toolbar1(){
 			json.str4=str4;
 			console.log(str4);
 		}
+		isDgInit=true;
 		$('#dg').datagrid('load', json);
 	}
 }
