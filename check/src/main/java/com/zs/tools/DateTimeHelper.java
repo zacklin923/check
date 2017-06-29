@@ -114,6 +114,33 @@ public class DateTimeHelper {
 		return calendar.getTime();
 	}
 	
+	/**
+	 * @author John丶辉
+	 * 得到传入时间的当天的7.59
+	 * @param date
+	 * @return
+	 */
+	public static Date getendnewdate8(Date date){
+		Calendar calendar=Calendar.getInstance();
+		calendar.set(date.getYear()+1900,date.getMonth(),date.getDate(),7,59,59);
+		calendar.set(Calendar.MILLISECOND ,0);
+		return calendar.getTime();
+	}
+	
+	/**
+	 * @author John丶辉
+	 * 得到传入时间的昨天的8点
+	 * @param date
+	 * @return
+	 */
+	public static Date getstartolddate8(Date date){
+		Calendar calendar=Calendar.getInstance();
+		calendar.set(date.getYear()+1900,date.getMonth(),date.getDate()-1,8,0,0);
+		calendar.set(Calendar.MILLISECOND ,0);
+		return calendar.getTime();
+	}
+	
+	
 	public static MyDate getolddate(){
 		Calendar calendar=Calendar.getInstance();
 		Date date = new Date();

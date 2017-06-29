@@ -99,22 +99,22 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 					lists.add((i+1)+"行用时"); 
 				}else{
 					try{             
-						BigDecimal b1 = Trans.toBigDecimal(list.get(i)[4]);
-						BigDecimal b2 = Trans.toBigDecimal(list.get(i)[6]);
-						BigDecimal b3  = Trans.toBigDecimal(list.get(i)[8]);
-						BigDecimal b4  = Trans.toBigDecimal(list.get(i)[10]);
-						BigDecimal b5  = Trans.toBigDecimal(list.get(i)[12]);
-						BigDecimal b6  = Trans.toBigDecimal(list.get(i)[14]);
-						BigDecimal b7  = Trans.toBigDecimal(list.get(i)[16]);
-						BigDecimal b8  = Trans.toBigDecimal(list.get(i)[18]);
-						BigDecimal b9  = Trans.toBigDecimal(list.get(i)[20]);
-						BigDecimal b10 = Trans.toBigDecimal(list.get(i)[22]);
-						BigDecimal b11 = Trans.toBigDecimal(list.get(i)[24]);
+						BigDecimal b1 = Trans.toBigDecimal0(list.get(i)[4]);
+						BigDecimal b2 = Trans.toBigDecimal0(list.get(i)[6]);
+						BigDecimal b3  = Trans.toBigDecimal0(list.get(i)[8]);
+						BigDecimal b4  = Trans.toBigDecimal0(list.get(i)[10]);
+						BigDecimal b5  = Trans.toBigDecimal0(list.get(i)[12]);
+						BigDecimal b6  = Trans.toBigDecimal0(list.get(i)[14]);
+						BigDecimal b7  = Trans.toBigDecimal0(list.get(i)[16]);
+						BigDecimal b8  = Trans.toBigDecimal0(list.get(i)[18]);
+						BigDecimal b9  = Trans.toBigDecimal0(list.get(i)[20]);
+						BigDecimal b10 = Trans.toBigDecimal0(list.get(i)[22]);
+						BigDecimal b11 = Trans.toBigDecimal0(list.get(i)[24]);
 						PrimeCodeReport pcr = new PrimeCodeReport(
 								null,list.get(i)[0],list.get(i)[1].trim().replace(",", ""),list.get(i)[2],list.get(i)[3],
 								b1,Trans.TimeForBig(tt1),b2,Trans.TimeForBig(tt2),b3,Trans.TimeForBig(tt3),
 								b4,Trans.TimeForBig(tt4),b5,Trans.TimeForBig(tt5),b6,Trans.TimeForBig(tt6),
-								b7,Trans.TimeForBig(tt4),b8,Trans.TimeForBig(tt8),b9,Trans.TimeForBig(tt9),
+								b7,Trans.TimeForBig(tt7),b8,Trans.TimeForBig(tt8),b9,Trans.TimeForBig(tt9),
 								b10,Trans.TimeForBig(tt10),b11,stuNum,new Date(),null);
 						primeCodeReportMapper.insertSelective(pcr);
 					}catch (Exception e) {
@@ -128,7 +128,7 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 		}else if(lists.size()>0){
 			return new Gson().toJson(lists);
 		}else{
-			return "导入成功，共导入"+list.size()+"条数据，全部成功";
+			return "导入成功，共导入"+(list.size()-2)+"条数据，全部成功";
 		}
 	}
 
@@ -283,25 +283,25 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 			prm.setStuNum(str);
 			objs[i][0]=prm.getStuNum();
 			objs[i][1]=prm.getC1()+"";
-			objs[i][2]=prm.getC2()+"";
+			objs[i][2]=Trans.intForHours(prm.getC2());
 			objs[i][3]=prm.getC3()+"";
-			objs[i][4]=prm.getC4()+"";
+			objs[i][4]=Trans.intForHours(prm.getC4());
 			objs[i][5]=prm.getC5()+"";
-			objs[i][6]=prm.getC6()+"";
+			objs[i][6]=Trans.intForHours(prm.getC6());
 			objs[i][7]=prm.getC7()+"";
-			objs[i][8]=prm.getC8()+"";
+			objs[i][8]=Trans.intForHours(prm.getC8());
 			objs[i][9]=prm.getC9()+"";
-			objs[i][10]=prm.getC10()+"";;
+			objs[i][10]=Trans.intForHours(prm.getC10());
 			objs[i][11]=prm.getC11()+"";;
-			objs[i][12]=prm.getC12()+"";;
+			objs[i][12]=Trans.intForHours(prm.getC12());
 			objs[i][13]=prm.getC13()+"";;
-			objs[i][14]=prm.getC14()+"";;
+			objs[i][14]=Trans.intForHours(prm.getC14());
 			objs[i][15]=prm.getC15()+"";;
-			objs[i][16]=prm.getC16()+"";;
+			objs[i][16]=Trans.intForHours(prm.getC16());
 			objs[i][17]=prm.getC17()+"";;
-			objs[i][18]=prm.getC18()+"";;
+			objs[i][18]=Trans.intForHours(prm.getC18());
 			objs[i][19]=prm.getC19()+"";;
-			objs[i][20]=prm.getC20()+"";;
+			objs[i][20]=Trans.intForHours(prm.getC20());
 			objs[i][21]=prm.getC21()+"";;
 		}
 		String basePath = request.getSession().getServletContext().getRealPath("/");
