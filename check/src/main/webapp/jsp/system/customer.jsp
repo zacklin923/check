@@ -16,10 +16,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-$(function(){
+function stylesheet(){
+	var a;
 	$.ajax({
 		url:"<%=path%>/api/customer/style/1",
 		type:"GET",
+		async:false,
 		success:function(data){
 			var json;
 			if(isJson(data)){
@@ -28,18 +30,16 @@ $(function(){
 				json = eval('('+data+')');
 			}
 			if(json.result=='success'){
-				console.log(json.data);
 				var str = json.data;
 				s="[["+str+"]]";
-				options={};
-				options.columns = eval(s)
-				$('#dg').datagrid(options);   
+				a=eval(s);
 			}else{
 				alert("错误:"+json.code);
 			}
 		}
 	});
-});
+	return a;
+}
 var url;
 function addObj(){
 	$("#dlg").dialog("open").dialog("setTitle","新建");	
@@ -200,6 +200,7 @@ function search_toolbar1(){
 			json.str1=str1;
 			console.log(str1);
 		}
+		isDgInit=true;
 		$('#dg').datagrid('load', json);
 	}
 }
@@ -215,10 +216,13 @@ function moduleEdit(){
         }
     };
     str=str+str1+"_大客户信息";
+    $('#mbedit').dialog('close');
+    $('#dg').datagrid('loading');
     $.ajax({
 		url:"<%=path%>/api/module/"+str,
 		type:"PUT",
 		success:function(data){
+			$('#dg').datagrid('loaded');
 			if(data){
 				var json;
 				if(isJson(data)){
@@ -227,13 +231,11 @@ function moduleEdit(){
 					json = eval('('+data+')');
 				}
 				if(json.result=='success'){
-					$('#mbedit').dialog('close');
+					setColumns(stylesheet());
 				}else{
-					$('#mbedit').dialog('close');
 					alert("错误:"+json.code+"错误原因："+json.data);
 				}
 			}else{
-				hiden_hint();
 				alert("错误:网络错误");
 			}
 		}

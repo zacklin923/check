@@ -218,8 +218,7 @@ function search_toolbar1(){
 			json.str4=str4;
 			console.log(str4);
 		}
-		console.log(json.date1);
-		console.log(json.date2);
+		isDgInit=true;
 		$('#dg').datagrid('load', json);
 	}
 }

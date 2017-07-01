@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.zs.dao.ReportSignMapper;
 import com.zs.dao.SourceThirdPartyMapper;
+import com.zs.dao.ZmReturnDataMapper;
 import com.zs.entity.ReportSign;
 import com.zs.entity.ReportSignExample;
 import com.zs.entity.ReportSignKey;
@@ -36,7 +37,8 @@ public class ReportSignSerImpl implements ReportSignSer{
 	private ReportSignMapper reportSignMapper;
 	@Resource
 	private SourceThirdPartyMapper sourceThirdPartyMapper;
-	
+	@Resource
+	private ZmReturnDataMapper zmReturnDataMapper;
 	
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
@@ -80,13 +82,13 @@ public class ReportSignSerImpl implements ReportSignSer{
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 			date=sdf.format(new Date());
 		}
-		List<ReportSign> list=sourceThirdPartyMapper.queryReportSign(date,ctmBarCode,province);
+		List<ReportSign> list=zmReturnDataMapper.queryReportSign(date,ctmBarCode,province);
 		//先删除该天的数据
 		reportSignMapper.deleteByDate(date,ctmBarCode,province);
 		for (ReportSign rs : list) {
-			int succ=sourceThirdPartyMapper.queryReportSignSucc(date, rs.getCtmBarCode(), rs.getCtmName(), rs.getProvince());
-			int succtimeout=sourceThirdPartyMapper.queryReportSignSuccTimeout(date, rs.getCtmBarCode(), rs.getCtmName(), rs.getProvince());
-			int wait=sourceThirdPartyMapper.queryReportSignWait(date, rs.getCtmBarCode(), rs.getCtmName(), rs.getProvince());
+			int succ=zmReturnDataMapper.queryReportSignSucc(date, rs.getCtmBarCode(), rs.getCtmName(), rs.getProvince());
+			int succtimeout=zmReturnDataMapper.queryReportSignSuccTimeout(date, rs.getCtmBarCode(), rs.getCtmName(), rs.getProvince());
+			int wait=zmReturnDataMapper.queryReportSignWait(date, rs.getCtmBarCode(), rs.getCtmName(), rs.getProvince());
 			rs.setTotalSucc(new BigDecimal(succ));
 			rs.setTotalSuccTimeout(new BigDecimal(succtimeout));
 			rs.setWaitCourierNumber(wait+"");

@@ -18,9 +18,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
 $(function(){
-	stylesheet();
+	stylesheet_1();
 });
-function stylesheet(){
+function stylesheet_1(){
 	$('#search').form("submit",{
 		url:"<%=path%>/api/reportDate/style",
 		method:"GET",
@@ -32,13 +32,9 @@ function stylesheet(){
 				json = eval('('+data+')');
 			}
 			if(json.result=='success'){
-				console.log(json.data);
 				var str = json.data;
 				var str1 = str.split("_");
-				console.log(str1[0]);
-				console.log(str1[1]);
 				s="[["+str1[0]+"],["+str1[1]+"]]";
-				console.log(s);
 				options={};
 				options.columns = eval(s)
 				$('#dg').datagrid(options);   
@@ -106,6 +102,7 @@ function search_toolbar1(){
 	var f=$('#search');
 	if(f.form('validate')){
 		var json=formToJson(f);
+		isDgInit=true;
 		$('#dg').datagrid('load', json);
 	}
 }
@@ -113,7 +110,7 @@ function excel_export(){
 	$("#search").form("submit",{
 		url:"<%=path%>/api/reportDate/exportExceltest",
 		onSubmit: function(){   
-		},   
+		}, 
 	    success:function(data){   
 	    	var json;
 			if(isJson(data)){

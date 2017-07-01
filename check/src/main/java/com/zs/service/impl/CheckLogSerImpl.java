@@ -71,12 +71,14 @@ public class CheckLogSerImpl implements CheckLogSer{
 		new Thread(){
 			@Override
 			public void run() {
-				try {
-					log.setOlddata(gson.toJson(oldData));
-					log.setBigdata(gson.toJson(bigData));
-					checkLogMapper.insertSelective(log);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if(log.getUserNumber()!=null){
+					try {
+						log.setOlddata(gson.toJson(oldData));
+//						log.setBigdata(gson.toJson(bigData));暂时不存，数据量太大，存会导致数据库性能变慢，等以后找到更好的办法再做
+						checkLogMapper.insertSelective(log);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}.start();
