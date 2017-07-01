@@ -22,19 +22,58 @@ function excel_export(){
 		url:"<%=path%>/api/timeLimit/excelExport",
 		method:"get",
 		onSubmit: function(){   
-	        // do some check   
-	        // return false to prevent submit;   
 	    },   
 	    success:function(data){   
-			if(data!=null){
-		    	var d = eval('('+data+')');
-		    	window.location.href=d.data;
+			if(data){
+		    	var json;
+				if(isJson(data)){
+					json=data;
+				}else{
+					json = eval('('+data+')');
+				}
+				if(json.result=='success'){
+					var d = eval('('+data+')');
+					window.location.href=d.data;
+				}else{
+					alert("错误:"+json.data);
+				}
 			}
 	    } 
 	});
 }
 function obtain(){
-	alert("您还没有选择发货日期");
+	var f=$('#search');
+	if(f.form('validate')){
+		var json=formToJson(f);
+		if(json.date1 && json.date2){
+			$.ajax({
+				url:"<%=path%>/api/reportSign/regenerate",
+				method:"post",
+				data:json,
+				success:function(data){
+					if(data){
+						var json;
+						if(isJson(data)){
+							json=data;
+						}else{
+							json = eval('('+data+')');
+						}
+						if(json.result=='success'){
+							$('#dg').datagrid('reload');
+							alert(json.data);
+						}else{
+							alert("错误:"+json.code+" "+json.data);
+						}
+					}else{
+						alert("错误:网络错误");
+					}
+				}
+			});
+		}else{
+			alert("请选择你要重新计算的发货日期范围");
+		}
+	}
+	
 }
 function search_toolbar_1(){
 	var ratioSign1=$("#dg").datagrid("getColumnOption","ratioSign1");
@@ -45,6 +84,7 @@ function search_toolbar_1(){
 	var ratioTimeout3=$("#dg").datagrid("getColumnOption","ratioTimeout3");
 	var f=$('#search');
 	if(f.form('validate')){
+		isDgInit=true;
 		var json=formToJson(f);
 		if(json.int1=="1"){
 			$("#dg").datagrid("hideColumn","ratioSign2");

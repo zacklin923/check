@@ -52,15 +52,8 @@ function formToJson(formObj){
        }
    });
    return o;
-} 
-function search_toolbar(){
-	var f=$('#search');
-	if(f.form('validate')){
-		var json=formToJson(f);
-		console.log(json);
-		$('#dg').datagrid('load', json);
-	}
 }
+
 /*张顺，2017-3-11，自定义easyUI的验证框*/
 $.extend($.fn.validatebox.defaults.rules, {
     number: {

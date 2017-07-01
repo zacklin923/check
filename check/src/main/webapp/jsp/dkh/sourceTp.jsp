@@ -17,13 +17,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-$(function(){
-	stylesheet();
-});
 function stylesheet(){
+	var a;
 	$.ajax({
 		url:"<%=path%>/api/customer/style/3",
 		type:"GET",
+		async:false,
 		success:function(data){
 			var json;
 			if(isJson(data)){
@@ -32,17 +31,15 @@ function stylesheet(){
 				json = eval('('+data+')');
 			}
 			if(json.result=='success'){
-				console.log(json.data);
 				var str = json.data;
 				s="[["+str+"]]";
-				options={};
-				options.columns = eval(s)
-				$('#dg').datagrid(options);   
+				a=eval(s);
 			}else{
 				alert("错误:"+json.code);
 			}
 		}
 	});
+	return a;
 }
 var url;
 function updateObj(){
@@ -217,7 +214,7 @@ function upload(){
 		}
 	});
 }
-function search_toolbar1(){
+function search_toolbar(){
 	var r2=document.getElementsByName("str2");
 	var sr2 ="";
 	for(var i = 0 ; i<r2.length;i++){
@@ -242,6 +239,7 @@ function search_toolbar1(){
 		if(json.str2!=null){
 			json.str2=sr2;
 		}
+		isDgInit=true;
 		$('#dg').datagrid('load', json);
 	}
 }
@@ -257,10 +255,13 @@ function moduleEdit(){
         }
     };
     str=str+str1+"_运单状态查询";
+    $("#mbedit").dialog("close");	
+    $('#dg').datagrid('loading');
     $.ajax({
 		url:"<%=path%>/api/module/"+str,
 		type:"PUT",
 		success:function(data){
+			$('#dg').datagrid('loaded');
 			if(data){
 				var json;
 				if(isJson(data)){
@@ -269,14 +270,11 @@ function moduleEdit(){
 					json = eval('('+data+')');
 				}
 				if(json.result=='success'){
-					$('#mbedit').dialog('close');
-					stylesheet();
+					setColumns(stylesheet());
 				}else{
-					$('#mbedit').dialog('close');
 					alert("错误:"+json.code+"错误原因："+json.data);
 				}
 			}else{
-				hiden_hint();
 				alert("错误:网络错误");
 			}
 		}
@@ -419,25 +417,28 @@ function accept(){
 	    		<input type="hidden" name ="str7" id = "exportvalue"/>
 	   		</div>
 	   		<div class="searchBar-input1">
-	    		<div>
+	    		<div style="margin-left: -10px;">
 	    			地址：<input name ="str15" />
 	    		</div>
-	   		</div>
-			<div style="float: left;width:220px;height:105px;">
-	    		<span style="float:left;font-size:14px;display: block;margin-left:10px;">配送状态：</span>
-				<div style="float:left;font-size:13px;margin-left:10px;">
-		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送成功"/>配送成功
-		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送失败"/>配送失败
-		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="揽件"/>揽件
-		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送异常"/>配送异常
-		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送中"/>配送中
-		    		<input style="width:15px;height:15px;" type="checkbox" name ="str2" value="退回件"/>退回件
+	    		<div>
+		    		<table>
+		    			<tr height="15">
+		    				<td><input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送成功"/>配送成功</td>
+		    				<td><input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送失败"/>配送失败</td>
+		    				<td><input style="width:15px;height:15px;" type="checkbox" name ="str2" value="揽件"/>揽件</td>
+		    			</tr>
+		    			<tr>
+		    				<td><input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送异常"/>配送异常</td>
+		    				<td><input style="width:15px;height:15px;" type="checkbox" name ="str2" value="配送中"/>配送中</td>
+		    				<td><input style="width:15px;height:15px;" type="checkbox" name ="str2" value="退回件"/>退回件</td>
+		    			</tr>
+		    		</table>
 	    		</div>
-	    	</div>
+	   		</div>
 	   	</form>
 	   	<div class="clear"></div>
 	   	<hr class="hr-geay">
-		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar1()">查询</a>
+		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
 		<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
 		<a class="easyui-linkbutton" iconCls="icon-search" onclick="$('#exportdiv').dialog('open');">导出</a>
 		<a class="easyui-linkbutton" iconCls="icon-edit" onclick="$('#mbedit').dialog('open')">编辑模板</a>

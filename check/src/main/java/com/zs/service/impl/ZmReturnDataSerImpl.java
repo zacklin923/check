@@ -398,54 +398,25 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 	//---------------------------------------------
 	public EasyUIPage queryFenyeOfTp(EasyUIAccept accept,HttpServletRequest req) {
 		if (accept!=null) {
-			
-			Date d1=new Date();
-			
 			Integer page=accept.getPage();
 			Integer size=accept.getRows();
 			if (page!=null && size!=null) {
 				accept.setStart((page-1)*size);
 				accept.setEnd(page*size);
 			}
-			
-			Date d2=new Date();
-			log.info(d2.getTime()-d1.getTime());
-			
 			List list=zmReturnDataMapper.queryFenyeOfTp(accept);
-			
-			Date d3=new Date();
-			log.info(d3.getTime()-d2.getTime());
-			
 			int rows=zmReturnDataMapper.getCountOfTp(accept);
-			
-			Date d4=new Date();
-			log.info(d4.getTime()-d3.getTime());
-			
 			for (int i = 0; i < list.size(); i++) {
 				ZmReturnData tp=(ZmReturnData) list.get(i);
-				if(reckon(tp)){
-					zmReturnDataMapper.updateByPrimaryKeySelective(tp);
-				}
+				reckon(tp);
 			}
-			
-			Date d5=new Date();
-			log.info(d5.getTime()-d4.getTime());
-			
 			//不可更改项
 			checkNoUpdate(list, 2);
 			EasyUIPage easyUIPage=new EasyUIPage(rows, list);
-			
-			Date d6=new Date();
-			log.info(d6.getTime()-d5.getTime());
-			
 			//添加信息到日志表
 			StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
 			CheckLog clog = new CheckLog(null, "zm_return_data",user==null?null:user.getStuNum(), CheckLog.TYPE_QUERY);
 			checkLogSer.saveOfAsyn(clog, accept, easyUIPage);
-			
-			Date d7=new Date();
-			log.info(d7.getTime()-d6.getTime());
-			
 			return easyUIPage;
 		}
 		return null;

@@ -101,6 +101,7 @@ function search_toolbar1(){
 	var f=$('#search');
 	if(f.form('validate')){
 		var json=formToJson(f);
+		isDgInit=true;
 		$('#dg').datagrid('load', json);
 	}
 }
