@@ -101,6 +101,8 @@ function negated(){
      }) 
 }
 function excel_export(){
+	$("#exportdiv").dialog("close");
+	show_hint([]);
 	var r=document.getElementsByName("exportline")
 	var str = "";
 	for(var i=0;i<r.length;i++){
@@ -122,9 +124,10 @@ function excel_export(){
 			}
 			if(json.result=='success'){
 				var d = eval('('+data+')');
-				$("#exportdiv").dialog("close");
+				hiden_hint();
 				window.location.href=d.data;
 			}else{
+				hiden_hint();
 				alert("错误:"+json.data);
 			}
 	    } 

@@ -117,6 +117,7 @@ function deleteObj(){
 	}
 }
 function excel_export(){
+	show_hint([]);
 	$("#search").form("submit",{
 		url:"<%=path%>/api/customer/excelExport",
 		method:"get",
@@ -140,12 +141,15 @@ function excel_export(){
 					if(json.result=='success'){
 						window.location.href=json.data;
 					}else{
+						hiden_hint();
 						alert("错误:"+json.data+" "+json.data);
 					}
 				}else{
+					hiden_hint();
 					alert("错误:json解析错误");
 				}
 	    	}else{
+	    		hiden_hint();
 	    		alert("错误:网络错误");
 	    	}
 	    } 
@@ -363,11 +367,11 @@ function moduleEdit(){
 		</div>
 		<div class="fitem">
 			<label>开通时间:</label>
-			<input name="openDate"  required="true">
+			<input name="openDate" class="Wdate" onFocus="WdatePicker({dateFmt:'yyyy/MM/dd'})" >
 		</div>
 		<div class="fitem">
 			<label>暂停时间:</label>
-			<input name="outDate"  required="true">
+			<input name="outDate" class="Wdate" onFocus="WdatePicker({dateFmt:'yyyy/MM/dd'})" >
 		</div>
 		<div class="fitem">
 			<label>业务负责人:</label>

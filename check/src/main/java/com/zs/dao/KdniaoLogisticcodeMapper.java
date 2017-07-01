@@ -30,7 +30,9 @@ public interface KdniaoLogisticcodeMapper {
 
     int updateByPrimaryKey(KdniaoLogisticcode record);
     
-    List<String> query9000logisticcode();
+    List<KdniaoLogisticcode> querylogisticcode();
     
     void UpdateLogisticcode(EasyUIAccept accept);
+    
+    void drawKdniaoSign();
 }

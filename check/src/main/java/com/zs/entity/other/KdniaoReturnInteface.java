@@ -3,7 +3,7 @@ package com.zs.entity.other;
 import java.util.List;
 
 
-public class KdniaoReturn {
+public class KdniaoReturnInteface {
 
 	private String EBusinessID;
 	private String OrderCode;
@@ -68,7 +68,7 @@ public class KdniaoReturn {
 	public void setTraces(List<Traces> traces) {
 		Traces = traces;
 	}
-	public KdniaoReturn(String eBusinessID, String orderCode, String shipperCode, String logisticCode, String callBack,
+	public KdniaoReturnInteface(String eBusinessID, String orderCode, String shipperCode, String logisticCode, String callBack,
 			Boolean success, String reason, String state, List<com.zs.entity.other.Traces> traces) {
 		super();
 		EBusinessID = eBusinessID;
@@ -81,7 +81,7 @@ public class KdniaoReturn {
 		State = state;
 		Traces = traces;
 	}
-	public KdniaoReturn() {
+	public KdniaoReturnInteface() {
 		super();
 	}
 	@Override

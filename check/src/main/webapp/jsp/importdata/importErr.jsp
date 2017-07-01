@@ -77,6 +77,7 @@ function deleteAllData(){
 		);
 }
 function excel_export(){
+	show_hint([]);
 	$("#search").form("submit",{
 		url:"<%=path%>/api/sourimportfail/exportExcel",
 		onSubmit: function(){   
@@ -89,9 +90,11 @@ function excel_export(){
 				json = eval('('+data+')');
 			}
 			if(json.result=='success'){
+				hiden_hint();
 				var d = eval('('+data+')');
 				window.location.href="<%=path %>/"+d.data;
 			}else{
+				hiden_hint();
 				alert("错误:"+json.data);
 			}
 	    } 

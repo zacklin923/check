@@ -10,6 +10,7 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.quartz.SimpleThreadPoolTaskExecutor;
 import org.springframework.web.context.WebApplicationContext;
 import com.zs.service.ReportSignSer;
 import com.zs.service.SourceImportSer;
@@ -43,11 +44,11 @@ public class ObtainReportSignListener implements ServletContextListener{
 		private boolean hasPushedOnDay=false;//今天是否推送过的标志
 		private final int SEND_TIME_HOUR=14;//每天推送的小时数
 		
-
 		public ObtainThread(ReportSignSer reportSignSer) {
 			super();
 			this.reportSignSer = reportSignSer;
 		}
+		
 		
 		public void run() {
 			while(true){

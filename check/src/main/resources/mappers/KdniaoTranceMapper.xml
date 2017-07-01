@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zs.dao.KdniaoLogisticcodeMapper" >
-  <resultMap id="BaseResultMap" type="com.zs.entity.KdniaoLogisticcode" >
-    <id column="LOGISTICCODE" property="logisticcode" jdbcType="VARCHAR" />
-    <result column="ISSIGN" property="issign" jdbcType="VARCHAR" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+<mapper namespace="com.zs.dao.KdniaoTranceMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.KdniaoTrance" >
+    <result column="ACCEPT_TIME" property="acceptTime" jdbcType="TIMESTAMP" />
+    <result column="ACCEPT_STATION" property="acceptStation" jdbcType="VARCHAR" />
+    <result column="LOGISTICCODE" property="logisticcode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -65,16 +65,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    LOGISTICCODE, ISSIGN, CREATE_TIME
+    ACCEPT_TIME, ACCEPT_STATION, LOGISTICCODE
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.KdniaoLogisticcodeExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.KdniaoTranceExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from KDNIAOLOGISTICCODE
+    from KDNIAO_TRANCE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -82,70 +82,60 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from KDNIAOLOGISTICCODE
-    where LOGISTICCODE = #{logisticcode,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from KDNIAOLOGISTICCODE
-    where LOGISTICCODE = #{logisticcode,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.zs.entity.KdniaoLogisticcodeExample" >
-    delete from KDNIAOLOGISTICCODE
+  <delete id="deleteByExample" parameterType="com.zs.entity.KdniaoTranceExample" >
+    delete from KDNIAO_TRANCE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.zs.entity.KdniaoLogisticcode" >
-    insert into KDNIAOLOGISTICCODE (LOGISTICCODE, ISSIGN, CREATE_TIME
+  <insert id="insert" parameterType="com.zs.entity.KdniaoTrance" >
+    insert into KDNIAO_TRANCE (ACCEPT_TIME, ACCEPT_STATION, LOGISTICCODE
       )
-    values (#{logisticcode,jdbcType=VARCHAR}, #{issign,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+    values (#{acceptTime,jdbcType=TIMESTAMP}, #{acceptStation,jdbcType=VARCHAR}, #{logisticcode,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.zs.entity.KdniaoLogisticcode" >
-    insert into KDNIAOLOGISTICCODE
+  <insert id="insertSelective" parameterType="com.zs.entity.KdniaoTrance" >
+    insert into KDNIAO_TRANCE
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="acceptTime != null" >
+        ACCEPT_TIME,
+      </if>
+      <if test="acceptStation != null" >
+        ACCEPT_STATION,
+      </if>
       <if test="logisticcode != null" >
         LOGISTICCODE,
       </if>
-      <if test="issign != null" >
-        ISSIGN,
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="acceptTime != null" >
+        #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptStation != null" >
+        #{acceptStation,jdbcType=VARCHAR},
+      </if>
       <if test="logisticcode != null" >
         #{logisticcode,jdbcType=VARCHAR},
       </if>
-      <if test="issign != null" >
-        #{issign,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.zs.entity.KdniaoLogisticcodeExample" resultType="java.lang.Integer" >
-    select count(*) from KDNIAOLOGISTICCODE
+  <select id="countByExample" parameterType="com.zs.entity.KdniaoTranceExample" resultType="java.lang.Integer" >
+    select count(*) from KDNIAO_TRANCE
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update KDNIAOLOGISTICCODE
+    update KDNIAO_TRANCE
     <set >
+      <if test="record.acceptTime != null" >
+        ACCEPT_TIME = #{record.acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.acceptStation != null" >
+        ACCEPT_STATION = #{record.acceptStation,jdbcType=VARCHAR},
+      </if>
       <if test="record.logisticcode != null" >
         LOGISTICCODE = #{record.logisticcode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.issign != null" >
-        ISSIGN = #{record.issign,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -153,39 +143,12 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update KDNIAOLOGISTICCODE
-    set LOGISTICCODE = #{record.logisticcode,jdbcType=VARCHAR},
-      ISSIGN = #{record.issign,jdbcType=VARCHAR},
-      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    update KDNIAO_TRANCE
+    set ACCEPT_TIME = #{record.acceptTime,jdbcType=TIMESTAMP},
+      ACCEPT_STATION = #{record.acceptStation,jdbcType=VARCHAR},
+      LOGISTICCODE = #{record.logisticcode,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zs.entity.KdniaoLogisticcode" >
-    update KDNIAOLOGISTICCODE
-    <set >
-      <if test="issign != null" >
-        ISSIGN = #{issign,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where LOGISTICCODE = #{logisticcode,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.zs.entity.KdniaoLogisticcode" >
-    update KDNIAOLOGISTICCODE
-    set ISSIGN = #{issign,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
-    where LOGISTICCODE = #{logisticcode,jdbcType=VARCHAR}
-  </update>
-  <select id="UpdateLogisticcode"  parameterType="com.zs.entity.other.EasyUIAccept">
-	{call updatelogisticcode(#{date1},#{date2})} 
-  </select>
-  <select id="querylogisticcode" resultMap="BaseResultMap">
-  	select * from KDNIAOLOGISTICCODE where ISSIGN ='0' order by CREATE_TIME ASC 
-  </select>
-  <select id="drawKdniaoSign">
-	{call drawkdniaosigndata} 
-  </select>
 </mapper>
