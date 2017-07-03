@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 public class Traces {
 	private Timestamp AcceptTime;
 	private String AcceptStation;
-	private String Remark;
 	public Timestamp getAcceptTime() {
 		return AcceptTime;
 	}
@@ -18,17 +17,10 @@ public class Traces {
 	public void setAcceptStation(String acceptStation) {
 		AcceptStation = acceptStation;
 	}
-	public String getRemark() {
-		return Remark;
-	}
-	public void setRemark(String remark) {
-		Remark = remark;
-	}
-	public Traces(Timestamp acceptTime, String acceptStation, String remark) {
+	public Traces(Timestamp acceptTime, String acceptStation) {
 		super();
 		AcceptTime = acceptTime;
 		AcceptStation = acceptStation;
-		Remark = remark;
 	}
 	public Traces() {
 		super();
