@@ -45,6 +45,7 @@ function stylesheet_1(){
 	});
 }
 function refrence(){
+	show_hint([]);
 	$('#search').form("submit",{
 		url:"<%=path %>/api/reportDate/1",
 		method:"GET",
@@ -59,12 +60,15 @@ function refrence(){
 					json = eval('('+data+')');
 				}
 				if(json.result=='success'){
+					hiden_hint();
 					alert(json.data);
 					search_toolbar1();
 				}else{
+					hiden_hint();
 					alert("错误:"+json.data);
 				}
 			}else{
+				hiden_hint();
 				alert("错误:网络错误");
 			}
 		}
@@ -159,7 +163,10 @@ function excel_export(){
 		<form id="search">
 	   		<div class="searchBar-input">
 	    		<div>
-		    		数据日期：<input name="date1" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy/MM/dd'})" value="<%=DateTimeHelper.getolddate().toString4()%>"/>
+		    		数据开始日期：<input name="date1" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy/MM/dd'})" value="<%=DateTimeHelper.getolddate().toString4()%>"/>
+	    		</div>
+	    		<div>
+		    		数据结束日期：<input name="date2" class="Wdate" type="text" onFocus="WdatePicker({dateFmt:'yyyy/MM/dd'})" value="<%=DateTimeHelper.getolddate().toString4()%>"/>
 	    		</div>
 	   		</div>
 	   		<div class="searchBar-input">

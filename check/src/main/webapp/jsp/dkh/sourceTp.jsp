@@ -306,8 +306,7 @@ function accept(){
 							json = eval('('+data+')');
 						}
 						if(json.result=='success'){
-							$('#dg').datagrid('reload');
-							$("#dlg").dialog("close");
+							alert("保存成功");
 						}else{
 							alert("错误:"+json.code+"  "+json.data);
 						}

@@ -57,7 +57,7 @@ public class ReportDateConR{
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
-				accept.setStr1(ManagerId.isSeeAll(req));
+//				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>("success",  Code.SUCCESS, reportSer.exportData(accept,req));
 			} catch (Exception e) {
@@ -95,8 +95,7 @@ public class ReportDateConR{
 					   +"{field:'largeArea',title:'大区',rowspan:2,width:40},"
 					   +"{field:'countAll',title:'总计',rowspan:2,width:40,align:'right'},";
 		}
-		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-		str=str +"{title:'"+sdf.format(new Date(accept.getDate1().getTime()))+"',width:120,colspan:3},";
+		str=str +"{title:'面单统计',width:120,colspan:3},";
 		str=str.substring(0, str.length()-1);
 		str=str+"_";
 		str = str + "{field:'electronicSheet',title:'普件面单',width:40,align:'right'},"

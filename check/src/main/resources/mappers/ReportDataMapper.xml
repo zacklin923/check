@@ -258,10 +258,16 @@
     </if>
   </update>
   <select id="query" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
-	select * from REPORT_DATA
+	select LARGE_AREA,SLICE_AREA,FEN_BU,CUSTOM_TYPE,CTM_BAR_CODE,CTM_NAME,
+	sum(ELECTRONIC_SHEET) ELECTRONIC_SHEET, sum(GENERIC_SHEET) GENERIC_SHEET,
+	sum(OTHER_SHEET) OTHER_SHEET,sum(COUNT_ALL) COUNT_ALL 
+	from REPORT_DATA
 	<where>
-		<if test="date2!=null">
-	  		and count_date = #{date2}
+		<if test="date1!=null">
+	  		and count_date >= #{date1}
+  		</if>
+  		<if test="date2!=null">
+	  		and count_date &lt;= #{date2}
   		</if>
   		<if test="int1!=null">
 	  		and flag = ${int1}
@@ -270,9 +276,10 @@
 	  		and CTM_BAR_CODE = ${str1}
   		</if>
   		<if test="str2!=null and str2!=''">
-	  		and ctm_name = ${str2}
+	  		and ctm_name like '%${str2}%'
   		</if>
 	</where>
+	group by ctm_bar_code,ctm_name,CUSTOM_TYPE,LARGE_AREA,SLICE_AREA,FEN_BU
 	<if test="sort!=null and order!=null">
   		order by ${sort} ${order},CTM_BAR_CODE desc
   	</if>

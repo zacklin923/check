@@ -221,7 +221,7 @@ function obcSave(){
 			<input name="pass" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">
-			<label>同户名:</label>
+			<label>用户名:</label>
 			<input name="stuName" class="easyui-validatebox" required="true">
 		</div>
 		<div class="fitem">

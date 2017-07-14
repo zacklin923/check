@@ -65,9 +65,15 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 	/*有省份判断，和配送状态判断*/
 	public Integer update(ZmReturnData obj,HttpServletRequest req) {
 		StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
+		String str = null;
 		if(user!=null){
 			checkUpdateProvince(obj,user.getStuNum());
 			checkUpdateDeliveryState(obj, user.getStuNum());
+		}else{
+			str = stateUpdate(obj);
+		}
+		if(str!=null){
+			obj.setDeliveryState(str);
 		}
 		Integer i=zmReturnDataMapper.updateByPrimaryKeySelective(obj);
 		//添加信息到日志表
@@ -130,12 +136,14 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 	public void checkUpdateProvince(ZmReturnData zm,String stuNum){
 		if (zm!=null && zm.getProvince()!=null && zm.getCourierNumber()!=null && stuNum!=null) {
 			ZmReturnData zmt=zmReturnDataMapper.selectByPrimaryKey(zm.getCourierNumber());
-			if(!zmt.getProvince().equals(zm.getProvince())){
-				NoUpdate noUpdate=noUpdateMapper.selectByNumberOfZm(zm.getCourierNumber());
-				if (noUpdate==null) {
-					noUpdateMapper.insertSelective(new NoUpdate(zm.getCourierNumber(),"province",zm.getProvince(),new Date(),stuNum));
-				}else {
-					noUpdateMapper.updateByPrimaryKeySelective(new NoUpdate(zm.getCourierNumber(),"province",zm.getProvince(),new Date(),stuNum));
+			if(zmt.getProvince()!=null){
+				if(!zmt.getProvince().equals(zm.getProvince())){
+					NoUpdate noUpdate=noUpdateMapper.selectByNumberOfZm(zm.getCourierNumber());
+					if (noUpdate==null) {
+						noUpdateMapper.insertSelective(new NoUpdate(zm.getCourierNumber(),"province",zm.getProvince(),new Date(),stuNum));
+					}else {
+						noUpdateMapper.updateByPrimaryKeySelective(new NoUpdate(zm.getCourierNumber(),"province",zm.getProvince(),new Date(),stuNum));
+					}
 				}
 			}
 		}
@@ -148,24 +156,16 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			//-------判断配送状态是否修改为系统不能修改的两个字段
 			try {
 				ZmReturnData stp = zmReturnDataMapper.selectByPrimaryKey(zm.getCourierNumber());
-				if(zm.getDeliveryState().equals("配送成功") || zm.getDeliveryState().equals("配送失败")){
-					if(!stp.getDeliveryState().equals(zm.getDeliveryState())){
-						NoUpdate nu = new NoUpdate();
-						nu.setCourierNumber(zm.getCourierNumber());
-						nu.setNoUpdateName("delivery_state");
-						nu.setNoUpdateValue(zm.getDeliveryState());
-						nu.setStuNum(stuNum);
-						try {
-							noUpdateMapper.insertSelective(nu);
-						} catch (Exception e) {
-							noUpdateMapper.updateByPrimaryKeySelective(nu);
-						}
-					}
-				}else{
+				if(!stp.getDeliveryState().equals(zm.getDeliveryState())){
+					NoUpdate nu = new NoUpdate();
+					nu.setCourierNumber(zm.getCourierNumber());
+					nu.setNoUpdateName("delivery_state");
+					nu.setNoUpdateValue(zm.getDeliveryState());
+					nu.setStuNum(stuNum);
 					try {
-						noUpdateMapper.deleteByPrimaryKey(new NoUpdateKey(zm.getCourierNumber(),"delivery_state"));
+						noUpdateMapper.insertSelective(nu);
 					} catch (Exception e) {
-						e.printStackTrace();
+						noUpdateMapper.updateByPrimaryKeySelective(nu);
 					}
 				}
 			} catch (Exception e) {
@@ -201,10 +201,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			//查不可更改项
 			checkNoUpdate(list, 1);
 			EasyUIPage easyUIPage=new EasyUIPage(rows, list);
-			//添加信息到日志表
-			StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
-			CheckLog clog = new CheckLog(null,"zm_return_data",user==null?null:user.getStuNum(),CheckLog.TYPE_QUERY);
-			checkLogSer.saveOfAsyn(clog, accept, easyUIPage);
+			//添加信息到日志表,查询不存
+//			StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
+//			CheckLog clog = new CheckLog(null,"zm_return_data",user==null?null:user.getStuNum(),CheckLog.TYPE_QUERY);
+//			checkLogSer.saveOfAsyn(clog, accept, easyUIPage);
 			return easyUIPage;
 		}
 		return null;
@@ -261,10 +261,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		String basePath = req.getSession().getServletContext().getRealPath("/");
 		String path ="file/哲盟返回数据.xls";
 		ExcelExport.OutExcel1(line, lines, basePath+path);
-		//添加信息到日志表
-		StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
-		CheckLog clog = new CheckLog(null, "zm_return_data",user==null?null:user.getStuNum(),CheckLog.TYPE_EXPORT);
-		checkLogSer.saveOfAsyn(clog, accept, list);
+//		//添加信息到日志表
+//		StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
+//		CheckLog clog = new CheckLog(null, "zm_return_data",user==null?null:user.getStuNum(),CheckLog.TYPE_EXPORT);
+//		checkLogSer.saveOfAsyn(clog, accept, list);
 		return path;
 	}
 	
@@ -305,8 +305,8 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 						checkUpdateProvince(sz, stuNum);
 						zmReturnDataMapper.updateByPrimaryKeySelective(sz);
 						//添加信息到日志表
-						CheckLog clog = new CheckLog(null, "zm_return_data",stuNum, CheckLog.TYPE_IMPORT);
-						checkLogSer.saveOfAsyn(clog, null, list);
+						CheckLog clog = new CheckLog(sz.getCourierNumber(), "zm_return_data",stuNum, CheckLog.TYPE_IMPORT);
+						checkLogSer.saveOfAsyn(clog, sz, null);
 					}else{
 						ls.add((i+1)+"");
 					}
@@ -379,8 +379,8 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 						zmReturnDataMapper.insertSelective(sz);
 					}
 					//添加信息到日志表
-					CheckLog clog = new CheckLog(null, "zm_return_data",stuNum, CheckLog.TYPE_IMPORT);
-					checkLogSer.saveOfAsyn(clog, null, list);
+					CheckLog clog = new CheckLog(sz.getCourierNumber(), "zm_return_data",stuNum, CheckLog.TYPE_IMPORT);
+					checkLogSer.saveOfAsyn(clog, sz, null);
 				} catch (Exception e) {
 					e.printStackTrace();
 					ls.add((i+1)+"");
@@ -413,10 +413,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			//不可更改项
 			checkNoUpdate(list, 2);
 			EasyUIPage easyUIPage=new EasyUIPage(rows, list);
-			//添加信息到日志表
-			StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
-			CheckLog clog = new CheckLog(null, "zm_return_data",user==null?null:user.getStuNum(), CheckLog.TYPE_QUERY);
-			checkLogSer.saveOfAsyn(clog, accept, easyUIPage);
+//			//添加信息到日志表
+//			StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
+//			CheckLog clog = new CheckLog(null, "zm_return_data",user==null?null:user.getStuNum(), CheckLog.TYPE_QUERY);
+//			checkLogSer.saveOfAsyn(clog, accept, easyUIPage);
 			return easyUIPage;
 		}
 		return null;
@@ -428,13 +428,21 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[0].equals("")){
 				ls.add((i+1)+",");
+			}else if(!list.get(i)[2].trim().equals("配送成功")&&!list.get(i)[2].trim().equals("配送失败")&&
+					!list.get(i)[2].trim().equals("揽件")&&!list.get(i)[2].trim().equals("配送异常")&&
+					!list.get(i)[2].trim().equals("配送中")&&!list.get(i)[2].trim().equals("退回件")){
+				ls.add((i+1)+",");
 			}else{
 				try {
 					String stpk = Trans.tostring(list.get(i)[0]);
 					ZmReturnData isstp = zmReturnDataMapper.selectByPrimaryKey(stpk);
 					ZmReturnData stp = new ZmReturnData();
+					String	AbnormalCause = null;
 					stp.setCourierNumber(Trans.tostring(list.get(i)[0]));
-					stp.setAbnormalCause(list.get(i)[1]);
+					if(!list.get(i)[1].trim().equals("")){
+						AbnormalCause = list.get(i)[1];
+					}
+					stp.setAbnormalCause(AbnormalCause);
 					stp.setDeliveryState(list.get(i)[2]);
 					stp.setSignatory(list.get(i)[3]);
 					stp.setSignTime(Trans.toTimestamp(list.get(i)[4]));
@@ -445,8 +453,8 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 						zmReturnDataMapper.updateByPrimaryKeySelective(stp);
 						//添加信息到日志表
 						StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
-						CheckLog clog = new CheckLog(null, "zm_return_data",user==null?null:user.getStuNum(), CheckLog.TYPE_IMPORT);
-						checkLogSer.saveOfAsyn(clog, null, list);
+						CheckLog clog = new CheckLog(stp.getCourierNumber(), "zm_return_data",user==null?null:user.getStuNum(), CheckLog.TYPE_IMPORT);
+						checkLogSer.saveOfAsyn(clog, stp, null);
 					}else{
 						ls.add((i+1)+"");
 					}
@@ -532,12 +540,28 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		String basePath = req.getSession().getServletContext().getRealPath("/");
 		String path ="file/哲盟返回第三方数据.xls";
 		ExcelExport.OutExcel1(line, lines, basePath+path);
-		//添加信息到日志表
-		StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
-		CheckLog clog = new CheckLog(null,"zm_return_data",user==null?null:user.getStuNum(), CheckLog.TYPE_EXPORT);
-		checkLogSer.saveOfAsyn(clog, accept, list);
+//		//添加信息到日志表
+//		StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
+//		CheckLog clog = new CheckLog(null,"zm_return_data",user==null?null:user.getStuNum(), CheckLog.TYPE_EXPORT);
+//		checkLogSer.saveOfAsyn(clog, accept, list);
 		return path;
 	}
 
+	public String stateUpdate(ZmReturnData obj){
+		if(obj!=null){
+			if(obj.getDeliveryState()!=null){
+				NoUpdateKey nuk = new NoUpdateKey();
+				nuk.setCourierNumber(obj.getCourierNumber());
+				nuk.setNoUpdateName("delivery_state");
+				NoUpdate nu = noUpdateMapper.selectByPrimaryKey(nuk);
+				if(nu!=null){
+					return nu.getNoUpdateValue();
+				}else{
+					return obj.getDeliveryState();
+				}
+			}
+		}
+		return null;
+	}
 
 }

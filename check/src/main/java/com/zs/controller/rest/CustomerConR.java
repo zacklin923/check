@@ -187,12 +187,14 @@ public class CustomerConR extends BaseRestController<Customer,String>{
 			accept.setStr3("1");//1代表启用
 			List<personalStyle> pss = personalStyleSer.queryStyle(accept);
 			if(pss.size()>0){
-				if(!pss.get(0).getOrderStyle().equals("")&&pss.get(0).getOrderStyle()!=null){
-					String [] ss = pss.get(0).getOrderStyle().split(",");
-					for (int i = 0; i < ss.length; i++) {
-						for (int j = 0; j < dss.length; j++) {
-							if(Integer.parseInt(ss[i])==j){
-								str=str+dss[j];
+				if(pss.get(0).getOrderStyle()!=null){
+					if(!pss.get(0).getOrderStyle().equals("")){
+						String [] ss = pss.get(0).getOrderStyle().split(",");
+						for (int i = 0; i < ss.length; i++) {
+							for (int j = 0; j < dss.length; j++) {
+								if(Integer.parseInt(ss[i])==j){
+									str=str+dss[j];
+								}
 							}
 						}
 					}

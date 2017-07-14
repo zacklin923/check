@@ -18,15 +18,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
 function updateObj(){
-	var row=$("#dg").datagrid("getSelected");
-	if(row){
-		$("#dlg").dialog("open").dialog("setTitle","修改");
-		$("#fm").form("load",row);
-		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${user.licence }");
+	var date1 = $("#d4311").val();
+	var date2 = $("#d4312").val();
+	console.log((new Date(date1)).getTime());
+	console.log((new Date(date2)).getTime());
+	var timediffer =  eval((new Date(date2)).getTime()-(new Date(date1)).getTime());
+	if(timediffer<86400000){
+		var row=$("#dg").datagrid("getSelected");
+		console.log(row);
+		row.hourJd=numberbyhour(row.hourJd);
+		row.hourCj=numberbyhour(row.hourCj);
+		row.hourLy=numberbyhour(row.hourLy);
+		row.hourGd=numberbyhour(row.hourGd);
+		row.hourLpcl=numberbyhour(row.hourLpcl);
+		row.hourKscl=numberbyhour(row.hourKscl);
+		row.hourQsb=numberbyhour(row.hourQsb);
+		row.hourTjcl=numberbyhour(row.hourTjcl);
+		row.hourSd=numberbyhour(row.hourSd);
+		row.hourDd=numberbyhour(row.hourDd);
+		if(row){
+			$("#dlg").dialog("open").dialog("setTitle","修改");
+			$("#fm").form("load",row);
+			$("#fm input[name='_method']").val("put");
+			$("#fm input[name='_header']").val("${user.licence }");
+		}
+	}else{
+		alert("时间间隔大于一天，以下为统计数据不能修改");
 	}
 }
 function save(){
+	$("#hjd").val(hourbynumber($("#hjd").val()));
+	$("#hcj").val(hourbynumber($("#hcj").val()));
+	$("#hly").val(hourbynumber($("#hly").val()));
+	$("#hgd").val(hourbynumber($("#hgd").val()));
+	$("#hlpcl").val(hourbynumber($("#hlpcl").val()));
+	$("#hkscl").val(hourbynumber($("#hkscl").val()));
+	$("#hqsb").val(hourbynumber($("#hqsb").val()));
+	$("#htjcl").val(hourbynumber($("#htjcl").val()));
+	$("#hsd").val(hourbynumber($("#hsd").val()));
+	$("#hdd").val(hourbynumber($("#hdd").val()));
+	console.log($("#fm").serializeArray())
 	$("#fm").form("submit",{
 		url:"<%=path %>/api/primeCodeImport/aa",		
 		onSubmit:function(){
@@ -53,37 +84,48 @@ function save(){
 	});
 }
 function deleteAll(){
-	$.messager.confirm(
-		"操作提示",
-		"您确定要删除吗？",
-		function(data){
-			if(data){
-				var checkedItems = $('#dg').datagrid('getChecked');
-				$.each(checkedItems, function(index, item){
-					console.log(item.id);
-					if(item.id!=null){
-						$.ajax({
-							url:"<%=path %>/api/primeCodeImport/"+item.id,
-							type:"delete",
-							success:function(data){
-								var json;
-								if(isJson(data)){
-									json=data;
-								}else{
-									json = eval('('+data+')');
+	var date1 = $("#d4311").val();
+	var date2 = $("#d4312").val();
+	console.log((new Date(date1)).getTime());
+	console.log((new Date(date2)).getTime());
+	var timediffer =  eval((new Date(date2)).getTime()-(new Date(date1)).getTime());
+	if(timediffer<86400000){
+		$.messager.confirm(
+			"操作提示",
+			"您确定要删除吗？",
+			function(data){
+				if(data){
+					show_hint([]);
+					var checkedItems = $('#dg').datagrid('getChecked');
+					$.each(checkedItems, function(index, item){
+						console.log(item.id);
+						if(item.id!=null){
+							$.ajax({
+								url:"<%=path %>/api/primeCodeImport/"+item.id,
+								type:"delete",
+								success:function(data){
+									var json;
+									if(isJson(data)){
+										json=data;
+									}else{
+										json = eval('('+data+')');
+									}
+									if(json.result=='success'){
+										hiden_hint();
+										$('#dg').datagrid('reload');
+									}else{
+										console.log("错误:"+json.code);
+									}
 								}
-								if(json.result=='success'){
-									$('#dg').datagrid('reload');
-								}else{
-									console.log("错误:"+json.code);
-								}
-							}
-						});
-					}
-				}); 
+							});
+						}
+					}); 
+				}
 			}
-		}
-	);
+		);
+	}else{
+		alert("时间间隔大于一天，以下为统计数据不能删除");
+	}
 }
 
 function deleteAllData(){
@@ -215,17 +257,46 @@ function export_excel(){
 	    } 
 	});
 }
+
+function numberbyhour(num){
+	var str ='';
+  	var mm = '';
+  	var ss = '';
+  	var h = parseInt(num/3600);
+  	var m = (num%3600)/60;
+  	var s = (num%3600)%60;
+  	if(m<10){
+  		mm='0'+m;
+  	}else{
+  		mm=m;
+  	}
+  	if(s<10){
+  		ss='0'+s;
+  	}else{
+  		ss=s;
+  	}
+  	str = h + ':' +mm+':'+ss;
+		return str;
+}
+
+function hourbynumber(str){
+	var s = str.split(':');
+	for(var i ; i<s.length ;i++){
+		console.log(s[i]);
+	}
+	var num=eval(s[0]*3600+s[1]*60 +s[2]*1);
+	return num;
+}
 </script>
 <table id="dg" border="true"
 		url="<%=path %>/api/primeCodeImport"
 		method="get" toolbar="#toolbar"
 		loadMsg="数据加载中请稍后……"
 		singleSelect="true" fit="true"
-		striped="true" pagination="true"
+		striped="true" pagination="false"
 		rownumbers="true" fitColumns="false" 
-		singleSelect="true" fit="true"
-		checkOnSelect="false" selectOnCheck="false"
-		pageSize="100" pageList="[100,500,1000]">
+		singleSelect="false" fit="true"
+		checkOnSelect="false" selectOnCheck="false">
 	<thead>
 		<tr>
 			<th rowspan="2" field="ck" checkbox="true"></th>
@@ -245,7 +316,9 @@ function export_excel(){
 			<th align="center" field="ctmNdame" colspan="2" width="180" >导单</th>
 			<th rowspan="2" field="dayCount" width="60" sortable="true">日出货量</th>
 			<th rowspan="2" field="stuNum" width="60" sortable="true">登记人</th>
+			<!-- 
 			<th rowspan="2" field="createTime" width="150" sortable="true">导入时间</th>
+			 -->
 			<th rowspan="2" field="id" hidden="true">id</th>
 		</tr>
 		<tr>
@@ -256,8 +329,8 @@ function export_excel(){
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -278,8 +351,8 @@ function export_excel(){
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -300,8 +373,8 @@ function export_excel(){
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -322,8 +395,8 @@ function export_excel(){
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -344,8 +417,8 @@ function export_excel(){
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -366,8 +439,8 @@ function export_excel(){
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -388,8 +461,8 @@ function export_excel(){
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -410,8 +483,8 @@ function export_excel(){
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -432,8 +505,8 @@ function export_excel(){
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -454,8 +527,8 @@ function export_excel(){
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -486,7 +559,7 @@ function export_excel(){
 		</script>
 		<div class="btn-separator-none">
 			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
-			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()" disabled="true">编辑数据</a>
+			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
 			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
 		</div>
 		<div class="btn-separator">
@@ -540,12 +613,9 @@ function export_excel(){
 	<form id="fm" method="post" >
 		<input type="hidden" name="_method" value="post"/>
 		<input type="hidden" name="_header" value="${licence }"/>
+		<input type="hidden" name="id"/>
 		<div class="fitem">
-			<label>创建时间:</label>
-			<input name="createDate" required="true">
-		</div>
-		<div class="fitem">
-			<label>客户名:</label>
+			<label>客户名称:</label>
 			<input name="ctmName" required="true">
 		</div>
 		<div class="fitem">
@@ -553,44 +623,85 @@ function export_excel(){
 			<input name="ctmBarCode" required="true">
 		</div>
 		<div class="fitem">
-			<label>快递单号:</label>
-			<input name="courierNumber" required="true">
-		</div>
-		<div class="fitem">
-			<label>地址:</label>
-			<input name="address"  required="true">
-		</div>
-		<div class="fitem">
-			<label>订单编号:</label>
-			<input name="orderNumber"  required="true">
-		</div>
-		<div class="fitem">
-			<label>收件人:</label>
-			<input name="addressee" required="true">
-		</div>
-		<div class="fitem">
-			<label>联系方式:</label>
-			<input name="phone"  required="true">
-		</div>
-		<div class="fitem">
-			<label>商家ID:</label>
-			<input name="shopNumber" required="true">
-		</div>
-		<div class="fitem">
-			<label>快递公司:</label>
-			<input name="courierCompany" required="true">
-		</div>
-		<div class="fitem">
-			<label>物品价值:</label>
-			<input name="goodsCost" required="true">
-		</div>
-		<div class="fitem">
-			<label>物品:</label>
-			<input name="goods" required="true">
-		</div>
-		<div class="fitem">
 			<label>客户类型:</label>
-			<input name="numberType" required="true">
+			<input name="ctmType" required="true">
+		</div>
+		<div class="fitem">
+			<label>所属大区:</label>
+			<input name="largeArea"  required="true">
+		</div>
+		<div class="fitem">
+			<div>截单</div>
+			<label>处理量（票）:</label>
+			<input name="countJd"  required="true">
+			<label>用时（H）:</label>
+			<input id="hjd" name="hourJd" required="true">
+		</div>
+		<div class="fitem">
+			<div>查件</div>
+			<label>处理量（票）:</label>
+			<input name="countCj"  required="true">
+			<label>用时（H）:</label>
+			<input id="hcj" name="hourCj" required="true">
+		</div>
+		<div class="fitem">
+			<div>留言</div>
+			<label>处理量（票）:</label>
+			<input name="countLy"  required="true">
+			<label>用时（H）:</label>
+			<input id="hly" name="hourLy" required="true">
+		</div>
+		<div class="fitem">
+			<div>跟单</div>
+			<label>处理量（票）:</label>
+			<input name="countGd"  required="true">
+			<label>用时（H）:</label>
+			<input id="hgd" name="hourGd" required="true">
+		</div>
+		<div class="fitem">
+			<div>理赔处理</div>
+			<label>处理量（票）:</label>
+			<input name="countLpcl"  required="true">
+			<label>用时（H）:</label>
+			<input id="hlpcl" name="hourLpcl" required="true">
+		</div>
+		<div class="fitem">
+			<div>客诉处理</div>
+			<label>处理量（票）:</label>
+			<input name="countKscl"  required="true">
+			<label>用时（H）:</label>
+			<input id="hkscl" name="hourKscl" required="true">
+		</div>
+		<div class="fitem">
+			<div>签收表</div>
+			<label>处理量（票）:</label>
+			<input name="countQsb"  required="true">
+			<label>用时（H）:</label>
+			<input id="hqsb" name="hourQsb" required="true">
+		</div><div class="fitem">
+			<div>退件处理</div>
+			<label>处理量（票）:</label>
+			<input name="countTjcl"  required="true">
+			<label>用时（H）:</label>
+			<input id="htjcl" name="hourTjcl" required="true">
+		</div>
+		<div class="fitem">
+			<div>审单</div>
+			<label>处理量（票）:</label>
+			<input name="countSd"  required="true">
+			<label>用时（H）:</label>
+			<input id="hsd" name="hourSd" required="true">
+		</div>
+		<div class="fitem">
+			<div>导单</div>
+			<label>处理量（票）:</label>
+			<input name="countDd"  required="true">
+			<label>用时（H）:</label>
+			<input id="hdd" name="hourDd" required="true">
+		</div>
+		<div class="fitem">
+			<label>日出货量:</label>
+			<input name="dayCount" required="true">
 		</div>
 	</form>
 </div>

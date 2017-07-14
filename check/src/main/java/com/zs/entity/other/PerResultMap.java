@@ -157,6 +157,35 @@ public class PerResultMap {
 	public void setC21(int c21) {
 		this.c21 = c21;
 	}
+	public PerResultMap(String stuNum, int c1, int c2, int c3, int c4, int c5, int c6, int c7, int c8, int c9, int c10,
+			int c11, int c12, int c13, int c14, int c15, int c16, int c17, int c18, int c19, int c20, int c21) {
+		super();
+		this.stuNum = stuNum;
+		this.c1 = c1;
+		this.c2 = c2;
+		this.c3 = c3;
+		this.c4 = c4;
+		this.c5 = c5;
+		this.c6 = c6;
+		this.c7 = c7;
+		this.c8 = c8;
+		this.c9 = c9;
+		this.c10 = c10;
+		this.c11 = c11;
+		this.c12 = c12;
+		this.c13 = c13;
+		this.c14 = c14;
+		this.c15 = c15;
+		this.c16 = c16;
+		this.c17 = c17;
+		this.c18 = c18;
+		this.c19 = c19;
+		this.c20 = c20;
+		this.c21 = c21;
+	}
+	public PerResultMap() {
+		super();
+	}
 	
 	
 }

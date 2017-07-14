@@ -69,8 +69,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -91,8 +91,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -113,8 +113,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -135,8 +135,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -157,8 +157,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -179,8 +179,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -201,8 +201,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -223,8 +223,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -245,8 +245,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -267,8 +267,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       	var mm = '';
                       	var ss = '';
                       	var h = parseInt(value/3600);
-                      	var m = (value%3600)/60;
-                      	var s = (value%3600)%60;
+                      	var m = parseInt((value%3600)/60);
+                      	var s = parseInt((value%3600)%60);
                       	if(m<10){
                       		mm='0'+m;
                       	}else{
@@ -308,11 +308,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    		</div>
 	    		<input type="hidden" name="_header" value="${licence }"/>
 	   		</div>
-	   		<div class="searchBar-input">
-	   			<div>
-		    		导入人：<input name ="str1" />
-	    		</div>
-	   		</div>
+   			<div style="float:left;margin-left:5px;">	
+	    		导入人：<textarea name ="str1" style="height:85px;width:100px;"></textarea>
+   			</div>
 	   	</form>
 	   	<div class="clear"></div>
 	   	<hr class="hr-geay">
