@@ -38,6 +38,8 @@ public interface PrimeCodeReportMapper {
     //-------
     List<PrimeCodeReport> queryFenye(EasyUIAccept accept);
 	
+    List<PrimeCodeReport> queryCount(EasyUIAccept accept);
+
     int getCount(EasyUIAccept accept);
     
     lyResultMap getLy(EasyUIAccept accept);
@@ -47,4 +49,5 @@ public interface PrimeCodeReportMapper {
     OtherResultMap getOtherExcptions(EasyUIAccept accept);
     
     List<PerResultMap> getPerReport (EasyUIAccept accept);
+    
 }

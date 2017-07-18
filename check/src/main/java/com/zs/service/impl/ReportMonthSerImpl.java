@@ -491,6 +491,7 @@ public class ReportMonthSerImpl implements ReportMonthSer{
 					accept.setStr3(accept.getInt2()+"-"+(accept.getInt3()+i));
 					accept.setDate3(DateTimeHelper.getmonthStart(accept.getInt2(), (accept.getInt3()+i)));
 					accept.setDate4(DateTimeHelper.getmonthStart(accept.getInt2(), (accept.getInt3()+1+i)));
+					System.out.println(accept);
 					reportMonthMapper.callproduce(accept);
 				}
 			}

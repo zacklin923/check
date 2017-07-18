@@ -34,20 +34,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<th field="type" width="100" sortable="true">操作类型</th>
 			<th field="tablename" data-options="
 				formatter:function(value,row,index){
-                             if(value =='source_third_party'){
-								return '运单状态查询';
-                          }else if(value =='source_zm'){
-								return '运单信息查询';
+                             if(value =='zm_return_data'){
+								return '运单信息状态表';
                           }else if(value =='source_import'){
 								return '导入数据';
                           }else{
                           	return value;
                           }
-                      }" width="200">操作表名</th>
-			<th field="logisticcode" width="150" sortable="true">操作单号</th>
+                      }" width="150">操作表名</th>
+			<th field="logisticcode" width="120" sortable="true">操作单号</th>
+			<th field="olddata" width="1000">原数据</th>
+			<!-- 
 			<th field="idDate" width="100">id时间</th>
-			<th field="olddata" width="800">原数据</th>
 			<th field="bigdata" width="800">大数据</th>
+			 -->
 		</tr>
 	</thead>
 </table>
@@ -86,8 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    		操作表名：
 		    		<select name ="str3" style="width:140px;">
     					<option value ="">请选择。。。</option>
-    					<option value ="source_zm">运单信息查询</option>
-    					<option value ="source_third_party">运单状态查询</option>
+    					<option value ="zm_return_data">运单信息状态表</option>
     					<option value ="source_import">数据导入</option>
     				</select>
 	    		</div>

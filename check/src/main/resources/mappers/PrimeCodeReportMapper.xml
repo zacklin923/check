@@ -626,57 +626,9 @@
     where ID = #{id,jdbcType=DECIMAL}
   </update>
    <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
-  	select * from
-  	(
-	  	select t1.*,rownum rn from
-	  	(
-		  	select * from PRIME_CODE_REPORT
-		  	<where>
-			  	<if test="date1!=null and date1!=''">
-			  		and CREATE_TIME >= #{date1}
-			  	</if>
-			  	<if test="date2!=null and date2!=''">
-		  			and CREATE_TIME &lt;= #{date2}
-		 		</if>
-			  	<if test="str3!=null and str3!=''">
-			  		and CTM_BAR_CODE in (${str3})
-			  	</if>
-			  	<if test="str4!=null and str4!=''">
-			  		and STU_NUM in (select stu_num from staff_user where stu_name in (${str4}))
-			  	</if>
-			  	<if test="str5!=null">
-			  		and CTM_NAME like '%${str5}%'
-			  	</if>
-			  	<if test="str6!=null">
-			  		and CTM_TYPE like '%${str6}%'
-			  	</if>
-			  	<if test="str7!=null">
-			  		and LARGE_AREA like '%${str7}%'
-			  	</if>
-		  	</where>
-		  	<if test="sort!=null and order!=null">
-		  		order by ${sort} ${order},CREATE_TIME desc
-		  	</if>
-		  	<if test="sort==null or order==null">
-		  		order by CREATE_TIME desc
-		  	</if>
-	  	) t1
-	  	<where>
-	  		<if test="end!=null">
-	  			rownum &lt;= #{end}
-		  	</if>
-	  	</where>
-  	)
+  	select * from PRIME_CODE_REPORT
   	<where>
-  		<if test="start!=null">
-  			rn > #{start}
-	  	</if>
-  	</where>
-  </select>
-  <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
-  	select count(*) from PRIME_CODE_REPORT
-  	<where>
-  		<if test="date1!=null and date1!=''">
+	  	<if test="date1!=null and date1!=''">
 	  		and CREATE_TIME >= #{date1}
 	  	</if>
 	  	<if test="date2!=null and date2!=''">
@@ -697,7 +649,52 @@
 	  	<if test="str7!=null">
 	  		and LARGE_AREA like '%${str7}%'
 	  	</if>
- 	</where>
+  	</where>
+  	<if test="sort!=null and order!=null">
+  		order by ${sort} ${order},CTM_BAR_CODE desc
+  	</if>
+  	<if test="sort==null or order==null">
+  		order by CTM_BAR_CODE desc
+  	</if>
+  </select>
+  <select id="queryCount" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+	  	select ctm_name,ctm_bar_code,ctm_type,large_area,sum(count_jd) count_jd,sum(hour_jd) hour_jd,
+	  	sum(count_cj) count_cj,sum(hour_cj) hour_cj,sum(count_ly) count_ly,sum(hour_ly) hour_ly,
+	  	sum(count_gd) count_gd,sum(hour_gd) hour_gd,sum(count_lpcl) count_lpcl,sum(hour_lpcl) hour_lpcl,
+	  	sum(count_kscl) count_kscl,sum(hour_kscl) hour_kscl,sum(count_qsb) count_qsb,sum(hour_qsb) hour_qsb,
+	  	sum(count_tjcl) count_tjcl,sum(hour_tjcl) hour_tjcl,sum(count_sd) count_sd,sum(hour_sd) hour_sd,
+	  	sum(count_dd) count_dd,sum(hour_dd) hour_dd,sum(day_count) day_count,STU_NUM
+		from PRIME_CODE_REPORT
+	  	<where>
+		  	<if test="date1!=null and date1!=''">
+		  		and CREATE_TIME >= #{date1}
+		  	</if>
+		  	<if test="date2!=null and date2!=''">
+	  			and CREATE_TIME &lt;= #{date2}
+	 		</if>
+		  	<if test="str3!=null and str3!=''">
+		  		and CTM_BAR_CODE in (${str3})
+		  	</if>
+		  	<if test="str4!=null and str4!=''">
+		  		and STU_NUM in (select stu_num from staff_user where stu_name in (${str4}))
+		  	</if>
+		  	<if test="str5!=null">
+		  		and CTM_NAME like '%${str5}%'
+		  	</if>
+		  	<if test="str6!=null">
+		  		and CTM_TYPE like '%${str6}%'
+		  	</if>
+		  	<if test="str7!=null">
+		  		and LARGE_AREA like '%${str7}%'
+		  	</if>
+	  	</where>
+	  	group by CTM_BAR_CODE,CTM_NAME,CTM_TYPE,LARGE_AREA,STU_NUM
+	  	<if test="sort!=null and order!=null">
+	  		order by ${sort} ${order}
+	  	</if>
+	  	<if test="sort==null or order==null">
+	  		order by CTM_BAR_CODE desc
+	  	</if>
   </select>
   <select id="getLy" resultMap="LyResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
   	select SUM(count_ly) c1,COUNT(distinct stu_num) c2 from prime_code_report 
@@ -753,7 +750,7 @@
   	from prime_code_report
   	<where>
   		<if test="str1!=null">
-	  	 	 and stu_num in (#{str1})
+	  	 	 and stu_num in (select stu_num from staff_user where stu_name in (${str1}))
   		</if>
   		<if test="date1!=null and date1!=''">
 	  		and CREATE_TIME >= #{date1}

@@ -114,7 +114,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 						list.get(i)[9],list.get(i)[11],list.get(i)[10],
 						list.get(i)[5],"大客户",
 						new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
-						null,stuNum,list.get(i)[12],list.get(i)[13]);
+						null,stuNum,list.get(i)[12],null);
 				SourceImportFailed sif = new SourceImportFailed();
 				sif.setStuNum(stuNum);
 				sif.setFailInfo(gson.toJson(sie));
@@ -122,7 +122,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 				importFailMapper.insertSelective(sif);
 				inull1=1;
 			}else{
-				if(Trans.tostring(list.get(i)[3]).matches("[0-9]*")&&Trans.tostring(list.get(i)[3]).length()==13){
+				if(Trans.tostring(list.get(i)[3]).matches("[0-9]*")&&(Trans.tostring(list.get(i)[3]).length()==13 ||!list.get(i)[9].equals("11"))){
 					SourceImport skey =importMapper.selectByPrimaryKey(Trans.tostring(list.get(i)[3]));
 					if(skey==null){
 						//张顺，2017-5-26,新增两种错误类型：1、条码不全是数字。2、条码不是6位数。
@@ -139,7 +139,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 									list.get(i)[9],list.get(i)[11],list.get(i)[10],
 									list.get(i)[5],"大客户",
 									new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
-									null,stuNum,list.get(i)[12],list.get(i)[13]);
+									null,stuNum,list.get(i)[12],null);
 							SourceImportFailed sif = new SourceImportFailed();
 							sif.setStuNum(stuNum);
 							sif.setFailInfo(gson.toJson(sie));
@@ -181,8 +181,8 @@ public class SourceImportSerImpl implements SourceImportSer{
 							try {
 								String oneCode=list.get(i)[12].length()>=3?list.get(i)[12].substring(0,3):null;
 								SourceImport s = new SourceImport(list.get(i)[3].trim().replace(",", ""),
-										list.get(i)[2].trim().replace(",", ""),
-										list.get(i)[1],
+										ctmbarcode,
+										isct.getCteName(),
 										list.get(i)[8].trim().replace(",", ""),
 										Trans.TransToDate(list.get(i)[0]),
 										list.get(i)[4],
@@ -197,12 +197,12 @@ public class SourceImportSerImpl implements SourceImportSer{
 										new BigDecimal("0"),
 										stuNum,
 										oneCode,
-										list.get(i)[13]);
+										null);
 								importMapper.insertSelective(s);
 								succs++;
 							} catch (Exception e) {
 								e.printStackTrace();
-								SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8].replace(",", ""),list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
+								SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8].replace(",", ""),list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],null);
 								SourceImportFailed sif = new SourceImportFailed();
 								sif.setStuNum(stuNum);
 								sif.setFailInfo(gson.toJson(sie));
@@ -212,7 +212,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 							}
 						}
 					}else{
-						SourceImportErr sier = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
+						SourceImportErr sier = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],null);
 						SourceImportFailed sifk = new SourceImportFailed();
 						sifk.setStuNum(stuNum);
 						sifk.setFailInfo(gson.toJson(sier));
@@ -221,7 +221,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 						inull2=2;
 					}
 				}else{
-					SourceImportErr sier = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],list.get(i)[13]);
+					SourceImportErr sier = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),list.get(i)[2].trim().replace(",", ""),list.get(i)[1],list.get(i)[8],list.get(i)[0],list.get(i)[4],list.get(i)[6],list.get(i)[7],list.get(i)[9],list.get(i)[11],list.get(i)[10],list.get(i)[5],"大客户",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),null,stuNum,list.get(i)[12],null);
 					SourceImportFailed sifk = new SourceImportFailed();
 					sifk.setStuNum(stuNum);
 					sifk.setFailInfo(gson.toJson(sier));

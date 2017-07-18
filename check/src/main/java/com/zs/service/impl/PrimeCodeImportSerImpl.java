@@ -38,24 +38,80 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
-			Integer page=accept.getPage();
-			Integer size=accept.getRows();
-			if (page!=null && size!=null) {
-				accept.setStart((page-1)*size);
-				accept.setEnd(page*size);
-			}
-			List list=primeCodeReportMapper.queryFenye(accept);
-			int rows=primeCodeReportMapper.getCount(accept);
-			for (int i = 0; i < list.size(); i++) {
-				PrimeCodeReport si = (PrimeCodeReport) list.get(i);
-				if(si.getStuNum()!=null && !si.getStuNum().equals("")){
-					StaffUser suer = userMapper.selectByPrimaryKey(si.getStuNum());
-					si.setStuNum(suer.getStuName());
-				}else{
-					si.setStuNum("");
+			List list;
+			PrimeCodeReport pcr = new PrimeCodeReport(new BigDecimal(0),"","","","总计",new BigDecimal(0),
+					new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),
+					new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),
+					new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),
+					new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),new BigDecimal(0),"",null,null);
+			pcr.setLargeArea("总计");
+			if((accept.getDate2().getTime()-accept.getDate1().getTime())>(1000*60*60*24)){
+				list=primeCodeReportMapper.queryCount(accept);
+				for (int i = 0; i < list.size(); i++) {
+					PrimeCodeReport si = (PrimeCodeReport) list.get(i);
+					if(si.getStuNum()!=null && !si.getStuNum().equals("")){
+						StaffUser suer = userMapper.selectByPrimaryKey(si.getStuNum());
+						si.setStuNum(suer.getStuName());
+					}else{
+						si.setStuNum("");
+					}
+					pcr.setCountJd(pcr.getCountJd().add(si.getCountJd()));
+					pcr.setHourJd(pcr.getHourJd().add(si.getHourJd()));
+					pcr.setCountCj(pcr.getCountCj().add(si.getCountCj()));
+					pcr.setHourCj(pcr.getHourCj().add(si.getHourCj()));
+					pcr.setCountLy(pcr.getCountLy().add(si.getCountLy()));
+					pcr.setHourLy(pcr.getHourLy().add(si.getHourLy()));
+					pcr.setCountGd(pcr.getCountGd().add(si.getCountGd()));
+					pcr.setHourGd(pcr.getHourGd().add(si.getHourGd()));
+					pcr.setCountLpcl(pcr.getCountLpcl().add(si.getCountLpcl()));
+					pcr.setHourLpcl(pcr.getHourLpcl().add(si.getHourLpcl()));
+					pcr.setCountKscl(pcr.getCountKscl().add(si.getCountKscl()));
+					pcr.setHourKscl(pcr.getHourKscl().add(si.getHourKscl()));
+					pcr.setCountQsb(pcr.getCountQsb().add(si.getCountQsb()));
+					pcr.setHourQsb(pcr.getHourQsb().add(si.getHourQsb()));
+					pcr.setCountTjcl(pcr.getCountTjcl().add(si.getCountTjcl()));
+					pcr.setHourTjcl(pcr.getHourTjcl().add(si.getHourTjcl()));
+					pcr.setCountSd(pcr.getCountSd().add(si.getCountSd()));
+					pcr.setHourSd(pcr.getHourSd().add(si.getHourSd()));
+					pcr.setCountDd(pcr.getCountDd().add(si.getCountDd()));
+					pcr.setHourDd(pcr.getHourDd().add(si.getHourDd()));
+					pcr.setDayCount(pcr.getDayCount().add(si.getDayCount()));
+				}
+			}else{
+				list=primeCodeReportMapper.queryFenye(accept);
+				for (int i = 0; i < list.size(); i++) {
+					PrimeCodeReport si = (PrimeCodeReport) list.get(i);
+					if(si.getStuNum()!=null && !si.getStuNum().equals("")){
+						StaffUser suer = userMapper.selectByPrimaryKey(si.getStuNum());
+						si.setStuNum(suer.getStuName());
+					}else{
+						si.setStuNum("");
+					}
+					pcr.setCountJd(pcr.getCountJd().add(si.getCountJd()));
+					pcr.setHourJd(pcr.getHourJd().add(si.getHourJd()));
+					pcr.setCountCj(pcr.getCountCj().add(si.getCountCj()));
+					pcr.setHourCj(pcr.getHourCj().add(si.getHourCj()));
+					pcr.setCountLy(pcr.getCountLy().add(si.getCountLy()));
+					pcr.setHourLy(pcr.getHourLy().add(si.getHourLy()));
+					pcr.setCountGd(pcr.getCountGd().add(si.getCountGd()));
+					pcr.setHourGd(pcr.getHourGd().add(si.getHourGd()));
+					pcr.setCountLpcl(pcr.getCountLpcl().add(si.getCountLpcl()));
+					pcr.setHourLpcl(pcr.getHourLpcl().add(si.getHourLpcl()));
+					pcr.setCountKscl(pcr.getCountKscl().add(si.getCountKscl()));
+					pcr.setHourKscl(pcr.getHourKscl().add(si.getHourKscl()));
+					pcr.setCountQsb(pcr.getCountQsb().add(si.getCountQsb()));
+					pcr.setHourQsb(pcr.getHourQsb().add(si.getHourQsb()));
+					pcr.setCountTjcl(pcr.getCountTjcl().add(si.getCountTjcl()));
+					pcr.setHourTjcl(pcr.getHourTjcl().add(si.getHourTjcl()));
+					pcr.setCountSd(pcr.getCountSd().add(si.getCountSd()));
+					pcr.setHourSd(pcr.getHourSd().add(si.getHourSd()));
+					pcr.setCountDd(pcr.getCountDd().add(si.getCountDd()));
+					pcr.setHourDd(pcr.getHourDd().add(si.getHourDd()));
+					pcr.setDayCount(pcr.getDayCount().add(si.getDayCount()));
 				}
 			}
-			return new EasyUIPage(rows, list);
+			list.add(pcr);
+			return new EasyUIPage(20, list);
 		}
 		return null;
 	}
@@ -66,8 +122,7 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 	}
 
 	public Integer update(PrimeCodeReport obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return primeCodeReportMapper.updateByPrimaryKeySelective(obj);
 	}
 
 	public Integer delete(String id) {
@@ -151,18 +206,29 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 				OtherResultMap orm = primeCodeReportMapper.getOthers(accept);
 				lyResultMap lrp = primeCodeReportMapper.getLy(accept);
 				OtherResultMap orme = primeCodeReportMapper.getOtherExcptions(accept);
+				if(orm.getC3()>0){
+					orme.setC6(orm.getC3()-lrp.getC2());
+				}else{
+					orm.setC6(0);
+				}
 				Double d1=0.0;
 				Double d2=0.0;
 				Double d3=0.0;
-				if(orm.getC3()!=0){
+				if(orm.getC3()!=0&&orm.getC3()!=0){
 					d1 = (double) (orm.getC2()/orm.getC3());
+				}else{
+					d1=0.0;
 				}
-				if(orm.getC3()!=0){
+				if(lrp.getC1()!=0&&lrp.getC2()!=0){
 					d2 = (double) (lrp.getC1()/lrp.getC2());
+				}else{
+					d2=0.0;
 				}
 				int allExcep = orme.getC1()+orme.getC2()+orme.getC3()+orme.getC4()+orme.getC5();
-				if(orm.getC3()!=0){
+				if(allExcep!=0&&orme.getC6()!=0){
 					d3 = (double) (allExcep/orme.getC6());
+				}else{
+					d3=0.0;
 				}
 				PrimeCodeCollect pcc = new PrimeCodeCollect(str,orm.getC1(),orm.getC2(),orm.getC3(),d1,lrp.getC1(),lrp.getC2(),d2,allExcep,orme.getC6(),d3,orme.getC1(),orme.getC2(),orme.getC3(),(orme.getC4()+orme.getC5()),(orm.getC4()+orm.getC5()),(orm.getC6()+orm.getC7()));
 				list.add(pcc);
@@ -177,7 +243,9 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 	}
 
 	public EasyUIPage querPer(EasyUIAccept accept) {
+		System.out.println(accept);
 		List list = primeCodeReportMapper.getPerReport(accept);
+		PerResultMap prmall = new PerResultMap("总计",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 		for (int i = 0; i < list.size(); i++) {
 			PerResultMap prm = (PerResultMap) list.get(i);
 			String str = "";
@@ -186,7 +254,29 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 				str = user.getStuName();
 			}
 			prm.setStuNum(str);
+			prmall.setC1(prmall.getC1()+prm.getC1());
+			prmall.setC2(prmall.getC2()+prm.getC2());
+			prmall.setC3(prmall.getC3()+prm.getC3());
+			prmall.setC4(prmall.getC4()+prm.getC4());
+			prmall.setC5(prmall.getC5()+prm.getC5());
+			prmall.setC6(prmall.getC6()+prm.getC6());
+			prmall.setC7(prmall.getC7()+prm.getC7());
+			prmall.setC8(prmall.getC8()+prm.getC8());
+			prmall.setC9(prmall.getC9()+prm.getC9());
+			prmall.setC10(prmall.getC10()+prm.getC10());
+			prmall.setC11(prmall.getC11()+prm.getC11());
+			prmall.setC12(prmall.getC12()+prm.getC12());
+			prmall.setC13(prmall.getC13()+prm.getC13());
+			prmall.setC14(prmall.getC14()+prm.getC14());
+			prmall.setC15(prmall.getC15()+prm.getC15());
+			prmall.setC16(prmall.getC16()+prm.getC16());
+			prmall.setC17(prmall.getC17()+prm.getC17());
+			prmall.setC18(prmall.getC18()+prm.getC18());
+			prmall.setC19(prmall.getC19()+prm.getC19());
+			prmall.setC20(prmall.getC20()+prm.getC20());
+			prmall.setC21(prmall.getC21()+prm.getC21());
 		}
+		list.add(prmall);
 		return new EasyUIPage(20, list);
 	}
 
@@ -269,7 +359,9 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 	}
 
 	public String exportDataPersonle(EasyUIAccept accept, HttpServletRequest request) {
+		System.out.println(accept);
 		List list = primeCodeReportMapper.getPerReport(accept);
+		System.out.println(accept);
 		String[][] obj = {{"","截单","","查件","","留言","","跟单","","理赔处理","","客诉处理","","签收表","","退件处理","","审单","","导单",""},
 				 {"处理人","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","日出货量"}};
 		String[][] objs = new String[list.size()][obj[1].length];

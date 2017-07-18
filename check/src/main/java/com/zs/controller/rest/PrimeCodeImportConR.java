@@ -77,8 +77,21 @@ public class PrimeCodeImportConR extends BaseRestController<PrimeCodeReport,Stri
 	}
 
 	@Override
+	@RequestMapping(value="/aa",method=RequestMethod.PUT)
 	public Result<Integer> doUpdate(PrimeCodeReport obj, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
+		if(obj!=null){
+			try {
+				PrimeCodeReport ols = primeCodeImportSer.get(obj.getId()+"");
+				Integer i = primeCodeImportSer.update(obj);
+				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
+				CheckLog clog = new CheckLog(null, obj.getId()+"", null, "prime_code_import",new Gson().toJson(ols) , null,user.getStuNum() , "修改单条");
+				checkLogSer.add(clog);
+				return new Result<Integer>(SUCCESS,  Code.SUCCESS, 1);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new Result<Integer>(ERROR,  Code.ERROR, -1);
+			}
+		}
 		return null;
 	}
 
@@ -111,7 +124,15 @@ public class PrimeCodeImportConR extends BaseRestController<PrimeCodeReport,Stri
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
-				accept.setStr1(ManagerId.isSeeAll(req));
+//				accept.setStr1(ManagerId.isSeeAll(req));
+				//处理批量查询推过来的字符串
+				System.out.println(accept);
+				if(accept.getStr3()!=null){
+					accept.setStr3(BatchString.oldbatchstr(accept.getStr3()));
+				}
+				if(accept.getStr4()!=null){
+					accept.setStr4(BatchString.oldbatchstr(accept.getStr4()));
+				}
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>("success",  Code.SUCCESS, primeCodeImportSer.exportDataImport(accept,req));
 			} catch (Exception e) {
@@ -126,7 +147,7 @@ public class PrimeCodeImportConR extends BaseRestController<PrimeCodeReport,Stri
 	public Result<String> excelExportCollect(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
-				accept.setStr1(ManagerId.isSeeAll(req));
+//				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>("success",  Code.SUCCESS, primeCodeImportSer.exportDataCollect(accept,req));
 			} catch (Exception e) {
@@ -141,7 +162,10 @@ public class PrimeCodeImportConR extends BaseRestController<PrimeCodeReport,Stri
 	public Result<String> excelExportPersonle(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
-				accept.setStr1(ManagerId.isSeeAll(req));
+				//处理批量查询推过来的字符串
+				if(accept.getStr1()!=null){
+					accept.setStr1(BatchString.oldbatchstr(accept.getStr1()));
+				}
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>("success",  Code.SUCCESS, primeCodeImportSer.exportDataPersonle(accept,req));
 			} catch (Exception e) {
@@ -208,6 +232,9 @@ public class PrimeCodeImportConR extends BaseRestController<PrimeCodeReport,Stri
 	public EasyUIPage queryPer(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
+				if(accept.getStr1()!=null){
+					accept.setStr1(BatchString.oldbatchstr(accept.getStr1()));
+				}
 				return primeCodeImportSer.querPer(accept);
 			} catch (Exception e) {
 				e.printStackTrace();

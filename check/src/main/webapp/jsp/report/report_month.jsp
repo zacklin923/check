@@ -44,6 +44,7 @@ function stylesheet(){
 	});
 }
 function refrence(){
+	show_hint([]);
 	$('#search').form("submit",{
 		url:"<%=path %>/api/reportMonth/1",
 		method:"GET",
@@ -58,12 +59,15 @@ function refrence(){
 					json = eval('('+data+')');
 				}
 				if(json.result=='success'){
+					hiden_hint();
 					alert(json.data);
 					search_toolbar1();
 				}else{
+					hiden_hint();
 					alert("错误:"+json.data);
 				}
 			}else{
+				hiden_hint();
 				alert("错误:网络错误");
 			}
 		}
