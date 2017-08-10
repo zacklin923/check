@@ -20,12 +20,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<jsp:include page="/jsp/part/common.jsp"/>
 	<script type="text/javascript" src="<%=path %>/framework/js/myjs.js"></script>
 	<link rel="stylesheet" type="text/css" href="<%=path %>/framework/css/mycss.css">
+	<!-- 
 	<script type="text/javascript">
 	$(function(){
 		$("#target").val("${target}");
 	});
 	function select_target(){
 		var t=$("#target").val();
+		
 		$.ajax({
 			url:"<%=path%>/system/setting/target",
 			async:false,
@@ -36,6 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		});
 	}
 	</script>
+	-->
   </head>
   
 <body style="margin: 0px;padding: 0px;background-color:#F9BE00;" >
@@ -45,6 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div style="margin-top: -44px;margin-left: 148px;">
 		<span style="color: #3E3A38;font-size: 37px;font-weight: bold;font-family: Microsoft YaHei;">大客户查件系统</span>
 	</div>
+	<!-- 
 	<div style="width: 300px;float: right;margin-top: -50px;text-align: right;margin-right: 28px;font-weight: bold;">
 		网页打开方式:
 		<select id="target" onchange="select_target()" style="background-color: #fff;font-weight: bold;">
@@ -52,6 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<option value="_blank">新窗口</option>
 		</select>
 	</div>
+	 -->
 	<div style="margin-top: -17px;">
 	<c:choose>
 		<c:when test="${user==null}">

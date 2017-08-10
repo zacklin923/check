@@ -318,6 +318,34 @@ function accept(){
 		}
 	}
 }
+function dodelete(){
+	var row=$("#dg").datagrid("getSelected");
+	if(row){
+		$.ajax({
+			url:"<%=path%>/api/zmReturnData/"+row.courierNumber,
+			type:"DELETE",
+			success:function(data){
+				if(data){
+					var json;
+					if(isJson(data)){
+						json=data;
+					}else{
+						json = eval('('+data+')');
+					}
+					if(json.result=='success'){
+						alert("删除成功");
+						$('#dg').datagrid('reload');
+					}else{
+						alert("错误:"+json.code+"  "+json.data);
+						$('#dg').datagrid('reload');
+					}
+				}else{
+					alert("错误:网络错误");
+				}
+			}
+		});
+	}
+}
 </script>
 <table id="dg" border="true"
 		url="<%=path %>/api/zmReturnData/tp"
@@ -353,6 +381,7 @@ function accept(){
 			<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#fileImport').dialog('open')">导入数据</a>
 			<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="updateObj()">编辑数据</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">保存</a>
+			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="dodelete()">删除数据</a>
 		</div>
 		<div class="btn-separator">
 			<a class="easyui-linkbutton" iconCls="icon-help" plain="true" onclick="$('#dlg_help').dialog('open')">帮助</a>

@@ -597,7 +597,7 @@
 		  			and BUSINESS like '%${str10}%'
 		  		</if>
 		  		<if test="int1!=null">
-		  			and HISTORY_COUNT = 0
+		  			and HISTORY_COUNT = 0 and STATE ='启用'
 		  		</if>
 		  	</where>
 		  	<if test="sort!=null and order!=null">
@@ -650,7 +650,7 @@
   			and BUSINESS like '%${str10}%'
   		</if>
   		<if test="int1!=null">
-  			and HISTORY_COUNT = 0
+  			and HISTORY_COUNT = 0 and STATE ='启用'
   		</if>
   	</where>
   </select>

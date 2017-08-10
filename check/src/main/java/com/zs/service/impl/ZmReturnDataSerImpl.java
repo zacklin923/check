@@ -9,11 +9,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
-import com.zs.controller.rest.BaseRestController.Code;
-import com.zs.dao.CheckLogMapper;
 import com.zs.dao.CustomerMapper;
 import com.zs.dao.NoUpdateMapper;
 import com.zs.dao.ZmReturnDataMapper;
@@ -22,17 +19,14 @@ import com.zs.entity.Customer;
 import com.zs.entity.CustomerKey;
 import com.zs.entity.NoUpdate;
 import com.zs.entity.NoUpdateKey;
-import com.zs.entity.SourceZm;
 import com.zs.entity.StaffUser;
 import com.zs.entity.TimeLimit;
 import com.zs.entity.ZmReturnData;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
-import com.zs.entity.other.Result;
 import com.zs.service.CheckLogSer;
 import com.zs.service.TimeLimitSer;
 import com.zs.service.ZmReturnDataSer;
-import com.zs.tools.CheckTimeCost;
 import com.zs.tools.ExcelExport;
 import com.zs.tools.Trans;
 
@@ -155,21 +149,24 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		if (zm!=null && zm.getDeliveryState()!=null && stuNum!=null) {
 			//-------判断配送状态是否修改为系统不能修改的两个字段
 			try {
-				ZmReturnData stp = zmReturnDataMapper.selectByPrimaryKey(zm.getCourierNumber());
-				if(!stp.getDeliveryState().equals(zm.getDeliveryState())){
-					NoUpdate nu = new NoUpdate();
-					nu.setCourierNumber(zm.getCourierNumber());
-					nu.setNoUpdateName("delivery_state");
-					nu.setNoUpdateValue(zm.getDeliveryState());
-					nu.setStuNum(stuNum);
-					try {
-						noUpdateMapper.insertSelective(nu);
-					} catch (Exception e) {
-						noUpdateMapper.updateByPrimaryKeySelective(nu);
+				if(zm.getDeliveryState().equals("配送成功")||zm.getDeliveryState().equals("配送失败")||zm.getDeliveryState().equals("退回件")){
+					ZmReturnData stp = zmReturnDataMapper.selectByPrimaryKey(zm.getCourierNumber());
+					if(!stp.getDeliveryState().equals(zm.getDeliveryState())){
+						NoUpdate nu = new NoUpdate();
+						nu.setCourierNumber(zm.getCourierNumber());
+						nu.setNoUpdateName("delivery_state");
+						nu.setNoUpdateValue(zm.getDeliveryState());
+						nu.setStuNum(stuNum);
+						try {
+							noUpdateMapper.insertSelective(nu);
+						} catch (Exception e) {
+							noUpdateMapper.updateByPrimaryKeySelective(nu);
+						}
 					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				
 			}
 		}
 	}
