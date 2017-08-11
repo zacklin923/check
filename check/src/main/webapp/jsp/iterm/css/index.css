@@ -1,0 +1,177 @@
+/* 首页样式表 */
+/* 样式表一*/
+/*************** 组件通过CSS脚本*****************************/
+.clear{ clear: both; overflow: hidden; height: 0;}
+.field-error{ color: #c00; background: #ffc; padding: 2px 5px; border: solid 1px #FFAD33; margin: 0 0 0 5px; position: absolute; border-radius:2px;z-index: 1;}
+.field-error span{ margin: 2px 4px 0 0; float: left;}
+.field-length-checker{position: absolute; text-align:right;margin:-25px 0 0 -100px;width:100px;display:inline-block;}
+
+
+
+/* 样式表三 */
+
+#wrapper{
+	padding-left: 200px;
+}
+
+#sidebar{
+	padding: 0;
+	border-style: solid;
+	position:absolute;
+	height: 700px;
+	margin-left: -200px;
+	width: 200px;
+	border-color: #ebf2fa #e4e4e4 #f2f2f2 #fff;
+    border-width: 1px 1px 0 0;
+   }
+	
+#sidebar ul{
+	list-style: none;
+	margin: 10px 0 10px 0;
+	padding: 0;}
+#sidebar ul li{
+	height: 25px;
+	position: relative;
+	line-height: 25px}
+ #sidebar li span{
+	color: #354b66;
+	text-decoration: none;
+	display: block;
+	vertical-align: middle;
+	padding: 0 0 0 20px;
+	height: 25px;
+	 position: relative;
+}
+#sidebar li span p{
+	position: absolute;
+	left: 50px;
+	top: 0px;
+
+}
+#sidebar span{
+	cursor: pointer;
+}
+#sidebar h3{
+	margin: 10px 0 5px 0px;
+	padding: 0 0 0 20px; color: #069;
+	border-color: rgba(140, 140, 140, 0.54);
+	border-style: dotted;
+	border-width: 0 0 1px 0;
+	font-size: 12px;
+	line-height: 23px;}
+
+#sidebar li a:hover{
+	color: #f05;
+	text-decoration:
+	underline;}
+#sidebar li span:hover{
+	background-color: rgb(255, 180, 0);
+}
+#sidebar li.active span{
+	padding: 0 0 0 10px;
+	margin-left: 10px;
+	background-color: #fff;
+	position: absolute;
+	cursor: default;
+	height: 25px;
+	width: 180px ;
+	border-radius:5px 0 0 5px;
+	border-style: solid ;
+	border-color: skyblue;
+	border-width: 1px 0 1px 1px;
+}
+#main{
+	min-height: 400px;
+	padding:10px 10px 10px 14px;
+	position: relative;
+	}
+ 
+#tag li img{
+	margin: 0;
+	display: none;
+}
+#tag li:hover img{
+	display: block;
+	position: absolute;
+	top: 5px;
+	float: right;
+	right: 10px;
+	z-index: 9999;}
+
+/*/* myapps*/
+#myapps ul{ list-style: none; margin: 10px 0 20px 0; padding: 0;}
+#myapps ul {margin-top:20px;}
+#myapps ul a{ display: block; width: 100%;}
+#myapps ul a:hover{ color: #f05; text-decoration: none;}
+#myapps ul li{ float: left; margin:0 5px; width:162px; height: 165px; text-align: center; border-radius: 6px; border: solid 1px #fff;}
+#myapps ul li img{ margin: 20px auto 10px auto; display: block; width: 32px; height:32px;}
+#myapps ul li span{ color: #006699; display: block; font-size: 14px; height: 35px; line-height: 16px; overflow: hidden; padding: 0 10px;}
+#myapps ul li a:hover span{ color: #f05; text-decoration: underline;}
+#myapps ul li div{ padding: 0px; clear: both; display: block;}
+#myapps ul li div a{ font-size: 12px; display: inline-block; width: auto; clear: none; color: #8C8C8C; padding: 0; margin: 0;}
+#myapps ul li p{ color: #737373; display: none; height: 32px; line-height: 16px; margin: 5px; overflow: hidden;}
+#myapps ul li:hover{ background: #E8F9FE; border-color: #96E5FF; border-style: solid; border-width: 1px; transition: background 0.3s linear 0s;}
+#myapps ul li:hover p{ display: block;}
+
+/* header*/
+.layout-header{
+	box-shadow:1px 1px 20px #D9EEFF;
+	box-shadow:1px 1px 20px #CCE8FF\9;             
+	background:#D79128;
+	height: 60px;
+	z-index: 10;
+	margin: 0px;
+	width: 100%;}
+.layout-logo #systerm{
+	font-size: 22px;
+	text-align: center;
+	line-height: 52px;
+	margin-left: 10px;
+	text-decoration: none;
+	width: 200px;}
+
+/* tab*/
+.layout-tab{ min-height: 600px; height:auto !important; _height:600px; }
+.layout-tabheader{background: none repeat scroll 0 0 #FFFFFF; clear: both; margin:10px 0 0; padding:0; width: 100%; z-index: 502; min-width:400px;}
+.layout-tabheader ul{padding: 0 0 0 20px;}
+.layout-tabheader ul li.tab-fixed{ border-color: #E4E4E4 #E4E4E4 #F2F2F2; border-radius: 8px 8px 0 0; border-style: solid; border-width: 1px 1px 0; float: left; height: 20px; margin: 0 5px; padding: 5px 15px 3px;}
+.layout-tabheader ul li.tab-fixed.tab-active {background: none repeat scroll 0 0 #EFF6FF;border-color: #A4CAEF #A4CAEF #EFF6FF;border-style: solid;border-width: 1px;}
+.layout-tabheader ul li.tab-fixed.tab-active a {}
+.layout-tabpage { background: none repeat scroll 0 0 #EFF6FF; clear: both; padding: 15px 0 20px; width: 100%; overflow:auto; }
+#menuiterm{height:28px;border-bottom:1px solid #b0bbc9;}
+
+
+/* tab栏切换自己样式开始 */
+.menutab li{
+	float: left;
+	width: 81px;
+	height: 27px;
+	cursor: pointer;
+	color: #6A6A6A;
+	border-radius:5px 5px 0 0;
+	border-top:1px solid lightgray;
+	border-left:1px solid lightgray;
+	border-right:1px solid lightgray;
+	text-align: center;
+}
+.menutab li:nth-child(1){
+	background-color:rgb(255, 180, 0);
+	color: white;
+}
+
+
+.menutab li span{
+	 text-align: center;
+    line-height: 27px;
+    font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
