@@ -97,7 +97,7 @@
 	</session-config>
 	
 	<welcome-file-list>
-		<welcome-file>/jsp/cw/menu.jsp</welcome-file>
+		<welcome-file>/jsp/iterm/login.jsp</welcome-file>
 	</welcome-file-list>
 	
 </web-app>

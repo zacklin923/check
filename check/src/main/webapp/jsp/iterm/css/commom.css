@@ -1,0 +1,304 @@
+/*公共样式*/
+/*补充页面的一些功能begin*/
+/*头部样式*/
+.layout-header {
+    box-shadow: 1px 1px 20px #D9EEFF;
+    box-shadow: 1px 1px 20px #CCE8FF\9;
+    background: rgb(250, 190, 0) 
+	background-color: #FFE260;
+    height: 40px;
+    z-index: 10;
+    margin: 0px;
+    width: 100%;
+}
+.layout-title{
+    position: absolute;
+    top:10px;
+    left: 30px;
+    font-size: 14px;
+}
+
+.layout-help {
+    top: 10px;
+    right: 30px;
+}
+/*头部样式*/
+
+/*工具栏样式*/
+
+/*工具栏样式*/
+
+
+.self_form {
+    padding-left: 15px;
+}
+
+.self_title>a{
+    /*width: 70px;*/
+    height: 35px;
+    background-color: white;
+    position: absolute;
+    top: 7px;
+    left: 220px;
+    border-radius: 4px;
+    color: black;
+    font-size: 12px;
+    text-align: center;
+    line-height: 35px;
+    padding: 0px 7px 0px 7px;
+    text-decoration-line: none;
+}
+
+.self_form{
+    padding-left: 15px;
+}
+
+/*form表单的样式*/
+label {
+    font-weight: 200;
+    color: #6B6B6B;
+    font-size: 12px;
+    height: 28px;
+    line-height: 28px;
+    display: inline-block;
+    /*color: #333;*/
+
+}
+
+.self-tool-btn{
+    position: absolute;
+    top:11px;
+    right: 37px;
+    z-index: 10000;
+    border-radius:50%;
+}
+.myself_btn{
+	display:inline-block;
+	width:70px;
+	height:25px;
+	border:1px solid #d4e3f2;
+	color: black;
+	border-radius:20px 20px 0 0;
+	text-align:center;
+	line-height:27px;
+	background-color: rgba(255, 228, 141, 0.48);
+}
+.myself_btn:hover {
+    color: #fff;
+    background: rgb(255, 180, 0);
+    cursor:pointer;
+}
+input {
+    margin: 3px 10px;
+    border-radius: 2px;
+    padding-left: 5px;
+    height: 23px;
+    width: 135px;
+    border: 1px solid #ccc;
+    corsue:pointer;
+}
+.my_select{
+    width: 145px;
+    height: 24px;
+    margin: 5px 10px;
+    border-radius: 5px;
+    padding-left: 5px;
+    border: 1px solid #95B8E7;
+    margin-left: 65x
+}
+
+
+.datagrid-header td{
+    font-size: 12px;
+    font-weight: 500;
+}
+#menulist{
+    padding-top: 50px;
+    margin-right:20px;
+   	margin-left:22px;
+    background：#ccc;
+}
+
+#menulist>div > a{
+    text-align: center;
+    text-decoration-line: none;
+    border: 1px solid lightgray;
+    width: 70px;
+    height: 30px;
+    display: inline-block;
+    padding-left: 20px;
+    text-align: center;
+    line-height: 30px;
+    text-decoration-line: none;
+    position: relative;
+    color: slategray;
+   	float: left;
+}
+#menulist >div> a > span{
+    width:16px;
+    height: 16px;
+    position: absolute;
+    top: 6px;
+    left: 13px
+}
+#menulist >div{
+	height:30px;
+}
+
+#menulist >div> a:nth-child(1):hover{
+    background-color: rgb(255, 180, 0);
+    
+    cursor: pointer;
+}
+#menulist>div > a:nth-child(2):hover{
+    background-color: rgb(255, 180, 0);
+     
+       cursor: pointer;
+}
+#menulist >div> a:nth-child(3):hover{
+    background-color: rgb(255, 180, 0);
+    
+       cursor: pointer;
+}
+#menulist >div> a:nth-child(4):hover{
+    background-color: rgb(255, 180, 0);
+   
+       cursor: pointer;
+}
+#menulist>div > a:nth-child(5):hover{
+    background-color:rgb(255, 180, 0);
+   
+       cursor: pointer;
+}
+#menulist >div> a:nth-child(6):hover{
+    background-color: rgb(255, 180, 0);
+    
+       cursor: pointer;
+}
+#menulist>div > a:nth-child(7):hover{
+    background-color:rgb(255, 180, 0);
+       cursor: pointer;}
+    
+/*头部公共样式*/
+.layout_north{
+    height: 77px;
+    overflow: hidden;
+}
+#menulist >div> a > .iterm1 {
+    background: url("../images/sprice.png") no-repeat center;
+    background-position: 1px 1px;
+    text-indent: -10px;
+}
+
+#menulist >div> a > .iterm2 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -96px 1px;
+    text-indent: -10px;
+}
+
+#menulist >div> a > .iterm3 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: 1px -96px;
+    text-indent: -10px;
+}
+
+#menulist >div> a > .iterm4 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: 1px -127px;
+    text-indent: -10px;
+}
+
+#menulist >div> a > .iterm5 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -288px -63px;
+    text-indent: -10px;
+}
+#menulist>div > a>.iterm6{
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -256px -63px;
+    text-indent: -10px;
+}
+
+#menulist>div > a>.iterm7{
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -320px -63px;
+    text-indent: -10px;
+}
+
+
+.layout-help > a:nth-child(1) {
+    background: url("../images/help.png") no-repeat left;
+    padding-left: 20px;
+}
+
+/*头部公共样式*/
+.my_form{
+    background-color: red;
+    padding: 5px;
+    width: 1100px;
+
+    /*padding-bottom: 10px;*/
+}
+.my_from >form >div{
+    /*width: 250px;*/
+    /*background-color: red;*/
+    /*height: 200px;*/
+    float: left;
+    margin-left: 15px;
+}
+.my_from >form >div>li{
+    box-sizing: content-box;
+}
+.my_from >form>.textarea{
+    /*width: 250px;*/
+    height: 100px;
+    position: relative;
+    /*overflow: hidden;*/
+    margin-top: 5px;
+    margin-left: 20px;
+
+
+}
+.my_from >form>.textarea textarea{
+    height: 80px;
+    width: 140px;
+    resize: none;
+    overflow-y: scroll;
+    border-radius:3px;
+}
+
+.my_from >form>.textarea p{
+    position: absolute;
+    color: #6B6B6B;
+    font-size: 12px;
+    opacity: 0.5;
+}
+.my_from >form>.textarea .radio{
+    position: absolute;
+    top: 90px;
+    left: -5px;
+    color: #6B6B6B;
+    font-weight: 300;
+
+}
+.my_from >form>.textarea .radio>input{
+    width: 16px;
+    height: 16px;
+    margin-top: 5px;
+    color: #6B6B6B;
+    font-weight: 300;
+
+}
+.my_from >form>.textarea>div{
+    float: left;
+
+}
+/* from表单样式*/
+.my-center{
+    padding:0px 5px 5px 5px;
+    margin-top: -9px;
+}
+
+/* from表单样式*/
+
+
