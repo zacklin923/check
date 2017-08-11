@@ -21,6 +21,7 @@ body{
 }
 .fitem select{
 	width: 279px;
+	margin-left:10px;
 }
 		/*窗口里的提示语句样式*/
 .fitem .hint{

@@ -1,0 +1,59 @@
+/*ÑùÊ½±í*/
+.layout-title{
+    position: absolute;
+    top:10px;
+    left: 30px;
+    font-size: 14px;
+}
+
+.layout-help {
+    top: 10px;
+    right: 30px;
+}
+
+.self_form {
+    padding-left: 15px;
+}
+
+
+.self_datatime {
+    position: relative;
+    width: 100%;
+}
+
+.datatime {
+    width: 100%;
+    position: absolute;
+    top: -1px;
+    left: 55px;
+}
+#menulist > a>.iterm1 {
+    background: url("../images/sprice.png") no-repeat center;
+    background-position: 1px 1px;
+    text-indent: -10px;
+}
+
+#menulist > a>.iterm2{
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -96px 1px;
+    text-indent: -10px;
+}
+
+#menulist > a>.iterm3{
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: 1px -96px;
+    text-indent: -10px;
+}
+
+#menulist > a>.iterm4{
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: 1px -127px;
+    text-indent: -10px;
+}
+
+#menulist > a>.iterm5{
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -288px -63px;
+    text-indent: -10px;
+}
+

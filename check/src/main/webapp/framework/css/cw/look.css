@@ -1,5 +1,20 @@
 /* 查询样式表 */
+/*自己的公共样式表*/
+/* header*/
+.panel-body-noheader {
+    border: none;
+    border-bottom: 1px solid lightblue;
 
+}
+.layout-header{
+    margin: 0;
+    height: 30px;
+    padding: 10px 0 0 0;
+}
+
+#menulist{
+    padding: 5px;
+}
 
 .top{
 	height: 40px;
@@ -62,10 +77,7 @@ li {
 
 /*自己写的样式*/
 /*补充页面的一些功能begin*/
-#numberTable{
-    margin-top: 20px;
-    width: 100%;
-}
+
 .self-tool{
     width: 100%;
     /*position: relative;*/
@@ -78,6 +90,40 @@ li {
  #self-btn{
     float: right;
     transform: rotate(90deg);
+}
+#menulist > a > .iterm1 {
+    background: url("../images/sprice.png") no-repeat center;
+    background-position: 1px 1px;
+    text-indent: -10px;
+}
+
+#menulist > a > .iterm2 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -96px 1px;
+    text-indent: -10px;
+}
+
+#menulist > a > .iterm3 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: 1px -96px;
+    text-indent: -10px;
+}
+
+#menulist > a > .iterm4 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: 1px -127px;
+    text-indent: -10px;
+}
+
+#menulist > a > .iterm5 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -288px -63px;
+    text-indent: -10px;
+}
+
+.layout-help > a:nth-child(1) {
+    background: url("../images/help.png") no-repeat left;
+    padding-left: 20px;
 }
 
 /*补充页面的一些功能end*/

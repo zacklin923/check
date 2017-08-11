@@ -13,8 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=path %>/framework/jquery-easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="<%=path %>/framework/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="<%=path %>/framework/My97DatePicker/WdatePicker.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=path %>/framework/css/zs.css">
 <script type="text/javascript" src="<%=path %>/framework/js/zs.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=path %>/framework/css/zs.css">
 
 <script type="text/javascript">
 /*张顺，2017-2-25

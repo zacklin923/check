@@ -1,3 +1,4 @@
+<%@page import="com.zs.tools.DateTimeHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -9,12 +10,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>数据源导入错误</title>
+<title>错误数据</title>
 
 </head>
-<body>
+<body class="easyui-layout">
 
 <jsp:include page="/jsp/part/common.jsp"/>
+<jsp:include page="/jsp/part/cw_common.jsp"/>
 <script type="text/javascript">
 function deleteAll(){
 	$.messager.confirm(
@@ -101,9 +103,88 @@ function excel_export(){
 	});
 }
 </script>
-<table id="dg" border="true"
+
+<style>
+   .panel-body {border-color: #E6E6E6; border:none;}
+	#menulist{height:30px;}
+	#mypanel{border:1px solid lightgray;}
+</style>
+	<div data-options="region:'north',split:false" style="height:87px;overflow: hidden">
+
+		<div class="layout-header" style="position: relative">
+			<div class="layout-title">
+				<h3><a href="index.html">深圳韵达有限公司</a></h3>
+			</div>
+			<div class="self_title">
+				<a href="">错误数据</a>    
+			</div>
+			<div class="layout-help" style="position: absolute;">
+				<a onclick="$('#dlg_help').dialog('open')">帮助</a>
+			</div>
+            <div class="self-tool-btn" style="margin-top:50px;">
+                <span class="myself_btn">收缩</span>	
+            </div>
+			<div id="menulist">
+			<div>
+                <a onclick="deleteAll()"><span class="iterm1"></span>批量删除 </a>
+                <a onclick="deleteAllData()"><span class="iterm2"></span>删除所有</a>
+                <a onclick="excel_export()"><span class="iterm3"></span>导出</a>
+                <a onclick="search_toolbar()"><span class="iterm5"></span>查询</a>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div data-options="region:'center',split:false" style="padding-left:20px;padding-right:30px;padding-top:1px;padding-bottom:10px">
+
+		<div id="toolsbars">
+
+			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:10px; box-sizing: content-box;overflow:hidden;" >
+
+                <div class="my_from">
+                <form id="search">
+                        <!--提交表单栏开始-->
+                        <div class="left">
+                            
+                               <ul>
+                                 <li><label for="">发货日期开始</label>
+                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" />
+                                </li>
+                                <li><label for="">发货日期结束</label>
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" />
+                                </li>
+
+                                
+                            </ul>
+                            
+                        </div>
+                        <div class="center">
+                            <ul>
+                            	
+                                <li>  <label for=""">导入人</label>
+                                    <input type="text" style="margin-left: 21px" name="str3" >
+                                </li>
+                                <li>
+                                <li> <label for="" >失败类型</label>
+                                    &nbsp;<select class="my_select"  name ="str2"  id=""  style="font-weight:300;color: #6B6B6B;margin-left:5px;">
+                                    <option value="" style="color: #6B6B6B;font-weight: 300;">--请选择--</option>
+                                    <option value="重复快递单号" style="color: #6B6B6B;font-weight: 300;">重复快递单号</option>
+                                    <option value="数据必填项为空" style="color: #6B6B6B;font-weight: 300;">数据必填项为空</option>
+                                    <option value="数据类型转换错误" style="color: #6B6B6B;font-weight: 300;">数据类型转换错误</option>
+                                    <option value="快递单号不符合规范" style="color: #6B6B6B;font-weight: 300;">快递单号不符合规范</option>
+                                    <option value="客户条码不存在" style="color: #6B6B6B;font-weight: 300;">客户条码不存在</option>
+                                    </select>
+                                </li>
+                            </ul>
+                        </div>
+                </form>
+                
+             </div>
+		</div>
+		 <div style="height:10px;background:white;"></div>
+        </div>
+      <table id="dg" border="true"
 		url="<%=path %>/api/sourimportfail"
-		method="get" toolbar="#toolbar"
+		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
@@ -214,57 +295,67 @@ function excel_export(){
 		</tr>
 	</thead>
 </table>
-<div id="toolbar">
-	<div id="myPanel" class="easyui-panel" style="width:100%;" title="快件信息>错误数据" data-options="collapsible:true">
-		<script>
-		    $("#myPanel").panel({
-		    	onCollapse:function() {
-		    		$('#dg').datagrid('resize');
-		        },
-		    	onExpand:function() {
-		    		$('#dg').datagrid('resize');
-		        }
-		    });
-		</script>
-		<div class="btn-separator-none">
-			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAll()">批量删除</a>
-			<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteAllData()">删除所有数据</a>
+		<div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
+			closed="true" buttons="#dlg-buttons" modal="true">
+		<div class="ftitle">数据修改</div>
+			<hr>
+			<form id="fm" method="post" >
+				<input type="hidden" name="_method" value="post"/>
+				<input type="hidden" name="_header" value="${licence }"/>
+				<input type="hidden" name="courierNumber"/>
+				<div class="fitem">
+					<label>异常原因:</label>
+					<input name="abnormalCause" required="true">
+				</div>
+				<div class="fitem">
+					<label>省份:</label>
+					<input name="province" required="true">
+				</div>
+				<div class="fitem">
+					<label>地址:</label>
+					<input name="address" required="true">
+				</div>
+				<div class="fitem">
+					<label>配送状态:</label>
+					<select name="deliveryState">
+						<option value="配送成功">配送成功</option>
+		    			<option value="配送失败">配送失败</option>
+		    			<option value="配送异常">配送异常</option>
+		    			<option value="配送中">配送中</option>
+		    			<option value="退回件">退回件</option>
+					</select>
+				</div>
+				<div class="fitem">
+					<label>客户店铺:</label>
+					<input name="shopNumber"  required="true">
+				</div>
+				<div class="fitem">
+					<label>收件人:</label>
+					<input name="addressee" required="true">
+				</div>
+				<div class="fitem">
+					<label>联系方式:</label>
+					<input name="phone"  required="true">
+				</div>
+				<div class="fitem">
+					<label>物品:</label>
+					<input name="goods"  required="true">
+				</div>
+				<div class="fitem">
+					<label>物品价值:</label>
+					<input name="goodsCost"  required="true">
+				</div>
+				<div class="fitem">
+					<label>费用:</label>
+					<input name="fee"  required="true">
+				</div>
+				<div class="fitem">
+					<label>订单编号:</label>
+					<input name="orderNumber" required="true">
+			</form>
 		</div>
-		<br class="clear"/>
-		<hr class="hr-geay">
-		<form id="search">
-			<input type="hidden" name="_header" value="${user.licence }"/>
-			<div class="searchBar-input">
-	    		<div>
-		    		导入时间开始：<input name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
-	    		</div>
-	    		<div>
-	    			导入时间结束：<input name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
-	    		</div>
-	   		</div>
-	   		<div class="searchBar-input">
-	    		<div>
-		    		失败类型：<select name ="str2">                                                   
-				    			<option value="">--请选择--</option>
-				    			<option value="重复快递单号">重复快递单号</option>
-				    			<option value="数据必填项为空">数据必填项为空</option>
-				    			<option value="数据类型转换错误">数据类型转换错误</option>
-				    			<option value="快递单号不符合规范">快递单号不符合规范</option>
-				    			<option value="客户条码不存在">客户条码不存在</option>
-				    	   </select>
-	    		</div>
-	    		<div>
-	    			导入人：<input name="str3"/>
-	    		</div>
-	   		</div>
-	   		<input type="hidden" name="_header" value="${licence }"/>
-	   	</form>
-	   	<div class="clear"></div>
-	   	<hr class="hr-geay">
-		<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar()">查询</a>
-		<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
-		<div class="pull-away"></div>
-	</div>
-</div>
+		
+		
+		
 </body>
 </html>
