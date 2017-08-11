@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zs.dao.reportSignNewMapper" >
+  <resultMap id="BaseResultMap" type="com.zs.entity.reportSignNew" >
+    <result column="IDENTIFY" property="identify" jdbcType="VARCHAR" />
+    <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    <result column="COUNT_DATE" property="countDate" jdbcType="TIMESTAMP" />
+    <result column="SUCC_COUNT" property="succCount" jdbcType="DECIMAL" />
+    <result column="ALL_COUNT" property="allCount" jdbcType="DECIMAL" />
+    <result column="TIME_OUT_COUNT" property="timeOutCount" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    IDENTIFY, FLAG, COUNT_DATE, SUCC_COUNT, ALL_COUNT, TIME_OUT_COUNT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zs.entity.reportSignNewExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from REPORT_SIGN_NEW
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.zs.entity.reportSignNewExample" >
+    delete from REPORT_SIGN_NEW
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zs.entity.reportSignNew" >
+    insert into REPORT_SIGN_NEW (IDENTIFY, FLAG, COUNT_DATE, 
+      SUCC_COUNT, ALL_COUNT, TIME_OUT_COUNT
+      )
+    values (#{identify,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, #{countDate,jdbcType=TIMESTAMP}, 
+      #{succCount,jdbcType=DECIMAL}, #{allCount,jdbcType=DECIMAL}, #{timeOutCount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zs.entity.reportSignNew" >
+    insert into REPORT_SIGN_NEW
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="identify != null" >
+        IDENTIFY,
+      </if>
+      <if test="flag != null" >
+        FLAG,
+      </if>
+      <if test="countDate != null" >
+        COUNT_DATE,
+      </if>
+      <if test="succCount != null" >
+        SUCC_COUNT,
+      </if>
+      <if test="allCount != null" >
+        ALL_COUNT,
+      </if>
+      <if test="timeOutCount != null" >
+        TIME_OUT_COUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="identify != null" >
+        #{identify,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="countDate != null" >
+        #{countDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="succCount != null" >
+        #{succCount,jdbcType=DECIMAL},
+      </if>
+      <if test="allCount != null" >
+        #{allCount,jdbcType=DECIMAL},
+      </if>
+      <if test="timeOutCount != null" >
+        #{timeOutCount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zs.entity.reportSignNewExample" resultType="java.lang.Integer" >
+    select count(*) from REPORT_SIGN_NEW
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update REPORT_SIGN_NEW
+    <set >
+      <if test="record.identify != null" >
+        IDENTIFY = #{record.identify,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null" >
+        FLAG = #{record.flag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countDate != null" >
+        COUNT_DATE = #{record.countDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.succCount != null" >
+        SUCC_COUNT = #{record.succCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.allCount != null" >
+        ALL_COUNT = #{record.allCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.timeOutCount != null" >
+        TIME_OUT_COUNT = #{record.timeOutCount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update REPORT_SIGN_NEW
+    set IDENTIFY = #{record.identify,jdbcType=VARCHAR},
+      FLAG = #{record.flag,jdbcType=VARCHAR},
+      COUNT_DATE = #{record.countDate,jdbcType=TIMESTAMP},
+      SUCC_COUNT = #{record.succCount,jdbcType=DECIMAL},
+      ALL_COUNT = #{record.allCount,jdbcType=DECIMAL},
+      TIME_OUT_COUNT = #{record.timeOutCount,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="sumidentify" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select IDENTIFY,SUM(SUCC_COUNT) SUCC_COUNT,SUM(ALL_COUNT) ALL_COUNT,SUM(TIME_OUT_COUNT) TIME_OUT_COUNT
+  	from REPORT_SIGN_NEW
+  	<where>
+  		<if test="date1!=null">
+  			and COUNT_DATE >= #{date1}
+  		</if>
+  		<if test="date2!=null">
+  			and COUNT_DATE &lt;= #{date2}
+  		</if>
+  		<if test="str1!=null">
+  			and IDENTIFY like '%${str1}%'
+  		</if>
+  		<if test="int1!=null">
+  			and flag =#{int1}
+  		</if>
+  	</where>
+  	group by IDENTIFY
+  	<if test="sort!=null and order!=null">
+  		order by ${sort} ${order}
+  	</if>
+  </select>
+   <select id="sumall" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select SUM(SUCC_COUNT) SUCC_COUNT,SUM(ALL_COUNT) ALL_COUNT,SUM(TIME_OUT_COUNT) TIME_OUT_COUNT
+  	from REPORT_SIGN_NEW
+  	<where>
+  		<if test="date1!=null">
+  			and COUNT_DATE >= #{date1}
+  		</if>
+  		<if test="date2!=null">
+  			and COUNT_DATE &lt;= #{date2}
+  		</if>
+  		<if test="int1!=null">
+  			and flag =#{int1}
+  		</if>
+  	</where>
+  	group by flag
+  </select>
+  <select id="callcode" parameterType="com.zs.entity.other.EasyUIAccept">
+  	{call report_sign_code(#{date1})}
+  </select>
+  <select id="callprovince" parameterType="com.zs.entity.other.EasyUIAccept">
+  	{call report_sign_province(#{date1})}
+  </select>
+</mapper>

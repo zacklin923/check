@@ -50,4 +50,5 @@ public interface PrimeCodeReportMapper {
     
     List<PerResultMap> getPerReport (EasyUIAccept accept);
     
+    List<String> getCoumterType (EasyUIAccept accept);
 }

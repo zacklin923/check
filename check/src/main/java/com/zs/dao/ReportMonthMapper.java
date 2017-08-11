@@ -21,6 +21,7 @@ public interface ReportMonthMapper {
     int updateByExampleSelective(@Param("record") ReportMonth record, @Param("example") ReportMonthExample example);
 
     int updateByExample(@Param("record") ReportMonth record, @Param("example") ReportMonthExample example);
+    
     //----------
     List<ReportMonth> query(EasyUIAccept accept);
     
