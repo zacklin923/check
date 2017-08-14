@@ -1,0 +1,129 @@
+/* 查询样式表 */
+/*自己的公共样式表*/
+/* header*/
+.panel-body-noheader {
+    border: none;
+    border-bottom: 1px solid lightblue;
+
+}
+.layout-header{
+    margin: 0;
+    height: 30px;
+    padding: 10px 0 0 0;
+}
+
+#menulist{
+    padding: 5px;
+}
+
+.top{
+	height: 40px;
+	    background-color: #1595d6;
+}
+#tab-content {
+    position: relative;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #D7EEFA;
+    border-radius: 8px 8px 8px 8px;
+    margin: 10px 10px 0 0;
+    min-height: 400px;
+    overflow: auto;
+    padding: 10px 15px 50px;
+}
+.toolbar-base {
+    list-style: none;
+    clear: both;
+    border-bottom: solid 1px #E6EEFF;
+    padding: 5px 5px 3px 0;
+    position: relative;
+    margin: 0;
+    background: #ffffff;
+    min-height: 23px;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #ffffff 0%, #f4f8ff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f4f8ff));
+    background: -webkit-linear-gradient(top, #ffffff 0%,#f4f8ff 100%);
+    background: -o-linear-gradient(top, #ffffff 0%,#f4f8ff 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%,#f4f8ff 100%);
+    background: linear-gradient(to bottom, #ffffff 0%,#f4f8ff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f4f8ff',GradientType=0 );
+}
+.toolbar-base li {
+    float: left;
+    font: 12px Tahoma,Arial;
+    overflow: hidden;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.toolbar-base li.dropdown {
+}
+
+.toolbar-base li.rightbutotn {
+    float: right;
+}
+
+.toolbar-base li {
+    float: left;
+    font: 12px Tahoma,Arial;
+    overflow: hidden;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.filter-panel{background: none repeat scroll 0 0 #FCFCFC; border: 1px solid #DFDFDF;border-radius:3px;  margin: 10px 0 0; min-height: 20px; padding: 11px 0px 10px 24px;}
+
+/*自己写的样式*/
+/*补充页面的一些功能begin*/
+
+.self-tool{
+    width: 100%;
+    /*position: relative;*/
+}
+.self-tool-btn{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+ #self-btn{
+    float: right;
+    transform: rotate(90deg);
+}
+#menulist > a > .iterm1 {
+    background: url("../images/sprice.png") no-repeat center;
+    background-position: 1px 1px;
+    text-indent: -10px;
+}
+
+#menulist > a > .iterm2 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -96px 1px;
+    text-indent: -10px;
+}
+
+#menulist > a > .iterm3 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: 1px -96px;
+    text-indent: -10px;
+}
+
+#menulist > a > .iterm4 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: 1px -127px;
+    text-indent: -10px;
+}
+
+#menulist > a > .iterm5 {
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -288px -63px;
+    text-indent: -10px;
+}
+
+.layout-help > a:nth-child(1) {
+    background: url("../images/help.png") no-repeat left;
+    padding-left: 20px;
+}
+
+/*补充页面的一些功能end*/

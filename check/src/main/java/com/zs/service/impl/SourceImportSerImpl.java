@@ -67,7 +67,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 				SourceImport si = (SourceImport) list.get(i);
 				if(si.getStuNum()!=null && !si.getStuNum().equals("")){
 					StaffUser suer = userMapper.selectByPrimaryKey(si.getStuNum());
-					si.setStuName(suer.getStuName());
+					si.setStuName(suer.getStuName()==null?"":suer.getStuName());
 				}else{
 					si.setStuName("");
 				}

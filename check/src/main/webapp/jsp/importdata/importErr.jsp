@@ -244,7 +244,7 @@ function excel_export(){
 	   		</div>
 	   		<div class="searchBar-input">
 	    		<div>
-		    		失败类型：<select name ="str2" style="width: 150px;">
+		    		失败类型：<select name ="str2">                                                   
 				    			<option value="">--请选择--</option>
 				    			<option value="重复快递单号">重复快递单号</option>
 				    			<option value="数据必填项为空">数据必填项为空</option>
