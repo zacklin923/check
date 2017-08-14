@@ -204,7 +204,8 @@ function upload(){
 				if(json.result=='success'){
 					hiden_hint();
 					$('#dg').datagrid('reload');
-					$("#fileImport").dialog("close");					
+					$("#fileImport").dialog("close");
+					alert("导入成功");
 				}else{
 					hiden_hint();
 					$("#fileImport").dialog("close");	
@@ -306,7 +307,7 @@ function accept(){
 							json = eval('('+data+')');
 						}
 						if(json.result=='success'){
-							alert("保存成功");
+							console.log("保存成功");
 						}else{
 							alert("错误:"+json.code+"  "+json.data);
 						}
@@ -316,6 +317,7 @@ function accept(){
 				}
 			});
 		}
+		alert("保存完成");
 	}
 }
 function dodelete(){

@@ -199,9 +199,7 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 				}
 			}
 		}
-		if(lists.size()==(list.size()-2)){
-			return "导入的数据基本全错,请检查格式，建议重新导入";
-		}else if(lists.size()>0){
+		if(lists.size()>0){
 			return new Gson().toJson(lists);
 		}else{
 			return "导入成功，共导入"+(list.size()-2)+"条数据，全部成功";

@@ -81,13 +81,13 @@ public class ServiceTest extends AbstractJUnit4SpringContextTests{
 	}
 	//测试取客户+省份签收率
 	public void obtainOfCtmAndProvince() {
-		List<ReportSignBean> list=reportSignSer.obtainOfCtmAndProvince(null);
-		System.out.println(gson.toJson(list));
+//		List<ReportSignBean> list=reportSignSer.obtainOfCtmAndProvince(null);
+//		System.out.println(gson.toJson(list));
 	}
 	//测试生成签收报表数据
 	@Test
 	public void obtainReportSign() {
-		reportSignSer.obtainReportSign("2017-06-01",null,null);
+//		reportSignSer.obtainReportSign("2017-06-01",null,null);
 	}
 	public void doQueryOfZm() {
 		EasyUIAccept accept=new EasyUIAccept();

@@ -4,7 +4,6 @@ import com.zs.entity.ReportSign;
 import com.zs.entity.ReportSignExample;
 import com.zs.entity.ReportSignKey;
 import com.zs.entity.other.EasyUIAccept;
-import com.zs.entity.other.ReportSignBean;
 
 import java.util.Date;
 import java.util.List;
@@ -38,10 +37,5 @@ public interface ReportSignMapper {
     int getCount(EasyUIAccept accept);
     
     int deleteByDate(@Param("date") String date,@Param("ctmBarCode")String ctmBarCode,@Param("province")String province);
-    
-    List<ReportSignBean> obtainOfCtmAndProvince(EasyUIAccept accept);
-    List<ReportSignBean> obtainOfCtm(EasyUIAccept accept);
-    List<ReportSignBean> obtainOfSum(EasyUIAccept accept);
-    
     
 }
