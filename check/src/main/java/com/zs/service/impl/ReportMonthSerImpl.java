@@ -29,13 +29,13 @@ public class ReportMonthSerImpl implements ReportMonthSer{
 	private ReportMonthMapper reportMonthMapper;
 
 	public List query(EasyUIAccept accept) {
-		System.out.println(accept);
+//		System.out.println(accept);
 		if(accept!=null){
 			List<ReportAllMonth> listall = new ArrayList<ReportAllMonth>();
 			if(accept.getInt2().equals(accept.getInt4())){
 				int ct = accept.getInt5()-accept.getInt3();
 				for (int i = 0; i <= ct; i++) {
-					accept.setStr3(accept.getInt2()+"-"+(accept.getInt3()+i));
+					accept.setDate3(DateTimeHelper.getmonthStart(accept.getInt2(), (accept.getInt3()+i)));
 					List<ReportMonth> list = reportMonthMapper.query(accept);
 					for (int j = 0; j < list.size(); j++) {
 						ReportAllMonth ram = new ReportAllMonth();
@@ -483,15 +483,14 @@ public class ReportMonthSerImpl implements ReportMonthSer{
 	}
 
 	public void callproduce(EasyUIAccept accept){
-		System.out.println(accept);
+//		System.out.println(accept);
 		if(accept!=null){
 			if(accept.getInt2().equals(accept.getInt4())){
 				int ct = accept.getInt5()-accept.getInt3();
 				for (int i = 0; i <= ct; i++) {
-					accept.setStr3(accept.getInt2()+"-"+(accept.getInt3()+i));
 					accept.setDate3(DateTimeHelper.getmonthStart(accept.getInt2(), (accept.getInt3()+i)));
 					accept.setDate4(DateTimeHelper.getmonthStart(accept.getInt2(), (accept.getInt3()+1+i)));
-					System.out.println(accept);
+//					System.out.println(accept);
 					reportMonthMapper.callproduce(accept);
 				}
 			}
@@ -509,8 +508,29 @@ public class ReportMonthSerImpl implements ReportMonthSer{
 			accept.setStr2(null);
 		}
 		List lists=  query(accept);
-		System.out.println(new Gson().toJson(lists));
-		String [] obj = {"客户名称","客户条码","客户类型","大区","区部","分部","总量","1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"};
+		int mc = 0;
+		if(accept.getInt3()!=null&&accept.getInt5()!=null){
+			 mc= accept.getInt5()-accept.getInt3();
+		}
+//		System.out.println(new Gson().toJson(lists));
+		String [] obj = new String[19];
+		obj[0] ="客户名称";
+		obj[1] ="客户条码";
+		obj[2] ="客户类型";
+		obj[3] ="大区";
+		obj[4] ="区部";
+		obj[5] ="分部";
+		obj[6] ="总量";
+		int b =0;
+		for (int i = 7; i < obj.length; i++) {
+			if(mc-b>=0){
+				obj[i]=accept.getInt3()+b+"月";
+			}else{
+				obj[i]="";
+			}
+			b++;
+		}
+		
 		String[][] objs =  new String[lists.size()][obj.length];
 		for (int i = 0; i < objs.length; i++) {
 			ReportAllMonth rm = (ReportAllMonth) lists.get(i);
@@ -521,18 +541,42 @@ public class ReportMonthSerImpl implements ReportMonthSer{
 			objs[i][4]=rm.getSliceArea();
 			objs[i][5]=rm.getFenBu();
 			objs[i][6]=Trans.toStringBig(rm.getCountAll()).toString();
-			objs[i][7]=Trans.toStringBig(rm.getMonth1()).toString();
-			objs[i][8]=Trans.toStringBig(rm.getMonth2()).toString();
-			objs[i][9]=Trans.toStringBig(rm.getMonth3()).toString();
-			objs[i][10]=Trans.toStringBig(rm.getMonth4()).toString();
-			objs[i][11]=Trans.toStringBig(rm.getMonth5()).toString();
-			objs[i][12]=Trans.toStringBig(rm.getMonth6()).toString();
-			objs[i][13]=Trans.toStringBig(rm.getMonth7()).toString();
-			objs[i][14]=Trans.toStringBig(rm.getMonth8()).toString();
-			objs[i][15]=Trans.toStringBig(rm.getMonth9()).toString();
-			objs[i][16]=Trans.toStringBig(rm.getMonth10()).toString();
-			objs[i][17]=Trans.toStringBig(rm.getMonth11()).toString();
-			objs[i][18]=Trans.toStringBig(rm.getMonth12()).toString();
+			if(rm.getMonth1()!=null){
+				objs[i][7]=Trans.toStringBig(rm.getMonth1()).toString();
+			}
+			if(rm.getMonth2()!=null){
+				objs[i][8]=Trans.toStringBig(rm.getMonth2()).toString();
+			}
+			if(rm.getMonth3()!=null){
+				objs[i][9]=Trans.toStringBig(rm.getMonth3()).toString();
+			}
+			if(rm.getMonth4()!=null){
+				objs[i][10]=Trans.toStringBig(rm.getMonth4()).toString();
+			}
+			if(rm.getMonth5()!=null){
+				objs[i][11]=Trans.toStringBig(rm.getMonth5()).toString();
+			}
+			if(rm.getMonth6()!=null){
+				objs[i][12]=Trans.toStringBig(rm.getMonth6()).toString();
+			}
+			if(rm.getMonth7()!=null){
+				objs[i][13]=Trans.toStringBig(rm.getMonth7()).toString();
+			}
+			if(rm.getMonth8()!=null){
+				objs[i][14]=Trans.toStringBig(rm.getMonth8()).toString();
+			}
+			if(rm.getMonth9()!=null){
+				objs[i][15]=Trans.toStringBig(rm.getMonth9()).toString();
+			}
+			if(rm.getMonth10()!=null){
+				objs[i][16]=Trans.toStringBig(rm.getMonth10()).toString();
+			}
+			if(rm.getMonth11()!=null){
+				objs[i][17]=Trans.toStringBig(rm.getMonth11()).toString();
+			}
+			if(rm.getMonth12()!=null){
+				objs[i][18]=Trans.toStringBig(rm.getMonth12()).toString();
+			}
 		}
 		String basePath = req.getSession().getServletContext().getRealPath("/");
 		String path ="file/月报表.xls";

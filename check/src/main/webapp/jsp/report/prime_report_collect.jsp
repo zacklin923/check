@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		showFooter="true">
 	<thead>
 		<tr>
-			<th rowspan="2" field="ctmType" width="80" >客户类型</th>
+			<th rowspan="2" field="ctmType" width="80" >所属大区</th>
 			<th rowspan="2" field="ctmCount" width="60" >客户数量</th>
 			<th rowspan="2" field="countAll" width="60" >出货量</th>
 			<th rowspan="2" field="perWork" width="80" >上班人数</th>

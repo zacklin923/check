@@ -68,6 +68,8 @@ public class ZmReturnDataConR extends BaseRestController<ZmReturnData, String>{
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public Result<Integer> doUpdate(ZmReturnData obj, HttpServletRequest req, HttpServletResponse resp){
 		if(obj!=null){
+			System.out.println(obj);
+			System.out.println(obj.getSignTime());
 			try {
 				Integer iu = zmReturnDataSer.update(obj,req);
 				return new Result<Integer>(SUCCESS,  Code.SUCCESS, iu);
