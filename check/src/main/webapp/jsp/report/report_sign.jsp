@@ -17,31 +17,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <jsp:include page="/jsp/part/common.jsp"/>
 <script type="text/javascript">
-function excel_export(){
-	$("#search").form("submit",{
-		url:"<%=path%>/api/timeLimit/excelExport",
-		method:"get",
-		onSubmit: function(){   
-	    },   
-	    success:function(data){   
-			if(data){
-		    	var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					var d = eval('('+data+')');
-					window.location.href=d.data;
-				}else{
-					alert("错误:"+json.data);
-				}
-			}
-	    } 
-	});
-}
 function obtain(){
+	show_hint([]);
 	var f=$('#search');
 	if(f.form('validate')){
 		var json=formToJson(f);
@@ -59,104 +36,100 @@ function obtain(){
 							json = eval('('+data+')');
 						}
 						if(json.result=='success'){
-							$('#dg').datagrid('reload');
+							hiden_hint();
+							search_toolbar_1();
 							alert(json.data);
 						}else{
+							hiden_hint();
 							alert("错误:"+json.code+" "+json.data);
 						}
 					}else{
+						hiden_hint();
 						alert("错误:网络错误");
 					}
 				}
 			});
 		}else{
+			hiden_hint();
 			alert("请选择你要重新计算的发货日期范围");
 		}
 	}
 	
 }
 function search_toolbar_1(){
-	var ratioSign1=$("#dg").datagrid("getColumnOption","ratioSign1");
-	var ratioTimeout1=$("#dg").datagrid("getColumnOption","ratioTimeout1");
-	var ratioSign2=$("#dg").datagrid("getColumnOption","ratioSign2");
-	var ratioTimeout2=$("#dg").datagrid("getColumnOption","ratioTimeout2");
-	var ratioSign3=$("#dg").datagrid("getColumnOption","ratioSign3");
-	var ratioTimeout3=$("#dg").datagrid("getColumnOption","ratioTimeout3");
 	var f=$('#search');
 	if(f.form('validate')){
 		isDgInit=true;
 		var json=formToJson(f);
 		if(json.int1=="1"){
-			$("#dg").datagrid("hideColumn","ratioSign2");
-			$("#dg").datagrid("hideColumn","ratioTimeout2");
-			$("#dg").datagrid("hideColumn","ratioSign3");
-			$("#dg").datagrid("hideColumn","ratioTimeout3");
-			$("#dg").datagrid("showColumn","ratioSign1");
-			$("#dg").datagrid("showColumn","ratioTimeout1");
-			$("#dg").datagrid("showColumn","province");
-			$("#dg").datagrid("showColumn","costHour");
-			$("#dg").datagrid("showColumn","ctmBarCode");
-			$("#dg").datagrid("showColumn","ctmName");
-		}else if(json.int1=="2"){
-			$("#dg").datagrid("hideColumn","ratioSign1");
-			$("#dg").datagrid("hideColumn","ratioTimeout1");
-			$("#dg").datagrid("hideColumn","ratioSign3");
-			$("#dg").datagrid("hideColumn","ratioTimeout3");
-			$("#dg").datagrid("hideColumn","province");
-			$("#dg").datagrid("hideColumn","costHour");
-			$("#dg").datagrid("showColumn","ratioSign2");
-			$("#dg").datagrid("showColumn","ratioTimeout2");
-			$("#dg").datagrid("showColumn","ctmBarCode");
-			$("#dg").datagrid("showColumn","ctmName");
-		}else if(json.int1=="3"){
-			$("#dg").datagrid("hideColumn","ratioSign1");
-			$("#dg").datagrid("hideColumn","ratioTimeout1");
-			$("#dg").datagrid("hideColumn","ratioSign2");
-			$("#dg").datagrid("hideColumn","ratioTimeout2");
-			$("#dg").datagrid("hideColumn","province");
-			$("#dg").datagrid("hideColumn","costHour");
-			$("#dg").datagrid("hideColumn","ctmBarCode");
-			$("#dg").datagrid("hideColumn","ctmName");
-			$("#dg").datagrid("showColumn","ratioSign3");
-			$("#dg").datagrid("showColumn","ratioTimeout3");
+			$('#idenfy').text("客户条码");
+			$('#idenfycal').text("客户名称");
+			$('#quidenfy').text("客户条码");
+			$("#dg").datagrid("showColumn","identify");
+			$("#dg").datagrid("showColumn","beginArea");
+			$("#dg").datagrid("showColumn","largeArea");
+		}
+		if(json.int1=="2"){
+			$('#idenfy').text("省份");
+			$('#idenfycal').text("时效");
+			$('#quidenfy').text("省份");
+			$("#dg").datagrid("showColumn","identify");
+			$("#dg").datagrid("showColumn","beginArea");
+			$("#dg").datagrid("hideColumn","largeArea");
+		}
+		if(json.int1=="3"){
+			$('#idenfy').text("总量");
+			$('#idenfycal').text("总量");
+			$("#dg").datagrid("hideColumn","identify");
+			$("#dg").datagrid("hideColumn","beginArea");
+			$("#dg").datagrid("hideColumn","largeArea");
 		}
 	}
 	search_toolbar();
 }
 function excel_export(){
-	$("#search").form("submit",{
-		url:"<%=path%>/api/reportSign/excelExport",
-		method:"get",
-		onSubmit: function(){   
-			show_hint([]);
-	    },   
-	    success:function(data){
-	    	hiden_hint();
-	    	if(data){
-	    		var json=null;
-				if(isJson(data)){
-					json=data;
-				}else{
-					try {
-						json = eval('('+data+')');
-					} catch (e) {
-						alert(data);
-					}
-				}
-				if(json!=null){
-					if(json.result=='success'){
-						window.location.href=json.data;
-					}else{
-						alert("错误:"+json.data+" "+json.data);
-					}
-				}else{
-					alert("错误:json解析错误");
-				}
-	    	}else{
-	    		alert("错误:网络错误");
-	    	}
-	    } 
-	});
+	var f=$('#search');
+	if(f.form('validate')){
+		isDgInit=true;
+		var json=formToJson(f);
+		if(json.int1=="3"){
+			alert("只有一条数据不用导出吧");
+		}else{
+			$("#search").form("submit",{
+				url:"<%=path%>/api/reportSign/excelExport",
+				method:"get",
+				onSubmit: function(){   
+					show_hint([]);
+			    },   
+			    success:function(data){
+			    	hiden_hint();
+			    	if(data){
+			    		var json=null;
+						if(isJson(data)){
+							json=data;
+						}else{
+							try {
+								json = eval('('+data+')');
+							} catch (e) {
+								alert(data);
+							}
+						}
+						if(json!=null){
+							if(json.result=='success'){
+								window.location.href=json.data;
+							}else{
+								alert("错误:"+json.data+" "+json.data);
+							}
+						}else{
+							alert("错误:json解析错误");
+						}
+			    	}else{
+			    		alert("错误:网络错误");
+			    	}
+			    } 
+			});
+		}
+	}
 }
 </script>
 <table id="dg" border="true" title="报表>签收报表"
@@ -168,59 +141,13 @@ function excel_export(){
 		singleSelect="true" fit="true">
 	<thead>
 		<tr>
-			<th field="beginCity" width="100" sortable="true">出发</th>
-			<th field="ctmName" width="150" sortable="true">客户</th>
-			<th field="ctmBarCode" width="200" sortable="true">客户条码</th>
-			<th field="province" width="200" sortable="true">目的地</th>
-			<th field="costHour" width="200" sortable="true">时效</th>
-			<th field="ratioSign1" width="200" data-options="
-				formatter:function(value,row,index){
-                    if(row.ratioSign){
-						return (row.ratioSign*100).toFixed(2)+'%';
-                    }else{
-                    	return '0.00%';
-                    }
-             	}">客户各省签收率</th>
-			<th field="ratioTimeout1" width="200" data-options="
-				formatter:function(value,row,index){
-                    if(row.ratioTimeout){
-						return (row.ratioTimeout*100).toFixed(2)+'%';
-                    }else{
-                    	return '0.00%';
-                    }
-             	}">客户各省超时率</th>
-			<th field="ratioSign2" width="200" hidden="true" data-options="
-				formatter:function(value,row,index){
-                    if(row.ratioSign){
-						return (row.ratioSign*100).toFixed(2)+'%';
-                    }else{
-                    	return '0.00%';
-                    }
-             	}">客户签收率</th>
-			<th field="ratioTimeout2" width="200" hidden="true" data-options="
-				formatter:function(value,row,index){
-                    if(row.ratioTimeout){
-						return (row.ratioTimeout*100).toFixed(2)+'%';
-                    }else{
-                    	return '0.00%';
-                    }
-             	}">客户超时率</th>
-			<th field="ratioSign3" width="200" hidden="true" data-options="
-				formatter:function(value,row,index){
-                    if(row.ratioSign){
-						return (row.ratioSign*100).toFixed(2)+'%';
-                    }else{
-                    	return '0.00%';
-                    }
-             	}">总签收率</th>
-			<th field="ratioTimeout3" width="200" hidden="true" data-options="
-				formatter:function(value,row,index){
-                    if(row.ratioTimeout){
-						return (row.ratioTimeout*100).toFixed(2)+'%';
-                    }else{
-                    	return '0.00%';
-                    }
-             	}">总超时率</th>
+			<th field="beginArea" width="100" sortable="true">出发地</th>
+			<th field="identify" width="150" sortable="true"><span id="idenfy">省份</span></th>
+			<th field="identifyDescribe" width="200"><span id="idenfycal">时效</span></th>
+			<th field="largeArea" width="200" >所属大区</th>
+			<th field="signRate" width="200" >签收率</th>
+			<th field="timeOutRate" width="200" >超时签收率</th>
+			<th field="notTimeOUtRate" width="200" >未超时签收率</th>
 		</tr>
 	</thead>
 </table>
@@ -244,16 +171,13 @@ function excel_export(){
    		</div>
    		<div class="searchBar-input">
     		<div>
-	    		客户名称：<input name="str1"/> 
-    		</div>
-    		<div>
-	    		客户条码：<input name="str2"/>
+	    		<span id="quidenfy">省份</span>：<input name="str1"/> 
     		</div>
    		</div>
    		<div class="searchBar-input">
     		<div>
-	    		<input style="width:15px;height:15px;" name="int1" type="radio" value="1" checked="checked"/>按客户省份汇总</br>
-    			<input style="width:15px;height:15px;" name="int1" type="radio" value="2"/>按客户汇总
+	    		<input style="width:15px;height:15px;" name="int1" type="radio" value="2" checked="checked"/>按省份汇总</br>
+    			<input style="width:15px;height:15px;" name="int1" type="radio" value="1"/>按客户汇总
     			<input style="width:15px;height:15px;" name="int1" type="radio" value="3"/>总签收率
     		</div>
    		</div>
@@ -261,7 +185,6 @@ function excel_export(){
    	<div class="clear"></div>
    	<hr class="hr-geay">
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="search_toolbar_1()">查询</a>
-	<a class="easyui-linkbutton" iconCls="icon-search" disabled="true">统计</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="excel_export()">导出</a>
 	<div class="pull-away"></div>
 </div>
