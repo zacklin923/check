@@ -508,7 +508,7 @@ function accept(){
 					<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;"/>
 				</form>
 		</div>
-		<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:100%;padding:10px 20px"
+		<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:50%;padding:10px 20px"
 				closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceTp.jsp" cache="true" resizable="true">
 		</div>
 		<div id="exportdiv" class="easyui-dialog" style="width:500px;height:700px;padding:10px 20px"

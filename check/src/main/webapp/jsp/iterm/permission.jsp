@@ -128,7 +128,7 @@ function excel_export(){
 				<a onclick="$('#dlg_help').dialog('open')">帮助</a>
 			</div>
             <div class="self-tool-btn" style="margin-top:50px;">
-                <<span class="myself_btn">收缩</span>	
+                <span class="myself_btn">收缩</span>	
             </div>
 			<div id="menulist">
 			<div>
@@ -166,11 +166,11 @@ function excel_export(){
                         </div>
                         <div class="right">
                             <ul>
-                                <li><label for="">发货日期开始</label>
-                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"/>
+                                <li><label for="">创建时间开始</label>
+                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})"/>
                                 </li>
-                                <li><label for="">发货日期结束</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"/>
+                                <li><label for="">创建时间结束</label>
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
                                 </li>
                             </ul>
                         </div>
@@ -184,7 +184,7 @@ function excel_export(){
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
-		rownumbers="true" fitColumns="true" 
+		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
 		pageSize="25" pageList="[25,40,50,100]">
 	<thead>
