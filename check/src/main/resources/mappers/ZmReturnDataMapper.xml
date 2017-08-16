@@ -675,10 +675,7 @@
 		  		) 
 		    </where>
 		    <if test="sort!=null and order!=null">
-		  		order by ${sort} ${order},UPDATE_TIME desc
-		  	</if>
-		  	<if test="sort==null or order==null">
-		  		order by UPDATE_TIME desc
+		  		order by ${sort} ${order}
 		  	</if>
 		) t1
 		<where>
@@ -764,10 +761,7 @@
   		COURIER_NUMBER = #{str1}
   	</where>
   	<if test="sort!=null and order!=null">
-  		order by ${sort} ${order},UPDATE_TIME desc
-  	</if>
-  	<if test="sort==null or order==null">
-  		order by UPDATE_TIME desc
+  		order by ${sort} ${order}
   	</if>
   </select>
   
@@ -843,10 +837,7 @@
 			  	)
 		    </where>
 		    <if test="sort!=null and order!=null">
-		  		order by ${sort} ${order},UPDATE_TIME desc
-		  	</if>
-		  	<if test="sort==null or order==null">
-		  		order by UPDATE_TIME desc
+		  		order by ${sort} ${order}
 		  	</if>
 		) t1
 		<where>
@@ -935,10 +926,7 @@
   		COURIER_NUMBER = #{str1}
   	</where>
   	<if test="sort!=null and order!=null">
-  		order by ${sort} ${order},UPDATE_TIME desc
-  	</if>
-  	<if test="sort==null or order==null">
-  		order by UPDATE_TIME desc
+  		order by ${sort} ${order}
   	</if>
   </select>
   <select id="queryReportSign" resultMap="ReportSignResultMap" parameterType="java.lang.String">

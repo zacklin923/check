@@ -249,7 +249,7 @@ function moduleEdit(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="25" pageList="[25,40,50,100]">
+		pageSize="200" pageList="[200,500]">
 </table>
 <div id="toolbar">
 	<div id="myPanel" class="easyui-panel" style="width:100%;" title="基础信息维护>客户信息" data-options="collapsible:true">
@@ -333,7 +333,7 @@ function moduleEdit(){
 		<input type="hidden" name="historyCount"/>
 		<div class="fitem">
 			<label>客户条码:</label>
-			<input name="cteBarCode" class="easyui-validatebox" required="true">
+			<input name="cteBarCode" class="easyui-validatebox" type="number" required="true">
 		</div>
 		<div class="fitem">
 			<label>客户名称:</label>
@@ -357,7 +357,7 @@ function moduleEdit(){
 		</div>
 		<div class="fitem">
 			<label>大区:</label>
-			<input name="largeArea"  required="true">
+			<input name="largeArea" class="easyui-validatebox"  required="true">
 		</div>
 		<div class="fitem">
 			<label>区部:</label>
@@ -397,15 +397,15 @@ function moduleEdit(){
 		</div>
 		<div class="fitem">
 			<label>提货方式:</label>
-			<input name="carry_goods_type"  required="true">
+			<input name="carryGoodsType"  required="true">
 		</div>
 		<div class="fitem">
 			<label>集包点:</label>
-			<input name="packet_point"  required="true">
+			<input name="packetPoint"  required="true">
 		</div>
 		<div class="fitem">
 			<label>退件:</label>
-			<input name="return_piece"  required="true">
+			<input name="returnPiece"  required="true">
 		</div>
 		<div class="fitem">
 			<label>物料:</label>
@@ -413,15 +413,15 @@ function moduleEdit(){
 		</div>
 		<div class="fitem">
 			<label>投诉返利:</label>
-			<input name="complain_rebate"  required="true">
+			<input name="complainRebate"  required="true">
 		</div>
 		<div class="fitem">
 			<label>操作罚款:</label>
-			<input name="option_fine"  required="true">
+			<input name="optionFine"  required="true">
 		</div>
 		<div class="fitem">
 			<label>费用理赔:</label>
-			<input name="fee_compensate"  required="true">
+			<input name="feeCompensate"  required="true">
 		</div>
 		<div class="fitem">
 			<label>备注:</label>

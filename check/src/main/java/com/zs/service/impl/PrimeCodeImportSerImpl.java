@@ -13,9 +13,13 @@ import org.junit.Test;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.zs.dao.CustomerMapper;
 import com.zs.dao.PrimeCodeReportMapper;
 import com.zs.dao.StaffUserMapper;
+import com.zs.entity.Customer;
+import com.zs.entity.CustomerKey;
 import com.zs.entity.PrimeCodeReport;
+import com.zs.entity.PrimeCodeReportExample;
 import com.zs.entity.SourceImport;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
@@ -25,6 +29,7 @@ import com.zs.entity.other.PerResultMap;
 import com.zs.entity.other.PrimeCodeCollect;
 import com.zs.entity.other.lyResultMap;
 import com.zs.service.PrimeCodeImportSer;
+import com.zs.tools.DateTimeHelper;
 import com.zs.tools.ExcelExport;
 import com.zs.tools.Trans;
 
@@ -35,6 +40,8 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 	private StaffUserMapper userMapper;
 	@Resource
 	private PrimeCodeReportMapper primeCodeReportMapper;
+	@Resource
+	private CustomerMapper customerMapper;
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -136,51 +143,63 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 	public String importData(List<String[]> list, String stuNum) {
 		List<String> lists = new ArrayList<String>();
 		for (int i = 2; i < list.size(); i++) {
-			if(list.get(i)[1].trim().replace(",", "").length()!=6){
-				lists.add((i+1)+"行条码"); 
-			}else {
-				Timestamp tt1 = Trans.toTimestamp(list.get(i)[5]);
-				Timestamp tt2 = Trans.toTimestamp(list.get(i)[7]);
-				Timestamp tt3 = Trans.toTimestamp(list.get(i)[9]);
-				Timestamp tt4 = Trans.toTimestamp(list.get(i)[11]);
-				Timestamp tt5 = Trans.toTimestamp(list.get(i)[13]);
-				Timestamp tt6 = Trans.toTimestamp(list.get(i)[15]);
-				Timestamp tt7 = Trans.toTimestamp(list.get(i)[17]);
-				Timestamp tt8 = Trans.toTimestamp(list.get(i)[19]);
-				Timestamp tt9 = Trans.toTimestamp(list.get(i)[21]);
-				Timestamp tt10 = Trans.toTimestamp(list.get(i)[23]);
-				if(tt1==null||tt2==null||tt3==null||tt4==null||tt5==null||tt6==null
-					||tt7==null||tt8==null||tt9==null||tt10==null){
-					lists.add((i+1)+"行用时"); 
+			CustomerKey ctk =  new CustomerKey();
+			ctk.setCteBarCode(list.get(i)[0].trim().replace(",",""));
+			ctk.setHistoryCount(new BigDecimal(0));
+			Customer ct =  customerMapper.selectByPrimaryKey(ctk);
+			if(ct==null){
+				lists.add("第"+(i+1)+"行条码错误"); 
+			}else{
+				PrimeCodeReportExample pcre = new PrimeCodeReportExample();
+				PrimeCodeReportExample.Criteria criteria = pcre.createCriteria();
+				criteria.andCreateDateEqualTo(Trans.TransToDate(list.get(i)[22]));
+				criteria.andCtmBarCodeEqualTo(list.get(i)[0].trim().replace(",",""));
+				criteria.andStuNumEqualTo(stuNum);
+				List<PrimeCodeReport> pcrs = primeCodeReportMapper.selectByExample(pcre);
+				if(pcrs.size()>0){
+					lists.add("第"+(i+1)+"行已导入一次"); 
 				}else{
-					try{             
-						BigDecimal b1 = Trans.toBigDecimal0(list.get(i)[4]);
-						BigDecimal b2 = Trans.toBigDecimal0(list.get(i)[6]);
-						BigDecimal b3  = Trans.toBigDecimal0(list.get(i)[8]);
-						BigDecimal b4  = Trans.toBigDecimal0(list.get(i)[10]);
-						BigDecimal b5  = Trans.toBigDecimal0(list.get(i)[12]);
-						BigDecimal b6  = Trans.toBigDecimal0(list.get(i)[14]);
-						BigDecimal b7  = Trans.toBigDecimal0(list.get(i)[16]);
-						BigDecimal b8  = Trans.toBigDecimal0(list.get(i)[18]);
-						BigDecimal b9  = Trans.toBigDecimal0(list.get(i)[20]);
-						BigDecimal b10 = Trans.toBigDecimal0(list.get(i)[22]);
-						BigDecimal b11 = Trans.toBigDecimal0(list.get(i)[24]);
-						PrimeCodeReport pcr = new PrimeCodeReport(
-								null,list.get(i)[0],list.get(i)[1].trim().replace(",", ""),list.get(i)[2],list.get(i)[3],
-								b1,Trans.TimeForBig(tt1),b2,Trans.TimeForBig(tt2),b3,Trans.TimeForBig(tt3),
-								b4,Trans.TimeForBig(tt4),b5,Trans.TimeForBig(tt5),b6,Trans.TimeForBig(tt6),
-								b7,Trans.TimeForBig(tt7),b8,Trans.TimeForBig(tt8),b9,Trans.TimeForBig(tt9),
-								b10,Trans.TimeForBig(tt10),b11,stuNum,new Date(),null);
-						primeCodeReportMapper.insertSelective(pcr);
-					}catch (Exception e) {
-						lists.add((i+1)+"行处理量"); 
+					Timestamp tt1 = Trans.toTimestamp(list.get(i)[2]);
+					Timestamp tt2 = Trans.toTimestamp(list.get(i)[4]);
+					Timestamp tt3 = Trans.toTimestamp(list.get(i)[6]);
+					Timestamp tt4 = Trans.toTimestamp(list.get(i)[8]);
+					Timestamp tt5 = Trans.toTimestamp(list.get(i)[10]);
+					Timestamp tt6 = Trans.toTimestamp(list.get(i)[12]);
+					Timestamp tt7 = Trans.toTimestamp(list.get(i)[14]);
+					Timestamp tt8 = Trans.toTimestamp(list.get(i)[16]);
+					Timestamp tt9 = Trans.toTimestamp(list.get(i)[18]);
+					Timestamp tt10 = Trans.toTimestamp(list.get(i)[20]);
+					if(tt1==null||tt2==null||tt3==null||tt4==null||tt5==null||tt6==null
+						||tt7==null||tt8==null||tt9==null||tt10==null){
+						lists.add("第"+(i+1)+"行用时错误"); 
+					}else{
+						try{             
+							BigDecimal b1 = Trans.toBigDecimal0(list.get(i)[1]);
+							BigDecimal b2 = Trans.toBigDecimal0(list.get(i)[3]);
+							BigDecimal b3  = Trans.toBigDecimal0(list.get(i)[5]);
+							BigDecimal b4  = Trans.toBigDecimal0(list.get(i)[7]);
+							BigDecimal b5  = Trans.toBigDecimal0(list.get(i)[9]);
+							BigDecimal b6  = Trans.toBigDecimal0(list.get(i)[11]);
+							BigDecimal b7  = Trans.toBigDecimal0(list.get(i)[13]);
+							BigDecimal b8  = Trans.toBigDecimal0(list.get(i)[15]);
+							BigDecimal b9  = Trans.toBigDecimal0(list.get(i)[17]);
+							BigDecimal b10 = Trans.toBigDecimal0(list.get(i)[19]);
+							BigDecimal b11 = Trans.toBigDecimal0(list.get(i)[21]);
+							PrimeCodeReport pcr = new PrimeCodeReport(
+									null,ct.getCteName(),list.get(i)[0].trim().replace(",", ""),ct.getCustomType(),ct.getLargeArea(),
+									b1,Trans.TimeForBig(tt1),b2,Trans.TimeForBig(tt2),b3,Trans.TimeForBig(tt3),
+									b4,Trans.TimeForBig(tt4),b5,Trans.TimeForBig(tt5),b6,Trans.TimeForBig(tt6),
+									b7,Trans.TimeForBig(tt7),b8,Trans.TimeForBig(tt8),b9,Trans.TimeForBig(tt9),
+									b10,Trans.TimeForBig(tt10),b11,stuNum,Trans.TransToDate(list.get(i)[22]),null);
+							primeCodeReportMapper.insertSelective(pcr);
+						}catch (Exception e) {
+							lists.add("第"+(i+1)+"行处理量错误"); 
+						}
 					}
 				}
 			}
 		}
-		if(lists.size()==(list.size()-2)){
-			return "导入的数据基本全错,请检查格式，建议重新导入";
-		}else if(lists.size()>0){
+		if(lists.size()>0){
 			return new Gson().toJson(lists);
 		}else{
 			return "导入成功，共导入"+(list.size()-2)+"条数据，全部成功";
@@ -195,14 +214,11 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 		if (accept!=null) {
 			List list= new ArrayList<PrimeCodeCollect>();
 			String str = "";
-			for (int i = 0; i <2; i++) {
-				if(i==0){
-					str="快递";
-					accept.setStr1("('快递','快运')");
-				}else if(i==1){
-					str="仓储";
-					accept.setStr1("('仓储')");
-				}
+			List<String> ctts = primeCodeReportMapper.getCoumterType(accept);
+			for (int i = 0; i <ctts.size(); i++) {
+				str=ctts.get(i);
+				accept.setStr1("('"+ctts.get(i)+"')");
+				System.out.println(accept);
 				OtherResultMap orm = primeCodeReportMapper.getOthers(accept);
 				lyResultMap lrp = primeCodeReportMapper.getLy(accept);
 				OtherResultMap orme = primeCodeReportMapper.getOtherExcptions(accept);

@@ -629,10 +629,10 @@
   	select * from PRIME_CODE_REPORT
   	<where>
 	  	<if test="date1!=null and date1!=''">
-	  		and CREATE_TIME >= #{date1}
+	  		and CREATE_DATE >= #{date1}
 	  	</if>
 	  	<if test="date2!=null and date2!=''">
-  			and CREATE_TIME &lt;= #{date2}
+  			and CREATE_DATE &lt;= #{date2}
  		</if>
 	  	<if test="str3!=null and str3!=''">
 	  		and CTM_BAR_CODE in (${str3})
@@ -640,13 +640,13 @@
 	  	<if test="str4!=null and str4!=''">
 	  		and STU_NUM in (select stu_num from staff_user where stu_name in (${str4}))
 	  	</if>
-	  	<if test="str5!=null">
+	  	<if test="str5!=null and str5!=''">
 	  		and CTM_NAME like '%${str5}%'
 	  	</if>
-	  	<if test="str6!=null">
+	  	<if test="str6!=null and str6!=''">
 	  		and CTM_TYPE like '%${str6}%'
 	  	</if>
-	  	<if test="str7!=null">
+	  	<if test="str7!=null and str7!=''">
 	  		and LARGE_AREA like '%${str7}%'
 	  	</if>
   	</where>
@@ -667,10 +667,10 @@
 		from PRIME_CODE_REPORT
 	  	<where>
 		  	<if test="date1!=null and date1!=''">
-		  		and CREATE_TIME >= #{date1}
+		  		and CREATE_DATE >= #{date1}
 		  	</if>
 		  	<if test="date2!=null and date2!=''">
-	  			and CREATE_TIME &lt;= #{date2}
+	  			and CREATE_DATE &lt;= #{date2}
 	 		</if>
 		  	<if test="str3!=null and str3!=''">
 		  		and CTM_BAR_CODE in (${str3})
@@ -678,13 +678,13 @@
 		  	<if test="str4!=null and str4!=''">
 		  		and STU_NUM in (select stu_num from staff_user where stu_name in (${str4}))
 		  	</if>
-		  	<if test="str5!=null">
+		  	<if test="str5!=null and str5!=''">
 		  		and CTM_NAME like '%${str5}%'
 		  	</if>
-		  	<if test="str6!=null">
+		  	<if test="str6!=null and str6!=''">
 		  		and CTM_TYPE like '%${str6}%'
 		  	</if>
-		  	<if test="str7!=null">
+		  	<if test="str7!=null and str7!=''">
 		  		and LARGE_AREA like '%${str7}%'
 		  	</if>
 	  	</where>
@@ -700,13 +700,13 @@
   	select SUM(count_ly) c1,COUNT(distinct stu_num) c2 from prime_code_report 
   	<where>
   		<if test="str1!=null">
-	  	 	 and ctm_type in ${str1}  
+	  	 	 and LARGE_AREA in ${str1}  
   		</if>
   		<if test="date1!=null and date1!=''">
-	  		and CREATE_TIME >= #{date1}
+	  		and CREATE_DATE >= #{date1}
 	  	</if>
 	  	<if test="date2!=null and date2!=''">
-  			and CREATE_TIME &lt;= #{date2}
+  			and CREATE_DATE &lt;= #{date2}
  		</if>
   		and count_ly > 0
   	 </where>
@@ -716,13 +716,13 @@
   	from prime_code_report
   	<where>
   		<if test="str1!=null">
-	  	 	 and ctm_type in ${str1}
+	  	 	 and LARGE_AREA in ${str1}
   		</if>
   		<if test="date1!=null and date1!=''">
-	  		and CREATE_TIME >= #{date1}
+	  		and CREATE_DATE >= #{date1}
 	  	</if>
 	  	<if test="date2!=null and date2!=''">
-  			and CREATE_TIME &lt;= #{date2}
+  			and CREATE_DATE &lt;= #{date2}
  		</if>
   	 </where>
   </select>
@@ -731,13 +731,13 @@
   	from prime_code_report
   	<where>
   		<if test="str1!=null">
-	  	 	 and ctm_type in ${str1}
+	  	 	 and LARGE_AREA in ${str1}
   		</if>
   		<if test="date1!=null and date1!=''">
-	  		and CREATE_TIME >= #{date1}
+	  		and CREATE_DATE >= #{date1}
 	  	</if>
 	  	<if test="date2!=null and date2!=''">
-  			and CREATE_TIME &lt;= #{date2}
+  			and CREATE_DATE &lt;= #{date2}
  		</if>
  		and  (count_jd > 0 or count_cj >0 or count_gd>0 or count_lpcl>0 or count_kscl>0)
   	 </where>
@@ -753,12 +753,25 @@
 	  	 	 and stu_num in (select stu_num from staff_user where stu_name in (${str1}))
   		</if>
   		<if test="date1!=null and date1!=''">
-	  		and CREATE_TIME >= #{date1}
+	  		and CREATE_DATE >= #{date1}
 	  	</if>
 	  	<if test="date2!=null and date2!=''">
-  			and CREATE_TIME &lt;= #{date2}
+  			and CREATE_DATE &lt;= #{date2}
  		</if>
   	 </where>
   	 group by stu_num
+  </select>
+  <select id="getCoumterType" resultType="java.lang.String" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select LARGE_AREA from prime_code_report
+  	<where>
+  		<if test="date1!=null and date1!=''">
+	  		and CREATE_DATE >= #{date1}
+	  	</if>
+	  	<if test="date2!=null and date2!=''">
+  			and CREATE_DATE &lt;= #{date2}
+ 		</if>
+ 		and LARGE_AREA is not null
+  	 </where>
+  	 group by LARGE_AREA
   </select>
 </mapper>

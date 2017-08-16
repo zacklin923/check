@@ -158,7 +158,7 @@ public class DateTimeHelper {
 	
 	public static Date getmonthStart(int year,int month){
 		Calendar calendar=Calendar.getInstance();
-		calendar.set(year,month-1,1,0,0,0);
+		calendar.set(year,month-1,1,8,0,0);
 		calendar.set(Calendar.MILLISECOND ,0);
 		return calendar.getTime();
 	}
@@ -176,9 +176,4 @@ public class DateTimeHelper {
 		return calendar.getTime();
 	}
 	
-	@Test
-	public void test(){
-		int i = 1;
-		System.out.println();
-	}
 }

@@ -9,11 +9,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
-import com.zs.controller.rest.BaseRestController.Code;
-import com.zs.dao.CheckLogMapper;
 import com.zs.dao.CustomerMapper;
 import com.zs.dao.NoUpdateMapper;
 import com.zs.dao.ZmReturnDataMapper;
@@ -22,17 +19,14 @@ import com.zs.entity.Customer;
 import com.zs.entity.CustomerKey;
 import com.zs.entity.NoUpdate;
 import com.zs.entity.NoUpdateKey;
-import com.zs.entity.SourceZm;
 import com.zs.entity.StaffUser;
 import com.zs.entity.TimeLimit;
 import com.zs.entity.ZmReturnData;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
-import com.zs.entity.other.Result;
 import com.zs.service.CheckLogSer;
 import com.zs.service.TimeLimitSer;
 import com.zs.service.ZmReturnDataSer;
-import com.zs.tools.CheckTimeCost;
 import com.zs.tools.ExcelExport;
 import com.zs.tools.Trans;
 
@@ -155,21 +149,24 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		if (zm!=null && zm.getDeliveryState()!=null && stuNum!=null) {
 			//-------判断配送状态是否修改为系统不能修改的两个字段
 			try {
-				ZmReturnData stp = zmReturnDataMapper.selectByPrimaryKey(zm.getCourierNumber());
-				if(!stp.getDeliveryState().equals(zm.getDeliveryState())){
-					NoUpdate nu = new NoUpdate();
-					nu.setCourierNumber(zm.getCourierNumber());
-					nu.setNoUpdateName("delivery_state");
-					nu.setNoUpdateValue(zm.getDeliveryState());
-					nu.setStuNum(stuNum);
-					try {
-						noUpdateMapper.insertSelective(nu);
-					} catch (Exception e) {
-						noUpdateMapper.updateByPrimaryKeySelective(nu);
+				if(zm.getDeliveryState().equals("配送成功")||zm.getDeliveryState().equals("配送失败")||zm.getDeliveryState().equals("退回件")){
+					ZmReturnData stp = zmReturnDataMapper.selectByPrimaryKey(zm.getCourierNumber());
+					if(!stp.getDeliveryState().equals(zm.getDeliveryState())){
+						NoUpdate nu = new NoUpdate();
+						nu.setCourierNumber(zm.getCourierNumber());
+						nu.setNoUpdateName("delivery_state");
+						nu.setNoUpdateValue(zm.getDeliveryState());
+						nu.setStuNum(stuNum);
+						try {
+							noUpdateMapper.insertSelective(nu);
+						} catch (Exception e) {
+							noUpdateMapper.updateByPrimaryKeySelective(nu);
+						}
 					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -397,6 +394,7 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 
 	//---------------------------------------------
 	public EasyUIPage queryFenyeOfTp(EasyUIAccept accept,HttpServletRequest req) {
+		
 		if (accept!=null) {
 			Integer page=accept.getPage();
 			Integer size=accept.getRows();
@@ -426,11 +424,20 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		StaffUser u = (StaffUser) req.getSession().getAttribute("user");
 		List<String> ls = new ArrayList<String>();
 		for (int i = 1; i < list.size(); i++) {
+			Customer ct =null;
+			if(!list.get(i)[1].trim().equals("")){
+				CustomerKey ctkey = new CustomerKey();
+				ctkey.setCteBarCode(list.get(i)[1].trim());
+				ctkey.setHistoryCount(new BigDecimal(0));
+				ct = custormerMapper.selectByPrimaryKey(ctkey);
+			}
 			if(list.get(i)[0].equals("")){
 				ls.add((i+1)+",");
-			}else if(!list.get(i)[2].trim().equals("配送成功")&&!list.get(i)[2].trim().equals("配送失败")&&
-					!list.get(i)[2].trim().equals("揽件")&&!list.get(i)[2].trim().equals("配送异常")&&
-					!list.get(i)[2].trim().equals("配送中")&&!list.get(i)[2].trim().equals("退回件")){
+			}else if(!list.get(i)[3].trim().equals("配送成功")&&!list.get(i)[3].trim().equals("配送失败")&&
+					!list.get(i)[3].trim().equals("揽件")&&!list.get(i)[3].trim().equals("配送异常")&&
+					!list.get(i)[3].trim().equals("配送中")&&!list.get(i)[3].trim().equals("退回件")){
+				ls.add((i+1)+",");
+			}else if(ct==null&&!list.get(i)[1].equals("")){
 				ls.add((i+1)+",");
 			}else{
 				try {
@@ -439,15 +446,20 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 					ZmReturnData stp = new ZmReturnData();
 					String	AbnormalCause = null;
 					stp.setCourierNumber(Trans.tostring(list.get(i)[0]));
-					if(!list.get(i)[1].trim().equals("")){
-						AbnormalCause = list.get(i)[1];
+					if(!list.get(i)[2].trim().equals("")){
+						AbnormalCause = list.get(i)[2].trim();
 					}
+					String ctmBarCode =null;
+					if(ct!=null){
+						ctmBarCode =ct.getCteBarCode();
+					}
+					stp.setCtmBarCode(ctmBarCode);
 					stp.setAbnormalCause(AbnormalCause);
-					stp.setDeliveryState(list.get(i)[2]);
-					stp.setSignatory(list.get(i)[3]);
-					stp.setSignTime(Trans.toTimestamp(list.get(i)[4]));
-					stp.setGoods(list.get(i)[5]);
-					stp.setGoodsCost(Trans.toBigDecimal(list.get(i)[6]));
+					stp.setDeliveryState(list.get(i)[3]);
+					stp.setSignatory(list.get(i)[4]);
+					stp.setSignTime(Trans.toTimestamp(list.get(i)[5]));
+					stp.setGoods(list.get(i)[6]);
+					stp.setGoodsCost(Trans.toBigDecimal(list.get(i)[7]));
 					if(isstp!=null){
 						checkUpdateDeliveryState(stp, u.getStuNum());
 						zmReturnDataMapper.updateByPrimaryKeySelective(stp);

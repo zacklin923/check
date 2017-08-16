@@ -1,6 +1,5 @@
 package com.zs.dao;
 
-import com.zs.entity.StaffPower;
 import com.zs.entity.TimeLimit;
 import com.zs.entity.TimeLimitExample;
 import com.zs.entity.other.EasyUIAccept;
