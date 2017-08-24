@@ -13,6 +13,9 @@
 #wrapper{
 	padding-left: 200px;
 }
+a{
+	text-decoration: none;
+}
 
 #sidebar{
 	padding: 0;
@@ -24,7 +27,7 @@
 	border-color: #ebf2fa #e4e4e4 #f2f2f2 #fff;
     border-width: 1px 1px 0 0;
    }
-	
+
 #sidebar ul{
 	list-style: none;
 	margin: 10px 0 10px 0;
@@ -77,7 +80,17 @@
 	width: 180px ;
 	border-radius:5px 0 0 5px;
 	border-style: solid ;
-	border-color: skyblue;
+	border-color:lightgray;
+	padding: 0 0 0 10px;
+    margin-left: 10px;
+    background-color: #fff;
+    position: absolute;
+    cursor: default;
+    height: 25px;
+    width: 180px;
+    border-radius: 5px 0 0 5px;
+    border-style: solid;
+    border-color: rgba(140, 140, 140, 0.24);
 	border-width: 1px 0 1px 1px;
 }
 #main{
@@ -85,7 +98,7 @@
 	padding:10px 10px 10px 14px;
 	position: relative;
 	}
- 
+
 #tag li img{
 	margin: 0;
 	display: none;
@@ -110,14 +123,14 @@
 #myapps ul li div{ padding: 0px; clear: both; display: block;}
 #myapps ul li div a{ font-size: 12px; display: inline-block; width: auto; clear: none; color: #8C8C8C; padding: 0; margin: 0;}
 #myapps ul li p{ color: #737373; display: none; height: 32px; line-height: 16px; margin: 5px; overflow: hidden;}
-#myapps ul li:hover{ background: #E8F9FE; border-color: #96E5FF; border-style: solid; border-width: 1px; transition: background 0.3s linear 0s;}
+#myapps ul li:hover{ background:rgba(242, 235, 212); border-color: lightgray; border-style: solid; border-width: 1px; transition: background 0.2s linear 0s;}
 #myapps ul li:hover p{ display: block;}
 
 /* header*/
 .layout-header{
 	box-shadow:1px 1px 20px #D9EEFF;
-	box-shadow:1px 1px 20px #CCE8FF\9;             
-	background:#D79128;
+	box-shadow:1px 1px 20px #CCE8FF\9;
+	background:rgb(250,190,0);
 	height: 60px;
 	z-index: 10;
 	margin: 0px;
@@ -155,7 +168,7 @@
 	text-align: center;
 }
 .menutab li:nth-child(1){
-	background-color:rgb(255, 180, 0);
+	background-color:rgb(255, 190, 0);
 	color: white;
 }
 
@@ -164,6 +177,12 @@
 	 text-align: center;
     line-height: 27px;
     font-size: 14px;
+}
+.myself-menu li span img{
+	width: 20px;
+	height: 20px;
+	margin:3px 3px 0px 0px;
+	vertical-align: top;
 }
 
 

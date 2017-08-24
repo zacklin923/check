@@ -25,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="layout-wrapper" style="position: relative">
     <div class="layout-header">
         <div class="layout-logo" style="width: 200px;position:absolute">
-            <a href="#" id="systerm" style="background: url('<%=path%>/jsp/iterm/images/mylogo2.gif');display:block;width: 200px;height: 60px;position: absolute;left:0px;margin-left:0px; "></a>
+            <a href="#" id="systerm" style="background: url('<%=path%>/jsp/iterm/images/logo12.jpg');display:block;width: 200px;height: 60px;position: absolute;left:0px;margin-left:0px; "></a>
         </div>
         <div class="layout-title"style="position: absolute;top: 30px;left: 220px">
 
@@ -44,27 +44,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 			</span>
             </h3>
-            <ul id="tag" data-listidx="0">
-                <li href="#desktop" ref="200000021782"><span>公司主页</span>
-                </li>
-            </ul>
             <h3 id="mymuen">我的菜单</h3>
             <ul id="group_list" class="myself-menu">
 
                 <li><span>
 		       		 <img class="floatleft" style="width: 20px; height: 20px;margin:3px 3px 0px 0px;vertical-align: top;" src="<%=path%>/jsp/iterm/images/brick.png">大客户查件</span>
-                </li>
-                <li><span>
-		       	 	 <img class="floatleft" style="width: 20px; height: 20px;margin:3px 3px 0px 0px; vertical-align: top;" src="<%=path%>/jsp/iterm/images/credit.png">电子看板</span>
-                </li>
-                <li><span>
-		       			<img class="floatleft" style="width: 20px; height: 20px;margin:3px 3px 0px 0px;vertical-align: top;" src="<%=path%>/jsp/iterm/images/soil_layers.png">网点信息管理</span>
-                </li>
-                <li><span>
-		       		<img class="floatleft" style="width: 20px; height: 20px;margin:3px 3px 0px 0px; vertical-align: top;" src="<%=path%>/jsp/iterm/images/world.png">关键性指标</span>
-                </li>
-                <li><span>
-		       		<img class="floatleft" style="width: 20px; height: 20px;margin:3px 3px 0px 0px; vertical-align: top;" src="<%=path%>/jsp/iterm/images/phone_Android.png">帮助</span>
                 </li>
             </ul>
 
@@ -118,81 +102,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <ul>
                         <li class="iterm1"><a href="<%=path%>/jsp/iterm/dateinput.jsp" title="收货" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/package_go.png"><span>导入数据</span>
-                        </a>
-
-                            <p>快件操作</p>
-                        </li>
+                        </a><p >快件操作</p></li>
                         <li class="iterm1"><a href="<%=path%>/jsp/iterm/error.jsp" title="调货" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/measure_crop.png"><span>错误数据</span>
-                        </a>
-
-                            <p>快件操作</p>
-                        </li>
+                        </a><p>快件操作</p></li>
                         <li class="iterm1"><a href="<%=path%>/jsp/iterm/message.jsp" title="退货" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/lorry_go.png"><span>运单信息查询</span>
                         </a>
-
                             <p>快件操作</p>
                         </li>
                         <li class="iterm1"><a href="<%=path%>/jsp/iterm/statues.jsp" title="盘点" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/server_components.png"><span>运单状态查询</span>
                         </a>
-
                             <p>快件操作</p>
                         </li>
                         <li class="iterm2"><a  href="<%=path%>/jsp/iterm/day.jsp" title="收银" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/credit.png"><span>日报表</span>
                         </a>
-
                             <p>报表信息</p>
                         </li>
                         <li class="iterm2"><a href="<%=path%>/jsp/iterm/mounth.jsp" title="基础档案" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/legend.png"><span>月报表</span>
                         </a>
-
                             <p>报表信息</p>
                         </li>
                         <li class="iterm2"><a href="<%=path%>/jsp/iterm/gather.jsp" title="销售报表" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/chart_bar.png"><span>成本导入收集</span>
                         </a>
-
                             <p>报表信息</p>
                         </li>
                         <li class="iterm2"><a href="<%=path%>/jsp/iterm/collect.jsp" title="库存调整" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/brick_delete.png"><span>成本导入汇总</span>
                         </a>
-
                             <p>报表信息</p>
                         </li>
                        
                         <li class="iterm2"><a href="<%=path%>/jsp/iterm/colllectw.jsp" title="销售指标报表" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/chart_line.png"><span>成本按导入人汇总</span>
                         </a>
-
                             <p>零售、报表信息</p>
                         </li>
                         <li class="iterm2"><a href="<%=path%>/jsp/iterm/signin.jsp" title="库存类报表(X3)" target="_blank"><img src="<%=path%>/jsp/iterm/images/chart_pie_alternative.png">
                             <span>签收报表(X3)</span>
                         </a>
-
                             <p>报表信息</p>
                         </li>
                         <li class="iterm3"><a href="<%=path%>/jsp/iterm/username.jsp" title="销售扩展报表" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/server_components.png"> <span>用户管理</span>
                         </a>
-
                             <p>系统管理</p>
                         </li>
                         <li class="iterm3"><a href="<%=path%>/jsp/iterm/usernameg.jsp" title="零售补录" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/user.png"><span>角色管理</span>
                         </a>
-
                             <p>系统管理</p>
                         </li>
                         <li class="iterm3"><a href="<%=path%>/jsp/iterm/permission.jsp" title="EP报表" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/server_components.png"><span>权限管理</span>
                         </a>
-
                             <p>系统管理</p></li>
                         <li class="iterm3"><a href="<%=path%>/jsp/iterm/log.jsp" title="EP报表" target="_blank">
                             <img src="<%=path%>/jsp/iterm/images/document_inspector.png"><span>查看日志</span>

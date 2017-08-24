@@ -733,8 +733,8 @@ function hourbynumber(str){
 </div>
 <div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
 		closed="true" modal="true" title="数据源导入">
-		<div style="height:25px;line-height:25px;">数据导入模板
-			<a href="<%=path%>/file/成本导入模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
+		<div style="height:25px;line-height:25px;padding:5px 11px">数据导入模板
+			<a href="<%=path%>/file/成本导入模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;color:black;">下载</a>
 		</div></br></br></br>
 		<form id="fmfile"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>

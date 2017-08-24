@@ -5,17 +5,25 @@
 $(function () {
   
     /*点击隐藏菜单栏结束*/
-    /*菜单切换样式*/
-    $(".myself-menu>li").on("click", function () {
-        $(this).addClass("active").siblings().removeClass("active");
-
-    });
+//    /*菜单切换样式*/
+//    $(".myself-menu>li").on("click", function () {
+//        $(this).addClass("active").siblings().removeClass("active");
+//
+//    });
     /*菜单切换样式*/
 
     /*tab栏切换效果*/
 
     $(".menutab>li").bind({
         click: function () {
+        	 $(this).css({
+                 "background": "rgb(290, 180, 0)",
+                 "color": "white"
+             }
+         ).siblings().css({
+                 "background": "white",
+                 "color": "black"
+             })
         	 var num = $(this).index();
         	 if (num === 1) {
                  $("#myapps>ul>li").css({
@@ -53,27 +61,18 @@ $(function () {
                     "color": "black"
                 })
         },
-        mouseenter: function () {
-            $(this).css({
-                    "background": "rgb(290, 180, 0)",
-                    "color": "white"
-                }
-            ).siblings().css({
-                    "background": "white",
-                    "color": "black"
-                })
-        },
-        mouseleave: function () {
-            $(this).css({
-                "background": "white",
-                "color": "black"
-            }).parent().children().first().css({
-                "background": "rgb(290, 180, 0)",
-                "color": "white"
-            })
-
-
-        }
+      
+//        mouseleave: function () {
+//            $(this).css({
+//                "background": "white",
+//                "color": "black"
+//            }).parent().children().first().css({
+//                "background": "rgb(290, 180, 0)",
+//                "color": "white"
+//            })
+//
+//
+//        }
     });
     /*tab的全部点击效果*/
     $(".menutab>li:first-child").click(function () {
