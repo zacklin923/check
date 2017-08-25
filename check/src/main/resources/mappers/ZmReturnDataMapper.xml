@@ -820,6 +820,9 @@
 		  		<if test="str15!=null and str15!=''">
 		  			and ADDRESS like '%${str15}%'
 		  		</if>
+		  		<if test="str16!=null">
+			  		and PROVINCE is null
+			  	</if>
 			  	<if test="int1!=null">
 			  		and 
 			  		(case  
@@ -911,6 +914,9 @@
 	  		when DELIVERY_STATE='配送成功' and sign_time &lt;= time_out then 0
 	  		when DELIVERY_STATE in ('配送中','揽件') and sysdate &lt;= time_out then 0
 	  		else 2 end)=#{int1}
+	  	</if>
+	  	<if test="str16!=null">
+	  		and PROVINCE is null
 	  	</if>
 	  	and
 	  	(
