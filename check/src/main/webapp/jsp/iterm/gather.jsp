@@ -350,10 +350,10 @@ function hourbynumber(str){
                         <div class="right">
                             <ul>
                                 <li><label for="">导入开始时间</label>
-                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"value="2017/08/02 00:00:00"/>
+                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
                                 </li>
                                 <li><label for="">导入结束时间</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="2017/08/02 23:59:59"/>
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
                                 </li>
                             </ul>
                         </div>
@@ -733,8 +733,8 @@ function hourbynumber(str){
 </div>
 <div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
 		closed="true" modal="true" title="数据源导入">
-		<div style="height:25px;line-height:25px;">数据导入模板
-			<a href="<%=path%>/file/成本导入模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
+		<div style="height:25px;line-height:25px;padding:5px 11px">数据导入模板
+			<a href="<%=path%>/file/成本导入模板.xlsx" style="display:block;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;color:black;">下载</a>
 		</div></br></br></br>
 		<form id="fmfile"  enctype="multipart/form-data" method="post">
 			<input type="file" name="file"/>

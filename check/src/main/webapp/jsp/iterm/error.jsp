@@ -146,11 +146,11 @@ function excel_export(){
                         <div class="left">
                             
                                <ul>
-                                 <li><label for="">发货日期开始</label>
-                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" />
+                                 <li><label for="">导入时间开始</label>
+                                  	<input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
                                 </li>
-                                <li><label for="">发货日期结束</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" />
+                                <li><label for="">导入时间结束</label>
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})" />
                                 </li>
 
                                 
@@ -355,7 +355,9 @@ function excel_export(){
 			</form>
 		</div>
 		
-		
+		<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:60%;padding:10px 20px"
+		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceImport.jsp" cache="true" resizable="true">
+</div>
 		
 </body>
 </html>

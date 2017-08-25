@@ -499,7 +499,7 @@ function accept(){
 		</div>
 		<div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
 				closed="true" modal="true" title="数据源导入">
-				<div style="height:25px;line-height:25px;">数据导入模板
+				<div style="height:25px;line-height:25px;padding:5px 9px">数据导入模板
 					<a href="<%=path%>/file/哲盟返回第三方数据模板.xlsx" style="display:block;color:black;font-weight:300px;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
 				</div>
 				</br></br></br>
@@ -508,7 +508,7 @@ function accept(){
 					<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;"/>
 				</form>
 		</div>
-		<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:100%;padding:10px 20px"
+		<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:50%;padding:10px 20px"
 				closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/sourceTp.jsp" cache="true" resizable="true">
 		</div>
 		<div id="exportdiv" class="easyui-dialog" style="width:500px;height:700px;padding:10px 20px"

@@ -188,11 +188,11 @@ function obcSave(){
                         </div>
                         <div class="right">
                             <ul>
-                                <li><label for="">发货日期开始</label>
-                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"/>
+                                <li><label for="">创建时间开始</label>
+                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})"/>
                                 </li>
-                                <li><label for="">发货日期结束</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"/>
+                                <li><label for="">创建时间结束</label>
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})"/>
                                 </li>
                             </ul>
                         </div>
@@ -289,7 +289,7 @@ function obcSave(){
 		</thead>
 	</table>	
 </div>
-<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:100%;padding:10px 20px"
+<div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:50%;height:50%;padding:10px 20px"
 		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/user.jsp" cache="true" resizable="true">
 </div>
 </body>

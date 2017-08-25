@@ -63,17 +63,19 @@
 	<context:component-scan base-package="com.sishuok.spring4"/>  
 	<mvc:resources mapping="/framework/**" location="/framework/" />
 	<mvc:resources mapping="/file/**" location="/file/" />
-	<!-- /* 配置拦截器, 多个拦截器,顺序执行 
+	<mvc:resources mapping="/jsp/iterm/**" location="/jsp/iterm/" />
+	
+	<!-- 配置拦截器, 多个拦截器,顺序执行 
 	匹配的是url路径， 如果不配置或/**,将拦截所有的Controller
-	当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法*/
+	当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法
+	-->
 	<mvc:interceptors>
 	    <mvc:interceptor>    
-	        <mvc:mapping path="/**" />  
+	        <mvc:mapping path="/api/**" />  
 	        <bean class="com.zs.interceptor.RoleInter"></bean>
 	    </mvc:interceptor>  
 	</mvc:interceptors>
-	-->
-	<mvc:default-servlet-handler/>
 	
+	<mvc:default-servlet-handler/>
 	
 </beans>
