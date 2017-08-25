@@ -55,7 +55,7 @@ public class Customer extends CustomerKey {
     private String state;
 
     private Date createTime;
-
+    
     public String getCteName() {
         return cteName;
     }
@@ -257,7 +257,7 @@ public class Customer extends CustomerKey {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
+    
 	public Customer(String cteName, String customServiceCenter, String customServiceTop, String customServiceLast,
 			String customType, String largeArea, String sliceArea, String fenbu, Date openDate, Date outDate,
 			String business, String accountsType, String pageType, BigDecimal dailyDelivery, String goodsDetail,
