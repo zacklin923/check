@@ -358,7 +358,7 @@ function accept(){
                         </div>
                         <div class="center">
                             <ul>
-                                <li>  <label for=""">省份</label>
+                                <li>  <label for="">省份</label>
                                     <input type="text" style="margin-left: 33px"  name ="str13" >
                                 </li>
 
@@ -368,8 +368,11 @@ function accept(){
                                 <li><label for="">客户名称</label>
                                     <input type="text" name ="str12">
                                 </li>
-                                <li> <label for="" name ="str9">所属区部</label>
+                                <li> <label for="">所属区部</label>
                                     <input type="text" name ="str9" >
+                                </li>
+                                <li> <label for="">目的地为空</label>
+                                    <input type="radio" value="ssss" name ="str16" >
                                 </li>
                             </ul>
                         </div>
