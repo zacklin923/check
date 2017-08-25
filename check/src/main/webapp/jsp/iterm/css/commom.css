@@ -4,11 +4,9 @@
 .layout-header {
     box-shadow: 1px 1px 20px #D9EEFF;
     box-shadow: 1px 1px 20px #CCE8FF\9;
-    background: rgb(250, 190, 0) 
-	background-color: #FFE260;
+    background: rgb(250, 190, 0);
     height: 40px;
     z-index: 10;
-    margin: 0px;
     width: 100%;
 }
 .layout-title{
@@ -85,7 +83,7 @@ label {
 }
 .myself_btn:hover {
     color: #fff;
-    background: rgb(255, 180, 0);
+    background: rgb(250, 190, 0);
     cursor:pointer;
 }
 input {
@@ -104,7 +102,7 @@ input {
     border-radius: 5px;
     padding-left: 5px;
     border: 1px solid #95B8E7;
-    margin-left: 65x
+    margin-left: 65px;
 }
 
 
@@ -116,7 +114,6 @@ input {
     padding-top: 50px;
     margin-right:20px;
    	margin-left:22px;
-    background：#ccc;
 }
 
 #menulist>div > a{
@@ -146,39 +143,39 @@ input {
 }
 
 #menulist >div> a:nth-child(1):hover{
-    background-color: rgb(255, 180, 0);
-    
+    background-color: rgb(250, 180, 0);
+    color:white;
     cursor: pointer;
 }
 #menulist>div > a:nth-child(2):hover{
     background-color: rgb(255, 180, 0);
-     
+      color:white;
        cursor: pointer;
 }
 #menulist >div> a:nth-child(3):hover{
     background-color: rgb(255, 180, 0);
-    
+     color:white;
        cursor: pointer;
 }
 #menulist >div> a:nth-child(4):hover{
     background-color: rgb(255, 180, 0);
-   
+    color:white;
        cursor: pointer;
 }
 #menulist>div > a:nth-child(5):hover{
     background-color:rgb(255, 180, 0);
-   
+    color:white;
        cursor: pointer;
 }
 #menulist >div> a:nth-child(6):hover{
     background-color: rgb(255, 180, 0);
-    
+     color:white;
        cursor: pointer;
 }
 #menulist>div > a:nth-child(7):hover{
     background-color:rgb(255, 180, 0);
        cursor: pointer;}
-    
+
 /*头部公共样式*/
 .layout_north{
     height: 77px;
@@ -194,6 +191,7 @@ input {
     background: url("../images/sprice.png") no-repeat left;
     background-position: -96px 1px;
     text-indent: -10px;
+
 }
 
 #menulist >div> a > .iterm3 {
@@ -298,6 +296,9 @@ input {
     padding:0px 5px 5px 5px;
     margin-top: -9px;
 }
+.panel-body {border-color: #E6E6E6; border:none;}
+#menulist{height:30px;}
+#mypanel{  border:1px solid lightgray;}
 
 /* from表单样式*/
 

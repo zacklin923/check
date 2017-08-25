@@ -26,5 +26,16 @@ $(function () {
             $('#dg').datagrid('resize');
         }
     });
+    
+    $(".textarea>div>textarea").on("focus",function(){
+    	$(this).siblings().css({
+    		'display':'none'
+    	})
+    })
+     $(".textarea>div>textarea").on("blur",function(){
+    	$(this).siblings().css({
+    		'display':'block'
+    	})
+    })
 
 })
