@@ -24,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 <jsp:include page="/jsp/part/common.jsp"/>
+
 <link rel="stylesheet" type="text/css" href="<%=path %>/framework/css/login.css">
 <script type="text/javascript">
 function login(){
