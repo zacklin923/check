@@ -411,6 +411,7 @@ public class ReportMonthSerImpl implements ReportMonthSer{
 			}
 			ReportAllMonth lastram = new ReportAllMonth();
 			int ms1=0,ms2=0,ms3=0,ms4=0,ms5=0,ms6=0,ms7=0,ms8=0,ms9=0,ms10=0,ms11=0,ms12=0;
+			BigDecimal allcountall = new BigDecimal(0);
 			for (int z = 0; z < listall.size(); z++) {
 				int m1=0,m2=0,m3=0,m4=0,m5=0,m6=0,m7=0,m8=0,m9=0,m10=0,m11=0,m12=0;
 				if(listall.get(z).getMonth1()!=null){
@@ -463,7 +464,11 @@ public class ReportMonthSerImpl implements ReportMonthSer{
 				ms11=ms11+m11;
 				ms12=ms12+m12;
 				m1=0;m2=0;m3=0;m4=0;m5=0;m6=0;m7=0;m8=0;m9=0;m10=0;m11=0;m12=0;
+				if(listall.get(z).getCountAll()!=null){
+					allcountall = allcountall.add(listall.get(z).getCountAll());
+				}
 			}
+			lastram.setCountAll(allcountall);
 			lastram.setMonth1(new BigDecimal(ms1));
 			lastram.setMonth2(new BigDecimal(ms2));
 			lastram.setMonth3(new BigDecimal(ms3));
