@@ -301,5 +301,24 @@ input {
 #mypanel{  border:1px solid lightgray;}
 
 /* from表单样式*/
+#my_search{
+	width:70px;
+	height:30px;
+	background:#e9e5e5;
+	display:block;
+	position:absolute;
+	left:45%;
+	top:60px;
+	text-align:center;
+	line-height:30px;
+	color:black;
+	border-radius:5px;
+}
+#my_search:hover{
+	 background-color:skyblue;
+       cursor: pointer;
+      
+   }
+
 
 
