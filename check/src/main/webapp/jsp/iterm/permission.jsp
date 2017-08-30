@@ -176,6 +176,7 @@ function excel_export(){
                         </div>
                 </form>
              </div>
+             <a onclick="search_toolbar()"  id="my_search" style="top: 38px;left:28%;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>

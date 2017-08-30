@@ -359,40 +359,45 @@ function accept(){
                         <div class="center">
                             <ul>
                                 <li>  <label for="">省份</label>
-                                    <input type="text" style="margin-left: 33px"  name ="str13" >
+                                    &nbsp;<input type="text" style="margin-left: 33px"  name ="str13" >
                                 </li>
 
                                 <li> <label for="" >地址</label>
-                                    <input type="text" style="margin-left: 33px" name ="str15"   ></li>
+                                    &nbsp;<input type="text" style="margin-left: 33px" name ="str15"   ></li>
 
                                 <li><label for="">客户名称</label>
-                                    <input type="text" name ="str12">
+                                    &nbsp;<input type="text" name ="str12">
                                 </li>
                                 <li> <label for="">所属区部</label>
-                                    <input type="text" name ="str9" >
+                                    &nbsp;<input type="text" name ="str9" >
                                 </li>
-                                <li> <label for="">目的地为空</label>
-                                    <input type="radio" value="ssss" name ="str16" >
+                                <li><label for="">所属分拨点</label>
+                                    &nbsp;<input type="text"  style="margin-left: -3px" >
                                 </li>
+                              
                             </ul>
                         </div>
                         <div class="right">
                             <ul>
-                                <li><label for="">所属分拨点</label>
-                                    <input type="text"  style="margin-left: 22px" >
-                                </li>
+                                
                                 <li><label for="">发货日期开始</label>
-                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
+                                    &nbsp;&nbsp;<input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
                                 </li>
                                 <li><label for="">发货日期结束</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
+                                    &nbsp;&nbsp;<input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
                                 </li>
 
                                 <li> <label for="">是否超时</label>
-                                    &nbsp;<select class="my_select"  name ="int1"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:29px">
+                                    &nbsp;&nbsp;&nbsp;<select class="my_select"  name ="int1"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:29px">
                                     <option value="" style="color: #6B6B6B;font-weight: 300;">--请选择是否超时--</option>
                                     <option value="1" style="color: #6B6B6B;font-weight: 300;">--是--</option>
                                     <option value="0" style="color: #6B6B6B;font-weight: 300;">--否--</option>
+                                    </select>
+                                </li>
+                                  <li> <label for="">目的地是否为空</label>
+                                    &nbsp;<select class="my_select"  name ="str16"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:2px">
+                                     <option value="0" style="color: #6B6B6B;font-weight: 300;">--否--</option>
+                                    <option value="1" style="color: #6B6B6B;font-weight: 300;">--是--</option>
                                     </select>
                                 </li>
                             </ul>
@@ -406,7 +411,7 @@ function accept(){
                             </div>
                             <div class="radio">
                                 <input type="checkbox" name ="str2"  value="配送成功"/><span>配送成功</span>
-                                <input type="checkbox" name ="str2" value="配送失败"/><span>配型失败</span>
+                                <input type="checkbox" name ="str2" value="配送失败"/><span>配送失败</span>
                                 <input type="checkbox" name ="str2" value="配送异常"/><span>配送异常</span>
                                 <input type="checkbox" name ="str2" value="配送中"/><span>配送中</span>
                                 <input type="checkbox" name ="str2" value="揽件"/><span>揽件</span>
@@ -417,7 +422,8 @@ function accept(){
                         
                 </form>
              </div>
-             <div style="height: 10px;background:white;"></div>
+             <a onclick="search_toolbar()"  id="my_search" style="left:58%;top: 100px;">查询</a>
+            
 		</div>
 		<div style="height: 10px;"></div>
         </div>
