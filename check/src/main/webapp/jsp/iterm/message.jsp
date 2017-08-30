@@ -333,7 +333,7 @@ function accept(){
                 <a onclick="$('#mbedit').dialog('open')"><span class="iterm3"></span>编辑模板</a>
                 <a onclick="accept()"><span class="iterm4"></span>保存</a>
                 <a style="opacity: 0.7;"><span class="iterm6"></span>统计</a>
-                <a onclick="$('#exportdiv').dialog('open');"><span class="iterm7"></span>导出</a>
+                <a onclick="$('#exportdiv').dialog('open')""><span class="iterm7"></span>导出</a>
                 <a onclick="search_toolbar()"><span class="iterm5"></span>查询</a>
 			</div>
 			</div>
@@ -392,7 +392,7 @@ function accept(){
                                     <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
                                 </li>
                                 <li><label for="">发货日期结束</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'}) value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
                                 </li>
                                  <li> <label for="">状态</label>
                                     &nbsp;<select class="my_select"  name ="int1"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:53px">
@@ -414,6 +414,7 @@ function accept(){
                         
                 </form>
              </div>
+             <a onclick="search_toolbar()"  id="my_search" style="left:58%;top: 100px;">查询</a>
 		</div>
 		<div style="height:10px;background:white;"></div>
         </div>

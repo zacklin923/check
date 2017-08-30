@@ -302,8 +302,12 @@ border:1px solid lightgray;}
                                 <textarea name="str3" cols="200" rows="20"></textarea>
                             </div>
                         </div>
+                          
                 </form>
-             </div>
+                <div>
+                	<a onclick="search_toolbar1()"  id="my_search" style="top: 70px;">查询</a>
+                </div>
+             </div> 
             
 		</div>
 		 <div style="height:10px;background:white;"></div>

@@ -32,7 +32,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <p style="font-size: 14px;padding-left: 0px;line-height: 21px;color:#fcfcfc;font-weight:600;"  title="查看账号信息" target="_blank">深圳韵达有限公司欢迎你!</a></p>
         </div>
         <div class="layout-help" style="position: absolute;top: 30px ;right:30px">
-            <a href="<%=path%>/jsp/iterm/login.jsp" style="line-height: 1px;">退出登录</a>
+	        <c:choose>
+			<c:when test="${user==null}">
+				<a href="<%=path%>/jsp/iterm/login.jsp" target="_parent" style="font-size: 14px;font-weight: bold;color: red;float: right;margin-right: 30px;">登录</a>
+				<span style="font-size: 14px;font-weight: bold;color: #0052A3;float: right;margin-right: 0px;">您还没有登录，请先</span>
+			</c:when>
+			<c:otherwise>
+				<a onclick="return confirm('确定注销吗?')" href="<%=path %>/jsp/iterm/login.jsp" target="_parent" style="float: right;margin-right: 30px;font-size: 12px;font-weight: 600;color: red;">注销</a>
+				<span style="font-size: 12px;font-weight: 600;color: white;float: right;margin-right: 30px;">${user.stuName }</span>
+				<span style="float: right;font-size: 12px;font-weight: 600;color: white;margin-right: 5px;">${user.role.strName }</span>
+				<span style="float: right;font-size: 12px;font-weight: 600;color: white;">登陆者：</span>
+			</c:otherwise>
+			</c:choose>
         </div>
     </div>
 

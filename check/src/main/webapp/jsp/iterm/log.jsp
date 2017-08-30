@@ -63,9 +63,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                              
 
                                 <li><label for="">操作用户</label>
-                                    <input type="text" name ="str12">
+                                    <input type="text" name ="str1">
                                 </li>
-                                <li> <label for="" name ="str9">操作类型</label>
+                                <li> <label for="" name ="str2">操作类型</label>
                                     <input type="text" name ="str9" >
                                 </li>
                                  <li> <label for="" name ="str9">操作单号</label>
@@ -83,10 +83,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 </li>
 
                                 <li> <label for="">操作表名</label>
-                                    &nbsp;<select class="my_select"  name ="int1"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:29px">
+                                    &nbsp;<select class="my_select"  name ="str3"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:29px">
                                     <option value="" style="color: #6B6B6B;font-weight: 300;">--请选择--</option>
-                                    <option value="1" style="color: #6B6B6B;font-weight: 300;">--运单信息状态表--</option>
-                                    <option value="0" style="color: #6B6B6B;font-weight: 300;">--数据导入--</option>
+                                    <option value ="zm_return_data" style="color: #6B6B6B;font-weight: 300;">--运单信息状态表--</option>
+                                    <option value ="source_import" style="color: #6B6B6B;font-weight: 300;">--数据导入--</option>
                                     </select>
                                 </li>
                             </ul>
@@ -95,8 +95,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         
                 </form>
              </div>
+             <a onclick="search_toolbar()"  id="my_search" style="top: 70px;left:29%;">查询</a>
 		</div>
-		<div style="height: 10px;background:white;"></div>
         </div>
       <table id="dg" border="true" 
 		url="<%=path %>/api/checklog"

@@ -343,8 +343,8 @@ function moduleEdit(){
                         
                 </form>
              </div>
+              <a onclick="search_toolbar1()"  id="my_search" style="top: 99px;left:50%;">查询</a>
             </div>
-             <div style="height: 10px;background:white;"></div>
 		</div>
      <table id="dg" border="true"
 		url="<%=path %>/api/customer"
@@ -353,7 +353,7 @@ function moduleEdit(){
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="25" pageList="[25,40,50,100]">
+		pageSize="200" pageList="[200,300]">
 </table>
 		<div id="dlg" class="easyui-dialog" style="width:600px;height:500px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons" modal="true">

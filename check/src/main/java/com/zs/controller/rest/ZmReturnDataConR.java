@@ -186,6 +186,9 @@ public class ZmReturnDataConR extends BaseRestController<ZmReturnData, String>{
 				if(accept.getStr2()!=null){
 					accept.setStr2(BatchString.batchstr(accept.getStr2()));
 				}
+				if(accept.getStr16().equals("0")){
+					accept.setStr16(null);
+				}
 //				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return zmReturnDataSer.queryFenyeOfTp(accept,req);

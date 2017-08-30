@@ -158,8 +158,7 @@ function obcSave(){
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑用户</a>
                 <a onclick="deleteObj()"><span class="iterm3"></span>删除用户</a>
                 <a onclick="search_toolbar()"><span class="iterm5"></span>查询</a>
-                <a onclick="search_toolbar1()"><span class="iterm4"></span>统计</a>
-                <a onclick="search_toolbar1()"><span class="iterm6"></span>导出</a>
+               
 			</div>
 			</div>
 		</div>
@@ -198,6 +197,7 @@ function obcSave(){
                         </div>
                 </form>
              </div>
+             <a onclick="search_toolbar1()"  id="my_search" style="top: 38px;left:28%;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>
