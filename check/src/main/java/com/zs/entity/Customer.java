@@ -56,6 +56,8 @@ public class Customer extends CustomerKey {
 
     private Date createTime;
     
+    private String dailyDeliveryNew;
+    
     public String getCteName() {
         return cteName;
     }
@@ -258,11 +260,19 @@ public class Customer extends CustomerKey {
         this.createTime = createTime;
     }
     
+	public String getDailyDeliveryNew() {
+		return dailyDeliveryNew;
+	}
+
+	public void setDailyDeliveryNew(String dailyDeliveryNew) {
+		this.dailyDeliveryNew = dailyDeliveryNew;
+	}
+
 	public Customer(String cteName, String customServiceCenter, String customServiceTop, String customServiceLast,
 			String customType, String largeArea, String sliceArea, String fenbu, Date openDate, Date outDate,
 			String business, String accountsType, String pageType, BigDecimal dailyDelivery, String goodsDetail,
 			String carryGoodsType, String packetPoint, String returnPiece, String matter, String complainRebate,
-			String optionFine, String feeCompensate, String note, String state, Date createTime) {
+			String optionFine, String feeCompensate, String note, String state, Date createTime,String dailyDeliveryNew) {
 		super();
 		this.cteName = cteName;
 		this.customServiceCenter = customServiceCenter;
@@ -289,6 +299,7 @@ public class Customer extends CustomerKey {
 		this.note = note;
 		this.state = state;
 		this.createTime = createTime;
+		this.dailyDeliveryNew =dailyDeliveryNew; 
 	}
 
 	public Customer() {

@@ -116,7 +116,7 @@ function excel_export(){
 						}
 						if(json!=null){
 							if(json.result=='success'){
-								window.location.href=json.data;
+								window.location.href="<%=path%>/"+d.data;
 							}else{
 								alert("错误:"+json.data+" "+json.data);
 							}
@@ -204,7 +204,7 @@ function excel_export(){
                         </div>
                 </form>
              </div>
-             <a onclick="onclick="search_toolbar_1()"  id="my_search" style="top: 70px;left:33%;">查询</a>
+             <a onclick="search_toolbar_1()"  id="my_search" style="top: 70px;left:33%;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>
@@ -227,6 +227,7 @@ function excel_export(){
 		</tr>
 	</thead>
 </table>
+</div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
 		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/province.jsp" cache="true">
 </div>

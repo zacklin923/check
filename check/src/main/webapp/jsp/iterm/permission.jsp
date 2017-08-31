@@ -97,13 +97,11 @@ function excel_export(){
 		url:"<%=path%>/api/power/excelExport",
 		method:"get",
 		onSubmit: function(){   
-	        // do some check   
-	        // return false to prevent submit;   
 	    },   
 	    success:function(data){   
 			if(data!=null){
 		    	var d = eval('('+data+')');
-		    	window.location.href=d.data;
+		    	window.location.href="<%=path%>/"+d.data;
 			}
 	    } 
 	});
