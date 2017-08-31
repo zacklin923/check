@@ -30,7 +30,7 @@ public interface CustomerMapper {
     int updateByPrimaryKeySelective(Customer record);
 
     int updateByPrimaryKey(Customer record);
-    //-----------------------------
+	 //-----------------------------
     List<Customer> queryFenye(EasyUIAccept accept);
 	
     int getCount(EasyUIAccept accept);

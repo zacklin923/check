@@ -142,6 +142,7 @@ public class ZmReturnDataConR extends BaseRestController<ZmReturnData, String>{
 				}
 //				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+//				System.out.println(accept);
 				return new Result<String>(SUCCESS,  Code.SUCCESS, zmReturnDataSer.ExportDataOfZm(accept,req));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -186,8 +187,10 @@ public class ZmReturnDataConR extends BaseRestController<ZmReturnData, String>{
 				if(accept.getStr2()!=null){
 					accept.setStr2(BatchString.batchstr(accept.getStr2()));
 				}
-				if(accept.getStr16().equals("0")){
-					accept.setStr16(null);
+				if(accept.getStr16()!=null){
+					if(accept.getStr16().equals("0")){
+						accept.setStr16(null);
+					}
 				}
 //				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
@@ -212,8 +215,14 @@ public class ZmReturnDataConR extends BaseRestController<ZmReturnData, String>{
 				if(accept.getStr4()!=null&&!accept.getStr4().equals("")){
 					accept.setStr4(BatchString.oldbatchstr(accept.getStr4()));
 				}
+				if(accept.getStr16()!=null){
+					if(accept.getStr16().equals("0")){
+						accept.setStr16(null);
+					}
+				}
 //				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+//				System.out.println(accept);
 				return new Result<String>(SUCCESS,  Code.SUCCESS, zmReturnDataSer.ExportDataOfTp(accept,req));
 			} catch (Exception e) {
 				e.printStackTrace();

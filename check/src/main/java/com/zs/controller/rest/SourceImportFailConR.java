@@ -94,8 +94,8 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		if (accept!=null) {
 			try {
-				accept.setStr1(ManagerId.isSeeAll(req));
-				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+//				accept.setStr1(ManagerId.isSeeAll(req));
+//				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.ExportData(accept,req));
 			} catch (Exception e) {
 				e.printStackTrace();
