@@ -176,6 +176,7 @@ function excel_export(){
                                 </li>
                             </ul>
                         </div>
+                        <input type="hidden" name="_header" value="${licence }"/>
                 </form>
                 
              </div>

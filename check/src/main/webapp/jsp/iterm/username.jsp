@@ -176,8 +176,8 @@ function obcSave(){
                         <!--提交表单栏开始-->
                         <div class="center">
                             <ul>
-                                <li>  <label for=""">账号</label>
-                                    <input type="text" style="margin-left: 22px"   name ="str1" >
+                                <li>  <label>账号</label>
+                                    <input type="text" style="margin-left: 22px" name ="str1" >
                                 </li>
                                 <li><label for="">用户名</label>
                                     <input type="text" name ="str2">
@@ -197,7 +197,7 @@ function obcSave(){
                         </div>
                 </form>
              </div>
-             <a onclick="search_toolbar1()"  id="my_search" style="top: 38px;left:28%;">查询</a>
+             <a onclick="search_toolbar()" id="my_search" style="top: 38px;left:28%;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>

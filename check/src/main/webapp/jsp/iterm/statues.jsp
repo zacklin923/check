@@ -126,7 +126,7 @@ function excel_export(){
 			if(json.result=='success'){
 				var d = eval('('+data+')');
 				hiden_hint();
-				window.location.href=d.data;
+				window.location.href="<%=path%>/"+d.data;
 			}else{
 				hiden_hint();
 				alert("错误:"+json.data);
@@ -352,7 +352,7 @@ function accept(){
                                     <input type="text" name ="str14">
                                 </li>
                                 <li> <label for="">所属分部</label>
-                                    <input type="text"  name ="str8">
+                                    <input type="text"  name ="str10">
                                 </li>
                             </ul>
                         </div>
@@ -372,9 +372,9 @@ function accept(){
                                     &nbsp;<input type="text" name ="str9" >
                                 </li>
                                 <li><label for="">所属分拨点</label>
-                                    &nbsp;<input type="text"  style="margin-left: -3px" >
+                                    &nbsp;<input type="text"  style="margin-left: -3px" name ="str11">
+		                              <input type="hidden" name ="str7" id = "exportvalue"/>
                                 </li>
-                              
                             </ul>
                         </div>
                         <div class="right">
@@ -403,10 +403,10 @@ function accept(){
                             </ul>
                         </div>
                         <div class="textarea" >
-                            <div><p for="">客户条码</p>
+                            <div><p>客户条码</p>
                                 <textarea name ="str4" cols="200" rows="20"></textarea>
                             </div>
-                            <div style="margin-left: 10px"><p for="" >快递单号</p>
+                            <div style="margin-left: 10px"><p>快递单号</p>
                                 <textarea name="str3" cols="200" rows="20"></textarea>
                             </div>
                             <div class="radio">
