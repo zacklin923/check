@@ -1,4 +1,4 @@
-<%@page import="com.zs.tools.DateTimeHelper"%>
+ <%@page import="com.zs.tools.DateTimeHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -116,7 +116,7 @@ function excel_export(){
 						}
 						if(json!=null){
 							if(json.result=='success'){
-								window.location.href="<%=path%>/"+d.data;
+								window.location.href="<%=path%>/"+json.data;
 							}else{
 								alert("错误:"+json.data+" "+json.data);
 							}
@@ -180,10 +180,6 @@ function excel_export(){
                                 	<label id="quidenfy" for="">省份</label>
                                     <input type="text" style="margin-left: 10px" name ="str1" >
                                 </li>
-                                <li style="visibility: hidden;">
-                                	<label for="">客户名称</label>
-                                    <input type="text">
-                                </li>
 	                            <li>
 	                             	<div style="height:10px;"></div>
 					    			<input style="width:15px;height:15px;font-weight:300" name="int1" type="radio" value="2" checked="checked"><span style="color:#6B6B6B">按客户省份汇总</span>
@@ -204,7 +200,7 @@ function excel_export(){
                         </div>
                 </form>
              </div>
-             <a onclick="search_toolbar_1()"  id="my_search" style="top: 70px;left:33%;">查询</a>
+             <a onclick="search_toolbar_1()" id="my_search" style="top: 38px;margin-left:615px;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>
@@ -227,7 +223,6 @@ function excel_export(){
 		</tr>
 	</thead>
 </table>
-</div>
 <div id="dlg_help" title="帮助" class="easyui-dialog" iconCls="icon-help" style="width:1000px;height:600px;padding:10px 20px"
 		closed="true" modal="false" collapsible="true" href="<%=path%>/jsp/help/province.jsp" cache="true">
 </div>

@@ -88,11 +88,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <input style="height:23px;" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
                                 </li>
                             </ul>
+                            <input type="hidden" name="_header" value="${licence }"/>
                         </div>
                         
                 </form>
              </div>
-             <a onclick="search_toolbar()"  id="my_search" style="top: 40px; left:15%;">查询</a>
+             <a onclick="search_toolbar()"  id="my_search" style="top: 40px; margin-left:255px;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>
