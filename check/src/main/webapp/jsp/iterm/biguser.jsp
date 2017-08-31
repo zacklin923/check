@@ -340,7 +340,7 @@ function moduleEdit(){
                         </div>
                 </form>
              </div>
-              <a onclick="search_toolbar1()"  id="my_search" style="top: 99px;left:50%;">查询</a>
+              <a onclick="search_toolbar1()"  id="my_search" style="top: 99px;margin-left:910px;">查询</a>
             </div>
 		</div>
      <table id="dg" border="true"

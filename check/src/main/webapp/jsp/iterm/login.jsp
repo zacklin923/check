@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>登录</title>
 
 </head>
-<body>
+<body onkeydown="KeyDown();">
 
 <link rel="stylesheet" href="<%=path%>/jsp/iterm/css/login.css">
 <link rel="stylesheet" href="<%=path%>/jsp/iterm/css/base.css">
@@ -59,7 +59,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         });
         return o;
     }
-
+    
+   function KeyDown(){
+      if (event.keyCode == 13){
+        	event.returnValue=false;
+        	event.cancel = true;
+       		Form1.btnLogin.click();
+      }
+    }
 </script>
 
 <style>
@@ -105,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div id="boxoutline">
                 <h3 style="width: 400px;height: 60px;font-size: 18px;background-color:#dddddd;line-height: 60px;text-align: center;;border-radius: 5px;font-weight: 600">系统登录</h3>
                 <div id="myform">
-                    <form id="ff">
+                    <form id="ff" name="Form1">
                         <span style="color:rgba(102,102,102,.84)">工号</span><span style="background-image: url('<%=path%>/jsp/iterm/images/user.gif');display: inline-block;width: 16px;height: 16px;position: absolute;top: 48px;right: 63px"></span>
                         <br>
                         <input type="text" name="unum">
@@ -113,7 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <span style="padding-top: 8px;display: inline-block;color:rgba(102,102,102,.84)">密码</span><span style="background-image: url('<%=path%>/jsp/iterm/images/psd.gif');display: inline-block;width: 16px;height: 16px;background-color: red;position: absolute;top: 123px;right: 63px"></span>
                         <br>
                         <input  name="upass" type="password"  type="text">
-                        <button name="btnLogin" type="button"   style="text-align: center;margin-top: 20px;background: #E1AB00;color: white;font-size: 14px" onclick="login()">登&nbsp;&nbsp;录</button>
+                        <button name="btnLogin" type="button" style="text-align: center;margin-top: 20px;background: #E1AB00;color: white;font-size: 14px" onclick="login()">登&nbsp;&nbsp;录</button>
                     </form>
                 </div>
 
@@ -128,22 +135,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </center>
     </div>
 </div>
-
 </body>
+
 </html>
-
-
-<div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
-        closed="true" modal="true" title="数据源导入">
-        <div style="height:25px;line-height:25px;">
-            <span style="margin-left:15px;font-weight:900">数据导入模板</span>    
-            <a href="<%=path%>/file/数据源导入模板.xlsx" style="display:inline-block;width:80px;height:25px;border:1px solid lightgray;line-height:25px;margin-left:100px;color:black;font-weight:300px;text-align:center;">下载</a>
-        </div>
-        </br>
-        </br>
-        </br>
-        <form id="fmfile"  enctype="multipart/form-data" method="post">
-            <input style="padd-left:0px" type="file" name="file"/>
-            <input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;margin-right:25px;"/>
-        </form>
-</div>
