@@ -62,13 +62,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <ul>
                              
 
-                                <li><label >操作用户</label>
+                                <li><label for="">操作用户</label>
                                     <input type="text" name ="str1">
                                 </li>
-                                <li> <label >操作类型</label>
+                                <li> <label for="">操作类型</label>
                                     <input type="text" name ="str2" >
                                 </li>
-                                 <li> <label >操作单号</label>
+                                 <li> <label for="" >操作单号</label>
                                     <input type="text" name ="str4" >
                                 </li>
                             </ul>

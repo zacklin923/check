@@ -175,6 +175,10 @@ input {
 #menulist>div > a:nth-child(7):hover{
     background-color:rgb(255, 180, 0);
        cursor: pointer;}
+       
+#menulist>div > a:nth-child(8):hover{
+    background-color:rgb(255, 180, 0);
+       cursor: pointer;}
 
 /*头部公共样式*/
 .layout_north{
@@ -218,6 +222,12 @@ input {
 }
 
 #menulist>div > a>.iterm7{
+    background: url("../images/sprice.png") no-repeat left;
+    background-position: -31px -63px;
+    text-indent: -10px;
+}
+
+#menulist>div > a>.iterm8{
     background: url("../images/sprice.png") no-repeat left;
     background-position: -320px -63px;
     text-indent: -10px;

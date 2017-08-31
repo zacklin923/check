@@ -305,6 +305,14 @@ function accept(){
 		}
 	}
 }
+function IESerch(){
+	var row=$("#dg").datagrid("getSelected");
+	if(row){
+		window.open("http://n2cx.yundasys.com:18090/wsd/kjcx/cxend.jsp?wen="+row.courierNumber);
+	}else{
+		alert("请选择数据");
+	}
+}
 </script>
 <style>
  .panel-body {border-color: #E6E6E6; border:none;}
@@ -333,8 +341,9 @@ function accept(){
                 <a onclick="$('#mbedit').dialog('open')"><span class="iterm3"></span>编辑模板</a>
                 <a onclick="accept()"><span class="iterm4"></span>保存</a>
                 <a style="opacity: 0.7;"><span class="iterm6"></span>统计</a>
-                <a onclick="$('#exportdiv').dialog('open')"><span class="iterm7"></span>导出</a>
+                <a onclick="$('#exportdiv').dialog('open')""><span class="iterm7"></span>导出</a>
                 <a onclick="search_toolbar()"><span class="iterm5"></span>查询</a>
+                <a onclick="IESerch()"><span class="iterm8"></span>&nbsp;快件查询</a>
 			</div>
 			</div>
 		</div>
@@ -352,52 +361,55 @@ function accept(){
                         <!--提交表单栏开始-->
                         <div class="left">
                             <ul>
-                                <li> <label for="">订单编号</label>
-                                    <input type="text" name ="str5" >
+                                <li> <label>订单编号</label>
+                                    <input name ="str5" >
                                 </li>
-                                <li>  <label for="">所属大区</label>
-                                    <input type="text" name ="str4">
+                                <li>  <label >所属大区</label>
+                                    <input name ="str4">
                                 </li>
-                                <li> <label for="">客户店铺</label>
-                                    <input type="text" name ="str11" >
+                                <li> <label>所属区部</label>
+                                    <input name ="str7" >
                                 </li>
-                                <li> <label for="">所属分部</label>
-                                    <input type="text"  name ="str8">
+                                <li> <label >所属分部</label>
+                                    <input name ="str8">
                                 </li>
                             </ul>
                         </div>
                         <div class="center">
                             <ul>
-                                <li>  <label for=""">省份</label>
-                                    <input type="text" style="margin-left: 33px"  name ="str10" >
+                                <li>  <label>省份</label>
+                                    <input style="margin-left: 33px"  name ="str10" >
                                 </li>
 
-                                <li> <label for="" >地址</label>
-                                    <input type="text" style="margin-left: 33px" name ="str12"  ></li>
-                                <li> <label for="">所属区部</label>
-                                    <input type="text" name ="str7" >
+                                <li> <label  >地址</label>
+                                    <input style="margin-left: 33px" name ="str12"  ></li>
+								<li> <label >客户店铺</label>
+                                    <input name ="str11" >
                                 </li>
-                                <li> <label for="">状态</label>
-                                    &nbsp;<select class="my_select"  name ="int1"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:28px">
-                                    <option value="" style="color: #6B6B6B;font-weight: 300;">--请选择发货状态--</option>
-                                    <option value="1" style="color: #6B6B6B;font-weight: 300;">--已发货--</option>
-                                    <option value="0" style="color: #6B6B6B;font-weight: 300;">--未发货--</option>
-                                    </select>
+                                 <li><label>修改人</label>
+                                    <input style="margin-left: 22px" name ="str17" >
                                 </li>
                             </ul>
                         </div>
                         <div class="right">
                             <ul>
-                                <li><label for="">所属分拨点</label>
-                                    <input type="text"  style="margin-left: 22px" name ="str9" >
-                                </li>
                                 <li><label for="">发货日期开始</label>
                                     <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
                                 </li>
                                 <li><label for="">发货日期结束</label>
                                     <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
                                 </li>
-                                 
+                               <li><label for="">所属分拨点</label>
+                                    <input style="margin-left: 22px" name ="str9" >
+                                </li>
+                               
+                                <li> <label for="">状态</label>
+                                    &nbsp;<select class="my_select"  name ="int1" style="color: #6B6B6B;font-weight: 300;margin-left:53px">
+                                    <option value="" style="color: #6B6B6B;font-weight: 300;">--请选择发货状态--</option>
+                                    <option value="1" style="color: #6B6B6B;font-weight: 300;">--已发货--</option>
+                                    <option value="0" style="color: #6B6B6B;font-weight: 300;">--未发货--</option>
+                                    </select>
+                                </li>
                             </ul>
                         </div>
                         <div class="textarea" >
@@ -537,6 +549,7 @@ function accept(){
 					<div><input type="checkbox" name="exportline" />物品</div>
 					<div><input type="checkbox" name="exportline" />物品价值</div>
 					<div><input type="checkbox" name="exportline" />费用</div>
+					<div><input type="checkbox" name="exportline" />修改人</div>
 		</div>                                                      
 		<div id="exportdiv-buttons">                                
 			<a class="easyui-linkbutton"  onclick="selectAll()">全选/全不选</a>
@@ -614,6 +627,9 @@ function accept(){
 						<tr>
 						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>订单编号</td>
 						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>是否超时</td>
+						</tr>
+						<tr>
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>修改人</td>
 						</tr>
 					</table>
 				</form>

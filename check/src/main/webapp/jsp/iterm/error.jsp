@@ -152,7 +152,6 @@ function excel_export(){
                                 <li><label for="">导入时间结束</label>
                                     <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})" />
                                 </li>
-
                                 
                             </ul>
                             
@@ -176,7 +175,7 @@ function excel_export(){
                                 </li>
                             </ul>
                         </div>
-                        <input type="hidden" name="_header" value="${licence }"/>
+                        <input type="hidden" name="_header" value="${user.licence }"/>
                 </form>
                 
              </div>

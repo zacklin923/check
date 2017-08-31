@@ -337,10 +337,7 @@ function moduleEdit(){
                             <div><p for="">客户条码</p>
                                 <textarea name ="str1" cols="200" rows="20"></textarea>
                             </div>
-                            
-                            
                         </div>
-                        
                 </form>
              </div>
               <a onclick="search_toolbar1()"  id="my_search" style="top: 99px;left:50%;">查询</a>
@@ -421,7 +418,7 @@ function moduleEdit(){
 		</div>
 		<div class="fitem">
 			<label>日均发货量:</label>
-			<input name="dailyDelivery"  required="true">
+			<input name="dailyDeliveryNew"  required="true">
 		</div>
 		<div class="fitem">
 			<label>寄递货物详情:</label>
@@ -429,15 +426,15 @@ function moduleEdit(){
 		</div>
 		<div class="fitem">
 			<label>提货方式:</label>
-			<input name="carry_goods_type"  required="true">
+			<input name="carryGoodsType"  required="true">
 		</div>
 		<div class="fitem">
 			<label>集包点:</label>
-			<input name="packet_point"  required="true">
+			<input name="packetPoint"  required="true">
 		</div>
 		<div class="fitem">
 			<label>退件:</label>
-			<input name="return_piece"  required="true">
+			<input name="returnPiece"  required="true">
 		</div>
 		<div class="fitem">
 			<label>物料:</label>
@@ -445,15 +442,15 @@ function moduleEdit(){
 		</div>
 		<div class="fitem">
 			<label>投诉返利:</label>
-			<input name="complain_rebate"  required="true">
+			<input name="complainRebate"  required="true">
 		</div>
 		<div class="fitem">
 			<label>操作罚款:</label>
-			<input name="option_fine"  required="true">
+			<input name="optionFine"  required="true">
 		</div>
 		<div class="fitem">
 			<label>费用理赔:</label>
-			<input name="fee_compensate"  required="true">
+			<input name="feeCompensate"  required="true">
 		</div>
 		<div class="fitem">
 			<label>备注:</label>

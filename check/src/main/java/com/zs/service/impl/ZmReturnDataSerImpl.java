@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.zs.dao.CustomerMapper;
 import com.zs.dao.NoUpdateMapper;
+import com.zs.dao.StaffRoleMapper;
+import com.zs.dao.StaffUserMapper;
 import com.zs.dao.ZmReturnDataMapper;
 import com.zs.entity.CheckLog;
 import com.zs.entity.Customer;
@@ -48,6 +50,8 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 	private CustomerMapper custormerMapper;
 	@Resource
 	private TimeLimitSer timeLimitSer;
+	@Resource
+	private StaffUserMapper userMapper;
 	
 	public Integer add(ZmReturnData obj,HttpServletRequest req) {
 		//添加信息到日志表
@@ -63,6 +67,7 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		if(user!=null){
 			checkUpdateProvince(obj,user.getStuNum());
 			checkUpdateDeliveryState(obj, user.getStuNum());
+			obj.setUpdateMan(user.getStuNum());
 		}else{
 			str = stateUpdate(obj);
 		}
@@ -194,6 +199,13 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 				accept.setEnd(page*size);
 			}
 			List list=zmReturnDataMapper.queryFenyeOfZm(accept);
+			for (int i = 0; i < list.size(); i++) {
+				ZmReturnData tp=(ZmReturnData) list.get(i);
+				if(tp.getUpdateMan()!=null&&!tp.getUpdateMan().equals("")){
+					StaffUser us = userMapper.selectByPrimaryKey(tp.getUpdateMan());
+					tp.setUpdateMan(us.getStuName());
+				}
+			}
 			int rows=zmReturnDataMapper.getCountOfZm(accept);
 			//查不可更改项
 			checkNoUpdate(list, 1);
@@ -210,8 +222,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 
 	public String ExportDataOfZm(EasyUIAccept accept,HttpServletRequest req) {
 		String line[] = accept.getStr6().split(",");
+//		System.out.println(accept);
 		List<ZmReturnData> list=zmReturnDataMapper.queryFenyeOfZm(accept);
-		String[] obj ={"所属大区","所属区部","所属分部","所属分拨点","客户条码","客户名称","快递单号","发货日期","省份","地址","客户店铺","收件人","联系方式","重量","快递公司","物品价值","物品","创建日期","状态","订单编号","超时时间","系统接收时间"};
+//		System.out.println(list.size());
+		String[] obj ={"所属大区","所属区部","所属分部","所属分拨点","客户条码","客户名称","快递单号","发货日期","省份","地址","客户店铺","收件人","联系方式","重量","快递公司","物品价值","物品","创建日期","状态","订单编号","超时时间","系统接收时间","修改人"};
 		String[][] objs = new String[list.size()][obj.length];
 		for (int i = 0; i < objs.length; i++) {
 			objs[i][0] = list.get(i).getLargeArea();
@@ -252,7 +266,7 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 					if(line[j].equals(obj[i])){
 						lines[k][j]=objs[k][i];
 					}
-				}
+				} 
 			}
 		}
 		String basePath = req.getSession().getServletContext().getRealPath("/");
@@ -296,11 +310,14 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 							list.get(i)[18],
 							Trans.toTimestamp(list.get(i)[20]),
 							null,
-							Trans.TransToDate(list.get(i)[17])
+							Trans.TransToDate(list.get(i)[17]),
+							stuNum
 							);
 					if(iszs!=null){
 						checkUpdateProvince(sz, stuNum);
+						System.out.println(sz.getUpdateMan());
 						zmReturnDataMapper.updateByPrimaryKeySelective(sz);
+						
 						//添加信息到日志表
 						CheckLog clog = new CheckLog(sz.getCourierNumber(), "zm_return_data",stuNum, CheckLog.TYPE_IMPORT);
 						checkLogSer.saveOfAsyn(clog, sz, null);
@@ -359,7 +376,7 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 							list.get(i)[18],
 							Trans.toTimestamp(list.get(i)[20]),
 							null,
-							Trans.TransToDate(list.get(i)[17])
+							Trans.TransToDate(list.get(i)[17]),stuNum
 							);
 					if(sz.getProvince()!=null){
 						TimeLimit tl=timeLimitSer.selectByEndProvince(sz.getProvince());
@@ -406,6 +423,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			int rows=zmReturnDataMapper.getCountOfTp(accept);
 			for (int i = 0; i < list.size(); i++) {
 				ZmReturnData tp=(ZmReturnData) list.get(i);
+				if(tp.getUpdateMan()!=null&&!tp.getUpdateMan().equals("")){
+					StaffUser us = userMapper.selectByPrimaryKey(tp.getUpdateMan());
+					tp.setUpdateMan(us.getStuName());
+				}
 				reckon(tp);
 			}
 			//不可更改项
@@ -460,12 +481,13 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 					stp.setSignTime(Trans.toTimestamp(list.get(i)[5]));
 					stp.setGoods(list.get(i)[6]);
 					stp.setGoodsCost(Trans.toBigDecimal(list.get(i)[7]));
+					stp.setUpdateMan(u.getStuNum());
 					if(isstp!=null){
 						checkUpdateDeliveryState(stp, u.getStuNum());
+//						System.out.println(stp.getUpdateMan());
 						zmReturnDataMapper.updateByPrimaryKeySelective(stp);
 						//添加信息到日志表
-						StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
-						CheckLog clog = new CheckLog(stp.getCourierNumber(), "zm_return_data",user==null?null:user.getStuNum(), CheckLog.TYPE_IMPORT);
+						CheckLog clog = new CheckLog(stp.getCourierNumber(), "zm_return_data",u==null?null:u.getStuNum(), CheckLog.TYPE_IMPORT);
 						checkLogSer.saveOfAsyn(clog, stp, null);
 					}else{
 						ls.add((i+1)+"");
@@ -493,7 +515,7 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 				zmReturnDataMapper.updateByPrimaryKeySelective(tp);
 			}
 		}
-		String[] obj ={"创建日期","所属大区","所属区部","所属分部","所属分拨点","客户条码","客户名称","快递单号","发货日期","是否超时","异常原因","省份","地址","配送状态","签收人","签收时间","签收站点","收件人","订单编号","客户店铺","联系方式","重量","快递公司","物品","物品价值","费用"};
+		String[] obj ={"创建日期","所属大区","所属区部","所属分部","所属分拨点","客户条码","客户名称","快递单号","发货日期","是否超时","异常原因","省份","地址","配送状态","签收人","签收时间","签收站点","收件人","订单编号","客户店铺","联系方式","重量","快递公司","物品","物品价值","费用","修改人"};
 		String[][] objs = new String[list.size()][obj.length];
 		for (int i = 0; i < objs.length; i++) {
 			objs[i][0] = Trans.TransToString(list.get(i).getCreateDate());
