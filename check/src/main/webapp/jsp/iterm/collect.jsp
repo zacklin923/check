@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         
                 </form>
              </div>
-             <a onclick="search_toolbar()"  id="my_search" style="top: 40px; left:15%;">查询</a>
+             <a onclick="search_toolbar()"  id="my_search" style="top: 40px; margin-left:255px;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>

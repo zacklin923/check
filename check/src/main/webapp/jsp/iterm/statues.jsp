@@ -431,7 +431,7 @@ function IESerch(){
                         
                 </form>
              </div>
-             <a onclick="search_toolbar()"  id="my_search" style="left:58%;top: 100px;">查询</a>
+             <a onclick="search_toolbar()"  id="my_search" style="margin-left:1060px;top: 130px;">查询</a>
             
 		</div>
 		<div style="height: 10px;"></div>

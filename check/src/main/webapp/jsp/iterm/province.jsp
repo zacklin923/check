@@ -222,7 +222,7 @@ function accept(){
                        
                 </form>
              </div>
-             <a onclick="search_toolbar()"  id="my_search" style="top:40px;left:16%;">查询</a>
+             <a onclick="search_toolbar()"  id="my_search" style="top:40px;margin-left:300px;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>
