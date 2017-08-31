@@ -114,7 +114,7 @@ function excel_export(){
 				}
 				if(json!=null){
 					if(json.result=='success'){
-						window.location.href=json.data;
+						window.location.href="<%=path%>/"+d.data;
 					}else{
 						alert("错误:"+json.data+" "+json.data);
 					}

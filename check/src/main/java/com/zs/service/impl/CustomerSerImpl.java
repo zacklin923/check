@@ -91,9 +91,9 @@ public class CustomerSerImpl implements CustomerSer{
 						Customer code=new Customer(list.get(i)[1],list.get(i)[2],list.get(i)[3],list.get(i)[4],
 								list.get(i)[5],list.get(i)[6],list.get(i)[7],list.get(i)[8],Trans.TransToDate(list.get(i)[9]),
 								Trans.TransToDate(list.get(i)[10]),list.get(i)[11],list.get(i)[12],list.get(i)[13],
-								Trans.toBigDecimal(list.get(i)[14]),list.get(i)[15],list.get(i)[16],list.get(i)[17],
+								null,list.get(i)[15],list.get(i)[16],list.get(i)[17],
 								list.get(i)[18],list.get(i)[19],list.get(i)[20],list.get(i)[21],list.get(i)[22],
-								list.get(i)[23],"启用",new Timestamp(new Date().getTime()));
+								list.get(i)[23],"启用",new Timestamp(new Date().getTime()),list.get(i)[14]);
 						code.setCteBarCode(list.get(i)[0]);
 						code.setHistoryCount(new BigDecimal(0));
 						if(isct==null){
@@ -159,7 +159,7 @@ public class CustomerSerImpl implements CustomerSer{
 			objs[i][11] = customer.getBusiness();
 			objs[i][12] = customer.getAccountsType();
 			objs[i][13] = customer.getPageType();
-			objs[i][14] = customer.getDailyDelivery()==null?"":customer.getDailyDelivery().toString();
+			objs[i][14] = customer.getDailyDeliveryNew();
 			objs[i][15] = customer.getGoodsDetail();
 			objs[i][16] = customer.getCarryGoodsType();
 			objs[i][17] = customer.getPacketPoint();

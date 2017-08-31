@@ -41,6 +41,10 @@ public class EasyUIAccept {
 	private String str14;
 	private String str15;
 	private String str16;
+	private String str17;
+	private String str18;
+	private String str19;
+	private String str20;
 	//---------
 	private Date date1;
 	private Date date2;
@@ -276,6 +280,30 @@ public class EasyUIAccept {
 	public void setStr16(String str16) {
 		this.str16 = str16;
 	}
+	public String getStr17() {
+		return str17;
+	}
+	public void setStr17(String str17) {
+		this.str17 = str17;
+	}
+	public String getStr18() {
+		return str18;
+	}
+	public void setStr18(String str18) {
+		this.str18 = str18;
+	}
+	public String getStr19() {
+		return str19;
+	}
+	public void setStr19(String str19) {
+		this.str19 = str19;
+	}
+	public String getStr20() {
+		return str20;
+	}
+	public void setStr20(String str20) {
+		this.str20 = str20;
+	}
 	@Override
 	public String toString() {
 		return "EasyUIAccept [sort=" + sort + ", order=" + order + ", page=" + page + ", rows=" + rows + ", start="
@@ -283,9 +311,9 @@ public class EasyUIAccept {
 				+ ", int4=" + int4 + ", int5=" + int5 + ", str1=" + str1 + ", str2=" + str2 + ", str3=" + str3
 				+ ", str4=" + str4 + ", str5=" + str5 + ", str6=" + str6 + ", str7=" + str7 + ", str8=" + str8
 				+ ", str9=" + str9 + ", str10=" + str10 + ", str11=" + str11 + ", str12=" + str12 + ", str13=" + str13
-				+ ", str14=" + str14 + ", str15=" + str15 + ", str16=" + str16 + ", date1=" + date1 + ", date2=" + date2
-				+ ", date3=" + date3 + ", date4=" + date4 + ", d1=" + d1 + ", d2=" + d2 + ", d3=" + d3 + ", d4=" + d4
-				+ ", d5=" + d5 + "]";
+				+ ", str14=" + str14 + ", str15=" + str15 + ", str16=" + str16 + ", str17=" + str17 + ", str18=" + str18
+				+ ", str19=" + str19 + ", str20=" + str20 + ", date1=" + date1 + ", date2=" + date2 + ", date3=" + date3
+				+ ", date4=" + date4 + ", d1=" + d1 + ", d2=" + d2 + ", d3=" + d3 + ", d4=" + d4 + ", d5=" + d5 + "]";
 	}
 	
-}
+}	

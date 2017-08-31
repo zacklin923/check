@@ -64,6 +64,8 @@ public class ZmReturnData {
     private Date updateTime;
 
     private Date createDate;
+    
+    private String updateMan;
 
     //-------------------
     private Integer isTimeOut;//是否超时
@@ -328,6 +330,14 @@ public class ZmReturnData {
         this.createDate = createDate;
     }
 
+	public String getUpdateMan() {
+		return updateMan;
+	}
+
+	public void setUpdateMan(String updateMan) {
+		this.updateMan = updateMan;
+	}
+
 	public ZmReturnData() {
 		super();
 	}
@@ -336,7 +346,7 @@ public class ZmReturnData {
 	public ZmReturnData(String courierNumber, String ctmBarCode, String ctmName, String largeArea, String sliceArea,
 			String fenbu, String fbdArea, String shopNumber, String address, String addressee, String phone,
 			String goods, BigDecimal goodsCost, BigDecimal weight, String courierCompany, String orderNumber,
-			Date sendTime, String province, String courierState, Date timeOut, Date updateTime, Date createDate) {
+			Date sendTime, String province, String courierState, Date timeOut, Date updateTime, Date createDate,String updateMan) {
 		super();
 		this.courierNumber = courierNumber;
 		this.ctmBarCode = ctmBarCode;
@@ -360,6 +370,7 @@ public class ZmReturnData {
 		this.timeOut = timeOut;
 		this.updateTime = updateTime;
 		this.createDate = createDate;
+		this.updateMan = updateMan;
 	}
 
 	//运单状态用的
@@ -367,7 +378,7 @@ public class ZmReturnData {
 			String fenbu, String fbdArea, String shopNumber, String address, String addressee, String phone,
 			String goods, BigDecimal goodsCost, BigDecimal weight, BigDecimal fee, String courierCompany,
 			String orderNumber, Date sendTime, String province, String deliveryState, String signatory, Date signTime,
-			String signPort, String abnormalCause, Date updateTime, Date createDate) {
+			String signPort, String abnormalCause, Date updateTime, Date createDate,String updateMan) {
 		super();
 		this.courierNumber = courierNumber;
 		this.ctmBarCode = ctmBarCode;
@@ -395,6 +406,7 @@ public class ZmReturnData {
 		this.abnormalCause = abnormalCause;
 		this.updateTime = updateTime;
 		this.createDate = createDate;
+		this.updateMan = updateMan;
 	}
 	//哲盟返回字段字符串去空格，并且将空串转成空
 	public void trim() {
