@@ -76,7 +76,7 @@ $(function(){
 		}
 	};
 	dg_options.onLoadError=function(){
-		alert("错误：-1  \n您操作太快了。\n也可能是未知原因，请联系开发者检查原因：(IT部)张顺、黄光辉。\n也可能是您还未登录。");
+		alert("错误：-1  \n未检查到您的登陆信息，请重新登陆。\n如您已重新登陆，可能是未知原因，请联系：(IT部)张顺、黄光辉。");
 	};
 	var sst=stylesheet();
 	if(sst){

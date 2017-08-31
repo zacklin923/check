@@ -146,10 +146,10 @@ function excel_export(){
                         <div class="left">
                             
                                <ul>
-                                 <li><label for="">导入时间开始</label>
+                                 <li><label>导入时间开始</label>
                                   	<input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
                                 </li>
-                                <li><label for="">导入时间结束</label>
+                                <li><label>导入时间结束</label>
                                     <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})" />
                                 </li>
                                 
@@ -159,12 +159,12 @@ function excel_export(){
                         <div class="center">
                             <ul>
                             	
-                                <li>  <label for=""">导入人</label>
+                                <li>  <label>导入人</label>
                                     <input type="text" style="margin-left: 21px" name="str3" >
                                 </li>
                                 <li>
-                                <li> <label for="" >失败类型</label>
-                                    &nbsp;<select class="my_select"  name ="str2"  id=""  style="font-weight:300;color: #6B6B6B;margin-left:5px;">
+                                <li> <label>失败类型</label>
+                                    &nbsp;<select class="my_select"  name ="str2" style="font-weight:300;color: #6B6B6B;margin-left:5px;">
                                     <option value="" style="color: #6B6B6B;font-weight: 300;">--请选择--</option>
                                     <option value="重复快递单号" style="color: #6B6B6B;font-weight: 300;">重复快递单号</option>
                                     <option value="数据必填项为空" style="color: #6B6B6B;font-weight: 300;">数据必填项为空</option>
