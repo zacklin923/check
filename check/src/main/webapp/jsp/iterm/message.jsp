@@ -423,7 +423,7 @@ function IESerch(){
                         <input type="hidden" name ="str6" id = "exportvalue"/>
                 </form>
              </div>
-             <a onclick="search_toolbar()"  id="my_search" style="left:58%;top: 100px;">查询</a>
+             <a onclick="search_toolbar()"  id="my_search" style="top: 100px;margin-left:1038px;">查询</a>
 		</div>
 		<div style="height:10px;background:white;"></div>
         </div>

@@ -204,7 +204,7 @@ function excel_export(){
                         </div>
                 </form>
              </div>
-             <a onclick="search_toolbar1()"  id="my_search" style="top: 70px;left:33%;">查询</a>
+             <a onclick="search_toolbar1()"  id="my_search" style="top: 70px;margin-left:600px;">查询</a>
 		</div>
         </div>
      <table id="dg" border="true"
