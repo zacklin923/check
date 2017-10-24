@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.StaffUser;
@@ -28,20 +29,18 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 
 	@Resource
 	private SourceImportFailSer sourceImportFailSer;
+	private Gson g = new Gson();
 
 	@RequestMapping(value="",method=RequestMethod.GET)
-	@Override
-	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
-			try {
-				accept.setStr1(ManagerId.isSeeAll2(req));
-				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-				return sourceImportFailSer.queryFenye(accept);
-			} catch (Exception e) {
-				return null;
-			}
+	public Result<EasyUIPage> doQuery(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
+			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+			return new Result<EasyUIPage>(SUCCESS,Code.SUCCESS,sourceImportFailSer.queryFenye(accept));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<EasyUIPage>(ERROR,Code.ERROR,null);
 		}
-		return null;
 	}
 
 	@Override
@@ -61,17 +60,26 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 		return null;
 	}
 
-	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	@Override
-	public Result<Integer> doDeleteFalse(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
-		if(id!=null&&!id.equals("")){
+	@RequestMapping(value="/delete",method=RequestMethod.DELETE)
+	public Result<String> doDeleteFalse(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
+		if(data!=null&&!data.equals("")){
 			try {
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.delete(id));
+				EasyUIAccept accept = new Gson().fromJson(data,EasyUIAccept.class);
+				if(accept!=null){
+					if(accept.getStr1()!=null&&!accept.getStr1().equals("")){
+						String str  = accept.getStr1().substring(0, accept.getStr1().length()-1);
+						str = str.replace(",", "','");
+						str = "'"+str+"'";
+						sourceImportFailSer.delete(str);
+						return new Result<String>(SUCCESS, Code.SUCCESS,"" );
+					}
+				}
 			} catch (Exception e) {
-				return new Result<Integer>(ERROR, Code.ERROR, -1);
+				e.printStackTrace();
+				return new Result<String>(ERROR, Code.ERROR, e.getMessage());
 			}
 		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
+		return new Result<String>(ERROR,  Code.ERROR, "删除多条失败");
 	}
 
 	@Override
@@ -80,34 +88,53 @@ public class SourceImportFailConR extends BaseRestController<SourceImportFailed,
 	}
 
 	@RequestMapping(value="",method=RequestMethod.DELETE)
-	public Result<Integer> doDeleteAll( HttpServletRequest req, HttpServletResponse resp) {
+	public Result<String> doDeleteAll(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			StaffUser user=(StaffUser) req.getSession().getAttribute("user");
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.deleteAll(user.getStuNum()));
+			if(uid!=null&&!uid.equals("")){
+				sourceImportFailSer.deleteAll(uid);
+				return new Result<String>(SUCCESS,  Code.SUCCESS, "已删除当前登陆者导入的信息");
+			}else{
+				return new Result<String>(ERROR, Code.ERROR, "不支持删除所有人数据");
+			}
 		} catch (Exception e) {
-			return new Result<Integer>(ERROR, Code.ERROR, -1);
+			e.printStackTrace();
+			return new Result<String>(ERROR, Code.ERROR, "删除所有数据失败");
 		}
 	}
 	
 	@RequestMapping(value="/exportExcel",method=RequestMethod.GET)
-	@Override
-	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
-			try {
-//				accept.setStr1(ManagerId.isSeeAll(req));
-//				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-				return new Result<String>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.ExportData(accept,req));
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new Result<String>(ERROR, Code.ERROR, "数据装载失败");
-			}
+	public Result<String> excelExport(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
+			System.out.println(accept);
+			return new Result<String>(SUCCESS,  Code.SUCCESS, sourceImportFailSer.ExportData(accept,req));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<String>(ERROR, Code.ERROR, "数据装载失败");
 		}
-		return null;
 	}
 	
 	
 	@Override
 	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		return null;
+	}
+
+	@Override
+	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result<Integer> doDeleteFalse(String id, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,7 +1,8 @@
 package com.zs.controller.rest;
 
-import java.io.IOException;
-import java.math.BigDecimal;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,7 +27,6 @@ import com.zs.service.SourceImportSer;
 import com.zs.tools.BatchString;
 import com.zs.tools.ColumnName;
 import com.zs.tools.ExcelImport;
-import com.zs.tools.ManagerId;
 
 @RestController
 @RequestMapping("/api/sourimport")
@@ -37,28 +36,24 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	private SourceImportSer sourceImportSer;
 	@Resource
 	private CheckLogSer	checkLogSer;
+	private Gson g = new Gson();
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
-	@Override
-	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
-			try {
-//				accept.setStr1(ManagerId.isSeeAll2(req));
-				if(accept.getStr3()!=null){
-					accept.setStr3(BatchString.batchstr(accept.getStr3()));
-				}
-				if(accept.getStr4()!=null){
-					accept.setStr4(BatchString.batchstr(accept.getStr4()));
-				}
-//				accept.setDate1(ManagerId.getNow());
-				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-				return sourceImportSer.queryFenye(accept);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+	public Result<EasyUIPage> doQuery(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
+			if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
+				accept.setStr3(BatchString.oldbatchstr(accept.getStr3()));
 			}
+			if(accept.getStr4()!=null&&!accept.getStr4().equals("")){
+				accept.setStr4(BatchString.oldbatchstr(accept.getStr4()));
+			}
+			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+			return new Result<EasyUIPage>(SUCCESS,Code.SUCCESS,sourceImportSer.queryFenye(accept));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<EasyUIPage>(ERROR,Code.ERROR,null);
 		}
-		return null;
 	}
 
 	@Override
@@ -73,22 +68,24 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 		return null;
 	}
 
-	@Override
-	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public Result<Integer> doUpdate(SourceImport obj, HttpServletRequest req, HttpServletResponse resp) {
-		if(obj!=null){
+	@RequestMapping(value="",method=RequestMethod.PUT)
+	public Result<String> doUpdate(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
-				SourceImport ols = sourceImportSer.get(obj.getCourierNumber());
-				Integer iu = sourceImportSer.update(obj);
-				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
-				CheckLog clog = new CheckLog(null, obj.getCourierNumber(), null, "source_import",new Gson().toJson(ols) , null,user.getStuNum() , "修改");
-				checkLogSer.add(clog);
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, iu);
+				SourceImport obj = new Gson().fromJson(data, SourceImport.class);
+				if(obj!=null){
+					sourceImportSer.update(obj);
+					//暂且先把大客户自带的日志表去掉
+//					SourceImport ols = sourceImportSer.get(obj.getCourierNumber());
+//					StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
+//					CheckLog clog = new CheckLog(null, obj.getCourierNumber(), null, "source_import",new Gson().toJson(ols) , null,user.getStuNum() , "修改");
+//					checkLogSer.add(clog);
+					return new Result<String>(SUCCESS,  Code.SUCCESS, "");
+				}else{
+					return new Result<String>(ERROR,  Code.ERROR, null);
+				}
 			} catch (Exception e) {
-				return new Result<Integer>(ERROR, Code.ERROR, -1);
-			}
+				return new Result<String>(ERROR, Code.ERROR, "数据存储失败");
 		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	
@@ -97,34 +94,47 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 		return null;
 	}
 
-	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	@Override
-	public Result<Integer> doDeleteTrue(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
-		if(id!=null&&!id.equals("")){
+	@RequestMapping(value="/delete",method=RequestMethod.DELETE)
+	public Result<String> doDeleteTrue(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
+		if(data!=null&&!data.equals("")){
 			try {
-				SourceImport ols = sourceImportSer.get(id);
-				Integer i = sourceImportSer.delete(id);
-				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
-				CheckLog clog = new CheckLog(null, id, null, "source_import",new Gson().toJson(ols) , null,user.getStuNum() , "删除单条");
-				checkLogSer.add(clog);
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, i);
+				EasyUIAccept accept = new Gson().fromJson(data,EasyUIAccept.class);
+				if(accept!=null){
+					if(accept.getStr1()!=null&&!accept.getStr1().equals("")){
+						String str  = accept.getStr1().substring(0, accept.getStr1().length()-1);
+						str = str.replace(",", "','");
+						str = "'"+str+"'";
+						sourceImportSer.delete(str);
+						return new Result<String>(SUCCESS, Code.SUCCESS,"" );
+					}
+				}
+//				SourceImport ols = sourceImportSer.get(id);
+//				Integer i = sourceImportSer.delete(id);
+//				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
+//				CheckLog clog = new CheckLog(null, id, null, "source_import",new Gson().toJson(ols) , null,user.getStuNum() , "删除单条");
+//				checkLogSer.add(clog);
 			} catch (Exception e) {
-				return new Result<Integer>(ERROR, Code.ERROR, -1);
+				e.printStackTrace();
+				return new Result<String>(ERROR, Code.ERROR, e.getMessage());
 			}
 		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
+		return new Result<String>(ERROR, Code.ERROR, "对象为null");
 	}
 
 	@RequestMapping(value="",method=RequestMethod.DELETE)
-	public Result<Integer> doDeleteAll( HttpServletRequest req, HttpServletResponse resp) {
+	public Result<String> doDeleteAll(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
-			Integer i  = sourceImportSer.deleteAll(user.getStuNum());
-			CheckLog clog = new CheckLog(null, null, null, "source_import","删除了创建时间前的今天数据", null,user.getStuNum() , "删除今天数据");
-			checkLogSer.add(clog);
-			return new Result<Integer>(SUCCESS,  Code.SUCCESS, i);
+			if(uid!=null&&!uid.equals("")){
+				sourceImportSer.deleteAll(uid);
+	//			StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
+	//			CheckLog clog = new CheckLog(null, null, null, "source_import","删除了创建时间前的今天数据", null,user.getStuNum() , "删除今天数据");
+	//			checkLogSer.add(clog);
+				return new Result<String>(SUCCESS,  Code.SUCCESS, "已删除当前登陆者导入的信息");
+			}else{
+				return new Result<String>(ERROR, Code.ERROR, "不支持删除所有人数据");
+			}
 		} catch (Exception e) {
-			return new Result<Integer>(ERROR, Code.ERROR, -1);
+			return new Result<String>(ERROR, Code.ERROR, "删除所有数据失败");
 		}
 	}
 	
@@ -136,35 +146,19 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	
 	
 	@RequestMapping(value="/import",method=RequestMethod.POST)
-	@Override
-	public Result<String> excelImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
-		req.getSession().setAttribute("isLoading", true);
+	public Result<String> excelImport(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 		String s ="";
-		if (!file.isEmpty()) {
-			try {
-				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
-				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
-				s=sourceImportSer.importData(list,user.getStuNum());
-				req.getSession().setAttribute("isLoading", false);
-				return new Result<String>(SUCCESS,  Code.SUCCESS, s);
-			} catch (IOException e) {
-				req.getSession().setAttribute("isLoading", false);
-				return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
-			}
-		}
-		req.getSession().setAttribute("isLoading", false);
-		return new Result<String>(ERROR,  Code.ERROR, s);
-	}
-
-	@RequestMapping(value="/push",method=RequestMethod.GET)
-	public Result<String> doPushToZm(HttpServletRequest req, HttpServletResponse resp) {
+		String filename =data.substring(data.lastIndexOf("\\"));
 		try {
-			StaffUser user=(StaffUser) req.getSession().getAttribute("user");
-			return new Result<String>(SUCCESS, Code.SUCCESS, sourceImportSer.sendToZm(user.getStuNum()));
+			File file = new File(data);
+			InputStream ins = new FileInputStream(file);
+			List<String[]> list = ExcelImport.getDataFromExcel2(filename, ins);
+			s=sourceImportSer.importData(list,uid);
+			return new Result<String>(SUCCESS,  Code.SUCCESS, s);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new Result<String>(ERROR, Code.ERROR, "-1");
-		}
+			return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
+		} 
 	}
 	
 	/**
@@ -172,16 +166,40 @@ public class SourceImportConR extends BaseRestController<SourceImport,String>{
 	 * 否：无异常
 	 * @return
 	 */
-	@RequestMapping(value="/isLoading",method=RequestMethod.GET)
-	private boolean isUnusual(HttpServletRequest req){
-		Object isUal=req.getSession().getAttribute("isLoading");
-		if (isUal==null) {
-		}else{
-			if ((Boolean)isUal) {
-				return true;
-			}
-		}
-		return false;
+//	@RequestMapping(value="/isLoading",method=RequestMethod.GET)
+//	private boolean isUnusual(HttpServletRequest req){
+//		Object isUal=req.getSession().getAttribute("isLoading");
+//		if (isUal==null) {
+//		}else{
+//			if ((Boolean)isUal) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+
+	@Override
+	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result<String> excelImport(MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result<Integer> doUpdate(SourceImport obj, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result<Integer> doDeleteTrue(String id, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

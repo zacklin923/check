@@ -21,113 +21,60 @@ $(function(){
 	stylesheet();
 });
 function stylesheet(){
-	$('#search').form("submit",{
-		url:"<%=path%>/api/reportMonth/style",
-		method:"GET",
+	pullRequestCommon({
+		urlc:"/check/api/reportMonth/style",
+		type:"GET",
+		jobj:formToJson($("#search")),
 		success:function(data){
-			var json;
-			if(isJson(data)){
-				json=data;
-			}else{
-				json = eval('('+data+')');
-			}
-			if(json.result=='success'){
-				var str = json.data;
-				s="[["+str+"]]";
-				options={};
-				options.columns = eval(s)
-				$('#dg').datagrid(options);   
-			}else{
-				alert("错误:"+json.code);
-			}
+			s="[["+data+"]]";
+			options={};
+			options.columns = eval(s)
+			$('#dg').datagrid(options);   
 		}
 	});
 }
 function refrence(){
 	show_hint([]);
-	$('#search').form("submit",{
-		url:"<%=path %>/api/reportMonth/1",
-		method:"GET",
-		onSubmit: function(){   
-		}, 
+	pullRequestCommon({
+		urlc:"/check/api/reportMonth/1",
+		type:"GET",
+		jobj:formToJson($("#search")),
 		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					hiden_hint();
-					alert(json.data);
-					search_toolbar1();
-				}else{
-					hiden_hint();
-					alert("错误:"+json.data);
-				}
-			}else{
-				hiden_hint();
-				alert("错误:网络错误");
-			}
-		}
-	});
-}
-function save(){
-	$("#fm").form("submit",{
-		url:url,		
-		onSubmit:function(){
-			return $(this).form('validate');
+			hiden_hint();
+			alert(json.data);
+			search_toolbar1();
 		},
-		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");
-				}else{
-					alert("错误:"+json.code);
-				}
-			}else{
-				alert("错误:网络错误");
-			}
+		error:function(data){
+			hiden_hint();
 		}
 	});
+	
 }
 
 function search_toolbar1(){
 	stylesheet();
-	var f=$('#search');
-	if(f.form('validate')){
-		var json=formToJson(f);
-		isDgInit=true;
-		$('#dg').datagrid('load', json);
-	}
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/reportMonth",
+		dataf:formToJson($("#search")),
+		success:function(data){
+			
+		}
+	});
 }
 function excel_export(){
-	$("#search").form("submit",{
-		url:"<%=path%>/api/reportMonth/exportExceltest",
-		onSubmit: function(){   
-		},   
-	    success:function(data){   
-	    	var json;
-			if(isJson(data)){
-				json=data;
-			}else{
-				json = eval('('+data+')');
-			}
-			if(json.result=='success'){
-				var d = eval('('+data+')');
-				window.location.href="<%=path%>/"+d.data;
-			}else{
-				alert("错误:"+json.data);
-			}
-	    } 
+	pullRequestCommon({
+		urlc:"/check/api/reportMonth/exportExceltest",
+		type:"GET",
+		jobj:formToJson($("#search")),
+		success:function(data){
+			console.log(data);
+			hiden_hint();
+    		window.location.href=URL_PATH+"/check/"+data;
+		},
+		error:function(data){
+			hiden_hint();
+		}
 	});
 	
 }
@@ -181,10 +128,10 @@ function excel_export(){
                                     <input type="text"style="margin-left: 30px" name ="str2" >
                                 </li>
                                 <li><label for="">统计方式</label>  
-			    			<input style="width:15px;height:15px;font-weight:300" name="int1" type="radio" value="4"><span style="color:#6B6B6B">大区</span>
-			    			<input style="width:15px;height:15px;" name="int1" type="radio" value="3"><span style="color:#6B6B6B">区部</span>
-			    			<input style="width:15px;height:15px;" name="int1" type="radio" value="2"><span style="color:#6B6B6B">分部</span>
-			    			<input style="width:15px;height:15px;" name="int1" type="radio" value="1" checked="checked"><span style="color:#6B6B6B">条码</span>
+					    			<input style="width:15px;height:15px;font-weight:300" name="int1" type="radio" value="4"><span style="color:#6B6B6B">大区</span>
+					    			<input style="width:15px;height:15px;" name="int1" type="radio" value="3"><span style="color:#6B6B6B">区部</span>
+					    			<input style="width:15px;height:15px;" name="int1" type="radio" value="2"><span style="color:#6B6B6B">分部</span>
+					    			<input style="width:15px;height:15px;" name="int1" type="radio" value="1" checked="checked"><span style="color:#6B6B6B">条码</span>
                                 </li>
                                
                             </ul>

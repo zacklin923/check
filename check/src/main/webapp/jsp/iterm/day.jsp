@@ -21,7 +21,19 @@ $(function(){
 	stylesheet_1();
 });
 function stylesheet_1(){
-	$('#search').form("submit",{
+	pullRequestCommon({
+		urlc:"/check/api/reportDate/style",
+		type:"GET",
+		jobj:formToJson($("#search")),
+		success:function(data){
+			var str1 = data.split("_");
+			s="[["+str1[0]+"],["+str1[1]+"]]";
+			options={};
+			options.columns = eval(s)
+			$('#dg').datagrid(options);  
+		}
+	});
+	<%-- $('#search').form("submit",{
 		url:"<%=path%>/api/reportDate/style",
 		method:"GET",
 		success:function(data){
@@ -42,11 +54,25 @@ function stylesheet_1(){
 				alert("错误:"+json.code);
 			}
 		}
-	});
+	}); --%>
 }
 function refrence(){
 	show_hint([]);
-	$('#search').form("submit",{
+	pullRequestCommon({
+		urlc:"/check/api/reportDate/1",
+		type:"GET",
+		jobj:formToJson($("#search")),
+		success:function(data){
+			hiden_hint();
+			alert(json.data);
+			search_toolbar1();
+		},
+		error:function(data){
+			hiden_hint();
+		}
+	});
+	
+	<%-- $('#search').form("submit",{
 		url:"<%=path %>/api/reportDate/1",
 		method:"GET",
 		onSubmit: function(){   
@@ -72,63 +98,30 @@ function refrence(){
 				alert("错误:网络错误");
 			}
 		}
-	});
-}
-function save(){
-	$("#fm").form("submit",{
-		url:url,		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");
-				}else{
-					alert("错误:"+json.code);
-				}
-			}else{
-				alert("错误:网络错误");
-			}
-		}
-	});
+	}); --%>
 }
 
 function search_toolbar1(){
-	stylesheet();
-	var f=$('#search');
-	if(f.form('validate')){
-		var json=formToJson(f);
-		isDgInit=true;
-		$('#dg').datagrid('load', json);
-	}
+	stylesheet_1();
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/reportDate",
+		dataf:formToJson($("#search")),
+		success:function(data){
+			
+		}
+	});
 }
 function excel_export(){
-	$("#search").form("submit",{
-		url:"<%=path%>/api/reportDate/exportExceltest",
-		onSubmit: function(){   
-		}, 
-	    success:function(data){   
-	    	var json;
-			if(isJson(data)){
-				json=data;
-			}else{
-				json = eval('('+data+')');
-			}
-			if(json.result=='success'){
-				var d = eval('('+data+')');
-				window.location.href="<%=path%>/"+d.data;
-			}else{
-				alert("错误:"+json.data);
-			}
-	    } 
+	pullRequestCommon({
+		urlc:"/check/api/reportDate/exportExceltest",
+		type:"GET",
+		jobj:formToJson($("#search")),
+		success:function(data){
+			console.log(data);
+			hiden_hint();
+    		window.location.href=URL_PATH+"/check/"+data;
+		}
 	});
 	
 }
@@ -195,10 +188,10 @@ function excel_export(){
                         <div class="right">
                             <ul>
                                 <li><label for="">数据开始日期</label>
-                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" value="<%=DateTimeHelper.getolddate().toString4()%>"/>
+                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd'})" value="<%=DateTimeHelper.getolddate().toString3()%>"/>
                                 </li>
                                 <li><label for="">数据结束日期</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})" value="<%=DateTimeHelper.getolddate().toString4()%>"/>
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd'})" value="<%=DateTimeHelper.getolddate().toString3()%>"/>
                                 </li>
                             </ul>
                         </div>
@@ -208,7 +201,6 @@ function excel_export(){
 		</div>
         </div>
      <table id="dg" border="true"
-		url="<%=path %>/api/reportDate"
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		fitColumns="true" singleSelect="true"

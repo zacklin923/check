@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -59,13 +60,26 @@ public class RoleInter extends HandlerInterceptorAdapter{
 		resp=response;
 		resp.reset();
 		resp.setCharacterEncoding("utf-8");
-		String lId=request.getHeader("licence");
 		method=req.getMethod();
-		//获取其他信息
+		
 	    session = req.getSession();  
+	    log.info("过滤器中的session"+session.getAttribute("user"));
+	    
+	    //获取其他信息
+  		Enumeration enumeration =session.getAttributeNames();//获取session中所有的键值对
+	      //遍历enumeration中的键值对
+	    String[] names=session.getValueNames();
+	    for(int i=0;i<names.length;i++){
+	       log.info("session名称"+names[i]);
+	    }
+          
+          
+          
 	    //获得url
 	    url=req.getRequestURI();
+	    log.info("过滤器中的url"+url);
 	    reqPamrs = req.getQueryString();//后面的参数
+	    log.info("过滤器中的reqPamrs"+reqPamrs);
     	//获取登录者信息
     	user =(StaffUser) session.getAttribute("user");
     	if (user!=null) {

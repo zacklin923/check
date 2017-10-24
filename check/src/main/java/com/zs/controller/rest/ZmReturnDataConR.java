@@ -1,7 +1,9 @@
 package com.zs.controller.rest;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Date;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,15 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
-import com.zs.controller.rest.BaseRestController.Code;
-import com.zs.entity.CheckLog;
-import com.zs.entity.NoUpdate;
-import com.zs.entity.NoUpdateKey;
-import com.zs.entity.SourceThirdParty;
-import com.zs.entity.SourceThirdPartyKey;
-import com.zs.entity.SourceZm;
-import com.zs.entity.SourceZmKey;
-import com.zs.entity.StaffUser;
 import com.zs.entity.ZmReturnData;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
@@ -34,10 +27,8 @@ import com.zs.service.CheckLogSer;
 import com.zs.service.NoUpdateSer;
 import com.zs.service.ZmReturnDataSer;
 import com.zs.tools.BatchString;
-import com.zs.tools.CheckTimeCost;
 import com.zs.tools.ColumnName;
 import com.zs.tools.ExcelImport;
-import com.zs.tools.ManagerId;
 
 @RestController
 @RequestMapping("/api/zmReturnData")
@@ -50,6 +41,7 @@ public class ZmReturnDataConR extends BaseRestController<ZmReturnData, String>{
 	@Resource
 	private NoUpdateSer noUpdateSer;
 	private Logger log=Logger.getLogger(getClass());
+	private Gson g = new Gson();
 	
 	
 	@Override
@@ -65,21 +57,23 @@ public class ZmReturnDataConR extends BaseRestController<ZmReturnData, String>{
 		}
 		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
-	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public Result<Integer> doUpdate(ZmReturnData obj, HttpServletRequest req, HttpServletResponse resp){
-		if(obj!=null){
-			System.out.println(obj);
-			System.out.println(obj.getSignTime());
-			try {
-				Integer iu = zmReturnDataSer.update(obj,req);
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, iu);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new Result<Integer>(ERROR,  Code.ERROR, -1);
+	@RequestMapping(value="",method=RequestMethod.PUT)
+	public Result<String> doUpdate(String uid,String data, HttpServletRequest req, HttpServletResponse resp){
+		ZmReturnData obj = g.fromJson(data, ZmReturnData.class);
+		try {
+			if(obj!=null){
+				zmReturnDataSer.update(obj,uid);
+				return new Result<String>(SUCCESS,  Code.SUCCESS, "修改成功");
+			}else{
+				return new Result<String>(ERROR,  Code.ERROR,"修改失败");
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<String>(ERROR,  Code.ERROR, obj.getCourierNumber()+"修改失败");
 		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
+	
+	
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@Override
 	public Result<Integer> doDeleteTrue(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
@@ -111,150 +105,139 @@ public class ZmReturnDataConR extends BaseRestController<ZmReturnData, String>{
 	}
 	//---运单信息相关-------------------------------------
 	@RequestMapping(value="/zm",method=RequestMethod.GET)
-	public EasyUIPage doQueryOfZm(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
-			try {
-				if(accept.getStr3()!=null){
-					accept.setStr3(BatchString.batchstr(accept.getStr3()));
-				}
-				if(accept.getStr2()!=null){
-					accept.setStr2(BatchString.batchstr(accept.getStr2()));
-				}
-//				accept.setStr1(ManagerId.isSeeAll(req));
-				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-				return zmReturnDataSer.queryFenyeOfZm(accept,req);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+	public Result<EasyUIPage> doQueryOfZm(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
+			if(accept.getStr3()!=null){
+				accept.setStr3(BatchString.oldbatchstr(accept.getStr3()));
 			}
+			if(accept.getStr2()!=null){
+				accept.setStr2(BatchString.oldbatchstr(accept.getStr2()));
+			}
+			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+			return new Result<EasyUIPage>(SUCCESS,  Code.SUCCESS, zmReturnDataSer.queryFenyeOfZm(accept,req));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<EasyUIPage>(ERROR,Code.ERROR,null);
 		}
-		return null;
 	}
 	@RequestMapping(value="/zm/exportExceltest",method=RequestMethod.GET)
-	public Result<String> excelExporttestOfZm(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
+	public Result<String> excelExporttestOfZm(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
 				if(accept.getStr3()!=null){
 					accept.setStr3(BatchString.oldbatchstr(accept.getStr3()));
 				}
 				if(accept.getStr2()!=null){
 					accept.setStr2(BatchString.oldbatchstr(accept.getStr2()));
 				}
-//				accept.setStr1(ManagerId.isSeeAll(req));
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-//				System.out.println(accept);
 				return new Result<String>(SUCCESS,  Code.SUCCESS, zmReturnDataSer.ExportDataOfZm(accept,req));
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new Result<String>(ERROR, Code.ERROR, "数据装载失败");
 			}
-		}
-		return null;
 	}
 	@RequestMapping(value="/zm/import",method=RequestMethod.POST)
-	public Result<String> excelImportOfZm(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
-		req.getSession().setAttribute("isLoading", true);
-		StaffUser user=(StaffUser) req.getSession().getAttribute("user");
+	public Result<String> excelImportOfZm(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 		String s ="";
-		if (!file.isEmpty()) {
-			try {
-				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
-				s = s + zmReturnDataSer.importDatatestOfZm(list,user.getStuNum());
-				if(s.equals("")){
-					req.getSession().setAttribute("isLoading", false);
-					return new Result<String>(SUCCESS,  Code.SUCCESS, s);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				req.getSession().setAttribute("isLoading", false);
-				return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
-			}
-		}
-		req.getSession().setAttribute("isLoading", false);
-		return new Result<String>(ERROR,  Code.ERROR, s);
+		String filename =data.substring(data.lastIndexOf("\\"));
+		try {
+			File file = new File(data);
+			InputStream ins = new FileInputStream(file);
+			List<String[]> list = ExcelImport.getDataFromExcel2(filename, ins);
+			s=zmReturnDataSer.importDatatestOfZm(list,uid);
+			return new Result<String>(SUCCESS,  Code.SUCCESS, s);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
+		} 
 	}
 	//---运单状态相关-------------------------------------
 	@RequestMapping(value="/tp",method=RequestMethod.GET)
-	public EasyUIPage doQueryOfTp(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
-			try {
-				if(accept.getStr3()!=null){
-					accept.setStr3(BatchString.batchstr(accept.getStr3()));
-				}
-				if(accept.getStr4()!=null){
-					accept.setStr4(BatchString.batchstr(accept.getStr4()));
-				}
-				if(accept.getStr2()!=null){
-					accept.setStr2(BatchString.batchstr(accept.getStr2()));
-				}
-				if(accept.getStr16()!=null){
-					if(accept.getStr16().equals("0")){
-						accept.setStr16(null);
-					}
-				}
-//				accept.setStr1(ManagerId.isSeeAll(req));
-				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-				return zmReturnDataSer.queryFenyeOfTp(accept,req);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+	public Result<EasyUIPage> doQueryOfTp(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
+			if(accept.getStr3()!=null){
+				accept.setStr3(BatchString.oldbatchstr(accept.getStr3()));
 			}
+			if(accept.getStr4()!=null){
+				accept.setStr4(BatchString.oldbatchstr(accept.getStr4()));
+			}
+			if(accept.getStr2()!=null){
+				accept.setStr2(BatchString.batchstr(accept.getStr2()));
+			}
+			if(accept.getStr16()!=null){
+				if(accept.getStr16().equals("0")){
+					accept.setStr16(null);
+				}
+			}
+			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+			return new Result<EasyUIPage>(SUCCESS,  Code.SUCCESS, zmReturnDataSer.queryFenyeOfTp(accept,req));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<EasyUIPage>(ERROR,Code.ERROR,null);
 		}
-		return null;
 	}
 	@RequestMapping(value="/tp/exportExceltest",method=RequestMethod.GET)
-	public Result<String> excelExporttestOfTp(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
-			try {
-				if(accept.getStr2()!=null&&!accept.getStr2().equals("")){
-					accept.setStr2(BatchString.batchstr(accept.getStr2()));
-				}
-				if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
-					accept.setStr3(BatchString.oldbatchstr(accept.getStr3()));
-				}
-				if(accept.getStr4()!=null&&!accept.getStr4().equals("")){
-					accept.setStr4(BatchString.oldbatchstr(accept.getStr4()));
-				}
-				if(accept.getStr16()!=null){
-					if(accept.getStr16().equals("0")){
-						accept.setStr16(null);
-					}
-				}
-//				accept.setStr1(ManagerId.isSeeAll(req));
-				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-//				System.out.println(accept);
-				return new Result<String>(SUCCESS,  Code.SUCCESS, zmReturnDataSer.ExportDataOfTp(accept,req));
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new Result<String>(ERROR, Code.ERROR, "数据装载失败");
+	public Result<String> excelExporttestOfTp(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
+			if(accept.getStr2()!=null&&!accept.getStr2().equals("")){
+				accept.setStr2(BatchString.batchstr(accept.getStr2()));
 			}
+			if(accept.getStr3()!=null&&!accept.getStr3().equals("")){
+				accept.setStr3(BatchString.oldbatchstr(accept.getStr3()));
+			}
+			if(accept.getStr4()!=null&&!accept.getStr4().equals("")){
+				accept.setStr4(BatchString.oldbatchstr(accept.getStr4()));
+			}
+			if(accept.getStr16()!=null){
+				if(accept.getStr16().equals("0")){
+					accept.setStr16(null);
+				}
+			}
+			accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+			return new Result<String>(SUCCESS,  Code.SUCCESS, zmReturnDataSer.ExportDataOfTp(accept,req));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<String>(ERROR, Code.ERROR, "数据装载失败");
 		}
-		return null;
 	}
 	@RequestMapping(value="/tp/import",method=RequestMethod.POST)
-	public Result<String> excelImportOfTp(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
-		req.getSession().setAttribute("isLoading", true);
+	public Result<String> excelImportOfTp(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
+		String s ="";
+		String filename =data.substring(data.lastIndexOf("\\"));
+		try {
+			File file = new File(data);
+			InputStream ins = new FileInputStream(file);
+			List<String[]> list = ExcelImport.getDataFromExcel2(filename, ins);
+			s=zmReturnDataSer.importDataOfTp(list,uid);
+			return new Result<String>(SUCCESS,  Code.SUCCESS, s);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
+		} 
+	}
+	
+	
+	
+	@RequestMapping(value="/tp/feeTimeImport",method=RequestMethod.POST)
+	public Result<String> feeTimeImport(@RequestParam MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
 		String s ="";
 		if (!file.isEmpty()) {
 			try {
 				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
-				s = s + zmReturnDataSer.importDataOfTp(list,req);
-				if(s.equals("")){
-					req.getSession().setAttribute("isLoading", false);
+				s = s + zmReturnDataSer.feeTimeImport(list);
+				if(!s.equals("")){
 					return new Result<String>(SUCCESS,  Code.SUCCESS, s);
 				}
 			} catch (IOException e) {
-				req.getSession().setAttribute("isLoading", false);
 				return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
 			}
 		}
-		req.getSession().setAttribute("isLoading", false);
 		return new Result<String>(ERROR,  Code.ERROR, s);
 	}
-	
-	
-	
-	
 	
 	
 	@Deprecated
@@ -280,6 +263,11 @@ public class ZmReturnDataConR extends BaseRestController<ZmReturnData, String>{
 	@Deprecated
 	@Override
 	public Result<String> excelImport(MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		return null;
+	}
+	@Override
+	public Result<Integer> doUpdate(ZmReturnData obj, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

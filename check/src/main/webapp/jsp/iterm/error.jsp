@@ -18,6 +18,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <jsp:include page="/jsp/part/cw_common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	$('#dg').datagrid();
+}); 
 function deleteAll(){
 	$.messager.confirm(
 		"操作提示",
@@ -25,27 +28,22 @@ function deleteAll(){
 		function(data){
 			if(data){
 				var checkedItems = $('#dg').datagrid('getChecked');
+				var aid ="";
 				$.each(checkedItems, function(index, item){
 					if(item.sifId!=null){
-						$.ajax({
-							url:"<%=path %>/api/sourimportfail/"+item.sifId,
-							type:"delete",
-							success:function(data){
-								var json;
-								if(isJson(data)){
-									json=data;
-								}else{
-									json = eval('('+data+')');
-								}
-								if(json.result=='success'){
-									$('#dg').datagrid('reload');
-								}else{
-									console.log("错误:"+json.code);
-								}
-							}
-						});
+						aid+=item.sifId+",";
 					}
 				}); 
+				if(aid!=null){
+					pullRequestCommon({
+						urlc:"/check/api/sourimportfail/delete",
+						type:"DELETE",
+						jobj:{str1:aid},
+						success:function(data){
+							$('#dg').datagrid('reload');
+						}
+					});
+				}
 			}
 		}
 	);
@@ -57,23 +55,14 @@ function deleteAllData(){
 			"您确定要删除所有数据吗？",
 			function(data){
 				if(data){
-					$.ajax({
-						url:"<%=path %>/api/sourimportfail",
-						type:"delete",
+					pullRequestCommon({
+						urlc:"/check/api/sourimportfail",
+						type:"DELETE",
 						success:function(data){
-							var json;
-							if(isJson(data)){
-								json=data;
-							}else{
-								json = eval('('+data+')');
-							}
-							if(json.result=='success'){
-								$('#dg').datagrid('reload');
-							}else{
-								alert("错误:"+json.code+"  "+json.data);
-							}
+							$('#dg').datagrid('reload');
 						}
 					});
+					
 				}
 			}
 		);
@@ -102,6 +91,17 @@ function excel_export(){
 	    } 
 	});
 }
+function search_toolbar1(){
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/sourimportfail",
+		dataf:formToJson($("#search")),
+		success:function(data){
+			
+		}
+	});
+	
+}
 </script>
 
 <style>
@@ -129,7 +129,7 @@ function excel_export(){
                 <a onclick="deleteAll()"><span class="iterm1"></span>批量删除 </a>
                 <a onclick="deleteAllData()"><span class="iterm2"></span>删除所有</a>
                 <a onclick="excel_export()"><span class="iterm3"></span>导出</a>
-                <a onclick="search_toolbar()"><span class="iterm5"></span>查询</a>
+                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
 			</div>
 			</div>
 		</div>
@@ -147,10 +147,10 @@ function excel_export(){
                             
                                <ul>
                                  <li><label>导入时间开始</label>
-                                  	<input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd'})" />
+                                  	<input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd'})" />
                                 </li>
                                 <li><label>导入时间结束</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd'})" />
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd'})" />
                                 </li>
                                 
                             </ul>
@@ -179,12 +179,11 @@ function excel_export(){
                 </form>
                 
              </div>
-             <a onclick="search_toolbar()"  id="my_search" style="top: 42px;margin-left:523px;">查询</a>
+             <a onclick="search_toolbar1()"  id="my_search" style="top: 42px;margin-left:523px;">查询</a>
 		</div>
 		 <div style="height:10px;background:white;"></div>
         </div>
       <table id="dg" border="true"
-		url="<%=path %>/api/sourimportfail"
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
@@ -197,12 +196,7 @@ function excel_export(){
 			<th field="ck" checkbox="true"></th>
 			<th field="createTime" width="150" sortable="true">导入时间</th>
 			<th field="failType" width="100" sortable="true">失败类型</th>
-            <th field="stuNum" width="70" sortable="true"  data-options="
-				formatter:function(value,row,index){
-                             if(row.user){
-						return row.user.stuName;
-                          }
-                      }">导入人</th>
+            <th field="stuNum" width="70" sortable="true">导入人</th>
 			<th field="createDate" data-options="
 				formatter:function(value,row,index){
                              if(row.sourceImport){

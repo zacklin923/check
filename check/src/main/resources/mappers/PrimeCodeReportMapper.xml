@@ -628,10 +628,10 @@
    <select id="queryFenye" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
   	select * from PRIME_CODE_REPORT
   	<where>
-	  	<if test="date1!=null and date1!=''">
+	  	<if test="date1!=null">
 	  		and CREATE_DATE >= #{date1}
 	  	</if>
-	  	<if test="date2!=null and date2!=''">
+	  	<if test="date2!=null">
   			and CREATE_DATE &lt;= #{date2}
  		</if>
 	  	<if test="str3!=null and str3!=''">
@@ -666,10 +666,10 @@
 	  	sum(count_dd) count_dd,sum(hour_dd) hour_dd,sum(day_count) day_count,STU_NUM
 		from PRIME_CODE_REPORT
 	  	<where>
-		  	<if test="date1!=null and date1!=''">
+		  	<if test="date1!=null">
 		  		and CREATE_DATE >= #{date1}
 		  	</if>
-		  	<if test="date2!=null and date2!=''">
+		  	<if test="date2!=null">
 	  			and CREATE_DATE &lt;= #{date2}
 	 		</if>
 		  	<if test="str3!=null and str3!=''">
@@ -702,10 +702,10 @@
   		<if test="str1!=null">
 	  	 	 and LARGE_AREA in ${str1}  
   		</if>
-  		<if test="date1!=null and date1!=''">
+  		<if test="date1!=null">
 	  		and CREATE_DATE >= #{date1}
 	  	</if>
-	  	<if test="date2!=null and date2!=''">
+	  	<if test="date2!=null">
   			and CREATE_DATE &lt;= #{date2}
  		</if>
   		and count_ly > 0
@@ -718,10 +718,10 @@
   		<if test="str1!=null">
 	  	 	 and LARGE_AREA in ${str1}
   		</if>
-  		<if test="date1!=null and date1!=''">
+  		<if test="date1!=null">
 	  		and CREATE_DATE >= #{date1}
 	  	</if>
-	  	<if test="date2!=null and date2!=''">
+	  	<if test="date2!=null">
   			and CREATE_DATE &lt;= #{date2}
  		</if>
   	 </where>
@@ -733,10 +733,10 @@
   		<if test="str1!=null">
 	  	 	 and LARGE_AREA in ${str1}
   		</if>
-  		<if test="date1!=null and date1!=''">
+  		<if test="date1!=null">
 	  		and CREATE_DATE >= #{date1}
 	  	</if>
-	  	<if test="date2!=null and date2!=''">
+	  	<if test="date2!=null">
   			and CREATE_DATE &lt;= #{date2}
  		</if>
  		and  (count_jd > 0 or count_cj >0 or count_gd>0 or count_lpcl>0 or count_kscl>0)
@@ -752,10 +752,10 @@
   		<if test="str1!=null">
 	  	 	 and stu_num in (select stu_num from staff_user where stu_name in (${str1}))
   		</if>
-  		<if test="date1!=null and date1!=''">
+  		<if test="date1!=null">
 	  		and CREATE_DATE >= #{date1}
 	  	</if>
-	  	<if test="date2!=null and date2!=''">
+	  	<if test="date2!=null">
   			and CREATE_DATE &lt;= #{date2}
  		</if>
   	 </where>
@@ -764,10 +764,10 @@
   <select id="getCoumterType" resultType="java.lang.String" parameterType="com.zs.entity.other.EasyUIAccept">
   	select LARGE_AREA from prime_code_report
   	<where>
-  		<if test="date1!=null and date1!=''">
+  		<if test="date1!=null">
 	  		and CREATE_DATE >= #{date1}
 	  	</if>
-	  	<if test="date2!=null and date2!=''">
+	  	<if test="date2!=null">
   			and CREATE_DATE &lt;= #{date2}
  		</if>
  		and LARGE_AREA is not null

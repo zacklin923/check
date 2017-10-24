@@ -14,12 +14,14 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.zs.dao.CustomerMapper;
+import com.zs.dao.ItCommonUserMapper;
 import com.zs.dao.SourceImportFailedMapper;
 import com.zs.dao.SourceImportMapper;
 import com.zs.dao.SourceZmMapper;
 import com.zs.dao.StaffUserMapper;
 import com.zs.entity.Customer;
 import com.zs.entity.CustomerKey;
+import com.zs.entity.ItCommonUser;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.SourceZm;
@@ -43,11 +45,11 @@ public class SourceImportSerImpl implements SourceImportSer{
 	@Resource
 	private SourceImportFailedMapper importFailMapper;
 	@Resource
-	private StaffUserMapper userMapper;
-	@Resource
 	private SourceZmMapper zmMapper;
 	@Resource
 	private CustomerMapper customerMapper;
+	@Resource
+	private ItCommonUserMapper itCommonUserMapper;
 	
 	private Gson gson=new Gson();
 	private final String URL_ZM="http://116.204.8.6:8020/InBarCode.aspx";
@@ -61,13 +63,13 @@ public class SourceImportSerImpl implements SourceImportSer{
 				accept.setStart((page-1)*size);
 				accept.setEnd(page*size);
 			}
-			List list=importMapper.queryFenye(accept);
 			int rows=importMapper.getCount(accept);
+			List list=importMapper.queryFenye(accept);
 			for (int i = 0; i < list.size(); i++) {
 				SourceImport si = (SourceImport) list.get(i);
 				if(si.getStuNum()!=null && !si.getStuNum().equals("")){
-					StaffUser suer = userMapper.selectByPrimaryKey(si.getStuNum());
-					si.setStuName(suer.getStuName()==null?"":suer.getStuName());
+					ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(si.getStuNum()));
+					si.setStuName(suer.getName()==null?"":suer.getName());
 				}else{
 					si.setStuName("");
 				}
@@ -86,7 +88,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 	}
 
 	public Integer delete(String id) {
-		return importMapper.deleteByPrimaryKey(id);
+		return importMapper.deleteBatch(id);
 	}
 
 	public SourceImport get(String id) {
@@ -99,7 +101,6 @@ public class SourceImportSerImpl implements SourceImportSer{
 		int inull3=0;
 		int inull4=0;
 		int inull5=0;
-		int inull6=0;
 		int succs=0;
 		for (int i = 1; i < list.size(); i++) {
 			if(list.get(i)[0].equals("") 
@@ -147,36 +148,6 @@ public class SourceImportSerImpl implements SourceImportSer{
 							importFailMapper.insertSelective(sif);
 							inull5=5;
 							
-//						if (isNumeric(ctmbarcode)==false) {//不是纯数字
-//							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),
-//									list.get(i)[2].trim().replace(",", ""),
-//									list.get(i)[1],list.get(i)[8],list.get(i)[0],
-//									list.get(i)[4],list.get(i)[6],list.get(i)[7],
-//									list.get(i)[9],list.get(i)[11],list.get(i)[10],
-//									list.get(i)[5],"大客户",
-//									new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
-//									null,stuNum,list.get(i)[12],list.get(i)[13]);
-//							SourceImportFailed sif = new SourceImportFailed();
-//							sif.setStuNum(stuNum);
-//							sif.setFailInfo(gson.toJson(sie));
-//							sif.setFailType("客户条码不是纯数字");
-//							importFailMapper.insertSelective(sif);
-//							inull5=5;
-//						}else if(ctmbarcode.length()!=6){//不是6位数
-//							SourceImportErr sie = new SourceImportErr(list.get(i)[3].trim().replace(",", ""),
-//									list.get(i)[2].trim().replace(",", ""),
-//									list.get(i)[1],list.get(i)[8],list.get(i)[0],
-//									list.get(i)[4],list.get(i)[6],list.get(i)[7],
-//									list.get(i)[9],list.get(i)[11],list.get(i)[10],
-//									list.get(i)[5],"大客户",
-//									new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
-//									null,stuNum,list.get(i)[12],list.get(i)[13]);
-//							SourceImportFailed sif = new SourceImportFailed();
-//							sif.setStuNum(stuNum);
-//							sif.setFailInfo(gson.toJson(sie));
-//							sif.setFailType("客户条码不符合规范");
-//							importFailMapper.insertSelective(sif);
-//							inull6=6;
 						}else{
 							try {
 								String oneCode=list.get(i)[12].length()>=3?list.get(i)[12].substring(0,3):null;
@@ -435,7 +406,7 @@ public class SourceImportSerImpl implements SourceImportSer{
 	}
 	
 	
-	public static void main(String[] args) {
-		System.out.println(new SourceImportSerImpl().isNumeric("1asd"));
-	}
+//	public static void main(String[] args) {
+//		System.out.println(new SourceImportSerImpl().isNumeric("1asd"));
+//	}
 }

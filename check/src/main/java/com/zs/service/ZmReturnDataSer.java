@@ -13,7 +13,7 @@ import com.zs.entity.other.EasyUIPage;
 public interface ZmReturnDataSer{
 	
 	public Integer add(ZmReturnData obj,HttpServletRequest req);
-	public Integer update(ZmReturnData obj,HttpServletRequest req);
+	public Integer update(ZmReturnData obj,String stu);
 	public Integer delete(String id,HttpServletRequest req);
 	public ZmReturnData get(String id,HttpServletRequest req);
 	
@@ -27,8 +27,8 @@ public interface ZmReturnDataSer{
 	public String ExportDataOfZm(EasyUIAccept accept,HttpServletRequest req);
 	
 	public EasyUIPage queryFenyeOfTp(EasyUIAccept accept,HttpServletRequest req);
-	public String importDataOfTp(List<String[]> list ,HttpServletRequest req);
+	public String importDataOfTp(List<String[]> list ,String stuNum);
 	public String ExportDataOfTp(EasyUIAccept accept,HttpServletRequest req);
 	
-	
+	public String feeTimeImport(List<String[]> list); 
 }

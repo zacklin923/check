@@ -17,6 +17,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <jsp:include page="/jsp/part/cw_common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	$('#dg').datagrid();
+});
 function updateObj(){
 	var date1 = $("#d4311").val();
 	var date2 = $("#d4312").val();
@@ -39,8 +42,6 @@ function updateObj(){
 		if(row){
 			$("#dlg").dialog("open").dialog("setTitle","修改");
 			$("#fm").form("load",row);
-			$("#fm input[name='_method']").val("put");
-			$("#fm input[name='_header']").val("${user.licence }");
 		}
 	}else{
 		alert("时间间隔大于一天，以下为统计数据不能修改");
@@ -58,30 +59,19 @@ function save(){
 	$("#hsd").val(hourbynumber($("#hsd").val()));
 	$("#hdd").val(hourbynumber($("#hdd").val()));
 	console.log($("#fm").serializeArray())
-	$("#fm").form("submit",{
-		url:"<%=path %>/api/primeCodeImport/aa",		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
+	pullRequestCommon({
+		urlc:"/check/api/primeCodeImport",
+		type:"PUT",
+		jobj:formToJson($("#fm")),
 		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");
-				}else{
-					alert("错误:"+json.code);
-				}
-			}else{
-				alert("错误:网络错误");
-			}
+			$('#dg').datagrid('reload');
+			$("#dlg").dialog("close");
+		},
+		error:function(data){
+			alert(data);
 		}
 	});
+	
 }
 function deleteAll(){
 	var date1 = $("#d4311").val();
@@ -100,22 +90,13 @@ function deleteAll(){
 					$.each(checkedItems, function(index, item){
 						console.log(item.id);
 						if(item.id!=null){
-							$.ajax({
-								url:"<%=path %>/api/primeCodeImport/"+item.id,
-								type:"delete",
+							pullRequestCommon({
+								urlc:"/check/api/primeCodeImport",
+								type:"DELETE",
+								jobj:{id:item.id},
 								success:function(data){
-									var json;
-									if(isJson(data)){
-										json=data;
-									}else{
-										json = eval('('+data+')');
-									}
-									if(json.result=='success'){
-										hiden_hint();
-										$('#dg').datagrid('reload');
-									}else{
-										console.log("错误:"+json.code);
-									}
+									hiden_hint();
+									$('#dg').datagrid('reload');
 								}
 							});
 						}
@@ -128,7 +109,7 @@ function deleteAll(){
 	}
 }
 
-function deleteAllData(){
+<%-- function deleteAllData(){
 	$.messager.confirm(
 		"操作提示",
 		"您确定要删除所有数据吗？",
@@ -154,107 +135,54 @@ function deleteAllData(){
 			}
 		}
 	);
-}
-var a="${isLoading}";
-var a1="${isLoading}";
-function checkIsUal(){
-	console.log("a:"+a);
-	if(a=="" || a=="false"){
-		hiden_hint();
-	}else{
-		show_hint([]);
-		$.ajax({
-			url:"<%=path%>/api/primeCodeImport/isLoading",
-			success:function(data){
-				a=data;
-			}
-		});
-		setTimeout("checkIsUal()",2000);
-	}
-	if((a1=="true")&&(a=="" || a=="false")){
-		$('#dg').datagrid('reload');
-		alert("请到导入数据错误处查看是否有错误数据")
-	}
-}
-$(function(){
-	checkIsUal();
-});
-
+} --%>
 
 function upload(){
 	$("#fileImport").dialog("close");
 	show_hint([]);
-	$("#fmfile").form("submit",{
-		url:"<%=path %>/api/primeCodeImport/import",		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
+	pullRequestFile({
+		urlf:"/check/api/primeCodeImport/import",
+		fid:"fmfile",
 		success:function(data){
-			console.log(data);
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					hiden_hint();
-					$('#dg').datagrid('reload');
-					alert(json.data);
-					$("#fileImport").dialog("close");					
-				}else{
-					hiden_hint();
-					$("#fileImport").dialog("close");	
-					alert("错误:"+json.code+"错误原因："+json.data);
-					$('#dg').datagrid('reload');
-				}
-			}else{
-				hiden_hint();
-				alert("错误:网络错误");
-			}
+			hiden_hint();
+			$('#dg').datagrid('reload');
+			alert(json.data);
+			$("#fileImport").dialog("close");
+		},
+		error:function(data){
+			hiden_hint();
+			$("#fileImport").dialog("close");	
+			alert("错误:"+json.code+"错误原因："+json.data);
+			$('#dg').datagrid('reload');
 		}
 	});
 }
 
 function search_toolbar1(){
-	var f=$('#search');
-	if(f.form('validate')){
-		var json=formToJson(f);
-		var reg=new RegExp("\r\n","g");
-		if(json.str3!=null){
-			var str3 = json.str3.replace(reg,",");
-			json.str3=str3;
-			console.log(str3);
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/primeCodeImport",
+		dataf:formToJson($("#search")),
+		success:function(data){
+			
 		}
-		if(json.str4!=null){
-			var str4 = json.str4.replace(reg,",");
-			json.str4=str4;
-			console.log(str4);
-		}
-		isDgInit=true;
-		$('#dg').datagrid('load', json);
-	}
+	});
 }
 function export_excel(){
-	$("#search").form("submit",{
-		url:"<%=path%>/api/primeCodeImport/exportExceltest",
-		onSubmit: function(){   
-		},   
-	    success:function(data){   
-	    	var json;
-			if(isJson(data)){
-				json=data;
-			}else{
-				json = eval('('+data+')');
-			}
-			if(json.result=='success'){
-				var d = eval('('+data+')');
-				window.location.href="<%=path%>/"+d.data;
-			}else{
-				alert("错误:"+json.data);
-			}
-	    } 
+	show_hint([]);
+	pullRequestCommon({
+		urlc:"/check/api/primeCodeImport/exportExceltest",
+		type:"GET",
+		jobj:formToJson($("#search")),
+		success:function(data){
+			console.log(data);
+			hiden_hint();
+    		window.location.href=URL_PATH+"/check/"+data;
+		},
+		error:function(data){
+			hiden_hint();
+			console.log(data);
+		}
 	});
 }
 
@@ -350,10 +278,10 @@ function hourbynumber(str){
                         <div class="right">
                             <ul>
                                 <li><label for="">导入开始时间</label>
-                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
+                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})"value="<%=DateTimeHelper.getBeginOfNow().toString1()%>"/>
                                 </li>
                                 <li><label for="">导入结束时间</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString1()%>"/>
                                 </li>
                             </ul>
                         </div>
@@ -373,7 +301,6 @@ function hourbynumber(str){
 		<div style="height: 10px;background:white;"></div>
         </div>
      <table id="dg" border="true"
-		url="<%=path %>/api/primeCodeImport"
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		singleSelect="true" fit="true"

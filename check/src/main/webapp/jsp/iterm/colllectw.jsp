@@ -17,27 +17,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <jsp:include page="/jsp/part/cw_common.jsp"/>
 <script type="text/javascript">
-	function export_excel(){
-		$("#search").form("submit",{
-			url:"<%=path%>/api/primeCodeImport/exportExcelPersonle",
-			onSubmit: function(){   
-			},   
-		    success:function(data){   
-		    	var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					var d = eval('('+data+')');
-					window.location.href="<%=path%>/"+d.data;
-				}else{
-					alert("错误:"+json.data);
-				}
-		    } 
-		});
-	}
+$(function(){
+	$('#dg').datagrid();
+});
+function export_excel(){
+	pullRequestCommon({
+		urlc:"/check/api/primeCodeImport/exportExcelPersonle",
+		type:"GET",
+		jobj:formToJson($("#search")),
+		success:function(data){
+			console.log(data);
+			hiden_hint();
+    		window.location.href=URL_PATH+"/check/"+data;
+		},
+		error:function(data){
+			alert(data);
+		}
+	});
+	
+}
+function search_toolbar1(){
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/primeCodeImport/personle",
+		dataf:formToJson($("#search")),
+		success:function(data){
+			
+		}
+	});
+}
 </script>
 
 <style>
@@ -62,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
 			<div id="menulist">
 			<div>
-                <a onclick="export_excel()"><span class="iterm4"></span>导出</a>
+                <a onclick="export_excel1()"><span class="iterm4"></span>导出</a>
                 <a onclick="search_toolbar()"><span class="iterm5"></span>查询</a>
 			</div>
 			</div>
@@ -83,10 +91,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <div class="right">
                             <ul>
                                 <li><label for="">导入开始时间</label>
-                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"/value="<%=DateTimeHelper.getBeginOfNow().toString2()%>">
+                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/value="<%=DateTimeHelper.getBeginOfNow().toString1()%>">
                                 </li>
                                 <li><label for="">导入结束时间</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"/value="<%=DateTimeHelper.getEndOfNow().toString2()%>">
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})"/value="<%=DateTimeHelper.getEndOfNow().toString1()%>">
                                 </li>
                             </ul>
                         </div>
@@ -98,12 +106,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         
                 </form>
              </div>
-             <a onclick="search_toolbar()"  id="my_search" style="top: 70px;margin-left:460px;">查询</a>
+             <a onclick="search_toolbar1()"  id="my_search" style="top: 70px;margin-left:460px;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>
     <table id="dg" border="true"
-		url="<%=path %>/api/primeCodeImport/personle"
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		singleSelect="true" fit="true"

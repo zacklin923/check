@@ -17,69 +17,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <jsp:include page="/jsp/part/cw_common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	var sst=stylesheet();
+	if(sst){
+		setColumns(sst);
+	}
+});
 function stylesheet(){
 	var a;
-	$.ajax({
-		url:"<%=path%>/api/customer/style/2",
+	pullRequestCommon({
+		urlc:"/check/api/customer/style",
 		type:"GET",
 		async:false,
+		jobj:{id:2},
 		success:function(data){
-			var json;
-			if(isJson(data)){
-				json=data;
-			}else{
-				json = eval('('+data+')');
-			}
-			if(json.result=='success'){
-				var str = json.data;
-				s="[["+str+"]]";
-				a=eval(s);
-			}else{
-				alert("错误:"+json.code);
-			}
+			var str = data;
+			s="[["+str+"]]";
+			a=eval(s);
 		}
 	});
 	return a;
 }
 var url;
+var type;
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
-		var logt = (new Date(""+row.returnDate)).getTime();
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
-		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${licence }");
-		url="<%=path%>/api/zmReturnData/"+row.courierNumber;
+		type="PUT";
+		url="/check/api/zmReturnData";
 	}
 }
 function save(){
-	$("#dlg").dialog("close");
 	$('#dg').datagrid('loading');
-	$("#fm").form("submit",{
-		url:url,		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					$('#dg').datagrid('reload');
-					$('#dg').datagrid('loaded');
-				}else{
-					alert("错误:"+json.code);
-				}
-			}else{
-				alert("错误:网络错误");
+	var obj=formToJson($("#fm"));
+	if($("#fm").form('validate')){
+		pullRequestCommon({
+			urlc:url,
+			type:type,
+			jobj:obj,
+			success:function(data){
+				$('#dg').datagrid('reload');
+				$("#dlg").dialog("close");
+			},
+			error:function(data){
+				alert(data);
 			}
-		}
-	});
+		});
+	}
 }
 function selectAll(){
 	var a = $('#exportdiv input');
@@ -109,200 +95,94 @@ function excel_export(){
       }
     };
 	$("#exportvalue").val(str);
-	$("#search").form("submit",{
-		url:"<%=path%>/api/zmReturnData/zm/exportExceltest",
-		onSubmit: function(){   
-		},   
-	    success:function(data){   
-	    	var json;
-			if(isJson(data)){
-				json=data;
-			}else{
-				json = eval('('+data+')');
-			}
-			if(json.result=='success'){
-				var d = eval('('+data+')');
-				hiden_hint();
-				window.location.href="<%=path%>/"+d.data;
-			}else{
-				hiden_hint();
-				alert("错误:"+json.data);
-			}
-	    } 
+	pullRequestCommon({
+		urlc:"/check/api/zmReturnData/zm/exportExceltest",
+		type:"GET",
+		jobj:formToJson($("#search")),
+		success:function(data){
+			console.log(data);
+			hiden_hint();
+    		window.location.href=URL_PATH+"/check/"+data;
+		}
 	});
+	
 }
 
-var a="${isLoading}";
-var a1="${isLoading}";
-function checkIsUal(){
-	if(a=="" || a=="false"){
-		hiden_hint();
-	}else{
-		show_hint([]);
-		$.ajax({
-			url:"<%=path%>/api/zmReturnData/isLoading",
-			success:function(data){
-				a=data;
-			}
-		});
-		setTimeout("checkIsUal()",2000);
-	}
-	if((a1=="true")&&(a=="" || a=="false")){
-		$('#dg').datagrid('reload');
-		alert("请到导入数据错误处查看是否有错误数据")
-	}
-}
-/*
-function dblclick(rowIndex, rowData){
-	$("#dlg_history").dialog("open");
-	if(rowData.courierNumber){
-		$("#dg_history").datagrid({
-			url:"",
-			loadFilter: function(data){
-				var a=eval('('+"{'total':'0',rows:''}"+')');
-				if (data){
-					if(data.result){
-						if(data.result=='error'){
-							alert("错误:"+data.code+"  "+data.data);
-							return a;
-						}
-					}else{
-						return data;
-					}
-				}else{
-					return a;
-				}
-			},
-			onLoadError:function(){
-				alert("错误:-1");
-			}
-		});
-	}
-}
-*/
-$(function(){
-	checkIsUal();
-});
 function upload(){
 	$("#fileImport").dialog("close");
 	show_hint([]);
-	$("#fmfile").form("submit",{
-		url:"<%=path %>/api/zmReturnData/zm/import",		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
+	pullRequestFile({
+		urlf:"/check/api/zmReturnData/zm/import",
+		type:"GET",
+		fid:"fmfile",
 		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					hiden_hint();
-					$('#dg').datagrid('reload');
-					$("#fileImport").dialog("close");					
-				}else{
-					hiden_hint();
-					$("#fileImport").dialog("close");	
-					alert("错误:"+json.code+"错误原因："+json.data);
-				}
-			}else{
-				hiden_hint();
-				alert("错误:网络错误");
-			}
+			hiden_hint();
+			$('#dg').datagrid('reload');
+			$("#fileImport").dialog("close");					
 		}
 	});
 }
-function search_toolbar(){
-	var f=$('#search');
-	if(f.form('validate')){
-		var json=formToJson(f);
-		var reg=new RegExp("\r\n","g");
-		if(json.str3!=null){
-			var str3 = json.str3.replace(reg,",");
-			json.str3=str3;
+function search_toolbar1(){
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/zmReturnData/zm",
+		dataf:formToJson($("#search")),
+		success:function(data){
+			
 		}
-		if(json.str2!=null){
-			var str2 = json.str2.replace(reg,",");
-			json.str2=str2;
-		}
-		isDgInit=true;
-		$('#dg').datagrid('load', json);
-	}
+	});
+	
 }
 function moduleEdit(){
 	var r=document.getElementsByName("orderline")
-	var str = "";
+	var sstr = "";
 	var str1="";
 	for(var i=0;i<r.length;i++){
 		if(r[i].value){
-        	str = str + r[i].value+",";
+			sstr = sstr + r[i].value+",";
 			str1=str1+i+"a";
         }
     };
-    str=str+str1+"_运单信息查询";
+    sstr=sstr+str1+"_运单信息查询";
 	$("#mbedit").dialog("close");	
     $('#dg').datagrid('loading');
-    $.ajax({
-		url:"<%=path%>/api/module/"+str,
-		type:"PUT",
+    pullRequestCommon({
+    	urlc:"/check/api/module",
+    	type:"PUT",
+    	jobj:{str:sstr},
 		success:function(data){
 			$('#dg').datagrid('loaded');
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					$('#mbedit').dialog('close');
-					setColumns(stylesheet());
-				}else{
-					$('#mbedit').dialog('close');
-					alert("错误:"+json.code+"错误原因："+json.data);
-				}
-			}else{
-				alert("错误:网络错误");
-			}
+			$('#mbedit').dialog('close');
+			setColumns(stylesheet());
 		}
 	});
 }
 function accept(){
 	if (endEditing()){
 		var rows=$('#dg').datagrid('getChanges');
+		var alretstr ="";
+		var cout = 0;
+		$('#dg').datagrid('loading');
 		for (var i = 0; i < rows.length; i++) {
 			var row=rows[i];
-			row._method="put";
-			row._header="${licence}";
-			var logt = (new Date(""+row.returnDate)).getTime();
-			$('#dg').datagrid('loading');
-			$.ajax({
-				url:"<%=path%>/api/zmReturnData/"+row.courierNumber+"?"+jsonObjTransToUrlparam(row),
-				type:"put",
-				dataType:"json",
+			rowisNullClear(row);
+			console.log(row);
+			pullRequestCommon({
+				urlc:"/check/api/zmReturnData",
+				type:"PUT",
+				jobj:row,
+				async:false,
 				success:function(data){
-					$('#dg').datagrid('loaded');
-					if(data){
-						var json;
-						if(isJson(data)){
-							json=data;
-						}else{
-							json = eval('('+data+')');
-						}
-						if(json.result=='success'){
-							alert("保存成功");
-						}else{
-							alert("错误:"+json.code+"  "+json.data);
-						}
-					}else{
-						alert("错误:网络错误");
-					}
+					cout = eval(cout+1);
+				},
+				error:function(data){
+					alretstr = alretstr + data;
 				}
 			});
+			
 		}
+		$('#dg').datagrid('loaded');
+		alert("共保存了"+cout+"条     "+alretstr);
 	}
 }
 function IESerch(){
@@ -342,7 +222,7 @@ function IESerch(){
                 <a onclick="accept()"><span class="iterm4"></span>保存</a>
                 <a style="opacity: 0.7;"><span class="iterm6"></span>统计</a>
                 <a onclick="$('#exportdiv').dialog('open')""><span class="iterm7"></span>导出</a>
-                <a onclick="search_toolbar()"><span class="iterm5"></span>查询</a>
+                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
                 <a onclick="IESerch()"><span class="iterm8"></span>&nbsp;快件查询</a>
 			</div>
 			</div>
@@ -394,10 +274,10 @@ function IESerch(){
                         <div class="right">
                             <ul>
                                 <li><label for="">发货日期开始</label>
-                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"value="<%=DateTimeHelper.getBeginOfOld().toString2()%>"/>
+                                    <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})"value="<%=DateTimeHelper.getBeginOfOld().toString1()%>"/>
                                 </li>
                                 <li><label for="">发货日期结束</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})"value="<%=DateTimeHelper.getEndOfOld().toString2()%>"/>
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})"value="<%=DateTimeHelper.getEndOfOld().toString1()%>"/>
                                 </li>
                                <li><label for="">所属分拨点</label>
                                     <input style="margin-left: 22px" name ="str9" >
@@ -423,12 +303,11 @@ function IESerch(){
                         <input type="hidden" name ="str6" id = "exportvalue"/>
                 </form>
              </div>
-             <a onclick="search_toolbar()"  id="my_search" style="top: 100px;margin-left:1038px;">查询</a>
+             <a onclick="search_toolbar1()"  id="my_search" style="top: 100px;margin-left:1038px;">查询</a>
 		</div>
 		<div style="height:10px;background:white;"></div>
         </div>
        <table id="dg" border="true"
-		url="<%=path %>/api/zmReturnData/zm"
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
@@ -449,13 +328,7 @@ function IESerch(){
 		<div class="ftitle">数据修改</div>
 			<hr>
 			<form id="fm" method="post" >
-				<input type="hidden" name="_method" value="post"/>
-				<input type="hidden" name="_header" value="${licence }"/>
 				<input type="hidden" name="courierNumber"/>
-				<div class="fitem">
-					<label>异常原因:</label>
-					<input name="abnormalCause" required="true">
-				</div>
 				<div class="fitem">
 					<label>省份:</label>
 					<input name="province" required="true">
@@ -463,16 +336,6 @@ function IESerch(){
 				<div class="fitem">
 					<label>地址:</label>
 					<input name="address" required="true">
-				</div>
-				<div class="fitem">
-					<label>配送状态:</label>
-					<select name="deliveryState">
-						<option value="配送成功">配送成功</option>
-		    			<option value="配送失败">配送失败</option>
-		    			<option value="配送异常">配送异常</option>
-		    			<option value="配送中">配送中</option>
-		    			<option value="退回件">退回件</option>
-					</select>
 				</div>
 				<div class="fitem">
 					<label>客户店铺:</label>
@@ -510,7 +373,7 @@ function IESerch(){
 		<div id="fileImport" class="easyui-dialog" style="width:350px;height:200px;padding:10px 20px"
 				closed="true" modal="true" title="数据源导入">
 				<div style="height:25px;line-height:25px;padding:5px 9px">数据导入模板
-					<a href="<%=path%>/file/哲盟返回第三方数据模板.xlsx" style="display:block;color:black;font-weight:300px;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
+					<a href="<%=path%>/file/哲盟返回数据导入模板.xlsx" style="display:block;color:black;font-weight:300px;float:right;width:80px;height:25px;border:1px solid gray;text-align:center;line-height:25px;">下载</a>
 				</div>
 				</br></br></br>
 				<form id="fmfile"  enctype="multipart/form-data" method="post">
@@ -563,70 +426,48 @@ function IESerch(){
 					<h3 style="font-size:28px;color:red;margin-bottom:30px;text-align:center;">顺序从0开始，全不选代表为最原始的状态</h3>
 					<table style="margin-left:35px">
 						<tr>
-							<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>发货日期</td>
-							<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>客户条码</td>
-							
-							
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>所属大区</td>
+						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>所属区部</td>
 						</tr>
 						<tr>
-						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>快递单号</td>
-						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>省份</td>
-						
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>所属分部</td>
+						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>所属分拨点</td>
 						</tr>
-						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>签收时间</td>
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>客户条码</td>
 						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>客户名称</td>
 						<tr>
 						</tr>
 						<tr>
-							
-							<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>地址</td>
-							<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>配送状态</td>
-							
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>快递单号</td>
+						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>发货日期</td>
 						</tr>
 						<tr>
-							
-							<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>签收站点</td>
-							<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>异常原因</td>
-							
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>省份</td>
+						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>地址</td>
 						</tr>
 						<tr>
-							<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>客户店铺</td>
-							<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>收件人</td>
-							
-							
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>客户店铺</td>
+						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>收件人</td>
 						</tr>
 						<tr>
-							<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>快递公司</td>
-							<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>物品</td>
-							
-							
-						</tr>
-						<tr>
-							<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>所属大区</td>
-							<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>所属区部</td>
-							
-							
-						</tr>
-						<tr>
-							<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>返回日期</td>
-							<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>系统接收时间</td>
-							
-						</tr>
-						<tr>
-						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>费用</td>
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>联系方式</td>
 						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>重量</td>
 						</tr>
 						<tr>
-						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>所属分拨点</td>
-						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>所属分部</td>
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>快递公司</td>
+						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>物品价值</td>
 						</tr>
 						<tr>
-						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>物品价值</td>
-						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>联系方式</td>
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>物品</td>
+						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>创建日期</td>
 						</tr>
 						<tr>
-						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>订单编号</td>
-						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>是否超时</td>
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>状态</td>
+						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>订单编号</td>
+						</tr>
+						<tr>
+						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>超时时间</td>
+						<td><input style="width:150px;margin-left:50px;" name ="orderline" type="number" min="1" max="25"/>系统接收时间</td>
 						</tr>
 						<tr>
 						<td><input style="width:150px;" name ="orderline" type="number" min="1" max="25"/>修改人</td>

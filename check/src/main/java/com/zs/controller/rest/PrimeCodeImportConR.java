@@ -1,130 +1,100 @@
 package com.zs.controller.rest;
 
 
-import java.io.IOException;
-import java.math.BigDecimal;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.CheckLog;
 import com.zs.entity.PrimeCodeReport;
-import com.zs.entity.SourceImport;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
-import com.zs.entity.other.PrimeCodeCollect;
 import com.zs.entity.other.Result;
 import com.zs.service.CheckLogSer;
 import com.zs.service.PrimeCodeImportSer;
 import com.zs.tools.BatchString;
 import com.zs.tools.ColumnName;
 import com.zs.tools.ExcelImport;
-import com.zs.tools.ManagerId;
 
 
 @RestController
 @RequestMapping("/api/primeCodeImport")
-public class PrimeCodeImportConR extends BaseRestController<PrimeCodeReport,String>{
+public class PrimeCodeImportConR{
 
 	@Resource
 	PrimeCodeImportSer primeCodeImportSer;
 	@Resource
 	private CheckLogSer	checkLogSer;
+	private Gson g = new Gson();
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
-	@Override
-	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
+	public Result<EasyUIPage> doQuery(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
 				//处理批量查询推过来的字符串
 				if(accept.getStr3()!=null){
-					accept.setStr3(BatchString.batchstr(accept.getStr3()));
+					accept.setStr3(BatchString.oldbatchstr(accept.getStr3()));
 				}
 				if(accept.getStr4()!=null){
-					accept.setStr4(BatchString.batchstr(accept.getStr4()));
+					accept.setStr4(BatchString.oldbatchstr(accept.getStr4()));
 				}
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-				return primeCodeImportSer.queryFenye(accept);
+				return new Result<EasyUIPage>("success",Code.SUCCESS,primeCodeImportSer.queryFenye(accept));
 			} catch (Exception e) {
 				e.printStackTrace();
-				return null;
+				return new Result<EasyUIPage>("error",Code.ERROR,null);
 			}
-		}
-		return null;
 	}
 
-	@Override
-	public Result<PrimeCodeReport> doGet(String id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Result<Integer> doAdd(PrimeCodeReport obj, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@RequestMapping(value="/aa",method=RequestMethod.PUT)
-	public Result<Integer> doUpdate(PrimeCodeReport obj, HttpServletRequest req, HttpServletResponse resp) {
-		if(obj!=null){
+	@RequestMapping(value="",method=RequestMethod.PUT)
+	public Result<String> doUpdate(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
+				PrimeCodeReport obj = g.fromJson(data, PrimeCodeReport.class);
 				PrimeCodeReport ols = primeCodeImportSer.get(obj.getId()+"");
 				Integer i = primeCodeImportSer.update(obj);
 				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
 				CheckLog clog = new CheckLog(null, obj.getId()+"", null, "prime_code_import",new Gson().toJson(ols) , null,user.getStuNum() , "修改单条");
 				checkLogSer.add(clog);
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, 1);
+				return new Result<String>("success",  Code.SUCCESS, "修改成功");
 			} catch (Exception e) {
 				e.printStackTrace();
-				return new Result<Integer>(ERROR,  Code.ERROR, -1);
+				return new Result<String>("error",  Code.ERROR, "修改失败");
 			}
-		}
-		return null;
 	}
 
-	@Override
-	public Result<Integer> doDeleteFalse(String id, HttpServletRequest req, HttpServletResponse resp) {
-		return null;
-	}
 
-	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	@Override
-	public Result<Integer> doDeleteTrue(@PathVariable("id") String id, HttpServletRequest req, HttpServletResponse resp) {
-		if(id!=null&&!id.equals("")){
+	@RequestMapping(value="",method=RequestMethod.DELETE)
+	public Result<String> doDeleteTrue(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
-				PrimeCodeReport ols = primeCodeImportSer.get(id);
-				Integer i = primeCodeImportSer.delete(id);
-				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
-				CheckLog clog = new CheckLog(null, id, null, "prime_code_import",new Gson().toJson(ols) , null,user.getStuNum() , "删除单条");
-				checkLogSer.add(clog);
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, i);
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
+				primeCodeImportSer.delete(accept.getId());
+//				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
+//				CheckLog clog = new CheckLog(null, accept.getId(), null, "prime_code_import",new Gson().toJson(ols) , null,user.getStuNum() , "删除单条");
+//				checkLogSer.add(clog);
+				return new Result<String>("success",  Code.SUCCESS, "删除成功");
 			} catch (Exception e) {
 				e.printStackTrace();
-				return new Result<Integer>(ERROR, Code.ERROR, -1);
+				return new Result<String>("error", Code.ERROR, "删除失败");
 			}
-		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 	
 	@RequestMapping(value="/exportExceltest",method=RequestMethod.GET)
-	@Override
-	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
+	public Result<String> excelExport(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
-//				accept.setStr1(ManagerId.isSeeAll(req));
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
 				//处理批量查询推过来的字符串
 				System.out.println(accept);
 				if(accept.getStr3()!=null){
@@ -139,30 +109,25 @@ public class PrimeCodeImportConR extends BaseRestController<PrimeCodeReport,Stri
 				e.printStackTrace();
 				return new Result<String>("error", Code.ERROR, "数据装载失败");
 			}
-		}
-		return null;
 	}
 	
 	@RequestMapping(value="/exportExcelCollect",method=RequestMethod.GET)
-	public Result<String> excelExportCollect(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
+	public Result<String> excelExportCollect(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
-//				accept.setStr1(ManagerId.isSeeAll(req));
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>("success",  Code.SUCCESS, primeCodeImportSer.exportDataCollect(accept,req));
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new Result<String>("error", Code.ERROR, "数据装载失败");
 			}
-		}
-		return null;
 	}
 	
 	@RequestMapping(value="/exportExcelPersonle",method=RequestMethod.GET)
-	public Result<String> excelExportPersonle(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
+	public Result<String> excelExportPersonle(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
 				//处理批量查询推过来的字符串
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
 				if(accept.getStr1()!=null){
 					accept.setStr1(BatchString.oldbatchstr(accept.getStr1()));
 				}
@@ -172,76 +137,50 @@ public class PrimeCodeImportConR extends BaseRestController<PrimeCodeReport,Stri
 				e.printStackTrace();
 				return new Result<String>("error", Code.ERROR, "数据装载失败");
 			}
-		}
-		return null;
 	}
 
 	@RequestMapping(value="/import",method=RequestMethod.POST)
-	@Override
-	public Result<String> excelImport(MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
-		req.getSession().setAttribute("isLoading", true);
+	public Result<String> excelImport(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 		String s ="";
-		if (!file.isEmpty()) {
-			try {
-				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
-				List<String[]> list=ExcelImport.getDataFromExcel2(file.getOriginalFilename(), file.getInputStream());
-				s=primeCodeImportSer.importData(list,user.getStuNum());
-				req.getSession().setAttribute("isLoading", false);
-				return new Result<String>(SUCCESS,  Code.SUCCESS, s);
-			} catch (IOException e) {
-				req.getSession().setAttribute("isLoading", false);
-				return new Result<String>(ERROR,  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
-			}
-		}
-		req.getSession().setAttribute("isLoading", false);
-		return new Result<String>(ERROR,  Code.ERROR, s);
+		String filename =data.substring(data.lastIndexOf("\\"));
+		try {
+			File file = new File(data);
+			InputStream ins = new FileInputStream(file);
+			List<String[]> list = ExcelImport.getDataFromExcel2(filename, ins);
+			s=primeCodeImportSer.importData(list,uid);
+			return new Result<String>("success",  Code.SUCCESS, s);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<String>("success",  Code.ERROR, "数据导入失败，请检查数据格式后重新导入");
+		} 
 	}
 
-	/**
-	 * 是：有异常
-	 * 否：无异常
-	 * @return
-	 */
-	@RequestMapping(value="/isLoading",method=RequestMethod.GET)
-	private boolean isUnusual(HttpServletRequest req){
-		Object isUal=req.getSession().getAttribute("isLoading");
-		if (isUal==null) {
-		}else{
-			if ((Boolean)isUal) {
-				return true;
-			}
-		}
-		return false;
-	}
 	
 	
 	@RequestMapping(value="/collect",method=RequestMethod.GET)
-	public EasyUIPage queryCollect(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
+	public Result<EasyUIPage> queryCollect(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
-				return primeCodeImportSer.queryCollect(accept);
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
+				return new Result<EasyUIPage>("success",Code.SUCCESS,primeCodeImportSer.queryCollect(accept));
 			} catch (Exception e) {
 				e.printStackTrace();
-				return null;
+				return new Result<EasyUIPage>("error",Code.ERROR,null);
 			}
-		}
-		return null;
+
 	}
 	
 	@RequestMapping(value="/personle",method=RequestMethod.GET)
-	public EasyUIPage queryPer(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
+	public Result<EasyUIPage> queryPer(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
 				if(accept.getStr1()!=null){
 					accept.setStr1(BatchString.oldbatchstr(accept.getStr1()));
 				}
-				return primeCodeImportSer.querPer(accept);
+				return new Result<EasyUIPage>("success",Code.SUCCESS,primeCodeImportSer.querPer(accept));
 			} catch (Exception e) {
 				e.printStackTrace();
-				return null;
+				return new Result<EasyUIPage>("error",Code.ERROR,null);
 			}
-		}
-		return null;
 	}
 
 
