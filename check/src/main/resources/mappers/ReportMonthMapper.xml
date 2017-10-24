@@ -223,22 +223,69 @@
     </if>
   </update>
   
-  <select id="query" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
-	select * from REPORT_MONTH
+  <select id="queryNum" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+	select CTM_NAME,CTM_BAR_CODE,CTM_TYPE,LARGE_AREA,SLICE_AREA,FEN_BU
+	from REPORT_MONTH 
 	<where>
+		<if test ="date1!=null">
+			and YEARS >= #{date1}
+		</if>
+		<if test ="date2!=null">
+			and YEARS &lt;= #{date2}
+		</if>
+		<if test="int1!=null">
+			and flag = ${int1}
+		</if>
+	</where>
+	group by CTM_NAME,CTM_BAR_CODE,CTM_TYPE,LARGE_AREA,SLICE_AREA,FEN_BU
+	order by CTM_BAR_CODE asc,FEN_BU asc
+  </select>
+  <select id="query" resultMap="BaseResultMap" parameterType="com.zs.entity.other.EasyUIAccept">
+  	select * from REPORT_MONTH
+  	<where>
   		<if test="int1!=null">
 	  		and flag = ${int1}
   		</if>
-  		<if test="str1!=null">
-	  		and CTM_BAR_CODE = #{str1}
+ 		<if test="str1!=null">	  		
+ 			and CTM_BAR_CODE = #{str1}
   		</if>
-  		<if test="str2!=null">
-	  		and ctm_name =#{str2}
-  		</if>
-  		<if test="date3!=null">
+ 		<if test="str2!=null">	  		
+ 			and ctm_name =#{str2}
+ 		</if>
+ 		<if test="date3!=null">
 	  		and YEARS = #{date3}
-  		</if>
+ 		</if>
 	</where>
+  </select>
+  
+  <select id="quertCount" resultType="BigDecimal" parameterType="com.zs.entity.other.EasyUIAccept">
+	  select COUNT_ALL from REPORT_MONTH
+	  <where>
+	  	<if test="str1!=null">
+	  		and CTM_NAME = #{str1}
+	  	</if>
+	  	<if test="str2!=null">
+	  		and CTM_BAR_CODE = #{str2}
+	  	</if>
+	  	<if test="str3!=null">
+	  		and CTM_TYPE = #{str3}
+	  	</if>
+	  	<if test="str4!=null">
+	  		and LARGE_AREA = #{str4}
+	  	</if>
+	  	<if test="str5!=null">
+	  		and SLICE_AREA = #{str5}
+	  	</if>
+	  	<if test="str6!=null">
+	  		and FEN_BU = #{str6}
+	  	</if>
+	  	<if test="date1!=null">
+	  		and YEARS = #{date1}
+	  	</if>
+	  	<if test="int1!=null">
+	  		and flag = ${int1}
+	  	</if>
+	  </where>
   </select>
   <select id="queryislive" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(*) from REPORT_MONTH

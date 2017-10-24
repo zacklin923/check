@@ -46,7 +46,7 @@ public class SourceImportFailed {
         this.stuNum = stuNum == null ? null : stuNum.trim();
     }
 
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

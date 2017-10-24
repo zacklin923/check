@@ -18,77 +18,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <jsp:include page="/jsp/part/cw_common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	var sst=stylesheet();
+	if(sst){
+		setColumns(sst);
+	}
+});
 function stylesheet(){
 	var a;
-	$.ajax({
-		url:"<%=path%>/api/customer/style/1",
+	pullRequestCommon({
+		urlc:"/check/api/customer/style",
 		type:"GET",
 		async:false,
+		jobj:{id:1},
 		success:function(data){
-			var json;
-			if(isJson(data)){
-				json=data;
-			}else{
-				json = eval('('+data+')');
-			}
-			if(json.result=='success'){
-				var str = json.data;
-				s="[["+str+"]]";
-				a=eval(s);
-			}else{
-				alert("错误:"+json.code);
-			}
+			var str = data;
+			s="[["+str+"]]";
+			a=eval(s);
 		}
 	});
 	return a;
 }
 var url;
+var type;
 function addObj(){
 	$("#dlg").dialog("open").dialog("setTitle","新建");	
 	$("#fm").form("clear");
-	$("#fm input[name='_method']").val("post");
-	$("#fm input[name='_header']").val("${user.licence }");
 	url="<%=path%>/api/customer";
+	type="POST";
 }
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
-		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${user.licence }");
-		url="<%=path%>/api/customer/"+row.cteBarCode;
+		type="PUT";
+		url="/check/api/customer";
 	}
 }
 function save(){
-	$("#fm").form("submit",{
-		url:url,		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");
-				}else{
-					alert("错误:"+json.code);
-				}
-			}else{
-				alert("错误:网络错误");
+	$('#dg').datagrid('loading');
+	var obj=formToJson($("#fm"));
+	if($("#fm").form('validate')){
+		pullRequestCommon({
+			urlc:url,
+			type:type,
+			jobj:obj,
+			success:function(data){
+				$('#dg').datagrid('reload');
+				$("#dlg").dialog("close");
 			}
-		}
-	});
+		});
+	}
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var id=row.cteBarCode;
+	var cid=row.cteBarCode;
 	var hisid = row.historyCount;
 	if(row){
 		$.messager.confirm(
@@ -96,21 +81,12 @@ function deleteObj(){
 			"您确定要删除吗？",
 			function(data){
 				if(data){
-					$.ajax({
-						url:"<%=path%>/api/customer/"+id+"-"+hisid,
-						type:"delete",
+					pullRequestCommon({
+						urlc:"/check/api/customer",
+						type:"DELETE",
+						jobj:{id:cid+"-"+hisid},
 						success:function(data){
-							var json;
-							if(isJson(data)){
-								json=data;
-							}else{
-								json = eval('('+data+')');
-							}
-							if(json.result=='success'){
-								$('#dg').datagrid('reload');
-							}else{
-								alert("错误:"+json.code);
-							}
+							$('#dg').datagrid('reload');
 						}
 					});
 				}
@@ -118,128 +94,76 @@ function deleteObj(){
 		);
 	}
 }
+	
 function excel_export(){
 	show_hint([]);
-	$("#search").form("submit",{
-		url:"<%=path%>/api/customer/excelExport",
-		method:"get",
-		onSubmit: function(){   
-			show_hint([]);
-	    },   
-	    success:function(data){
-	    	hiden_hint();
-	    	if(data){
-	    		var json=null;
-				if(isJson(data)){
-					json=data;
-				}else{
-					try {
-						json = eval('('+data+')');
-					} catch (e) {
-						alert(data);
-					}
-				}
-				if(json!=null){
-					if(json.result=='success'){
-						window.location.href="<%=path%>/"+json.data;
-					}else{
-						hiden_hint();
-						alert("错误:"+json.data+" "+json.data);
-					}
-				}else{
-					hiden_hint();
-					alert("错误:json解析错误");
-				}
-	    	}else{
-	    		hiden_hint();
-	    		alert("错误:网络错误");
-	    	}
-	    } 
+	pullRequestCommon({
+		urlc:"/check/api/customer/excelExport",
+		type:"GET",
+		jobj:formToJson($("#search")),
+		success:function(data){
+			console.log(data);
+			hiden_hint();
+    		window.location.href=URL_PATH+"/check/"+data;
+		},
+		error:function(data){
+			hiden_hint();
+		}
 	});
+	
 }
 function upload(){
 	$("#fileImport").dialog("close");
 	show_hint([]);
-	$("#fmfile").form("submit",{
-		url:"<%=path %>/api/customer/import",		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
+	pullRequestFile({
+		urlf:"/check/api/customer/import",
+		type:"GET",
+		fid:"fmfile",
 		success:function(data){
-			console.log(data);
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					hiden_hint();
-					$('#dg').datagrid('reload');
-					alert(json.data);
-					$("#fileImport").dialog("close");					
-				}else{
-					hiden_hint();
-					$("#fileImport").dialog("close");	
-					alert("错误:"+json.code+"错误原因："+json.data);
-					$('#dg').datagrid('reload');
-				}
-			}else{
-				hiden_hint();
-				alert("错误:网络错误");
-			}
+			hiden_hint();
+			$('#dg').datagrid('reload');
+			alert(json.data);
+			$("#fileImport").dialog("close");					
+		},
+		error:function(data){
+			hiden_hint();
+			$('#dg').datagrid('reload');
+			alert("错误:"+json.code+"错误原因："+json.data);
+			$('#dg').datagrid('reload');
 		}
 	});
 }
 function search_toolbar1(){
-	var f=$('#search');
-	if(f.form('validate')){
-		var json=formToJson(f);
-		var reg=new RegExp("\r\n","g");
-		if(json.str1!=null){
-			var str1 = json.str1.replace(reg,",");
-			json.str1=str1;
-			console.log(str1);
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/customer",
+		dataf:formToJson($("#search")),
+		success:function(data){
+			
 		}
-		isDgInit=true;
-		$('#dg').datagrid('load', json);
-	}
+	});
 }
 function moduleEdit(){
 	var r=document.getElementsByName("orderline")
-	console.log(r);
-	var str = "";
+	var sstr = "";
 	var str1="";
 	for(var i=0;i<r.length;i++){
 		if(r[i].value){
-        	str = str + r[i].value+",";
+			sstr = sstr + r[i].value+",";
 			str1=str1+i+"a";
         }
     };
-    str=str+str1+"_大客户信息";
-    $('#mbedit').dialog('close');
+    sstr=sstr+str1+"_大客户信息";
+	$("#mbedit").dialog("close");	
     $('#dg').datagrid('loading');
-    $.ajax({
-		url:"<%=path%>/api/module/"+str,
-		type:"PUT",
+    pullRequestCommon({
+    	urlc:"/check/api/module",
+    	type:"PUT",
+    	jobj:{str:sstr},
 		success:function(data){
 			$('#dg').datagrid('loaded');
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					setColumns(stylesheet());
-				}else{
-					alert("错误:"+json.code+"错误原因："+json.data);
-				}
-			}else{
-				alert("错误:网络错误");
-			}
+			$('#mbedit').dialog('close');
+			setColumns(stylesheet());
 		}
 	});
 }
@@ -344,7 +268,6 @@ function moduleEdit(){
             </div>
 		</div>
      <table id="dg" border="true"
-		url="<%=path %>/api/customer"
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"

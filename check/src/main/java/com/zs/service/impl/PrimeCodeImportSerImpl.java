@@ -14,10 +14,12 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.zs.dao.CustomerMapper;
+import com.zs.dao.ItCommonUserMapper;
 import com.zs.dao.PrimeCodeReportMapper;
 import com.zs.dao.StaffUserMapper;
 import com.zs.entity.Customer;
 import com.zs.entity.CustomerKey;
+import com.zs.entity.ItCommonUser;
 import com.zs.entity.PrimeCodeReport;
 import com.zs.entity.PrimeCodeReportExample;
 import com.zs.entity.SourceImport;
@@ -37,11 +39,11 @@ import com.zs.tools.Trans;
 public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 
 	@Resource
-	private StaffUserMapper userMapper;
-	@Resource
 	private PrimeCodeReportMapper primeCodeReportMapper;
 	@Resource
 	private CustomerMapper customerMapper;
+	@Resource
+	private ItCommonUserMapper itCommonUserMapper;
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -57,8 +59,8 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 				for (int i = 0; i < list.size(); i++) {
 					PrimeCodeReport si = (PrimeCodeReport) list.get(i);
 					if(si.getStuNum()!=null && !si.getStuNum().equals("")){
-						StaffUser suer = userMapper.selectByPrimaryKey(si.getStuNum());
-						si.setStuNum(suer.getStuName());
+						ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(si.getStuNum()));
+						si.setStuNum(suer.getName()==null?"":suer.getName());
 					}else{
 						si.setStuNum("");
 					}
@@ -89,11 +91,12 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 				for (int i = 0; i < list.size(); i++) {
 					PrimeCodeReport si = (PrimeCodeReport) list.get(i);
 					if(si.getStuNum()!=null && !si.getStuNum().equals("")){
-						StaffUser suer = userMapper.selectByPrimaryKey(si.getStuNum());
-						si.setStuNum(suer.getStuName());
+						ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(si.getStuNum()));
+						si.setStuNum(suer.getName()==null?"":suer.getName());
 					}else{
 						si.setStuNum("");
 					}
+					
 					pcr.setCountJd(pcr.getCountJd().add(si.getCountJd()));
 					pcr.setHourJd(pcr.getHourJd().add(si.getHourJd()));
 					pcr.setCountCj(pcr.getCountCj().add(si.getCountCj()));
@@ -265,9 +268,9 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 		for (int i = 0; i < list.size(); i++) {
 			PerResultMap prm = (PerResultMap) list.get(i);
 			String str = "";
-			if(prm.getStuNum()!=null){
-				StaffUser user =  userMapper.selectByPrimaryKey(prm.getStuNum());
-				str = user.getStuName();
+			if(prm.getStuNum()!=null && !prm.getStuNum().equals("")){
+				ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(prm.getStuNum()));
+				str = suer.getName()==null?"":suer.getName();
 			}
 			prm.setStuNum(str);
 			prmall.setC1(prmall.getC1()+prm.getC1());
@@ -304,8 +307,8 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 		for (int i = 0; i < list.size(); i++) {
 			PrimeCodeReport si = (PrimeCodeReport) list.get(i);
 			if(si.getStuNum()!=null && !si.getStuNum().equals("")){
-				StaffUser suer = userMapper.selectByPrimaryKey(si.getStuNum());
-				si.setStuNum(suer.getStuName());
+				ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(si.getStuNum()));
+				si.setStuNum(suer.getName()==null?"":suer.getName());
 			}else{
 				si.setStuNum("");
 			}
@@ -376,19 +379,21 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 
 	public String exportDataPersonle(EasyUIAccept accept, HttpServletRequest request) {
 		System.out.println(accept);
-		List list = primeCodeReportMapper.getPerReport(accept);
+//		List list = primeCodeReportMapper.getPerReport(accept);
+		EasyUIPage eup = querPer(accept);
+		List list = eup.getRows();
 		System.out.println(accept);
 		String[][] obj = {{"","截单","","查件","","留言","","跟单","","理赔处理","","客诉处理","","签收表","","退件处理","","审单","","导单",""},
 				 {"处理人","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","处理量（票）","用时","日出货量"}};
 		String[][] objs = new String[list.size()][obj[1].length];
 		for (int i = 0; i < list.size(); i++) {
 			PerResultMap prm = (PerResultMap) list.get(i);
-			String str = "";
-			if(prm.getStuNum()!=null){
-				StaffUser user =  userMapper.selectByPrimaryKey(prm.getStuNum());
-				str = user.getStuName();
-			}
-			prm.setStuNum(str);
+//			String str = "";
+//			if(prm.getStuNum()!=null){
+//				StaffUser user =  userMapper.selectByPrimaryKey(prm.getStuNum());
+//				str = user.getStuName();
+//			}
+//			prm.setStuNum(str);
 			objs[i][0]=prm.getStuNum();
 			objs[i][1]=prm.getC1()+"";
 			objs[i][2]=Trans.intForHours(prm.getC2());

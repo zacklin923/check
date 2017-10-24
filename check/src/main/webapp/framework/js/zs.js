@@ -165,5 +165,6 @@ function jsonObjTransToUrlparam(param){
 			str=str+"&"+p+"="+param[p];
 		}
 	}
-	return str.substr(1);
+	var urlstr = encodeURI(str.substr(1));
+	return urlstr;
 }

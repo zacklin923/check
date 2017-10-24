@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.zs.entity.ModuleLine;
 import com.zs.entity.StaffUser;
 import com.zs.entity.personalStyle;
@@ -49,74 +50,83 @@ public class ModuleLineConR extends BaseRestController<ModuleLine,String>{
 		return null;
 	}
 
-	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public Result<String> doUpdate(@PathVariable("id")String id,ModuleLine obj, HttpServletRequest req, HttpServletResponse resp) {
-		if(!id.equals("")){
-			StaffUser user = (StaffUser) req.getSession().getAttribute("user");
-			if(user!=null){
-				String [] ss = id.split("_");
-				EasyUIAccept accept = new EasyUIAccept();
-				accept.setStr1(ss[1]);
-				accept.setStr2(user.getStuNum());
-				accept.setStr3("1");
-				List<personalStyle> psls = personalStyleSer.queryStyle(accept);
-				List<ModuleLine> lsls = moduleLineSer.queryStyle(ss[1]);
-				//判断所有的都没有填，返回默认格式
-				if(ss[0].equals("")){
-					for (int i = 0; i < psls.size(); i++) {
-						personalStyle ps = psls.get(i);
-						ps.setState("0");
-						personalStyleSer.update(ps);
-					}
-					
-					String ostr= "";
-					for (int i = 0; i < lsls.size(); i++) {
-						if(i==lsls.size()-1){
-							ostr=ostr+i;
-						}else{
-							ostr=ostr+i+",";
+	@RequestMapping(value="",method=RequestMethod.PUT)
+	public Result<String> doUpdate(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
+		try {
+			System.out.println("进入模板修改");
+			System.out.println(data);
+			
+			ModuleLine obj = new Gson().fromJson(data, ModuleLine.class);
+			if(obj.getStr()!=null&&!obj.getStr().equals("")){
+				if(uid!=null){
+					String [] ss = obj.getStr().split("_");
+					EasyUIAccept accept = new EasyUIAccept();
+					accept.setStr1(ss[1]);
+					accept.setStr2(uid);
+					accept.setStr3("1");
+					List<personalStyle> psls = personalStyleSer.queryStyle(accept);
+					List<ModuleLine> lsls = moduleLineSer.queryStyle(ss[1]);
+					//判断所有的都没有填，返回默认格式
+					if(ss[0].equals("")){
+						for (int i = 0; i < psls.size(); i++) {
+							personalStyle ps = psls.get(i);
+							ps.setState("0");
+							personalStyleSer.update(ps);
 						}
+						
+						String ostr= "";
+						for (int i = 0; i < lsls.size(); i++) {
+							if(i==lsls.size()-1){
+								ostr=ostr+i;
+							}else{
+								ostr=ostr+i+",";
+							}
+						}
+						personalStyle newps = new personalStyle(null, ss[1], uid, ostr, null, "1");
+						personalStyleSer.add(newps);
+					}else{
+						String[] oss = ss[0].split(",");
+						for (int i = 0; i < oss.length; i++) {
+							for (int j = i+1; j < oss.length; j++) {
+								if(oss[i].equals(oss[j])){
+									return new Result<String>(ERROR,  Code.ERROR, "填写的顺序有相同的数值");
+								}
+							}
+						}
+						//截取对应的数据
+						String [] tbnums = oss[oss.length-1].split("a");
+						String str = "";
+						String str1="";
+						for (int i = 0; i < oss.length-1; i++) {
+							for (int j = 0; j < tbnums.length; j++) {
+								if(Integer.parseInt(oss[j])==i){
+									str= str+tbnums[j]+",";
+								}
+							}
+						}
+						if(!str.equals("")){
+							str1 = str.substring(0,str.length()-1);
+						}
+						//将顺序写入表中，如表中有就变为不用，添加一条新的
+						for (int i = 0; i < psls.size(); i++) {
+							personalStyle ps = psls.get(i);
+							ps.setState("0");
+							personalStyleSer.update(ps);
+						}
+						personalStyle newps = new personalStyle(null, ss[1], uid, str1, null, "1");
+						personalStyleSer.add(newps);
 					}
-					personalStyle newps = new personalStyle(null, ss[1], user.getStuNum(), ostr, null, "1");
-					personalStyleSer.add(newps);
+					return new Result<String>(SUCCESS,  Code.SUCCESS, "修改成功");
 				}else{
-					String[] oss = ss[0].split(",");
-					for (int i = 0; i < oss.length; i++) {
-						for (int j = i+1; j < oss.length; j++) {
-							if(oss[i].equals(oss[j])){
-								return new Result<String>(ERROR,  Code.ERROR, "填写的顺序有相同的数值");
-							}
-						}
-					}
-					//截取对应的数据
-					String [] tbnums = oss[oss.length-1].split("a");
-					String str = "";
-					String str1="";
-					for (int i = 0; i < oss.length-1; i++) {
-						for (int j = 0; j < tbnums.length; j++) {
-							if(Integer.parseInt(oss[j])==i){
-								str= str+tbnums[j]+",";
-							}
-						}
-					}
-					if(!str.equals("")){
-						str1 = str.substring(0,str.length()-1);
-					}
-					//将顺序写入表中，如表中有就变为不用，添加一条新的
-					for (int i = 0; i < psls.size(); i++) {
-						personalStyle ps = psls.get(i);
-						ps.setState("0");
-						personalStyleSer.update(ps);
-					}
-					personalStyle newps = new personalStyle(null, ss[1], user.getStuNum(), str1, null, "1");
-					personalStyleSer.add(newps);
+					return new Result<String>(ERROR,  Code.ERROR, "您没有登陆系统，不能进行此项操作");
 				}
-				return new Result<String>(SUCCESS,  Code.SUCCESS, null);
 			}else{
-				return new Result<String>(ERROR,  Code.ERROR, "您没有登陆系统，不能进行此项操作");
+				return new Result<String>(ERROR,  Code.ERROR, "str为空");
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result<String>(ERROR,  Code.ERROR, "数据异常");
 		}
-		return new Result<String>(ERROR,  Code.ERROR, null);
 	}
 
 	@Override

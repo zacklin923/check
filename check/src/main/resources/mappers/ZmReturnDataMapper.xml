@@ -637,10 +637,10 @@
 		select t1.*,rownum rn from (
 		    select <include refid="Base_Column_List_Zm" /> from ZM_RETURN_DATA
 		    <where>
-		  		<if test="date1!=null and date1!=''">
+		  		<if test="date1!=null">
 		  			and SEND_TIME >= #{date1}
 		 		</if>
-		 		<if test="date2!=null and date2!=''">
+		 		<if test="date2!=null">
 		  			and SEND_TIME &lt;= #{date2}
 		 		</if>
 		    	<if test="str1!=null and str1!=''">
@@ -680,7 +680,7 @@
 		  			and COURIER_STATE = #{int1}
 		  		</if>
 		  		<if test="str17!=null and str17!=''">
-		  			and update_man in (select stu_num from staff_user where stu_name like '%${str17}%' )
+		  			and update_man in (select id from it_common_user where name like '%${str17}%')
 		  		</if>
 		  		and 
 		  		(
@@ -713,10 +713,10 @@
   <select id="getCountOfZm" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(courier_number) from ZM_RETURN_DATA
     <where>
-  		<if test="date1!=null and date1!=''">
+  		<if test="date1!=null">
   			and SEND_TIME >= #{date1}
  		</if>
- 		<if test="date2!=null and date2!=''">
+ 		<if test="date2!=null">
   			and SEND_TIME &lt;= #{date2}
  		</if>
     	<if test="str1!=null and str1!=''">
@@ -753,7 +753,7 @@
   			and ADDRESS like '%${str12}%'
   		</if>
   		<if test="str17!=null and str17!=''">
-  			and update_man in (select stu_num from staff_user where stu_name like '%${str17}%' )
+  			and update_man in (select id from it_common_user where name like '%${str17}%')
   		</if>
   		<if test="int1!=null">
   			and COURIER_STATE = #{int1}
@@ -795,10 +795,10 @@
 		select t1.*,rownum rn from (
 		    select <include refid="Base_Column_List_Tp" /> from ZM_RETURN_DATA
 		    <where>
-			  	<if test="date1!=null and date1!=''">
+			  	<if test="date1!=null">
 		 			and SEND_TIME >= #{date1}
 				</if>
-				<if test="date2!=null and date2!=''">
+				<if test="date2!=null">
 		 			and SEND_TIME &lt;= #{date2}
 				</if>
 		    	<if test="str1!=null and str1!=''">
@@ -847,7 +847,7 @@
 			  		and PROVINCE is null
 			  	</if>
 			  	<if test="str17!=null and str17!=''">
-		  			and update_man in (select stu_num from staff_user where stu_name like '%${str17}%' )
+		  			and update_man in (select id from it_common_user where name like '%${str17}%')
 		  		</if>
 			  	<if test="int1!=null">
 			  		and 
@@ -884,10 +884,10 @@
   <select id="getCountOfTp" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(courier_number) from ZM_RETURN_DATA
     <where>
-	  	<if test="date1!=null and date1!=''">
+	  	<if test="date1!=null">
  			and SEND_TIME >= #{date1}
 		</if>
-		<if test="date2!=null and date2!=''">
+		<if test="date2!=null">
  			and SEND_TIME &lt;= #{date2}
 		</if>
     	<if test="str1!=null and str1!=''">
@@ -933,7 +933,7 @@
   			and ADDRESS like '%${str15}%'
   		</if>
   		<if test="str17!=null and str17!=''">
- 			and update_man in (select stu_num from staff_user where stu_name like '%${str17}%' )
+ 			and update_man in (select id from it_common_user where name like '%${str17}%')
  		</if>
 	  	<if test="int1!=null">
 	  		and 

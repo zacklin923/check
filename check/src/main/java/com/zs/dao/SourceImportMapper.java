@@ -38,4 +38,6 @@ public interface SourceImportMapper {
     List<SourceImport> queryToZM(@Param("date") Date date,@Param("userNum") String userNum);
     
     int deleteAll(@Param("date") Date date,@Param("stuNum") String stuNum);
+    
+    int deleteBatch(@Param("str") String str);
 }

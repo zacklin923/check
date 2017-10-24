@@ -233,7 +233,7 @@ public class ZmReturnData {
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber == null ? null : orderNumber.trim();
     }
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getSendTime() {
         return sendTime;
     }
@@ -257,7 +257,7 @@ public class ZmReturnData {
     public void setCourierState(String courierState) {
         this.courierState = courierState == null ? null : courierState.trim();
     }
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getTimeOut() {
         return timeOut;
     }
@@ -281,7 +281,7 @@ public class ZmReturnData {
     public void setSignatory(String signatory) {
         this.signatory = signatory == null ? null : signatory.trim();
     }
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getSignTime() {
         return signTime;
     }
@@ -305,7 +305,7 @@ public class ZmReturnData {
     public void setAbnormalCause(String abnormalCause) {
         this.abnormalCause = abnormalCause == null ? null : abnormalCause.trim();
     }
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss.SSS",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -313,7 +313,7 @@ public class ZmReturnData {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss.SSS",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS",timezone = "GMT+8")
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -321,7 +321,7 @@ public class ZmReturnData {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-    @JsonFormat(pattern="yyyy/MM/dd",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     public Date getCreateDate() {
         return createDate;
     }

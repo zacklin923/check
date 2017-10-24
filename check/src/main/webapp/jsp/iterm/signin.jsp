@@ -17,36 +17,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <jsp:include page="/jsp/part/cw_common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	$('#dg').datagrid();
+});
 function obtain(){
 	show_hint([]);
 	var f=$('#search');
 	if(f.form('validate')){
 		var json=formToJson(f);
 		if(json.date1 && json.date2){
-			$.ajax({
-				url:"<%=path%>/api/reportSign/regenerate",
-				method:"post",
-				data:json,
+			pullRequestCommon({
+				urlc:"/check/api/reportSign/regenerate",
+				type:"POST",
+				jobj:json,
 				success:function(data){
-					if(data){
-						var json;
-						if(isJson(data)){
-							json=data;
-						}else{
-							json = eval('('+data+')');
-						}
-						if(json.result=='success'){
-							hiden_hint();
-							search_toolbar_1();
-							alert(json.data);
-						}else{
-							hiden_hint();
-							alert("错误:"+json.code+" "+json.data);
-						}
-					}else{
-						hiden_hint();
-						alert("错误:网络错误");
-					}
+					hiden_hint();
+					search_toolbar_1();
+					alert(data);
+				},
+				error:function(data){
+					hiden_hint();
 				}
 			});
 		}else{
@@ -85,9 +75,17 @@ function search_toolbar_1(){
 			$("#dg").datagrid("hideColumn","largeArea");
 		}
 	}
-	search_toolbar();
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/reportSign",
+		dataf:json,
+		success:function(data){
+			
+		}
+	});
 }
 function excel_export(){
+	show_hint([]);
 	var f=$('#search');
 	if(f.form('validate')){
 		isDgInit=true;
@@ -95,38 +93,18 @@ function excel_export(){
 		if(json.int1=="3"){
 			alert("只有一条数据不用导出吧");
 		}else{
-			$("#search").form("submit",{
-				url:"<%=path%>/api/reportSign/excelExport",
-				method:"get",
-				onSubmit: function(){   
-					show_hint([]);
-			    },   
-			    success:function(data){
-			    	hiden_hint();
-			    	if(data){
-			    		var json=null;
-						if(isJson(data)){
-							json=data;
-						}else{
-							try {
-								json = eval('('+data+')');
-							} catch (e) {
-								alert(data);
-							}
-						}
-						if(json!=null){
-							if(json.result=='success'){
-								window.location.href="<%=path%>/"+json.data;
-							}else{
-								alert("错误:"+json.data+" "+json.data);
-							}
-						}else{
-							alert("错误:json解析错误");
-						}
-			    	}else{
-			    		alert("错误:网络错误");
-			    	}
-			    } 
+			pullRequestCommon({
+				urlc:"/check/api/reportSign/excelExport",
+				type:"GET",
+				jobj:json,
+				success:function(data){
+					console.log(data);
+					hiden_hint();
+		    		window.location.href=URL_PATH+"/check/"+data;
+				},
+				error:function(data){
+					hiden_hint();
+				}
 			});
 		}
 	}
@@ -205,7 +183,6 @@ function excel_export(){
 		<div style="height: 10px;background:white;"></div>
         </div>
     <table id="dg" border="true"
-		url="<%=path %>/api/reportSign"
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="false"

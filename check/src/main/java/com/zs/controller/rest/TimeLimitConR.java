@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.TimeLimit;
 import com.zs.entity.other.EasyUIAccept;
@@ -25,19 +26,18 @@ public class TimeLimitConR extends BaseRestController<TimeLimit,BigDecimal>{
 
 	@Resource
 	private TimeLimitSer timeLimitSer;
+	private Gson g = new Gson();
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
-	@Override
-	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
+	public Result<EasyUIPage> doQuery(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-				return timeLimitSer.queryFenye(accept);
+				return new Result<EasyUIPage>(SUCCESS,Code.SUCCESS,timeLimitSer.queryFenye(accept));
 			} catch (Exception e) {
-				return null;
+				e.printStackTrace();
+				return new Result<EasyUIPage>(ERROR,Code.ERROR,null);
 			}
-		}
-		return null;
 	}
 
 	@Override
@@ -47,30 +47,27 @@ public class TimeLimitConR extends BaseRestController<TimeLimit,BigDecimal>{
 	}
 
 	@RequestMapping(value="",method=RequestMethod.POST)
-	@Override
-	public Result<Integer> doAdd(TimeLimit obj, HttpServletRequest req, HttpServletResponse resp) {
-		if(obj!=null){
+	public Result<String> doAdd(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, timeLimitSer.add(obj));
+				TimeLimit obj = g.fromJson(data, TimeLimit.class);
+				timeLimitSer.add(obj);
+				return new Result<String>(SUCCESS,  Code.SUCCESS,"添加成功" );
 			} catch (Exception e) {
 				e.printStackTrace();
-				return new Result<Integer>(ERROR, Code.ERROR, -1);
+				return new Result<String>(ERROR, Code.ERROR, "添加失败");
 			}
-		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
-	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	@Override
-	public Result<Integer> doUpdate(TimeLimit obj, HttpServletRequest req, HttpServletResponse resp) {
-		if(obj!=null){
+	@RequestMapping(value="",method=RequestMethod.PUT)
+	public Result<String> doUpdate(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, timeLimitSer.update(obj));
+				TimeLimit obj = g.fromJson(data, TimeLimit.class);
+				timeLimitSer.update(obj);
+				return new Result<String>(SUCCESS,  Code.SUCCESS, "修改成功");
 			} catch (Exception e) {
-				return new Result<Integer>(ERROR, Code.ERROR, -1);
+				e.printStackTrace();
+				return new Result<String>(ERROR, Code.ERROR, "修改失败");
 			}
-		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@Override
@@ -79,36 +76,66 @@ public class TimeLimitConR extends BaseRestController<TimeLimit,BigDecimal>{
 		return null;
 	}
 
-	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	@Override
-	public Result<Integer> doDeleteTrue(@PathVariable("id") BigDecimal id, HttpServletRequest req, HttpServletResponse resp) {
-		if(id!=null){
+	@RequestMapping(value="",method=RequestMethod.DELETE)
+	public Result<String> doDeleteTrue(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
-				return new Result<Integer>(SUCCESS,  Code.SUCCESS, timeLimitSer.delete(id));
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
+				if(accept.getId()!=null&&!accept.getId().equals("")){
+					timeLimitSer.delete(new BigDecimal(accept.getId()));
+					return new Result<String>(SUCCESS,  Code.SUCCESS, "删除成功");
+				}else{
+					return new Result<String>(ERROR, Code.ERROR, "主键为空");
+				}
 			} catch (Exception e) {
-				return new Result<Integer>(ERROR, Code.ERROR, -1);
+				e.printStackTrace();
+				return new Result<String>(ERROR, Code.ERROR, "删除失败");
 			}
-		}
-		return new Result<Integer>(ERROR,  Code.ERROR, null);
 	}
 
 	@RequestMapping(value="/excelExport",method=RequestMethod.GET)
-	@Override
-	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
+	public Result<String> excelExport(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>(SUCCESS,  Code.SUCCESS, timeLimitSer.exportData(accept,req));
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new Result<String>(ERROR, Code.ERROR, "数据装载失败");
 			}
-		}
-		return null;
 	}
 
 	@Override
 	public Result<String> excelImport(MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result<Integer> doAdd(TimeLimit obj, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result<Integer> doUpdate(TimeLimit obj, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result<Integer> doDeleteTrue(BigDecimal id, HttpServletRequest req, HttpServletResponse resp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,6 +1,7 @@
 package com.zs.service.impl;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.zs.dao.CustomerMapper;
+import com.zs.dao.ItCommonUserMapper;
 import com.zs.dao.NoUpdateMapper;
 import com.zs.dao.StaffRoleMapper;
 import com.zs.dao.StaffUserMapper;
@@ -19,8 +21,10 @@ import com.zs.dao.ZmReturnDataMapper;
 import com.zs.entity.CheckLog;
 import com.zs.entity.Customer;
 import com.zs.entity.CustomerKey;
+import com.zs.entity.ItCommonUser;
 import com.zs.entity.NoUpdate;
 import com.zs.entity.NoUpdateKey;
+import com.zs.entity.SourceImport;
 import com.zs.entity.StaffUser;
 import com.zs.entity.TimeLimit;
 import com.zs.entity.ZmReturnData;
@@ -30,6 +34,7 @@ import com.zs.service.CheckLogSer;
 import com.zs.service.TimeLimitSer;
 import com.zs.service.ZmReturnDataSer;
 import com.zs.tools.ExcelExport;
+import com.zs.tools.ProvinceHelper;
 import com.zs.tools.Trans;
 
 /**
@@ -52,6 +57,8 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 	private TimeLimitSer timeLimitSer;
 	@Resource
 	private StaffUserMapper userMapper;
+	@Resource
+	private ItCommonUserMapper itCommonUserMapper;
 	
 	public Integer add(ZmReturnData obj,HttpServletRequest req) {
 		//添加信息到日志表
@@ -61,13 +68,14 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		return zmReturnDataMapper.insertSelective(obj);
 	}
 	/*有省份判断，和配送状态判断*/
-	public Integer update(ZmReturnData obj,HttpServletRequest req) {
-		StaffUser user=req==null?null:(StaffUser)req.getSession().getAttribute("user");
+	public Integer update(ZmReturnData obj,String stu) {
 		String str = null;
-		if(user!=null){
-			checkUpdateProvince(obj,user.getStuNum());
-			checkUpdateDeliveryState(obj, user.getStuNum());
-			obj.setUpdateMan(user.getStuNum());
+		if(stu!=null&&!stu.equals("")){
+			checkUpdateProvince(obj,stu);
+			checkUpdateDeliveryState(obj, stu);
+			if(obj.getAbnormalCause()!=null&&!obj.getAbnormalCause().equals("")){
+				obj.setUpdateMan(stu);
+			}
 		}else{
 			str = stateUpdate(obj);
 		}
@@ -76,8 +84,8 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		}
 		Integer i=zmReturnDataMapper.updateByPrimaryKeySelective(obj);
 		//添加信息到日志表
-		CheckLog clog = new CheckLog(obj.getCourierNumber(),"zm_return_data",user==null?null:user.getStuNum(), CheckLog.TYPE_UPDATE);
-		checkLogSer.saveOfAsyn(clog,obj,null);
+//		CheckLog clog = new CheckLog(obj.getCourierNumber(),"zm_return_data",stu, CheckLog.TYPE_UPDATE);
+//		checkLogSer.saveOfAsyn(clog,obj,null);
 		return i;
 	}
 	public Integer delete(String id,HttpServletRequest req) {
@@ -202,8 +210,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			for (int i = 0; i < list.size(); i++) {
 				ZmReturnData tp=(ZmReturnData) list.get(i);
 				if(tp.getUpdateMan()!=null&&!tp.getUpdateMan().equals("")){
-					StaffUser us = userMapper.selectByPrimaryKey(tp.getUpdateMan());
-					tp.setUpdateMan(us.getStuName());
+					ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(tp.getUpdateMan()));
+					tp.setUpdateMan(suer.getName()==null?"":suer.getName());
+				}else{
+					tp.setUpdateMan("");
 				}
 			}
 			int rows=zmReturnDataMapper.getCountOfZm(accept);
@@ -225,6 +235,13 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 //		System.out.println(accept);
 		List<ZmReturnData> list=zmReturnDataMapper.queryFenyeOfZm(accept);
 //		System.out.println(list.size());
+		for (int i = 0; i < list.size(); i++) {
+			ZmReturnData tp=(ZmReturnData) list.get(i);
+			if(tp.getUpdateMan()!=null&&!tp.getUpdateMan().equals("")){
+				StaffUser us = userMapper.selectByPrimaryKey(tp.getUpdateMan());
+				tp.setUpdateMan(us.getStuName());
+			}
+		}
 		String[] obj ={"所属大区","所属区部","所属分部","所属分拨点","客户条码","客户名称","快递单号","发货日期","省份","地址","客户店铺","收件人","联系方式","重量","快递公司","物品价值","物品","创建日期","状态","订单编号","超时时间","系统接收时间","修改人"};
 		String[][] objs = new String[list.size()][obj.length];
 		for (int i = 0; i < objs.length; i++) {
@@ -258,6 +275,7 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			objs[i][19] = list.get(i).getOrderNumber();
 			objs[i][20] = Trans.TimestampTransToString(list.get(i).getTimeOut());
 			objs[i][21] = Trans.TimestampTransToString(list.get(i).getCreateTime());
+			objs[i][22] = list.get(i).getUpdateMan();
 		}
 		String [][] lines = new String[objs.length][line.length];
 		for (int k = 0; k < objs.length; k++) {
@@ -393,8 +411,8 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 						zmReturnDataMapper.insertSelective(sz);
 					}
 					//添加信息到日志表
-					CheckLog clog = new CheckLog(sz.getCourierNumber(), "zm_return_data",stuNum, CheckLog.TYPE_IMPORT);
-					checkLogSer.saveOfAsyn(clog, sz, null);
+//					CheckLog clog = new CheckLog(sz.getCourierNumber(), "zm_return_data",stuNum, CheckLog.TYPE_IMPORT);
+//					checkLogSer.saveOfAsyn(clog, sz, null);
 				} catch (Exception e) {
 					e.printStackTrace();
 					ls.add((i+1)+"");
@@ -411,7 +429,6 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 
 	//---------------------------------------------
 	public EasyUIPage queryFenyeOfTp(EasyUIAccept accept,HttpServletRequest req) {
-		
 		if (accept!=null) {
 			Integer page=accept.getPage();
 			Integer size=accept.getRows();
@@ -424,8 +441,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			for (int i = 0; i < list.size(); i++) {
 				ZmReturnData tp=(ZmReturnData) list.get(i);
 				if(tp.getUpdateMan()!=null&&!tp.getUpdateMan().equals("")){
-					StaffUser us = userMapper.selectByPrimaryKey(tp.getUpdateMan());
-					tp.setUpdateMan(us.getStuName());
+					ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(tp.getUpdateMan()));
+					tp.setUpdateMan(suer.getName()==null?"":suer.getName());
+				}else{
+					tp.setUpdateMan("");
 				}
 				reckon(tp);
 			}
@@ -441,8 +460,7 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		return null;
 	}
 
-	public String importDataOfTp(List<String[]> list , HttpServletRequest req) {
-		StaffUser u = (StaffUser) req.getSession().getAttribute("user");
+	public String importDataOfTp(List<String[]> list , String stuNum) {
 		List<String> ls = new ArrayList<String>();
 		for (int i = 1; i < list.size(); i++) {
 			Customer ct =null;
@@ -479,16 +497,20 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 					stp.setDeliveryState(list.get(i)[3]);
 					stp.setSignatory(list.get(i)[4]);
 					stp.setSignTime(Trans.toTimestamp(list.get(i)[5]));
-					stp.setGoods(list.get(i)[6]);
+					if(!list.get(i)[6].trim().equals("")){
+						stp.setGoods(list.get(i)[6]);
+					}
 					stp.setGoodsCost(Trans.toBigDecimal(list.get(i)[7]));
-					stp.setUpdateMan(u.getStuNum());
+					if(AbnormalCause!=null){
+						stp.setUpdateMan(stuNum);
+					}
 					if(isstp!=null){
-						checkUpdateDeliveryState(stp, u.getStuNum());
+						checkUpdateDeliveryState(stp, stuNum);
 //						System.out.println(stp.getUpdateMan());
 						zmReturnDataMapper.updateByPrimaryKeySelective(stp);
 						//添加信息到日志表
-						CheckLog clog = new CheckLog(stp.getCourierNumber(), "zm_return_data",u==null?null:u.getStuNum(), CheckLog.TYPE_IMPORT);
-						checkLogSer.saveOfAsyn(clog, stp, null);
+//						CheckLog clog = new CheckLog(stp.getCourierNumber(), "zm_return_data",stuNum, CheckLog.TYPE_IMPORT);
+//						checkLogSer.saveOfAsyn(clog, isstp, null);
 					}else{
 						ls.add((i+1)+"");
 					}
@@ -511,6 +533,12 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		List<ZmReturnData> list=zmReturnDataMapper.queryFenyeOfTp(accept);
 		for (int i = 0; i < list.size(); i++) {
 			ZmReturnData tp=(ZmReturnData) list.get(i);
+			if(tp.getUpdateMan()!=null&&!tp.getUpdateMan().equals("")){
+				ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(tp.getUpdateMan()));
+				tp.setUpdateMan(suer.getName()==null?"":suer.getName());
+			}else{
+				tp.setUpdateMan("");
+			}
 			if(reckon(tp)){
 				zmReturnDataMapper.updateByPrimaryKeySelective(tp);
 			}
@@ -560,6 +588,7 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			}else{
 				objs[i][25] = list.get(i).getFee().toString();
 			}
+			objs[i][26]=list.get(i).getUpdateMan();
 		}
 		String [][] lines = new String[objs.length][line.length];
 		for (int k = 0; k < objs.length; k++) {
@@ -598,4 +627,50 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		return null;
 	}
 
+	
+	public String feeTimeImport(List<String[]> list) {
+		List<String> err = new ArrayList<String>();
+		System.out.println(list.size());
+		for (int i = 1; i < list.size(); i++) {
+			try {
+				String cn = list.get(i)[0].replace(",", "").trim();
+				ZmReturnData zrd = zmReturnDataMapper.selectByPrimaryKey(cn);
+				Timestamp sendtime =null;
+				//发货时间判断
+				if(!list.get(i)[1].trim().equals("")){
+					sendtime = Trans.toTimestamp(list.get(i)[1].trim());
+				}
+				//省份判断并匹配
+				String privince =null;
+				if(list.get(i)[2]!=null){
+					if(!list.get(i)[2].equals("")){
+						try{
+							privince = ProvinceHelper.getProvince(list.get(i)[2]);
+						}catch(Exception e){
+							e.printStackTrace();
+							//导入表既没有一段码也没有省份
+							log.error("【哲盟返回接口】该条记录无法计算出省份。"+list.get(i)[2]);
+						}
+					}
+				}
+				BigDecimal weig =null;
+				if(list.get(i)[3].trim().equals("")){
+					weig = new BigDecimal(list.get(i)[3].trim());
+				}
+				if(zrd!=null){
+					zrd.setSendTime(sendtime);
+					zrd.setProvince(privince);
+					zrd.setWeight(weig);
+				}
+				zmReturnDataMapper.updateByPrimaryKey(zrd);
+			} catch (Exception e) {
+				e.printStackTrace();
+				err.add(i+"");
+			}
+		}
+		if(err.size()>0){
+			return new Gson().toJson(err)+"行导入失败";
+		}
+		return "导入成功";
+	}
 }

@@ -423,10 +423,10 @@
 	  	(
 		  	select * from SOURCE_IMPORT
 		  	<where>
-			  	<if test="date1!=null and date1!=''">
+			  	<if test="date1!=null">
 			  		and CREATE_TIME >= #{date1}
 			  	</if>
-			  	<if test="date2!=null and date2!=''">
+			  	<if test="date2!=null">
 		  			and CREATE_TIME &lt;= #{date2}
 		 		</if>
 			  	<if test="str3!=null and str3!=''">
@@ -435,16 +435,16 @@
 			  	<if test="str4!=null and str4!=''">
 			  		and CTM_BAR_CODE in (${str4})
 			  	</if>
-			  	<if test="str5!=null">
+			  	<if test="str5!=null and str5!=''">
 			  		and CTM_NAME like '%${str5}%'
 			  	</if>
-			  	<if test="str6!=null">
+			  	<if test="str6!=null and str6!=''">
 			  		and ORDER_NUMBER like '%${str6}%'
 			  	</if>
-			  	<if test="str7!=null">
-			  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str7}%')
+			  	<if test="str7!=null and str7!=''">
+			  		and STU_NUM in (select id from it_common_user where name like '%${str7}%')
 			  	</if>
-			  	<if test="str8!=null">
+			  	<if test="str8!=null and str8!=''">
 			  		and SHOP_NUMBER like '%${str8}%'
 			  	</if>
 		  	</where>
@@ -470,10 +470,10 @@
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(*) from SOURCE_IMPORT
   	<where>
-  		<if test="date1!=null and date1!=''">
+  		<if test="date1!=null">
 	  		and CREATE_TIME >= #{date1}
 	  	</if>
-	  	<if test="date2!=null and date2!=''">
+	  	<if test="date2!=null">
   			and CREATE_TIME &lt;= #{date2}
  		</if>
 	  	<if test="str3!=null and str3!=''">
@@ -482,16 +482,16 @@
 	  	<if test="str4!=null and str4!=''">
 	  		and CTM_BAR_CODE in (${str4})
 	  	</if>
-	  	<if test="str5!=null">
+	  	<if test="str5!=null and str5!=''">
 	  		and CTM_NAME like '%${str5}%'
 	  	</if>
-	  	<if test="str6!=null">
+	  	<if test="str6!=null and str6!=''">
 	  		and ORDER_NUMBER like '%${str6}%'
 	  	</if>
-	  	<if test="str7!=null">
-	  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str7}%')
+	  	<if test="str7!=null and str7!=''">
+	  		and STU_NUM in (select id from it_common_user where name like '%${str7}%')
 	  	</if>
-	  	<if test="str8!=null">
+	  	<if test="str8!=null and str8!=''">
 	  		and SHOP_NUMBER like '%${str8}%'
 	  	</if>
  	</where>
@@ -506,5 +506,9 @@
     delete from SOURCE_IMPORT
     where CREATE_TIME >= #{date}
    	 	  and STU_NUM = #{stuNum}
+  </delete>
+  <delete id="deleteBatch">
+    delete from SOURCE_IMPORT
+    where COURIER_NUMBER in (${str})
   </delete>
 </mapper>
