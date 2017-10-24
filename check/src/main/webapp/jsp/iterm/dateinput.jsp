@@ -13,44 +13,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>数据导入</title>
 </head>
 <body class="easyui-layout">
-
 <jsp:include page="/jsp/part/common.jsp"/>
 <jsp:include page="/jsp/part/cw_common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	$('#dg').datagrid();
+}); 
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
-		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${user.licence }");
 	}
 }
 function save(){
-	$("#fm").form("submit",{
-		url:"<%=path %>/api/sourimport/aa",		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");
-				}else{
-					alert("错误:"+json.code);
-				}
-			}else{
-				alert("错误:网络错误");
+	var obj=formToJson($("#fm"));
+	if($("#fm").form('validate')){
+		pullRequestCommon({
+			urlc:"/check/api/sourimport",
+			type:"PUT",
+			jobj:obj,
+			success:function(data){
+				$('#dg').datagrid('reload');
+				$("#dlg").dialog("close");
 			}
-		}
-	});
+		});
+	}
 }
 function deleteAll(){
 	$.messager.confirm(
@@ -59,27 +47,23 @@ function deleteAll(){
 		function(data){
 			if(data){
 				var checkedItems = $('#dg').datagrid('getChecked');
+				var aid ="";
 				$.each(checkedItems, function(index, item){
 					if(item.courierNumber!=null){
-						$.ajax({
-							url:"<%=path %>/api/sourimport/"+item.courierNumber,
-							type:"delete",
-							success:function(data){
-								var json;
-								if(isJson(data)){
-									json=data;
-								}else{
-									json = eval('('+data+')');
-								}
-								if(json.result=='success'){
-									$('#dg').datagrid('reload');
-								}else{
-									console.log("错误:"+json.code);
-								}
-							}
-						});
+						aid+=item.courierNumber+",";
 					}
 				}); 
+				if(aid!=null){
+					pullRequestCommon({
+						urlc:"/check/api/sourimport/delete",
+						type:"DELETE",
+						jobj:{str1:aid},
+						success:function(data){
+							$('#dg').datagrid('reload');
+						}
+					});
+				}
+				
 			}
 		}
 	);
@@ -91,136 +75,58 @@ function deleteAllData(){
 		"您确定要删除所有数据吗？",
 		function(data){
 			if(data){
-				$.ajax({
-					url:"<%=path %>/api/sourimport",
-					type:"delete",
+				pullRequestCommon({
+					urlc:"/check/api/sourimport",
+					type:"DELETE",
 					success:function(data){
-						var json;
-						if(isJson(data)){
-							json=data;
-						}else{
-							json = eval('('+data+')');
-						}
-						if(json.result=='success'){
-							$('#dg').datagrid('reload');
-						}else{
-							alert("错误:"+json.code+"  "+json.data);
-						}
+						$('#dg').datagrid('reload');
 					}
 				});
 			}
 		}
 	);
 }
-var a="${isLoading}";
-var a1="${isLoading}";
-function checkIsUal(){
-	console.log("a:"+a);
-	if(a=="" || a=="false"){
-		hiden_hint();
-	}else{
-		show_hint([]);
-		$.ajax({
-			url:"<%=path%>/api/sourimport/isLoading",
-			success:function(data){
-				a=data;
-			}
-		});
-		setTimeout("checkIsUal()",2000);
-	}
-	if((a1=="true")&&(a=="" || a=="false")){
-		$('#dg').datagrid('reload');
-		alert("请到导入数据错误处查看是否有错误数据")
-	}
-}
-$(function(){
-	checkIsUal();
-});
+
 
 
 function upload(){
 	$("#fileImport").dialog("close");
 	show_hint([]);
-	$("#fmfile").form("submit",{
-		url:"<%=path %>/api/sourimport/import",		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			console.log(data);
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					hiden_hint();
-					$('#dg').datagrid('reload');
-					alert(json.data);
-					$("#fileImport").dialog("close");					
-				}else{
-					hiden_hint();
-					$("#fileImport").dialog("close");	
-					alert("错误:"+json.code+"错误原因："+json.data);
-					$('#dg').datagrid('reload');
-				}
+	pullRequestFile({
+		urlf:"/check/api/sourimport/import",
+		fid:"fmfile",
+		superSuccess:function(data){
+			hiden_hint();
+			var json;
+			if(isJson(data)){
+				json=data;
 			}else{
-				hiden_hint();
-				alert("错误:网络错误");
+				json = eval('('+data+')');
+			}
+			if(json){
+				var r;
+				if(json.result=='success'){
+					r='导入成功';
+				}else{
+					r='导入失败';
+				}
+				$.messager.alert('导入结果通知', '结果：'+r+'<br>状态码：'+json.code+'<br>状态参数详情：'+json.data, 'info');
+			}else{
+				$.messager.alert('导入结果通知', '未知错误', 'error');
 			}
 		}
 	});
 }
-function pushData(){
-	show_hint([]);
-	$.ajax({
-		url:"<%=path %>/api/sourimport/push",
-		type:"get",
-		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					hiden_hint();
-					$('#dg').datagrid('reload');
-					alert("成功。"+json.data);
-				}else{
-					hiden_hint();
-					alert("错误:"+json.code);
-					$('#dg').datagrid('reload');
-				}
-			}else{
-				hiden_hint();
-				alert("错误:网络错误");
-			}
-		}
-	});
-}
-
 function search_toolbar1(){
-	var f=$('#search');
-	if(f.form('validate')){
-		var json=formToJson(f);
-		var reg=new RegExp("\r\n","g");
-		if(json.str3!=null){
-			var str3 = json.str3.replace(reg,",");
-			json.str3=str3;
-			console.log(str3);
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/sourimport",
+		dataf:formToJson($("#search")),
+		success:function(data){
+			
 		}
-		if(json.str4!=null){
-			var str4 = json.str4.replace(reg,",");
-			json.str4=str4;
-			console.log(str4);
-		}
-		isDgInit=true;
-		$('#dg').datagrid('load', json);
-	}
+	});
+	
 }
 </script>
 
@@ -287,10 +193,10 @@ border:1px solid lightgray;}
                                     <input type="text" name ="str6"   style="margin-left: 35px" >
                                 </li>
                                 <li><label for="">导入开始日期</label>
-                                   <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString2()%>"/>
+                                   <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString1()%>"/>
                                 </li>
                                 <li><label for="">导入结束日期</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy/MM/dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString2()%>"/>
+                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString1()%>"/>
                                 </li>
                             </ul>
                         </div>
@@ -313,7 +219,6 @@ border:1px solid lightgray;}
 		 <div style="height:10px;background:white;"></div>
         </div>
       <table id="dg" border="true" 
-		url="<%=path %>/api/sourimport"
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
@@ -376,7 +281,7 @@ border:1px solid lightgray;}
 		<input type="hidden" name="_header" value="${licence }"/>
 		<div class="fitem">
 			<label>创建时间:</label>
-			<input name="createDate" required="true">
+			<input name="createDate" type="date" required="true">
 		</div>
 		<div class="fitem">
 			<label>客户名:</label>

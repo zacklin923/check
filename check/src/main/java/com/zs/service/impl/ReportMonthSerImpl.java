@@ -3,7 +3,6 @@ package com.zs.service.impl;
 
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
 import com.zs.dao.ReportMonthMapper;
 import com.zs.entity.ReportMonth;
 import com.zs.entity.other.EasyUIAccept;
@@ -587,5 +585,12 @@ public class ReportMonthSerImpl implements ReportMonthSer{
 		String path ="file/月报表.xls";
 		ExcelExport.OutExcel1(obj, objs, basePath+path);
 		return path;
+	}
+	
+	
+	public static void main(String[] args) {
+		BigDecimal a =  new BigDecimal(0);
+		BigDecimal b = a==null?null:a;
+		System.out.println(b);
 	}
 }

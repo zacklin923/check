@@ -14,25 +14,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=path %>/framework/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="<%=path %>/framework/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=path %>/framework/js/zs.js"></script>
+<script type="text/javascript" src="<%=path %>/framework/js/public.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=path %>/framework/css/zs.css">
 
 <script type="text/javascript">
 /*张顺，2017-2-25
  * ajax添加头信息
  * */
-$.ajaxSetup({ 
+/* $.ajaxSetup({ 
 	headers : {"licence":"${user.licence}"},
 	error:function(XMLHttpRequest, textStatus, errorThrown){
 		alert(textStatus+" : "+XMLHttpRequest.status+"  "+errorThrown);
 	}
-});
+}); */ 
 //------------张顺，2017-6-29，第一次进入页面不加载数据（开始）-------------------
-var dg_options={};//数据表格的属性
+
+//var dg_options={};//数据表格的属性
 var isDgInit=false;//数据表格是否初始化
 /*该方法会在每个需要自定义列模板的jsp页面重写*/
-function stylesheet(){
-	return null;
-}
 function setColumns(sst){
 	if(sst){
 		$('#dg').datagrid({
@@ -49,6 +48,8 @@ function search_toolbar(){
 		$('#dg').datagrid('load', json);
 	}
 }
+
+/*
 $(function(){
 	dg_options.onLoadSuccess=function (data) {
 		$(this).datagrid("fixRownumber");
@@ -75,16 +76,15 @@ $(function(){
 			return a;
 		}
 	};
+	/*
 	dg_options.onLoadError=function(){
-		alert("错误：-1  \n您操作太快了。\n也可能是未知原因，请联系开发者检查原因：(IT部)张顺、黄光辉。\n也可能是您还未登录。");
+		alert("错误：-1  \n未检查到您的登陆信息，请重新登陆。\n如您已重新登陆，可能是未知原因，请联系：(IT部)张顺、黄光辉。");
 	};
-	var sst=stylesheet();
-	if(sst){
-		dg_options.columns=sst;
-	}
+	
 	$('#dg').datagrid(dg_options);
-	console.log(dg_options);
+	console.log(dg_options); 
 	//-------------张顺，2017-6-29，第一次进入页面不加载数据（结束）-----------------------------
 });
+*/
 </script>
 <jsp:include page="/jsp/part/hintModal.jsp"></jsp:include>

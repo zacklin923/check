@@ -17,74 +17,59 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <jsp:include page="/jsp/part/cw_common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	$('#dg').datagrid();
+}); 
 var url;
+var type;
 function addObj(){
 	$("#dlg").dialog("open").dialog("setTitle","新建");	
 	$("#fm").form("clear");
-	$("#fm input[name='_method']").val("post");
-	$("#fm input[name='_header']").val("${user.licence }");
-	url="<%=path %>/api/provinceCode";
+	url="/check/api/provinceCode";
+	type="POST";
 }
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
-		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${licence }");
-		url="<%=path%>/api/provinceCode/"+row.provinceCode;
+		url="/check/api/provinceCode/"+row.provinceCode;
+		type="PUT"
 	}
 }
 function save(){
-	$("#fm").form("submit",{
-		url:url,		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");
-				}else{
-					alert("错误:"+json.code+"  "+json.data);
-				}
-			}else{
-				alert("错误:网络错误");
+	$('#dg').datagrid('loading');
+	var obj=formToJson($("#fm"));
+	if($("#fm").form('validate')){
+		pullRequestCommon({
+			urlc:url,
+			type:type,
+			jobj:obj,
+			success:function(data){
+				$('#dg').datagrid('reload');
+				$("#dlg").dialog("close");
+			},
+			error:function(data){
+				alert(data);
 			}
-		}
-	});
+		});
+	}
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var id=row.provinceCode;
+	var did=row.provinceCode;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
 			"您确定要删除吗？",
 			function(data){
 				if(data){
-					$.ajax({
-						url:"<%=path%>/api/provinceCode/"+id,
-						type:"delete",
+					pullRequestCommon({
+						urlc:"/check/api/provinceCode",
+						type:"DELETE",
+						jobj:{id:did},
 						success:function(data){
-							var json;
-							if(isJson(data)){
-								json=data;
-							}else{
-								json = eval('('+data+')');
-							}
-							if(json.result=='success'){
-								$('#dg').datagrid('reload');
-							}else{
-								alert("错误:"+json.code);
-							}
+							$('#dg').datagrid('reload');
 						}
 					});
 				}
@@ -93,75 +78,58 @@ function deleteObj(){
 	}
 }
 function excel_export(){
-	$("#search").form("submit",{
-		url:"<%=path%>/api/provinceCode/excelExport",
-		method:"get",
-		onSubmit: function(){   
-			show_hint([]);
-	    },   
-	    success:function(data){
-	    	hiden_hint();
-	    	if(data){
-	    		var json=null;
-				if(isJson(data)){
-					json=data;
-				}else{
-					try {
-						json = eval('('+data+')');
-					} catch (e) {
-						alert(data);
-					}
-				}
-				if(json!=null){
-					if(json.result=='success'){
-						window.location.href="<%=path%>/"+d.data;
-					}else{
-						alert("错误:"+json.data+" "+json.data);
-					}
-				}else{
-					alert("错误:json解析错误");
-				}
-	    	}else{
-	    		alert("错误:网络错误");
-	    	}
-	    } 
+	show_hint([]);
+	pullRequestCommon({
+		urlc:"/check/api/provinceCode/excelExport",
+		type:"GET",
+		jobj:formToJson($("#search")),
+		success:function(data){
+			console.log(data);
+			hiden_hint();
+    		window.location.href=URL_PATH+"/check/"+data;
+		},
+		error:function(data){
+			alert(data);
+			hiden_hint();
+		}
 	});
 }
 function accept(){
 	if (endEditing()){
 		var rows=$('#dg').datagrid('getChanges');
+		var alretstr ="";
+		var cout = 0;
+		$('#dg').datagrid('loading');
 		for (var i = 0; i < rows.length; i++) {
 			var row=rows[i];
-			row._method="put";
-			row._header="${licence}";
-			$('#dg').datagrid('loading');
-			$.ajax({
-				url:"<%=path%>/api/provinceCode/"+row.provinceCode,
-				type:"post",
-				data:row,
-				dataType:"json",
+			rowisNullClear(row);
+			console.log(row);
+			pullRequestCommon({
+				urlc:"/check/api/provinceCode",
+				type:"PUT",
+				jobj:row,
+				async:false,
 				success:function(data){
-					$('#dg').datagrid('loaded');
-					if(data){
-						var json;
-						if(isJson(data)){
-							json=data;
-						}else{
-							json = eval('('+data+')');
-						}
-						if(json.result=='success'){
-							$('#dg').datagrid('reload');
-							$("#dlg").dialog("close");
-						}else{
-							alert("错误:"+json.code+"  "+json.data);
-						}
-					}else{
-						alert("错误:网络错误");
-					}
+					cout = eval(cout+1);
+				},
+				error:function(data){
+					alretstr = alretstr + data;
 				}
 			});
+			
 		}
+		$('#dg').datagrid('loaded');
+		alert("共保存了"+cout+"条     "+alretstr);
 	}
+}
+function search_toolbar1(){
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/provinceCode",
+		dataf:formToJson($("#search")),
+		success:function(data){
+		}
+	});
 }
 </script>
 <style>
@@ -188,10 +156,10 @@ function accept(){
 			<div>
                 <a onclick="addObj()"><span class="iterm1"></span>添加数据</a>
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
-                <a onclick="deleteObj()"><span class="iterm3"></span>删除出具</a>
-                <a onclick="search_toolbar()"><span class="iterm5"></span>查询</a>
+                <a onclick="deleteObj()"><span class="iterm3"></span>删除数据</a>
                 <a onclick="excel_export()"><span class="iterm4"></span>导出</a>
                 <a onclick="accept()"><span class="iterm6"></span>保存</a>
+                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
 			</div>
 			</div>
 		</div>
@@ -222,18 +190,17 @@ function accept(){
                        
                 </form>
              </div>
-             <a onclick="search_toolbar()"  id="my_search" style="top:40px;margin-left:300px;">查询</a>
+             <a onclick="search_toolbar1()"  id="my_search" style="top:40px;margin-left:300px;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>
 <table id="dg" border="true" 
-		url="<%=path %>/api/provinceCode"
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"
 		rownumbers="true" fitColumns="false" 
 		singleSelect="true" fit="true"
-		pageSize="25" pageList="[25,40,50,100]"
+		pageSize="50" pageList="[50,100]"
 		data-options="
 				onClickCell: onClickCell
 			">

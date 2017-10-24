@@ -17,75 +17,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <jsp:include page="/jsp/part/common.jsp"/>
 <jsp:include page="/jsp/part/cw_common.jsp"/>
 <script type="text/javascript">
+$(function(){
+	$('#dg').datagrid();
+}); 
 var url;
+var type;
 function addObj(){
 	$("#dlg").dialog("open").dialog("setTitle","新建");	
 	$("#fm").form("clear");
-	$("#fm input[name='_method']").val("post");
-	$("#fm input[name='_header']").val("${user.licence }");
 	$("#fm input[name='beginProvince']").val("深圳");
-	url="<%=path%>/api/timeLimit";
+	url="/check/api/timeLimit";
+	type="POST";
 }
 function updateObj(){
 	var row=$("#dg").datagrid("getSelected");
 	if(row){
 		$("#dlg").dialog("open").dialog("setTitle","修改");
 		$("#fm").form("load",row);
-		$("#fm input[name='_method']").val("put");
-		$("#fm input[name='_header']").val("${user.licence }");
-		url="<%=path%>/api/timeLimit/"+row.orderNumber;
+		type="PUT";
+		url="/check/api/timeLimit";
 	}
 }
 function save(){
-	$("#fm").form("submit",{
-		url:url,		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					$('#dg').datagrid('reload');
-					$("#dlg").dialog("close");
-				}else{
-					alert("错误:"+json.code);
-				}
-			}else{
-				alert("错误:网络错误");
+	$('#dg').datagrid('loading');
+	var obj=formToJson($("#fm"));
+	if($("#fm").form('validate')){
+		pullRequestCommon({
+			urlc:url,
+			type:type,
+			jobj:obj,
+			success:function(data){
+				$('#dg').datagrid('reload');
+				$("#dlg").dialog("close");
+			},
+			error:function(data){
+				alert(data);
 			}
-		}
-	});
+		});
+	}
+	
 }
 function deleteObj(){
 	var row=$("#dg").datagrid("getSelected");
-	var id=row.orderNumber;
+	var did=row.orderNumber;
 	if(row){
 		$.messager.confirm(
 			"操作提示",
 			"您确定要删除吗？",
 			function(data){
 				if(data){
-					$.ajax({
-						url:"<%=path%>/api/timeLimit/"+id,
-						type:"delete",
+					pullRequestCommon({
+						urlc:"/check/api/timeLimit",
+						type:"DELETE",
+						jobj:{id:did},
 						success:function(data){
-							var json;
-							if(isJson(data)){
-								json=data;
-							}else{
-								json = eval('('+data+')');
-							}
-							if(json.result=='success'){
-								$('#dg').datagrid('reload');
-							}else{
-								alert("错误:"+json.code);
-							}
+							$('#dg').datagrid('reload');
 						}
 					});
 				}
@@ -94,49 +80,33 @@ function deleteObj(){
 	}
 }
 function excel_export(){
-	$("#search").form("submit",{
-		url:"<%=path%>/api/timeLimit/excelExport",
-		method:"get",
-		onSubmit: function(){   
-			show_hint([]);
-	    },   
-	    success:function(data){
-	    	hiden_hint();
-	    	if(data){
-	    		var json=null;
-				if(isJson(data)){
-					json=data;
-				}else{
-					try {
-						json = eval('('+data+')');
-					} catch (e) {
-						alert(data);
-					}
-				}
-				if(json!=null){
-					if(json.result=='success'){
-						window.location.href="<%=path%>/"+json.data;
-					}else{
-						alert("错误:"+json.data+" "+json.data);
-					}
-				}else{
-					alert("错误:json解析错误");
-				}
-	    	}else{
-	    		alert("错误:网络错误");
-	    	}
-	    } 
+	show_hint([]);
+	pullRequestCommon({
+		urlc:"/check/api/timeLimit/excelExport",
+		type:"GET",
+		jobj:formToJson($("#search")),
+		success:function(data){
+			console.log(data);
+			hiden_hint();
+    		window.location.href=URL_PATH+"/check/"+data;
+		},
+		error:function(data){
+			alert(data);
+			hiden_hint();
+		}
 	});
 }
-$(function(){
-	var ep=$("#fm input[name='endProvince']");	
-	ep.AutoComplete({
-	    "data": "<%=path%>/api/provinceCode/province"+ep.val(),
-	    "ajaxDataType": "json",
-	    "width": "auto",
-	    "onerror": function(msg){alert(msg);}
+function search_toolbar1(){
+	pullRequestCommonDg({
+		dgid:"dg",
+		urlc:"/check/api/timeLimit",
+		dataf:formToJson($("#search")),
+		success:function(data){
+		}
 	});
-});
+	
+}
+
 </script>
 <style>
 .panel-body {border-color: #E6E6E6; border:none;}
@@ -196,12 +166,11 @@ $(function(){
                        
                 </form>
              </div>
-             <a onclick="search_toolbar()"  id="my_search" style="top:40px;margin-left:300px;">查询</a>
+             <a onclick="search_toolbar1()"  id="my_search" style="top:40px;margin-left:300px;">查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>
    <table id="dg" border="true" 
-		url="<%=path %>/api/timeLimit"
 		method="get" toolbar="#toolsbars"
 		loadMsg="数据加载中请稍后……"
 		striped="true" pagination="true"

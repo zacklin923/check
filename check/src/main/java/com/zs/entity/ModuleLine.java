@@ -24,6 +24,9 @@ public class ModuleLine {
     private String colspan;
 
     private String editor;
+    
+    //主要用来写别的地方的
+    private String str;
 
     public String getId() {
         return id;
@@ -112,4 +115,14 @@ public class ModuleLine {
     public void setEditor(String editor) {
         this.editor = editor == null ? null : editor.trim();
     }
+
+	public String getStr() {
+		return str;
+	}
+
+	public void setStr(String str) {
+		this.str = str;
+	}
+    
+    
 }

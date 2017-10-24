@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
+import com.zs.dao.ItCommonUserMapper;
 import com.zs.dao.SourceImportFailedMapper;
 import com.zs.dao.StaffUserMapper;
+import com.zs.entity.ItCommonUser;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.SourceZm;
@@ -30,6 +32,8 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 	private SourceImportFailedMapper sourceImportFailedMapper;
 	@Resource
 	private StaffUserMapper userMapper;
+	@Resource
+	private ItCommonUserMapper itCommonUserMapper;
 	
 	public EasyUIPage queryFenye(EasyUIAccept accept) {
 		if (accept!=null) {
@@ -43,15 +47,16 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 			for (int i = 0; i < list.size(); i++) {
 				SourceImportFailed sif = (SourceImportFailed) list.get(i);
 				SourceImportErr sie = g.fromJson(sif.getFailInfo(), SourceImportErr.class);
-				if(sie.getStuNum()!=null && !sie.getStuNum().equals("")){
+				if(sif.getStuNum()!=null && !sif.getStuNum().equals("")){
 					try {
-						StaffUser suer = userMapper.selectByPrimaryKey(sie.getStuNum());
-						sie.setStuNum(suer.getStuName());
+						ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(sif.getStuNum()));
+						sif.setStuNum(suer.getName()==null?"":suer.getName());
 					} catch (Exception e) {
-						sie.setStuNum("");
+						e.printStackTrace();
+						sif.setStuNum("");
 					}
 				}else{
-					sie.setStuNum("");
+					sif.setStuNum("");
 				}
 				sif.setSourceImport(sie);
 			}
@@ -72,7 +77,7 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 	}
 
 	public Integer delete(String id) {
-		return sourceImportFailedMapper.deleteByPrimaryKey(new BigDecimal(id));
+		return sourceImportFailedMapper.deleteBatch(id);
 	}
 
 	public SourceImportFailed get(String id) {

@@ -217,10 +217,10 @@
 	  	(
 		  	select * from SOURCE_IMPORT_FAILED
 		  	<where>
-			  	<if test="str1!=null">
+			  	<if test="str1!=null and str1!=''">
 			  		and STU_NUM = #{str1}
 			  	</if>
-			  	<if test="str2!=null">
+			  	<if test="str2!=null and str2!=''">
 			  		and FAIL_TYPE = #{str2}
 			  	</if>
 			  	<if test="date1!=null">
@@ -229,7 +229,7 @@
 		  		<if test="date2!=null">
 			  		and CREATE_TIME &lt;= #{date2}
 		  		</if>
-		  		<if test="str3!=null">
+		  		<if test="str3!=null and str3!=''">
 			  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str3}%')
 		  		</if>
 		  	</where>
@@ -255,10 +255,10 @@
   <select id="getCount" resultType="int" parameterType="com.zs.entity.other.EasyUIAccept">
   	select count(*) from SOURCE_IMPORT_FAILED
   	<where>
-  		<if test="str1!=null">
+  		<if test="str1!=null and str1!=''">
 	  		and STU_NUM = #{str1}
 	  	</if>
-	  	<if test="str2!=null">
+	  	<if test="str2!=null and str2!=''">
 	  		and FAIL_TYPE = #{str2}
 	  	</if>
 	  	<if test="date1!=null">
@@ -267,6 +267,9 @@
   		<if test="date2!=null">
 	  		and CREATE_TIME &lt;= #{date2}
   		</if>
+  		<if test="str3!=null and str3!=''">
+	  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str3}%')
+  		</if>
  	</where>
   </select>
   <delete id="deleteAll">
@@ -274,6 +277,14 @@
     <where>
     	<if test="stuNum!=null">
     		and STU_NUM = #{stuNum}
+    	</if>
+    </where>
+  </delete>
+  <delete id="deleteBatch">
+    delete from SOURCE_IMPORT_FAILED
+    <where>
+    	<if test="str!=null and str!=''">
+    		and SIF_ID in (${str}) 
     	</if>
     </where>
   </delete>

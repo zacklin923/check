@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+import com.zs.controller.rest.BaseRestController.Code;
 import com.zs.entity.ReportSign;
 import com.zs.entity.ReportSignKey;
 import com.zs.entity.other.EasyUIAccept;
@@ -22,16 +24,18 @@ import com.zs.service.ReportSignSer;
 import com.zs.tools.ColumnName;
 
 @RestController
-public class ReportSignConR extends BaseRestController<ReportSign, ReportSignKey>{
+public class ReportSignConR {
 
 	private Logger log=Logger.getLogger(getClass());
 	@Resource
 	private ReportSignSer reportSignSer;
+	private Gson g = new Gson();
 
 	@RequestMapping(value="/api/reportSign",method=RequestMethod.GET)
-	public List<ReportSignBean> query(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp){
-		List<ReportSignBean> list=null;
+	public Result<List<ReportSignBean>> query(String uid,String data, HttpServletRequest req, HttpServletResponse resp){
 		try {
+			List<ReportSignBean> list=null; 
+			EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
 			if (accept!=null && accept.getInt1()!=null) {
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				switch (accept.getInt1()) {
@@ -49,73 +53,36 @@ public class ReportSignConR extends BaseRestController<ReportSign, ReportSignKey
 					break;
 				}
 			}
+			return new Result<List<ReportSignBean>>("success",Code.SUCCESS,list);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return new Result<List<ReportSignBean>>("error",Code.ERROR,null);
 		}
-		return list;
 	}
 	
 	@RequestMapping(value="/api/reportSign/regenerate",method=RequestMethod.POST)
-	public Result<String> regenerate(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp){
-		return new Result<String>(SUCCESS, Code.SUCCESS, reportSignSer.obtainReportSign(accept));
+	public Result<String> regenerate(String uid,String data, HttpServletRequest req, HttpServletResponse resp){
+		try {
+			EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
+			return new Result<String>("success", Code.SUCCESS, reportSignSer.obtainReportSign(accept));
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new Result<String>("error", Code.ERROR, "刷新失败");
+		}
 	}
 	
 	@RequestMapping(value="/api/reportSign/excelExport",method=RequestMethod.GET)
-	@Override
-	public Result<String> excelExport(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		if (accept!=null) {
+	public Result<String> excelExport(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
+				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class);
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
-				return new Result<String>(SUCCESS,  Code.SUCCESS, reportSignSer.exportData(accept,req));
+				return new Result<String>("success",  Code.SUCCESS, reportSignSer.exportData(accept,req));
 			} catch (Exception e) {
 				e.printStackTrace();
-				return new Result<String>(ERROR, Code.ERROR, "数据装载失败");
+				return new Result<String>("error", Code.ERROR, "数据装载失败");
 			}
-		}
-		return null;
 	}
 	
-	@Override
-	public EasyUIPage doQuery(EasyUIAccept accept, HttpServletRequest req, HttpServletResponse resp) {
-		return null;
-	}
-	
-	@Override
-	public Result<ReportSign> doGet(ReportSignKey id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Result<Integer> doAdd(ReportSign obj, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Result<Integer> doUpdate(ReportSign obj, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Result<Integer> doDeleteFalse(ReportSignKey id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Result<Integer> doDeleteTrue(ReportSignKey id, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public Result<String> excelImport(MultipartFile file, HttpServletRequest req, HttpServletResponse resp) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	
 	
