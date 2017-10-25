@@ -315,6 +315,7 @@ border:1px solid lightgray;}
                 </form>
              </div>
              <!--  <a onclick="search_toolbar1()"  id="my_search" style="top: 99px;margin-left:910px;">查询</a> -->
+             <a onclick="search_toolbar1()"  id="my_search" style="top:21px;margin-left:1000px;"><span class="fSearchIcon"></span>查询</a>
             </div>
 		</div>
      <table id="dg" border="true"

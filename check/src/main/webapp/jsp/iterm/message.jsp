@@ -271,17 +271,14 @@ border:1px solid lightgray;}
 
 		<div id="toolsbars">
 			<div id="menulist" style="padding-top: 10px;position:raletiver">
-			
                 <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
                 <a onclick="$('#mbedit').dialog('open')"><span class="iterm3"></span>编辑模板</a>
                 <a onclick="accept()"><span class="iterm4"></span>保存</a>
-               <!--  <a style="opacity: 0.7;"><span class="iterm6"></span>统计</a> -->
                 <a onclick="$('#exportdiv').dialog('open')""><span class="iterm7"></span>导出</a>
                 <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
                 <a onclick="IESerch()"><span class="iterm8"></span>&nbsp;快件查询</a>
-                 <span class="myself_btn" style="position:absolute;right:5px;top:23px;">收缩</span>	
-			
+                 <span class="myself_btn" style="position:absolute;right:4px;top:21px;">收缩</span>	
 			</div>
 
 		<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
@@ -353,7 +350,7 @@ border:1px solid lightgray;}
                         <input type="hidden" name ="str6" id = "exportvalue"/>
                 </form>
              </div>
-            
+            <a onclick="search_toolbar1()"  id="my_search" style="top:15px;margin-left:1185px;"><span class="fSearchIcon"></span>查询</a>
 		</div>
 		<div style="height:10px;background:white;"></div>
         </div>

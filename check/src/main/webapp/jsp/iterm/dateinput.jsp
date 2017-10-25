@@ -223,7 +223,7 @@ border:1px solid lightgray;}
                           
                 </form>
              </div> 
-            
+            	<a onclick="search_toolbar1()"  id="my_search" style="top:21px;margin-left:910px;"><span class="fSearchIcon"></span>查询</a>
 		</div>
 		 <div style="height:10px;background:white;"></div>
         </div>
@@ -356,7 +356,7 @@ border:1px solid lightgray;}
 		</br>
 		</br>
 		<form id="fmfile"  enctype="multipart/form-data" method="post">
-			<input style="padd-left:0px" type="file" name="file"/>
+			<input style="padd-left:0px;width:145px;height:25px;" type="file" name="file"/>
 			<input type="button" value="提交" onclick="upload()" style="width:80px;height:25px;float:right;margin-right:25px;"/>
 		</form>
 </div>

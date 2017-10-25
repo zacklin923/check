@@ -155,6 +155,7 @@ border:1px solid lightgray;}
                 <a onclick="refrence()"><span class="iterm1"></span>重新生成 </a>
                 <a onclick="excel_export()"><span class="iterm2"></span>导出</a>
                 <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
+                 <span class="myself_btn" style="position:absolute;right:5px;top:21px;">收缩</span>	
 			
 			</div>
 
@@ -191,7 +192,7 @@ border:1px solid lightgray;}
                         </div>
                 </form>
              </div>
-           
+             <a onclick="search_toolbar1()"  id="my_search" style="top:15px;margin-left:630px;"><span class="fSearchIcon"></span>查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>

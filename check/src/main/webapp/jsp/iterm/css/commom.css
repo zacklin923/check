@@ -322,10 +322,22 @@ input {
 	border-radius:5px;
 }
 #my_search:hover{
-	 background-color:skyblue;
+	 background-color:rgb(250,180,0);
        cursor: pointer;
+       border:1px solid #ddd;
       
    }
- 
+ .fSearchIcon{
+ 		display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-size: cover;
+        vertical-align: middle;
+        background-image: url('../images/searchs.png');
+ }
+ #fmfile>input:nth-child(1){
+ width:145px;
+ height:25px;
+ }
 
 

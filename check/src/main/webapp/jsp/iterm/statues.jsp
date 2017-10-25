@@ -322,7 +322,7 @@ border:1px solid lightgray;}
                 <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
                 <a onclick="IESerch()"><span class="iterm8"></span>&nbsp;快件查询</a>
                 <a onclick="$('#fileImport1').dialog('open')" style="display:none;"><span class="iterm1"></span>插发货时间数据 </a>
-                  <span class="myself_btn" style="position:absolute;right:5px;top:23px;">收缩</span>	
+                  <span class="myself_btn" style="position:absolute;right:4px;top:21px;">收缩</span>	
 			
 			</div>
 
@@ -420,6 +420,7 @@ border:1px solid lightgray;}
                         
                 </form>
              </div>
+               <a onclick="search_toolbar1()"  id="my_search" style="top:15px;margin-left:1185px;"><span class="fSearchIcon"></span>查询</a>
             
 		</div>
 		<div style="height: 10px;"></div>

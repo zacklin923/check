@@ -243,6 +243,7 @@ border:1px solid lightgray;}
                         </div>
                 </form>
              </div>
+               <a onclick="search_toolbar1()"  id="my_search" style="top:66px;margin-left:650px;"><span class="fSearchIcon"></span>查询</a>
 		</div>
         </div>
      <table id="dg" border="true"

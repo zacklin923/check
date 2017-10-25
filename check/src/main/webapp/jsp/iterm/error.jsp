@@ -217,6 +217,7 @@ function search_toolbar1(){
                 
              </div>
             <!--  <a onclick="search_toolbar1()"  id="my_search" style="top: 42px;margin-left:523px;">查询</a> -->
+            <a onclick="search_toolbar1()"  id="my_search" style="top:14px;margin-left:580px;"><span class="fSearchIcon"></span>查询</a>
 		</div>
 		 <div style="height:10px;background:white;"></div>
         </div>

@@ -243,6 +243,7 @@ border:1px solid lightgray;}
                 </form>
              </div>
             <!--  <a onclick="search_toolbar1()"  id="my_search" style="top:40px;margin-left:300px;">查询</a> -->
+            <a onclick="search_toolbar1()"  id="my_search" style="top:18px;margin-left:320px;"><span class="fSearchIcon"></span>查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>
