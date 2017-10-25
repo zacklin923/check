@@ -108,7 +108,7 @@ function search_toolbar1(){
 }
 
 </script>
-<style>
+<!-- <style>
 .panel-body {border-color: #E6E6E6; border:none;}
 	#menulist{height:30px;}
 	#mypanel{border:1px solid lightgray;}
@@ -147,7 +147,59 @@ function search_toolbar1(){
 		<div id="toolsbars">
 
 			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:10px;box-sizing: content-box;overflow:hidden;" data-options="border:false" >
+ -->
+ <style>
+.panel-body {border-color: #E6E6E6; border:none;}
+  .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
 
+        padding: 4px;
+
+    }
+
+
+#mypanel{
+border:1px solid lightgray;}
+</style>
+	<div data-options="region:'north',split:false" style="height:60px;overflow: hidden">
+    <div class="layout-header" style="position: relative">
+        <style>
+            .logo {
+                display: inline-block;
+                width: 230px;
+                height: 60px;
+                background-image: url("images/logo12.jpg");
+            }
+        </style>
+        <div class="logo"></div>
+        <div class="layout-title" style="position: absolute;top: 28px;left: 250px;">
+            <h4 style="color:white;font-size: 16px;font-weight: 600">深圳市韵达速递有限公司</h4>
+        </div>
+        <div class="self_title">
+            <a href="">时效控制信息</a>
+        </div>
+        <div
+            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../firstPage.html">返回首页</a>
+            | <a style="color:#333;" href="../../index.html">退出登录 |
+            </a><a onclick="$('#dlg_help').dialog('open')" style="color:#333;">帮助</a></div>
+    </div>
+
+</div>
+
+
+	<div data-options="region:'center',split:false" style="padding-left:20px;padding-right:30px;padding-top:1px;padding-bottom:10px">
+
+		<div id="toolsbars">
+			<div id="menulist" style="padding-top: 10px;position:raletiver">
+                 <a onclick="addObj()"><span class="iterm1"></span>添加时效 </a>
+                <a onclick="updateObj()"><span class="iterm2"></span>编辑时效</a>
+                <a onclick="deleteObj()"><span class="iterm3"></span>删除时效</a>
+                <a onclick="search_toolbar()"><span class="iterm5"></span>查询</a>
+                <a><span class="iterm4"></span>统计</a>
+             	<a onclick="excel_export()"><span class="iterm6"></span>导出</a>
+                <span class="myself_btn" style="position:absolute;right:5px;top:23px;">收缩</span>	
+             </div>  
+			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
+			
                 <div class="my_from">
                 <form id="search">
                         <!--提交表单栏开始-->
@@ -166,7 +218,8 @@ function search_toolbar1(){
                        
                 </form>
              </div>
-             <a onclick="search_toolbar1()"  id="my_search" style="top:40px;margin-left:300px;">查询</a>
+             <!-- <a onclick="search_toolbar1()"  id="my_search" style="top:40px;margin-left:300px;">查询</a> -->
+             <a onclick="search_toolbar1()"  id="my_search" style="top:18px;margin-left:320px;"><span class="fSearchIcon"></span>查询</a>
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>
