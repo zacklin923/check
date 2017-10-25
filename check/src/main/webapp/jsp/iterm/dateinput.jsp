@@ -132,42 +132,54 @@ function search_toolbar1(){
 
 <style>
 .panel-body {border-color: #E6E6E6; border:none;}
-#menulist{height:30px;}
+  .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
+
+        padding: 4px;
+
+    }
+
+
 #mypanel{
 border:1px solid lightgray;}
 </style>
-	<div data-options="region:'north',split:false" style="height:87px;overflow: hidden">
+	<div data-options="region:'north',split:false" style="height:60px;overflow: hidden">
+    <div class="layout-header" style="position: relative">
+        <style>
+            .logo {
+                display: inline-block;
+                width: 230px;
+                height: 60px;
+                background-image: url("images/logo12.jpg");
+            }
+        </style>
+        <div class="logo"></div>
+        <div class="layout-title" style="position: absolute;top: 28px;left: 250px;">
+            <h4 style="color:white;font-size: 16px;font-weight: 600">深圳市韵达速递有限公司</h4>
+        </div>
+        <div class="self_title">
+            <a href="">数据导入</a>
+        </div>
+        <div
+            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../firstPage.html">返回首页</a>
+            | <a style="color:#333;" href="../../index.html">退出登录 |
+            </a><a onclick="$('#dlg_help').dialog('open')" style="color:#333;">帮助</a></div>
+    </div>
 
-		<div class="layout-header" style="position: relative">
-			<div class="layout-title">
-				<h3><a>深圳韵达有限公司</a></h3>
-			</div>
-			<div class="self_title">
-				<a href="">数据导入</a>
-			</div>
-			<div class="layout-help" style="position: absolute;">
-				<a onclick="$('#dlg_help').dialog('open')">帮助</a>
-			</div>
-            <div class="self-tool-btn" style="margin-top:50px;">
-                <span class="myself_btn">收缩</span>	
-            </div>
-			<div id="menulist">
-			<div>
-                <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
-                <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
-                <a onclick="deleteAll()"><span class="iterm3"></span>批量删除</a>
-                <a onclick="deleteAllData()"><span class="iterm4"></span>删除所有</a>
-                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
-             </div>   
-			</div>
-		</div>
-	</div>
+</div>
 
 
 	<div data-options="region:'center',split:false" style="padding-left:20px;padding-right:30px;padding-top:1px;padding-bottom:10px">
 
 		<div id="toolsbars">
-			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:3px;box-sizing: content-box;overflow:hidden;" >
+			<div id="menulist" style="padding-top: 10px;position:raletiver">
+                <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
+                <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
+                <a onclick="deleteAll()"><span class="iterm3"></span>批量删除</a>
+                <a onclick="deleteAllData()"><span class="iterm4"></span>删除所有</a>
+                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
+                <span class="myself_btn" style="position:absolute;right:5px;top:21px;">收缩</span>	
+             </div>  
+			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
 			
                 <div class="my_from">
                 <form id="search">
@@ -193,10 +205,10 @@ border:1px solid lightgray;}
                                     <input type="text" name ="str6"   style="margin-left: 35px" >
                                 </li>
                                 <li><label for="">导入开始日期</label>
-                                   <input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString1()%>"/>
+                                   <input style="height:27px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfNow().toString1()%>"/>
                                 </li>
                                 <li><label for="">导入结束日期</label>
-                                    <input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString1()%>"/>
+                                    <input style="height:27px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfNow().toString1()%>"/>
                                 </li>
                             </ul>
                         </div>
@@ -204,15 +216,12 @@ border:1px solid lightgray;}
                             <div><p for="">客户条码</p>
                                 <textarea name ="str4" cols="200" rows="20"></textarea>
                             </div>
-                            <div style="margin-left: 10px"><p for="" >快递编号</p>
+                            <div style="margin-left: 30px"><p for="" >快递编号</p>
                                 <textarea name="str3" cols="200" rows="20"></textarea>
                             </div>
                         </div>
                           
                 </form>
-                <div>
-                	<a onclick="search_toolbar1()"  id="my_search" style="top: 70px;">查询</a>
-                </div>
              </div> 
             
 		</div>
