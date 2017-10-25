@@ -5,7 +5,6 @@
     box-shadow: 1px 1px 20px #D9EEFF;
     box-shadow: 1px 1px 20px #CCE8FF\9;
     background: rgb(250, 190, 0);
-    height: 40px;
     z-index: 10;
     width: 100%;
 }
@@ -36,14 +35,14 @@
     height: 35px;
     background-color: white;
     position: absolute;
-    top: 7px;
-    left: 220px;
+    top: 28px;
+    left: 25%;
     border-radius: 4px;
     color: black;
     font-size: 12px;
     text-align: center;
     line-height: 35px;
-    padding: 0px 7px 0px 7px;
+    padding: 0px 8px 0px 8px;
     text-decoration-line: none;
 }
 
@@ -90,14 +89,15 @@ input {
     margin: 3px 10px;
     border-radius: 2px;
     padding-left: 5px;
-    height: 23px;
-    width: 135px;
+    height: 27px;
+    width: 170px;
     border: 1px solid #ccc;
     corsue:pointer;
+    border-radius:5px;
 }
 .my_select{
-    width: 145px;
-    height: 24px;
+    width: 180px;
+    height:28px;
     margin: 5px 10px;
     border-radius: 5px;
     padding-left: 5px;
@@ -111,12 +111,10 @@ input {
     font-weight: 500;
 }
 #menulist{
-    padding-top: 50px;
     margin-right:20px;
-   	margin-left:22px;
 }
 
-#menulist>div > a{
+#menulist> a{
     text-align: center;
     text-decoration-line: none;
     border: 1px solid lightgray;
@@ -131,7 +129,7 @@ input {
     color: slategray;
    	float: left;
 }
-#menulist >div> a > span{
+#menulist > a > span{
     width:16px;
     height: 16px;
     position: absolute;
@@ -142,41 +140,41 @@ input {
 	height:30px;
 }
 
-#menulist >div> a:nth-child(1):hover{
+#menulist >a:nth-child(1):hover{
     background-color: rgb(250, 180, 0);
     color:white;
     cursor: pointer;
 }
-#menulist>div > a:nth-child(2):hover{
+#menulist> a:nth-child(2):hover{
     background-color: rgb(255, 180, 0);
       color:white;
        cursor: pointer;
 }
-#menulist >div> a:nth-child(3):hover{
+#menulist > a:nth-child(3):hover{
     background-color: rgb(255, 180, 0);
      color:white;
        cursor: pointer;
 }
-#menulist >div> a:nth-child(4):hover{
+#menulist > a:nth-child(4):hover{
     background-color: rgb(255, 180, 0);
     color:white;
        cursor: pointer;
 }
-#menulist>div > a:nth-child(5):hover{
+#menulist> a:nth-child(5):hover{
     background-color:rgb(255, 180, 0);
     color:white;
        cursor: pointer;
 }
-#menulist >div> a:nth-child(6):hover{
+#menulist > a:nth-child(6):hover{
     background-color: rgb(255, 180, 0);
      color:white;
        cursor: pointer;
 }
-#menulist>div > a:nth-child(7):hover{
+#menulist > a:nth-child(7):hover{
     background-color:rgb(255, 180, 0);
        cursor: pointer;}
        
-#menulist>div > a:nth-child(8):hover{
+#menulist> a:nth-child(8):hover{
     background-color:rgb(255, 180, 0);
        cursor: pointer;}
 
@@ -185,49 +183,49 @@ input {
     height: 77px;
     overflow: hidden;
 }
-#menulist >div> a > .iterm1 {
+#menulist > a > .iterm1 {
     background: url("../images/sprice.png") no-repeat center;
     background-position: 1px 1px;
     text-indent: -10px;
 }
 
-#menulist >div> a > .iterm2 {
+#menulist >a > .iterm2 {
     background: url("../images/sprice.png") no-repeat left;
     background-position: -96px 1px;
     text-indent: -10px;
 
 }
 
-#menulist >div> a > .iterm3 {
+#menulist >a > .iterm3 {
     background: url("../images/sprice.png") no-repeat left;
     background-position: 1px -96px;
     text-indent: -10px;
 }
 
-#menulist >div> a > .iterm4 {
+#menulist > a > .iterm4 {
     background: url("../images/sprice.png") no-repeat left;
     background-position: 1px -127px;
     text-indent: -10px;
 }
 
-#menulist >div> a > .iterm5 {
+#menulist > a > .iterm5 {
     background: url("../images/sprice.png") no-repeat left;
     background-position: -288px -63px;
     text-indent: -10px;
 }
-#menulist>div > a>.iterm6{
+#menulist> a>.iterm6{
     background: url("../images/sprice.png") no-repeat left;
     background-position: -256px -63px;
     text-indent: -10px;
 }
 
-#menulist>div > a>.iterm7{
+#menulist> a>.iterm7{
     background: url("../images/sprice.png") no-repeat left;
     background-position: -31px -63px;
     text-indent: -10px;
 }
 
-#menulist>div > a>.iterm8{
+#menulist>a>.iterm8{
     background: url("../images/sprice.png") no-repeat left;
     background-position: -320px -63px;
     text-indent: -10px;
@@ -271,7 +269,6 @@ input {
     height: 80px;
     width: 140px;
     resize: none;
-    overflow-y: scroll;
     border-radius:3px;
 }
 
@@ -325,10 +322,22 @@ input {
 	border-radius:5px;
 }
 #my_search:hover{
-	 background-color:skyblue;
+	 background-color:rgb(250,180,0);
        cursor: pointer;
+       border:1px solid #ddd;
       
    }
-
+ .fSearchIcon{
+ 		display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-size: cover;
+        vertical-align: middle;
+        background-image: url('../images/searchs.png');
+ }
+ #fmfile>input:nth-child(1){
+ width:145px;
+ height:25px;
+ }
 
 
