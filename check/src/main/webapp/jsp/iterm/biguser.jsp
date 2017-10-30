@@ -212,32 +212,36 @@ function moduleEdit(){
         padding: 4px;
 
     }
+    .panel .layout-panel .layout-panel-center{
+    top:35px;}
 
 
 #mypanel{
 border:1px solid lightgray;}
 </style>
-	<div data-options="region:'north',split:false" style="height:60px;overflow: hidden">
+	<div data-options="region:'north',split:false" style="overflow: hidden">
     <div class="layout-header" style="position: relative">
         <style>
             .logo {
                 display: inline-block;
-                width: 230px;
-                height: 60px;
+                width: 150px;
+                height: 40px;
                 background-image: url("images/logo12.jpg");
+                background-size:contain;
             }
         </style>
         <div class="logo"></div>
-        <div class="layout-title" style="position: absolute;top: 28px;left: 250px;">
-            <h4 style="color:white;font-size: 16px;font-weight: 600">深圳市韵达速递有限公司</h4>
+        <div class="layout-title" style="position: absolute;top: 15px;left: 230px;">
+            <h4 style="color:white;font-size: 16px;font-weight: 900;font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;">深圳市韵达速递有限公司</h4>
         </div>
         <div class="self_title">
-            <a href="">大客户信息</a>
+            <a style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;">大客户信息</a>
         </div>
         <div
-            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../../view/firstPage.html">返回首页</a>
-            | <a style="color:#333;" href="../../../view/index.html">退出登录 |
-            </a><a onclick="$('#dlg_help').dialog('open')" style="color:#333;">帮助</a></div>
+            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 15px;right: 40px;color: white">
+            <a style="color:white;" href="../../../view/firstPage.html">返回首页</a>
+            | <a style="color:white;" href="../../../view/index.html">退出登录 |
+            </a><a onclick="$('#dlg_help').dialog('open')" style="color:white;">帮助</a></div>
     </div>
 
 </div>
@@ -254,7 +258,7 @@ border:1px solid lightgray;}
                 <a  onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
                 <a onclick="excel_export()"><span class="iterm7"></span>导出</a>
                 <a onclick="$('#mbedit').dialog('open')"><span class="iterm6"></span>编辑模板</a>
-                <span class="myself_btn" style="position:absolute;right:5px;top:23px;">收缩</span>	
+                <span class="myself_btn" style="position:absolute;right:31px;top:23px;">收缩</span>	
              </div>  
 			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
 			
