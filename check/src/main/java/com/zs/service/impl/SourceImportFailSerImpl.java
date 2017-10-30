@@ -13,6 +13,7 @@ import com.zs.dao.ItCommonUserMapper;
 import com.zs.dao.SourceImportFailedMapper;
 import com.zs.dao.StaffUserMapper;
 import com.zs.entity.ItCommonUser;
+import com.zs.entity.ItCommonUserExample;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.SourceZm;
@@ -49,8 +50,10 @@ public class SourceImportFailSerImpl implements SourceImportFailSer{
 				SourceImportErr sie = g.fromJson(sif.getFailInfo(), SourceImportErr.class);
 				if(sif.getStuNum()!=null && !sif.getStuNum().equals("")){
 					try {
-						ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(sif.getStuNum()));
-						sif.setStuNum(suer.getName()==null?"":suer.getName());
+						ItCommonUserExample icexample= new ItCommonUserExample();
+						icexample.createCriteria().andUsernumberEqualTo(sif.getStuNum());
+						List<ItCommonUser> suer = itCommonUserMapper.selectByExample(icexample);
+						sif.setStuNum(suer.get(0).getName()==null?"":suer.get(0).getName());
 					} catch (Exception e) {
 						e.printStackTrace();
 						sif.setStuNum("");

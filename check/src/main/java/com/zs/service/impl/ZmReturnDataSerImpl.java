@@ -22,6 +22,7 @@ import com.zs.entity.CheckLog;
 import com.zs.entity.Customer;
 import com.zs.entity.CustomerKey;
 import com.zs.entity.ItCommonUser;
+import com.zs.entity.ItCommonUserExample;
 import com.zs.entity.NoUpdate;
 import com.zs.entity.NoUpdateKey;
 import com.zs.entity.SourceImport;
@@ -210,8 +211,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			for (int i = 0; i < list.size(); i++) {
 				ZmReturnData tp=(ZmReturnData) list.get(i);
 				if(tp.getUpdateMan()!=null&&!tp.getUpdateMan().equals("")){
-					ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(tp.getUpdateMan()));
-					tp.setUpdateMan(suer.getName()==null?"":suer.getName());
+					ItCommonUserExample icexample= new ItCommonUserExample();
+					icexample.createCriteria().andUsernumberEqualTo(tp.getUpdateMan());
+					List<ItCommonUser> suer = itCommonUserMapper.selectByExample(icexample);
+					tp.setUpdateMan(suer.get(0).getName()==null?"":suer.get(0).getName());
 				}else{
 					tp.setUpdateMan("");
 				}
@@ -441,8 +444,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			for (int i = 0; i < list.size(); i++) {
 				ZmReturnData tp=(ZmReturnData) list.get(i);
 				if(tp.getUpdateMan()!=null&&!tp.getUpdateMan().equals("")){
-					ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(tp.getUpdateMan()));
-					tp.setUpdateMan(suer.getName()==null?"":suer.getName());
+					ItCommonUserExample icexample= new ItCommonUserExample();
+					icexample.createCriteria().andUsernumberEqualTo(tp.getUpdateMan());
+					List<ItCommonUser> suer = itCommonUserMapper.selectByExample(icexample);
+					tp.setUpdateMan(suer.get(0).getName()==null?"":suer.get(0).getName());
 				}else{
 					tp.setUpdateMan("");
 				}
@@ -534,8 +539,10 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		for (int i = 0; i < list.size(); i++) {
 			ZmReturnData tp=(ZmReturnData) list.get(i);
 			if(tp.getUpdateMan()!=null&&!tp.getUpdateMan().equals("")){
-				ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(tp.getUpdateMan()));
-				tp.setUpdateMan(suer.getName()==null?"":suer.getName());
+				ItCommonUserExample icexample= new ItCommonUserExample();
+				icexample.createCriteria().andUsernumberEqualTo(tp.getUpdateMan());
+				List<ItCommonUser> suer = itCommonUserMapper.selectByExample(icexample);
+				tp.setUpdateMan(suer.get(0).getName()==null?"":suer.get(0).getName());
 			}else{
 				tp.setUpdateMan("");
 			}

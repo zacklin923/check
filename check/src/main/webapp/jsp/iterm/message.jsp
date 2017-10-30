@@ -260,8 +260,8 @@ border:1px solid lightgray;}
             <a href="">运单信息查询</a>
         </div>
         <div
-            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../firstPage.html">返回首页</a>
-            | <a style="color:#333;" href="../../index.html">退出登录 |
+            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../../view/firstPage.html">返回首页</a>
+            | <a style="color:#333;" href="../../../view/index.html">退出登录 |
             </a><a onclick="$('#dlg_help').dialog('open')" style="color:#333;">帮助</a></div>
     </div>
 
@@ -321,10 +321,10 @@ border:1px solid lightgray;}
                         <div class="right">
                             <ul>
                                 <li><label for="">发货日期开始</label>
-                                    <input style="height:27px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})"value="<%=DateTimeHelper.getBeginOfOld().toString1()%>"/>
+                                    <input style="height:27px; width:100px;" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd'})"value="<%=DateTimeHelper.getBeginOfOld().toString3()%>"/> 8:00:00
                                 </li>
                                 <li><label for="">发货日期结束</label>
-                                    <input style="height:27px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})"value="<%=DateTimeHelper.getEndOfOld().toString1()%>"/>
+                                    <input style="height:27px; width:100px;" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd'})"value="<%=DateTimeHelper.getEndOfOld().toString3()%>"/> 7:59:59
                                 </li>
                                <li><label for="">所属分拨点</label>
                                     <input style="margin-left: 22px" name ="str9" >
@@ -350,8 +350,9 @@ border:1px solid lightgray;}
                         <input type="hidden" name ="str6" id = "exportvalue"/>
                 </form>
              </div>
-            <a onclick="search_toolbar1()"  id="my_search" style="top:15px;margin-left:1185px;"><span class="fSearchIcon"></span>查询</a>
-		</div>
+            <!-- <a onclick="search_toolbar1()"  id="my_search" style="top:15px;margin-left:1185px;"><span class="fSearchIcon"></span>查询</a>
+		 -->
+		 </div>
 		<div style="height:10px;background:white;"></div>
         </div>
        <table id="dg" border="true"

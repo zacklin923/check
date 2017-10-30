@@ -67,6 +67,7 @@ public class ZmReturnData {
     
     private String updateMan;
 
+    private Date sendDate;
     //-------------------
     private Integer isTimeOut;//是否超时
     private NoUpdate noUpdateProvince;//不可更改项-省份
@@ -338,10 +339,18 @@ public class ZmReturnData {
 		this.updateMan = updateMan;
 	}
 
+
+	public Date getSendDate() {
+		return sendDate;
+	}
+
+	public void setSendDate(Date sendDate) {
+		this.sendDate = sendDate;
+	}
+
 	public ZmReturnData() {
 		super();
 	}
-
 	//运单信息的构造方法
 	public ZmReturnData(String courierNumber, String ctmBarCode, String ctmName, String largeArea, String sliceArea,
 			String fenbu, String fbdArea, String shopNumber, String address, String addressee, String phone,

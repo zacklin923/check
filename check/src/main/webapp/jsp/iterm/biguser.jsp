@@ -235,8 +235,8 @@ border:1px solid lightgray;}
             <a href="">大客户信息</a>
         </div>
         <div
-            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../firstPage.html">返回首页</a>
-            | <a style="color:#333;" href="../../index.html">退出登录 |
+            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../../view/firstPage.html">返回首页</a>
+            | <a style="color:#333;" href="../../../view/index.html">退出登录 |
             </a><a onclick="$('#dlg_help').dialog('open')" style="color:#333;">帮助</a></div>
     </div>
 
@@ -314,8 +314,8 @@ border:1px solid lightgray;}
                         </div>
                 </form>
              </div>
-             <!--  <a onclick="search_toolbar1()"  id="my_search" style="top: 99px;margin-left:910px;">查询</a> -->
-             <a onclick="search_toolbar1()"  id="my_search" style="top:21px;margin-left:1000px;"><span class="fSearchIcon"></span>查询</a>
+             <!--  <a onclick="search_toolbar1()"  id="my_search" style="top: 99px;margin-left:910px;">查询</a>
+             <a onclick="search_toolbar1()"  id="my_search" style="top:21px;margin-left:1000px;"><span class="fSearchIcon"></span>查询</a> -->
             </div>
 		</div>
      <table id="dg" border="true"

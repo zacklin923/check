@@ -299,8 +299,8 @@ border:1px solid lightgray;}
             <a href="">运单状态查询</a>
         </div>
         <div
-            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../firstPage.html">返回首页</a>
-            | <a style="color:#333;" href="../../index.html">退出登录 |
+            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../../view/firstPage.html">返回首页</a>
+            | <a style="color:#333;" href="../../../view/index.html">退出登录 |
             </a><a onclick="$('#dlg_help').dialog('open')" style="color:#333;">帮助</a></div>
     </div>
 
@@ -373,29 +373,27 @@ border:1px solid lightgray;}
                         </div>
                         <div class="right">
                             <ul>
-                                
-                                <li><label >发货日期开始</label>
-                                    &nbsp;&nbsp;<input style="height:27px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString1()%>"/>
+                               <li><label for="">发货日期开始</label>
+                                    <input style="height:27px; width:100px;" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd'})"value="<%=DateTimeHelper.getBeginOfOld().toString3()%>"/> 8:00:00
                                 </li>
-                                <li><label >发货日期结束</label>
-                                    &nbsp;&nbsp;<input style="height:27px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString1()%>"/>
+                                <li><label for="">发货日期结束</label>
+                                    <input style="height:27px; width:100px;" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd'})"value="<%=DateTimeHelper.getEndOfOld().toString3()%>"/> 7:59:59
                                 </li>
-
                                 <li> <label >是否超时</label>
-                                    &nbsp;&nbsp;&nbsp;<select class="my_select"  name ="int1"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:29px">
+                                    &nbsp;<select class="my_select"  name ="int1"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:29px">
                                     <option value="" style="color: #6B6B6B;font-weight: 300;">--请选择是否超时--</option>
                                     <option value="1" style="color: #6B6B6B;font-weight: 300;">--是--</option>
                                     <option value="0" style="color: #6B6B6B;font-weight: 300;">--否--</option>
                                     </select>
                                 </li>
-                                  <li> <label >目的地是否为空</label>
-                                    &nbsp;<select class="my_select"  name ="str16"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:2px">
+                                  <li> <label >目的地为空</label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<select class="my_select"  name ="str16"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:5px">
                                      <option value="0" style="color: #6B6B6B;font-weight: 300;">--否--</option>
                                     <option value="1" style="color: #6B6B6B;font-weight: 300;">--是--</option>
                                     </select>
                                 </li>
-                                <li><label >修改人</label>
-                                    &nbsp;<input   style="margin-left: 48px;width:178px;" name ="str17">
+                                <li><label>修改人</label>
+                                    <input  style="margin-left: 43px;width:178px;" name ="str17">
                                 </li>
                             </ul>
                         </div>
@@ -409,7 +407,7 @@ border:1px solid lightgray;}
                             <div class="radio">
                                 <input type="checkbox" name ="strn2"  value="配送成功"/><span>配送成功</span>
                                 <input type="checkbox" name ="strn2" value="配送失败"/><span>配送失败</span>
-                                <input type="checkbox" name ="strn2" value="配送异常"/><span>配送异常</span>
+                                <input type="checkbox" name ="strn2" value="配送异常"/><span>配送异常</span><br>
                                 <input type="checkbox" name ="strn2" value="配送中"/><span>配送中</span>
                                 <input type="checkbox" name ="strn2" value="揽件"/><span>揽件</span>
                                 <input type="checkbox" name ="strn2" value="退回件"/><span>退回件</span>
@@ -420,7 +418,7 @@ border:1px solid lightgray;}
                         
                 </form>
              </div>
-               <a onclick="search_toolbar1()"  id="my_search" style="top:15px;margin-left:1185px;"><span class="fSearchIcon"></span>查询</a>
+               <!-- <a onclick="search_toolbar1()"  id="my_search" style="top:15px;margin-left:1185px;"><span class="fSearchIcon"></span>查询</a> -->
             
 		</div>
 		<div style="height: 10px;"></div>

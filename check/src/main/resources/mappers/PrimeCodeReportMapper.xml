@@ -638,7 +638,7 @@
 	  		and CTM_BAR_CODE in (${str3})
 	  	</if>
 	  	<if test="str4!=null and str4!=''">
-	  		and STU_NUM in (select stu_num from staff_user where stu_name in (${str4}))
+	  		and STU_NUM in (select usernumber from IT_COMMON_USER where name in (${str4}))
 	  	</if>
 	  	<if test="str5!=null and str5!=''">
 	  		and CTM_NAME like '%${str5}%'
@@ -676,7 +676,7 @@
 		  		and CTM_BAR_CODE in (${str3})
 		  	</if>
 		  	<if test="str4!=null and str4!=''">
-		  		and STU_NUM in (select stu_num from staff_user where stu_name in (${str4}))
+		  		and STU_NUM in (select usernumber from IT_COMMON_USER where name in (${str4}))
 		  	</if>
 		  	<if test="str5!=null and str5!=''">
 		  		and CTM_NAME like '%${str5}%'
@@ -750,7 +750,7 @@
   	from prime_code_report
   	<where>
   		<if test="str1!=null">
-	  	 	 and stu_num in (select stu_num from staff_user where stu_name in (${str1}))
+	  	 	 and stu_num in (select usernumber from IT_COMMON_USER where name in (${str4}))
   		</if>
   		<if test="date1!=null">
 	  		and CREATE_DATE >= #{date1}
