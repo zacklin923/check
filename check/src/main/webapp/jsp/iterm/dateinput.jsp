@@ -142,36 +142,34 @@ function search_toolbar1(){
 #mypanel{
 border:1px solid lightgray;}
 </style>
-	<div data-options="region:'north',split:false" style="height:60px;overflow: hidden">
+	<div data-options="region:'north',split:false" style="height:40px;overflow: hidden">
     <div class="layout-header" style="position: relative">
         <style>
             .logo {
                 display: inline-block;
-                width: 230px;
-                height: 60px;
+                width: 150px;
+                height: 40px;
                 background-image: url("images/logo12.jpg");
+                background-size:contain;
             }
         </style>
         <div class="logo"></div>
-        <div class="layout-title" style="position: absolute;top: 28px;left: 250px;">
-            <h4 style="color:white;font-size: 16px;font-weight: 600">深圳市韵达速递有限公司</h4>
+        <div class="layout-title" style="position: absolute;top: 15px;left: 230px;">
+            <h4 style="color:white;font-size: 16px;font-weight: 900;font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;">深圳市韵达速递有限公司</h4>
         </div>
         <div class="self_title">
-            <a href="">数据导入</a>
+            <a style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;" href="">数据导入</a>
         </div>
-        <div
-            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../../view/firstPage.html">返回首页</a>
-            | <a style="color:#333;" href="../../../view/index.html">退出登录 |
-            </a><a onclick="$('#dlg_help').dialog('open')" style="color:#333;">帮助</a></div>
-    </div>
-
+        <div style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 12px;right: 40px;color: white;">
+            <a style="color:white;" href="../../../view/firstPage.html">返回首页</a>
+            | <a style="color:white;" href="../../../view/index.html">退出登录 |
+            </a><a onclick="$('#dlg_help').dialog('open')" style="color:white;">帮助</a></div>
+    	</div>
 </div>
 
-
-	<div data-options="region:'center',split:false" style="padding-left:20px;padding-right:30px;padding-top:1px;padding-bottom:10px">
-
+	<div data-options="region:'center'" style="padding-left:20px;padding-right:30px;padding-bottom:10px;">
 		<div id="toolsbars">
-			<div id="menulist" style="padding-top: 10px;position:raletiver">
+			<div id="menulist" style="padding-top:10px;position:raletiver">
                 <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
                 <a onclick="deleteAll()"><span class="iterm3"></span>批量删除</a>
