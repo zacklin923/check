@@ -221,27 +221,18 @@ border:1px solid lightgray;}
 </style>
 	<div data-options="region:'north',split:false" style="overflow: hidden">
     <div class="layout-header" style="position: relative">
-        <style>
-            .logo {
-                display: inline-block;
-                width: 150px;
-                height: 40px;
-                background-image: url("images/logo12.jpg");
-                background-size:contain;
-            }
-        </style>
+      
         <div class="logo"></div>
-        <div class="layout-title" style="position: absolute;top: 15px;left: 230px;">
-            <h4 style="color:white;font-size: 16px;font-weight: 900;font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;">深圳市韵达速递有限公司</h4>
+        <div class="layout-title">
+            <h4>深圳市韵达速递有限公司</h4>
         </div>
         <div class="self_title">
-            <a style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;">大客户信息</a>
+            <a>大客户信息</a>
         </div>
-        <div
-            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 15px;right: 40px;color: white">
-            <a style="color:white;" href="../../../view/firstPage.html">返回首页</a>
-            | <a style="color:white;" href="../../../view/index.html">退出登录 |
-            </a><a onclick="$('#dlg_help').dialog('open')" style="color:white;">帮助</a></div>
+        <div class="my_help">
+            <a href="../../../view/firstPage.html">返回首页</a>
+            | <a  href="../../../view/index.html">退出登录 |
+            </a><a onclick="$('#dlg_help').dialog('open')" >帮助</a></div>
     </div>
 
 </div>
