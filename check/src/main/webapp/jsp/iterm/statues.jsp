@@ -281,25 +281,17 @@ function IESerch(){
 #mypanel{
 border:1px solid lightgray;}
 </style>
-	<div data-options="region:'north',split:false" style="height:60px;overflow: hidden">
+	<div data-options="region:'north',split:false" style="overflow: hidden">
     <div class="layout-header" style="position: relative">
-        <style>
-            .logo {
-                display: inline-block;
-                width: 230px;
-                height: 60px;
-                background-image: url("images/logo12.jpg");
-            }
-        </style>
+       
         <div class="logo"></div>
-        <div class="layout-title" style="position: absolute;top: 28px;left: 250px;">
-            <h4 style="color:white;font-size: 16px;font-weight: 600">深圳市韵达速递有限公司</h4>
+        <div class="layout-title">
+            <h4>深圳市韵达速递有限公司</h4>
         </div>
         <div class="self_title">
             <a href="">运单状态查询</a>
         </div>
-        <div
-            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../../view/firstPage.html">返回首页</a>
+          <div class="my_help"> <a href="../../../view/firstPage.html">返回首页</a>
             | <a style="color:#333;" href="../../../view/index.html">退出登录 |
             </a><a onclick="$('#dlg_help').dialog('open')" style="color:#333;">帮助</a></div>
     </div>

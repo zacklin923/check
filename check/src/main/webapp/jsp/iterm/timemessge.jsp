@@ -160,7 +160,7 @@ function search_toolbar1(){
 #mypanel{
 border:1px solid lightgray;}
 </style>
-	<div data-options="region:'north',split:false"overflow: hidden">
+	<div data-options="region:'north',split:false" style="overflow: hidden">
     <div class="layout-header" style="position: relative">
        
         <div class="logo"></div>

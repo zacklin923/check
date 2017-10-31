@@ -167,7 +167,7 @@ border:1px solid lightgray;}
         <div class="self_title">
             <a href="">签收报表</a>
         </div>
-        <div><a  href="../../../view/firstPage.html">返回首页</a>
+        <div class="my_help"><a  href="../../../view/firstPage.html">返回首页</a>
             | <a  href="../../../view/index.html">退出登录 |
             </a><a onclick="$('#dlg_help').dialog('open')"">帮助</a></div>
     </div>
