@@ -28,4 +28,5 @@ public interface ItCommonUserMapper {
     int updateByPrimaryKeySelective(ItCommonUser record);
 
     int updateByPrimaryKey(ItCommonUser record);
+    
 }

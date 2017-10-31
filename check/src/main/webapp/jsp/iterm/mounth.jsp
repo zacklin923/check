@@ -79,7 +79,7 @@ function excel_export(){
 	
 }
 </script>
-<style>
+<!-- <style>
 .panel-body {border-color: #E6E6E6; border:none;}
 	#menulist{height:30px;}
 	#mypanel{border:1px solid lightgray;}
@@ -107,14 +107,51 @@ function excel_export(){
 			</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
+	<style>
+.panel-body {border-color: #E6E6E6; border:none;}
+  .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
+
+        padding: 4px;
+
+    }
 
 
-	<div data-options="region:'center',split:false" style="padding-left:20px;padding-right:30px;padding-top:1px;padding-bottom:10px">
+#mypanel{
+border:1px solid lightgray;}
+</style>
+	<div data-options="region:'north',split:false" style="overflow: hidden">
+    <div class="layout-header" style="position: relative">
+       
+        <div class="logo"></div>
+        <div class="layout-title" >
+            <h4>深圳市韵达速递有限公司</h4>
+        </div>
+        <div class="self_title">
+            <a href="">月报表</a>
+        </div>
+        <div><a href="../../../view/firstPage.html">返回首页</a>
+            | <a  href="../../../view/index.html">退出登录 |
+            </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
+    </div>
+
+</div>
+	
+
+
+		<div data-options="region:'center',split:false" style="padding-left:20px;padding-right:30px;padding-top:1px;padding-bottom:10px">
 
 		<div id="toolsbars">
+		<div id="menulist" style="padding-top: 10px;position:raletiver">
+			
+                <a onclick="refrence()"><span class="iterm1"></span>重新生成 </a>
+                <a onclick="excel_export()"><span class="iterm2"></span>导出</a>
+                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
+                 <span class="myself_btn" style="position:absolute;right:5px;top:21px;">收缩</span>	
+			
+			</div>
 
-			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:10px;box-sizing: content-box;overflow:hidden;" data-options="border:false" >
+		<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
 
                 <div class="my_from">
                 <form id="search">
@@ -147,7 +184,7 @@ function excel_export(){
                         </div>
                 </form>
              </div>
-             <a onclick="search_toolbar1()"  id="my_search" style="top: 70px;margin-left:620px;">查询</a>
+            <!--  <a onclick="search_toolbar1()"  id="my_search" style="top:15px;margin-left:630px;"><span class="fSearchIcon"></span>查询</a> -->
 		</div>
 		<div style="height: 10px;background:white;"></div>
         </div>

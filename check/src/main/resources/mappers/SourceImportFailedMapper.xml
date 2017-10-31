@@ -230,7 +230,7 @@
 			  		and CREATE_TIME &lt;= #{date2}
 		  		</if>
 		  		<if test="str3!=null and str3!=''">
-			  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str3}%')
+			  		and STU_NUM in (select usernumber from IT_COMMON_USER where name like '%${str3}%')
 		  		</if>
 		  	</where>
 		  	<if test="sort!=null and order!=null">
@@ -268,7 +268,7 @@
 	  		and CREATE_TIME &lt;= #{date2}
   		</if>
   		<if test="str3!=null and str3!=''">
-	  		and STU_NUM in (select stu_num from staff_user where stu_name like '%${str3}%')
+	  		and STU_NUM in (select usernumber from IT_COMMON_USER where name like '%${str3}%')
   		</if>
  	</where>
   </select>

@@ -442,7 +442,7 @@
 			  		and ORDER_NUMBER like '%${str6}%'
 			  	</if>
 			  	<if test="str7!=null and str7!=''">
-			  		and STU_NUM in (select id from it_common_user where name like '%${str7}%')
+			  		and STU_NUM in (select usernumber from IT_COMMON_USER where name '%${str7}%')
 			  	</if>
 			  	<if test="str8!=null and str8!=''">
 			  		and SHOP_NUMBER like '%${str8}%'
@@ -489,7 +489,7 @@
 	  		and ORDER_NUMBER like '%${str6}%'
 	  	</if>
 	  	<if test="str7!=null and str7!=''">
-	  		and STU_NUM in (select id from it_common_user where name like '%${str7}%')
+	  		and STU_NUM in (select usernumber from IT_COMMON_USER where name '%${str7}%')
 	  	</if>
 	  	<if test="str8!=null and str8!=''">
 	  		and SHOP_NUMBER like '%${str8}%'

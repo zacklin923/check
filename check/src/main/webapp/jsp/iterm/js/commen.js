@@ -3,7 +3,7 @@
  */
 $(function () {
     var index = 0;
-    $(".self-tool-btn").on("click", function () {
+    $(".myself_btn").on("click", function () {
         index++;
         if (index % 2 !== 0) {
             $("#mypanel").panel("collapse",true);
@@ -11,7 +11,6 @@ $(function () {
             $(".myself_btn").html("展开")
         } else if (index % 2 === 0) {
             $("#mypanel").panel("expand" ,true);
-//                    $("#mypanel").show("speed");
             $("#dg").datagrid("resize");
             $(".myself_btn").html("收缩")
 

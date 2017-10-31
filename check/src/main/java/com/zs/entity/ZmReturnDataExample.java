@@ -2045,6 +2045,136 @@ public class ZmReturnDataExample {
             addCriterion("CREATE_DATE not between", value1, value2, "createDate");
             return (Criteria) this;
         }
+
+        public Criteria andUpdateManIsNull() {
+            addCriterion("UPDATE_MAN is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManIsNotNull() {
+            addCriterion("UPDATE_MAN is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManEqualTo(String value) {
+            addCriterion("UPDATE_MAN =", value, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManNotEqualTo(String value) {
+            addCriterion("UPDATE_MAN <>", value, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManGreaterThan(String value) {
+            addCriterion("UPDATE_MAN >", value, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManGreaterThanOrEqualTo(String value) {
+            addCriterion("UPDATE_MAN >=", value, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManLessThan(String value) {
+            addCriterion("UPDATE_MAN <", value, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManLessThanOrEqualTo(String value) {
+            addCriterion("UPDATE_MAN <=", value, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManLike(String value) {
+            addCriterion("UPDATE_MAN like", value, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManNotLike(String value) {
+            addCriterion("UPDATE_MAN not like", value, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManIn(List<String> values) {
+            addCriterion("UPDATE_MAN in", values, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManNotIn(List<String> values) {
+            addCriterion("UPDATE_MAN not in", values, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManBetween(String value1, String value2) {
+            addCriterion("UPDATE_MAN between", value1, value2, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateManNotBetween(String value1, String value2) {
+            addCriterion("UPDATE_MAN not between", value1, value2, "updateMan");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateIsNull() {
+            addCriterion("SEND_DATE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateIsNotNull() {
+            addCriterion("SEND_DATE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateEqualTo(Date value) {
+            addCriterion("SEND_DATE =", value, "sendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateNotEqualTo(Date value) {
+            addCriterion("SEND_DATE <>", value, "sendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateGreaterThan(Date value) {
+            addCriterion("SEND_DATE >", value, "sendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("SEND_DATE >=", value, "sendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateLessThan(Date value) {
+            addCriterion("SEND_DATE <", value, "sendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateLessThanOrEqualTo(Date value) {
+            addCriterion("SEND_DATE <=", value, "sendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateIn(List<Date> values) {
+            addCriterion("SEND_DATE in", values, "sendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateNotIn(List<Date> values) {
+            addCriterion("SEND_DATE not in", values, "sendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateBetween(Date value1, Date value2) {
+            addCriterion("SEND_DATE between", value1, value2, "sendDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andSendDateNotBetween(Date value1, Date value2) {
+            addCriterion("SEND_DATE not between", value1, value2, "sendDate");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

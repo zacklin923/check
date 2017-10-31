@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zs.dao.ZmReturnDataMapper" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zs.dao.ZmReturnDataMapper">
   <resultMap id="BaseResultMap" type="com.zs.entity.ZmReturnData">
     <id column="COURIER_NUMBER" jdbcType="VARCHAR" property="courierNumber" />
     <result column="CTM_BAR_CODE" jdbcType="VARCHAR" property="ctmBarCode" />
@@ -32,6 +32,7 @@
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
     <result column="UPDATE_MAN" jdbcType="VARCHAR" property="updateMan" />
+    <result column="SEND_DATE" jdbcType="TIMESTAMP" property="sendDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -95,7 +96,8 @@
     COURIER_NUMBER, CTM_BAR_CODE, CTM_NAME, LARGE_AREA, SLICE_AREA, FENBU, FBD_AREA, 
     SHOP_NUMBER, ADDRESS, ADDRESSEE, PHONE, GOODS, GOODS_COST, WEIGHT, FEE, COURIER_COMPANY, 
     ORDER_NUMBER, SEND_TIME, PROVINCE, COURIER_STATE, TIME_OUT, DELIVERY_STATE, SIGNATORY, 
-    SIGN_TIME, SIGN_PORT, ABNORMAL_CAUSE, CREATE_TIME, UPDATE_TIME, CREATE_DATE, UPDATE_MAN
+    SIGN_TIME, SIGN_PORT, ABNORMAL_CAUSE, CREATE_TIME, UPDATE_TIME, CREATE_DATE, UPDATE_MAN, 
+    SEND_DATE
   </sql>
   <select id="selectByExample" parameterType="com.zs.entity.ZmReturnDataExample" resultMap="BaseResultMap">
     select
@@ -138,8 +140,8 @@
       PROVINCE, COURIER_STATE, TIME_OUT, 
       DELIVERY_STATE, SIGNATORY, SIGN_TIME, 
       SIGN_PORT, ABNORMAL_CAUSE, CREATE_TIME, 
-      UPDATE_TIME, CREATE_DATE, UPDATE_MAN
-      )
+      UPDATE_TIME, CREATE_DATE, UPDATE_MAN, 
+      SEND_DATE)
     values (#{courierNumber,jdbcType=VARCHAR}, #{ctmBarCode,jdbcType=VARCHAR}, #{ctmName,jdbcType=VARCHAR}, 
       #{largeArea,jdbcType=VARCHAR}, #{sliceArea,jdbcType=VARCHAR}, #{fenbu,jdbcType=VARCHAR}, 
       #{fbdArea,jdbcType=VARCHAR}, #{shopNumber,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
@@ -149,8 +151,8 @@
       #{province,jdbcType=VARCHAR}, #{courierState,jdbcType=VARCHAR}, #{timeOut,jdbcType=TIMESTAMP}, 
       #{deliveryState,jdbcType=VARCHAR}, #{signatory,jdbcType=VARCHAR}, #{signTime,jdbcType=TIMESTAMP}, 
       #{signPort,jdbcType=VARCHAR}, #{abnormalCause,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{updateMan,jdbcType=VARCHAR}
-      )
+      #{updateTime,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{updateMan,jdbcType=VARCHAR}, 
+      #{sendDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.zs.entity.ZmReturnData">
     insert into ZM_RETURN_DATA
@@ -245,6 +247,9 @@
       <if test="updateMan != null">
         UPDATE_MAN,
       </if>
+      <if test="sendDate != null">
+        SEND_DATE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="courierNumber != null">
@@ -336,6 +341,9 @@
       </if>
       <if test="updateMan != null">
         #{updateMan,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null">
+        #{sendDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -438,6 +446,9 @@
       <if test="record.updateMan != null">
         UPDATE_MAN = #{record.updateMan,jdbcType=VARCHAR},
       </if>
+      <if test="record.sendDate != null">
+        SEND_DATE = #{record.sendDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -474,7 +485,8 @@
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
-      UPDATE_MAN = #{record.updateMan,jdbcType=VARCHAR}
+      UPDATE_MAN = #{record.updateMan,jdbcType=VARCHAR},
+      SEND_DATE = #{record.sendDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -569,6 +581,9 @@
       <if test="updateMan != null">
         UPDATE_MAN = #{updateMan,jdbcType=VARCHAR},
       </if>
+      <if test="sendDate != null">
+        SEND_DATE = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
   </update>
@@ -602,10 +617,11 @@
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
-      UPDATE_MAN = #{updateMan,jdbcType=VARCHAR}
+      UPDATE_MAN = #{updateMan,jdbcType=VARCHAR},
+      SEND_DATE = #{sendDate,jdbcType=TIMESTAMP}
     where COURIER_NUMBER = #{courierNumber,jdbcType=VARCHAR}
   </update>
-  <!-- 开始复杂的业务sql -->
+	<!-- 开始复杂的业务sql -->
   <sql id="Base_Column_List_Zm" >
     COURIER_NUMBER, LARGE_AREA, SLICE_AREA, FENBU, CTM_BAR_CODE, CTM_NAME, 
     SEND_TIME, PROVINCE, ADDRESS, SHOP_NUMBER, ADDRESSEE, PHONE, WEIGHT, COURIER_COMPANY, 
@@ -638,10 +654,10 @@
 		    select <include refid="Base_Column_List_Zm" /> from ZM_RETURN_DATA
 		    <where>
 		  		<if test="date1!=null">
-		  			and SEND_TIME >= #{date1}
+		  			and send_date >= #{date1}
 		 		</if>
 		 		<if test="date2!=null">
-		  			and SEND_TIME &lt;= #{date2}
+		  			and send_date &lt; #{date2}
 		 		</if>
 		    	<if test="str1!=null and str1!=''">
 			  		and CTM_BAR_CODE in (${str1})
@@ -680,7 +696,7 @@
 		  			and COURIER_STATE = #{int1}
 		  		</if>
 		  		<if test="str17!=null and str17!=''">
-		  			and update_man in (select id from it_common_user where name like '%${str17}%')
+		  			and update_man in (select usernumber from IT_COMMON_USER where name like '%${str17}%')
 		  		</if>
 		  		and 
 		  		(
@@ -714,10 +730,10 @@
   	select count(courier_number) from ZM_RETURN_DATA
     <where>
   		<if test="date1!=null">
-  			and SEND_TIME >= #{date1}
+  			and send_date >= #{date1}
  		</if>
  		<if test="date2!=null">
-  			and SEND_TIME &lt;= #{date2}
+  			and send_date &lt; #{date2}
  		</if>
     	<if test="str1!=null and str1!=''">
 	  		and CTM_BAR_CODE in (${str1})
@@ -753,7 +769,7 @@
   			and ADDRESS like '%${str12}%'
   		</if>
   		<if test="str17!=null and str17!=''">
-  			and update_man in (select id from it_common_user where name like '%${str17}%')
+  			and update_man in (select usernumber from IT_COMMON_USER where name like '%${str17}%')
   		</if>
   		<if test="int1!=null">
   			and COURIER_STATE = #{int1}
@@ -796,10 +812,10 @@
 		    select <include refid="Base_Column_List_Tp" /> from ZM_RETURN_DATA
 		    <where>
 			  	<if test="date1!=null">
-		 			and SEND_TIME >= #{date1}
+		 			and send_date >= #{date1}
 				</if>
 				<if test="date2!=null">
-		 			and SEND_TIME &lt;= #{date2}
+		 			and send_date &lt;= #{date2}
 				</if>
 		    	<if test="str1!=null and str1!=''">
 			  		and CTM_BAR_CODE in (${str1})
@@ -847,7 +863,7 @@
 			  		and PROVINCE is null
 			  	</if>
 			  	<if test="str17!=null and str17!=''">
-		  			and update_man in (select id from it_common_user where name like '%${str17}%')
+		  			and update_man in (select usernumber from IT_COMMON_USER where name like '%${str17}%')
 		  		</if>
 			  	<if test="int1!=null">
 			  		and 
@@ -885,10 +901,10 @@
   	select count(courier_number) from ZM_RETURN_DATA
     <where>
 	  	<if test="date1!=null">
- 			and SEND_TIME >= #{date1}
+ 			and send_date >= #{date1}
 		</if>
 		<if test="date2!=null">
- 			and SEND_TIME &lt;= #{date2}
+ 			and send_date &lt;= #{date2}
 		</if>
     	<if test="str1!=null and str1!=''">
 	  		and CTM_BAR_CODE in (${str1})
@@ -933,7 +949,7 @@
   			and ADDRESS like '%${str15}%'
   		</if>
   		<if test="str17!=null and str17!=''">
- 			and update_man in (select id from it_common_user where name like '%${str17}%')
+ 			and update_man in (select usernumber from IT_COMMON_USER where name like '%${str17}%')
  		</if>
 	  	<if test="int1!=null">
 	  		and 
@@ -1019,6 +1035,4 @@
   	and province=#{3,jdbcType=VARCHAR}
   	and DELIVERY_STATE in ('配送中','揽件','配送异常')
   </select>
-  
-  
 </mapper>

@@ -1,6 +1,6 @@
 @charset "utf-8";
 /*Base CSS Reset*/
-html{color:#333;background:#fff;-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;}
+html{color:#333;background:#fff;-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}
 html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,menu,nav,section {margin:0;padding:0;}
 article,aside,details,figcaption,figure,footer,header,menu,nav,section { display:block;}
 audio,canvas,video { display: inline-block;*display: inline;*zoom: 1;}

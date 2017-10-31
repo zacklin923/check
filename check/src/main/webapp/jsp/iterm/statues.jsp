@@ -269,48 +269,64 @@ function IESerch(){
 	});
 } --%>
 </script>
-<style>
+	<style>
 .panel-body {border-color: #E6E6E6; border:none;}
-	#menulist{height:30px;}
-	#mypanel{border:1px solid lightgray;}
-</style>
-	<div data-options="region:'north',split:false" style="height:87px;overflow: hidden">
+  .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
 
-		<div class="layout-header" style="position: relative">
-			<div class="layout-title">
-				<h3><a>深圳韵达有限公司</a></h3>
-			</div>
-			<div class="self_title">
-				<a href="">运单状态查询</a>
-			</div>
-			<div class="layout-help" style="position: absolute;">
-				<a onclick="$('#dlg_help').dialog('open')">帮助</a>
-			</div>
-            <div class="self-tool-btn" style="margin-top:50px;">
-                <span class="myself_btn">收缩</span>	
-            </div>
-			<div id="menulist">
-			<div>
-                <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
-                <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
-                <a onclick="$('#mbedit').dialog('open')"><span class="iterm3"></span>编辑模板</a>
-                <a onclick="accept()"><span class="iterm4"></span>保存</a>
-                <a ><span class="iterm6"></span>统计</a>
-                <a onclick="$('#exportdiv').dialog('open');"><span class="iterm7"></span>导出</a>
-                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
-                <a onclick="IESerch()"><span class="iterm8"></span>&nbsp;快件查询</a>
-                <a onclick="$('#fileImport1').dialog('open')" style="display:none;"><span class="iterm1"></span>插发货时间数据 </a>
-			</div>
-			</div>
-		</div>
-	</div>
+        padding: 4px;
+
+    }
+
+
+#mypanel{
+border:1px solid lightgray;}
+</style>
+	<div data-options="region:'north',split:false" style="height:60px;overflow: hidden">
+    <div class="layout-header" style="position: relative">
+        <style>
+            .logo {
+                display: inline-block;
+                width: 230px;
+                height: 60px;
+                background-image: url("images/logo12.jpg");
+            }
+        </style>
+        <div class="logo"></div>
+        <div class="layout-title" style="position: absolute;top: 28px;left: 250px;">
+            <h4 style="color:white;font-size: 16px;font-weight: 600">深圳市韵达速递有限公司</h4>
+        </div>
+        <div class="self_title">
+            <a href="">运单状态查询</a>
+        </div>
+        <div
+            style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 35px;right: 40px;color: #333333"><a style="color:#333;" href="../../../view/firstPage.html">返回首页</a>
+            | <a style="color:#333;" href="../../../view/index.html">退出登录 |
+            </a><a onclick="$('#dlg_help').dialog('open')" style="color:#333;">帮助</a></div>
+    </div>
+
+</div>
 
 
 	<div data-options="region:'center',split:false" style="padding-left:20px;padding-right:30px;padding-top:1px;padding-bottom:10px">
 
 		<div id="toolsbars">
+		 
+			<div id="menulist" style="padding-top: 10px;position:raletiver">
+			
+                <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
+                <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
+                <a onclick="$('#mbedit').dialog('open')"><span class="iterm3"></span>编辑模板</a>
+                <a onclick="accept()"><span class="iterm4"></span>保存</a>
+<!--                 <a ><span class="iterm6"></span>统计</a> -->
+                <a onclick="$('#exportdiv').dialog('open');"><span class="iterm7"></span>导出</a>
+                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
+                <a onclick="IESerch()"><span class="iterm8"></span>&nbsp;快件查询</a>
+                <a onclick="$('#fileImport1').dialog('open')" style="display:none;"><span class="iterm1"></span>插发货时间数据 </a>
+                  <span class="myself_btn" style="position:absolute;right:4px;top:21px;">收缩</span>	
+			
+			</div>
 
-			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:10px;box-sizing: content-box;overflow:hidden;" data-options="border:false" >
+			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
 
                 <div class="my_from">
                 <form id="search">
@@ -357,29 +373,27 @@ function IESerch(){
                         </div>
                         <div class="right">
                             <ul>
-                                
-                                <li><label >发货日期开始</label>
-                                    &nbsp;&nbsp;<input style="height:23px" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getBeginOfOld().toString1()%>"/>
+                               <li><label for="">发货日期开始</label>
+                                    <input style="height:27px; width:100px;" name="date1" id="d4311" class="Wdate" type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'d4312\')}' ,dateFmt:'yyyy-MM-dd'})"value="<%=DateTimeHelper.getBeginOfOld().toString3()%>"/> 8:00:00
                                 </li>
-                                <li><label >发货日期结束</label>
-                                    &nbsp;&nbsp;<input style="height:23px" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<%=DateTimeHelper.getEndOfOld().toString1()%>"/>
+                                <li><label for="">发货日期结束</label>
+                                    <input style="height:27px; width:100px;" name="date2" id="d4312" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'d4311\')}' ,dateFmt:'yyyy-MM-dd'})"value="<%=DateTimeHelper.getEndOfOld().toString3()%>"/> 7:59:59
                                 </li>
-
                                 <li> <label >是否超时</label>
-                                    &nbsp;&nbsp;&nbsp;<select class="my_select"  name ="int1"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:29px">
+                                    &nbsp;<select class="my_select"  name ="int1"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:29px">
                                     <option value="" style="color: #6B6B6B;font-weight: 300;">--请选择是否超时--</option>
                                     <option value="1" style="color: #6B6B6B;font-weight: 300;">--是--</option>
                                     <option value="0" style="color: #6B6B6B;font-weight: 300;">--否--</option>
                                     </select>
                                 </li>
-                                  <li> <label >目的地是否为空</label>
-                                    &nbsp;<select class="my_select"  name ="str16"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:2px">
+                                  <li> <label >目的地为空</label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<select class="my_select"  name ="str16"  id=""  style="color: #6B6B6B;font-weight: 300;margin-left:5px">
                                      <option value="0" style="color: #6B6B6B;font-weight: 300;">--否--</option>
                                     <option value="1" style="color: #6B6B6B;font-weight: 300;">--是--</option>
                                     </select>
                                 </li>
-                                <li><label >修改人</label>
-                                    &nbsp;<input   style="margin-left: 15px" name ="str17">
+                                <li><label>修改人</label>
+                                    <input  style="margin-left: 43px;width:178px;" name ="str17">
                                 </li>
                             </ul>
                         </div>
@@ -387,13 +401,13 @@ function IESerch(){
                             <div><p >客户条码</p>
                                 <textarea name ="str4" cols="200" rows="20"></textarea>
                             </div>
-                            <div style="margin-left: 10px"><p>快递单号</p>
+                            <div style="margin-left: 30px"><p>快递单号</p>
                                 <textarea name="str3" cols="200" rows="20"></textarea>
                             </div>
                             <div class="radio">
                                 <input type="checkbox" name ="strn2"  value="配送成功"/><span>配送成功</span>
                                 <input type="checkbox" name ="strn2" value="配送失败"/><span>配送失败</span>
-                                <input type="checkbox" name ="strn2" value="配送异常"/><span>配送异常</span>
+                                <input type="checkbox" name ="strn2" value="配送异常"/><span>配送异常</span><br>
                                 <input type="checkbox" name ="strn2" value="配送中"/><span>配送中</span>
                                 <input type="checkbox" name ="strn2" value="揽件"/><span>揽件</span>
                                 <input type="checkbox" name ="strn2" value="退回件"/><span>退回件</span>
@@ -404,7 +418,7 @@ function IESerch(){
                         
                 </form>
              </div>
-             <a onclick="search_toolbar1()"  id="my_search" style="margin-left:1060px;top: 130px;">查询</a>
+               <!-- <a onclick="search_toolbar1()"  id="my_search" style="top:15px;margin-left:1185px;"><span class="fSearchIcon"></span>查询</a> -->
             
 		</div>
 		<div style="height: 10px;"></div>

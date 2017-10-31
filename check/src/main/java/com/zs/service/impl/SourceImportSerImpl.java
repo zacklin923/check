@@ -22,6 +22,7 @@ import com.zs.dao.StaffUserMapper;
 import com.zs.entity.Customer;
 import com.zs.entity.CustomerKey;
 import com.zs.entity.ItCommonUser;
+import com.zs.entity.ItCommonUserExample;
 import com.zs.entity.SourceImport;
 import com.zs.entity.SourceImportFailed;
 import com.zs.entity.SourceZm;
@@ -68,8 +69,10 @@ public class SourceImportSerImpl implements SourceImportSer{
 			for (int i = 0; i < list.size(); i++) {
 				SourceImport si = (SourceImport) list.get(i);
 				if(si.getStuNum()!=null && !si.getStuNum().equals("")){
-					ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(si.getStuNum()));
-					si.setStuName(suer.getName()==null?"":suer.getName());
+					ItCommonUserExample icexample= new ItCommonUserExample();
+					icexample.createCriteria().andUsernumberEqualTo(si.getStuNum());
+					List<ItCommonUser> suer = itCommonUserMapper.selectByExample(icexample);
+					si.setStuName(suer.get(0).getName()==null?"":suer.get(0).getName());
 				}else{
 					si.setStuName("");
 				}

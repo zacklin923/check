@@ -9,21 +9,18 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.junit.Test;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.zs.dao.CustomerMapper;
 import com.zs.dao.ItCommonUserMapper;
 import com.zs.dao.PrimeCodeReportMapper;
-import com.zs.dao.StaffUserMapper;
 import com.zs.entity.Customer;
 import com.zs.entity.CustomerKey;
 import com.zs.entity.ItCommonUser;
+import com.zs.entity.ItCommonUserExample;
 import com.zs.entity.PrimeCodeReport;
 import com.zs.entity.PrimeCodeReportExample;
-import com.zs.entity.SourceImport;
-import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.OtherResultMap;
@@ -31,7 +28,6 @@ import com.zs.entity.other.PerResultMap;
 import com.zs.entity.other.PrimeCodeCollect;
 import com.zs.entity.other.lyResultMap;
 import com.zs.service.PrimeCodeImportSer;
-import com.zs.tools.DateTimeHelper;
 import com.zs.tools.ExcelExport;
 import com.zs.tools.Trans;
 
@@ -59,8 +55,10 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 				for (int i = 0; i < list.size(); i++) {
 					PrimeCodeReport si = (PrimeCodeReport) list.get(i);
 					if(si.getStuNum()!=null && !si.getStuNum().equals("")){
-						ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(si.getStuNum()));
-						si.setStuNum(suer.getName()==null?"":suer.getName());
+						ItCommonUserExample icexample= new ItCommonUserExample();
+						icexample.createCriteria().andUsernumberEqualTo(si.getStuNum());
+						List<ItCommonUser> suer = itCommonUserMapper.selectByExample(icexample);
+						si.setStuNum(suer.get(0).getName()==null?"":suer.get(0).getName());
 					}else{
 						si.setStuNum("");
 					}
@@ -91,8 +89,10 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 				for (int i = 0; i < list.size(); i++) {
 					PrimeCodeReport si = (PrimeCodeReport) list.get(i);
 					if(si.getStuNum()!=null && !si.getStuNum().equals("")){
-						ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(si.getStuNum()));
-						si.setStuNum(suer.getName()==null?"":suer.getName());
+						ItCommonUserExample icexample= new ItCommonUserExample();
+						icexample.createCriteria().andUsernumberEqualTo(si.getStuNum());
+						List<ItCommonUser> suer = itCommonUserMapper.selectByExample(icexample);
+						si.setStuNum(suer.get(0).getName()==null?"":suer.get(0).getName());
 					}else{
 						si.setStuNum("");
 					}
@@ -269,8 +269,10 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 			PerResultMap prm = (PerResultMap) list.get(i);
 			String str = "";
 			if(prm.getStuNum()!=null && !prm.getStuNum().equals("")){
-				ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(prm.getStuNum()));
-				str = suer.getName()==null?"":suer.getName();
+				ItCommonUserExample icexample= new ItCommonUserExample();
+				icexample.createCriteria().andUsernumberEqualTo(prm.getStuNum());
+				List<ItCommonUser> suer = itCommonUserMapper.selectByExample(icexample);
+				str = suer.get(0).getName()==null?"":suer.get(0).getName();
 			}
 			prm.setStuNum(str);
 			prmall.setC1(prmall.getC1()+prm.getC1());
@@ -307,8 +309,10 @@ public class PrimeCodeImportSerImpl implements PrimeCodeImportSer{
 		for (int i = 0; i < list.size(); i++) {
 			PrimeCodeReport si = (PrimeCodeReport) list.get(i);
 			if(si.getStuNum()!=null && !si.getStuNum().equals("")){
-				ItCommonUser suer = itCommonUserMapper.selectByPrimaryKey(new BigDecimal(si.getStuNum()));
-				si.setStuNum(suer.getName()==null?"":suer.getName());
+				ItCommonUserExample icexample= new ItCommonUserExample();
+				icexample.createCriteria().andUsernumberEqualTo(si.getStuNum());
+				List<ItCommonUser> suer = itCommonUserMapper.selectByExample(icexample);
+				si.setStuNum(suer.get(0).getName()==null?"":suer.get(0).getName());
 			}else{
 				si.setStuNum("");
 			}
