@@ -116,9 +116,7 @@ function excel_export(){
 	<div data-options="region:'north',split:false" style="height:87px;overflow: hidden">
 
 		<div class="layout-header" style="position: relative">
-			<div class="layout-title">
-				<h3><a>深圳韵达有限公司</a></h3>
-			</div>
+			
 			<div class="self_title">
 				<a href="">权限管理</a>
 			</div>

@@ -41,7 +41,7 @@
     background-color: white;
     position: absolute;
     top: 7px;
-    left: 25%;
+    left: 177px;
     border-radius: 4px;
     color: black;
     font-size: 12px;
@@ -54,7 +54,7 @@
 }
 .my_help{
 	display: inline-block;
-	width: 150px;
+	width: 70px;
 	height: 40px;
 	position: absolute;
 	top: 15px;
@@ -136,9 +136,10 @@ input {
 #menulist> a{
     text-align: center;
     text-decoration-line: none;
-    border: 1px solid lightgray;
-    width: 70px;
-    height: 30px;
+    border:1px solid  rgb(204, 204, 204);
+    vertical-align: middle;
+    width: 65px;
+    height: 32px;
     display: inline-block;
     padding-left: 20px;
     text-align: center;
@@ -148,13 +149,15 @@ input {
     color: slategray;
    	float: left;
    	border-radius:5px;
+
 }
+
 #menulist > a > span{
     width:16px;
     height: 16px;
     position: absolute;
     top: 6px;
-    left: 13px
+    left: 10px
 }
 #menulist >div{
 	height:30px;
@@ -236,10 +239,12 @@ input {
     text-indent: -10px; */
 }
 
+
 #menulist > a > .iterm5 {
     background: url("../images/查询.png") no-repeat center;
       background-size:contain;
     vertical-align: middle;	
+  
    /*  background-position: -288px -63px;
     text-indent: -10px; */
 }
@@ -376,8 +381,11 @@ input {
        	display: inline-block;
         width: 150px;
         height: 40px;
-        background-image: url("../images/logo12.jpg");
+        background-image: url("../images/yundaLogo.jpg");
       	 background-size:contain;
             }
-
+.myself_btn{
+	"position:absolute;
+	right:5px;top:24px;
+} 
 

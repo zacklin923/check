@@ -142,28 +142,17 @@ function search_toolbar1(){
 #mypanel{
 border:1px solid lightgray;}
 </style>
-	<div data-options="region:'north',split:false" style="height:40px;overflow: hidden">
+	<div data-options="region:'north',split:false" style="overflow: hidden">
     <div class="layout-header" style="position: relative">
-        <style>
-            .logo {
-                display: inline-block;
-                width: 150px;
-                height: 40px;
-                background-image: url("images/logo12.jpg");
-                background-size:contain;
-            }
-        </style>
+      
         <div class="logo"></div>
-        <div class="layout-title" style="position: absolute;top: 15px;left: 230px;">
-            <h4 style="color:white;font-size: 16px;font-weight: 900;font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;">深圳市韵达速递有限公司</h4>
-        </div>
+      
         <div class="self_title">
-            <a style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;" href="">数据导入</a>
+            <a>数据导入</a>
         </div>
-        <div style="display: inline-block;width: 150px;height: 40px;position: absolute;top: 12px;right: 40px;color: white;">
-            <a style="color:white;" href="../../../view/firstPage.html">返回首页</a>
-            | <a style="color:white;" href="../../../view/index.html">退出登录 |
-            </a><a onclick="$('#dlg_help').dialog('open')" style="color:white;">帮助</a></div>
+        <div class="my_help">
+            <a  href="../../../view/index.html">退出 |
+            </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
     	</div>
 </div>
 
@@ -174,8 +163,8 @@ border:1px solid lightgray;}
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
                 <a onclick="deleteAll()"><span class="iterm3"></span>批量删除</a>
                 <a onclick="deleteAllData()"><span class="iterm4"></span>删除所有</a>
-                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
-                <span class="myself_btn" style="position:absolute;right:5px;top:21px;">收缩</span>	
+                <a id="searchBtn" onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
+                <span class="myself_btn">收缩</span>	
              </div>  
 			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
 			
