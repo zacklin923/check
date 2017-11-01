@@ -5,9 +5,9 @@
  * 3、请不要修改pullRequest的参数，如果pullRequest已经不能满足要求，请另写一个函数继承它
  */
 
-//var URL_PATH="http://web.szexpress.com.cn:15507";//url的前面部分，包含协议、ip、端口。——张顺，2017-9-12
+var URL_PATH="http://web.szexpress.com.cn:15507";//url的前面部分，包含协议、ip、端口。——张顺，2017-9-12
 //var URL_PATH="http://172.16.1.37:8080";//黄光辉
-var URL_PATH="http://web.szexpress.com.cn:15506";//正式库的地址
+//var URL_PATH="http://web.szexpress.com.cn:15506";//正式库的地址
 
 /**获取token*/
 function getToken(){

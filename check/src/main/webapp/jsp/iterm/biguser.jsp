@@ -189,7 +189,7 @@ border:1px solid lightgray;}
             <a>大客户信息</a>
         </div>
         <div class="my_help">
-          	<a href="../../../view/index.html">退出|
+          	<a href="javascript:window.opener=null;window.open('','_self');window.close();">退出|
             </a><a onclick="$('#dlg_help').dialog('open')" >帮助</a></div>
     	</div>
 </div>

@@ -290,7 +290,7 @@ border:1px solid lightgray;}
             <a href="">运单状态查询</a>
         </div>
           <div class="my_help"> 
-            <a href="../../../view/index.html">退出 |
+            <a href="../../../view/index.html">退出|
             </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
     </div>
 

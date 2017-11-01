@@ -251,8 +251,8 @@ border:1px solid lightgray;}
             <a href="">运单信息查询</a>
         </div>
         <div class="my_help">
-            | <a href="../../../view/index.html">退出 |
-            </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
+            <a href="javascript:window.opener=null;window.open('','_self');window.close();">退出|
+            </a><a onclick="$('#dlg_help').dialog('open')" style="right:0px;">帮助</a></div>
     </div>
 
 </div>
