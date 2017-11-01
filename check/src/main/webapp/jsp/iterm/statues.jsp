@@ -285,15 +285,13 @@ border:1px solid lightgray;}
     <div class="layout-header" style="position: relative">
        
         <div class="logo"></div>
-        <div class="layout-title">
-            <h4>深圳市韵达速递有限公司</h4>
-        </div>
+       
         <div class="self_title">
             <a href="">运单状态查询</a>
         </div>
-          <div class="my_help"> <a href="../../../view/firstPage.html">返回首页</a>
-            | <a style="color:#333;" href="../../../view/index.html">退出登录 |
-            </a><a onclick="$('#dlg_help').dialog('open')" style="color:#333;">帮助</a></div>
+          <div class="my_help"> 
+            <a href="../../../view/index.html">退出 |
+            </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
     </div>
 
 </div>
@@ -308,13 +306,13 @@ border:1px solid lightgray;}
                 <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
                 <a onclick="$('#mbedit').dialog('open')"><span class="iterm3"></span>编辑模板</a>
-                <a onclick="accept()"><span class="iterm4"></span>保存</a>
+                <a onclick="accept()"><span class="iterm4"></span>保存数据</a>
 <!--                 <a ><span class="iterm6"></span>统计</a> -->
-                <a onclick="$('#exportdiv').dialog('open');"><span class="iterm7"></span>导出</a>
-                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
+                <a onclick="$('#exportdiv').dialog('open');"><span class="iterm7"></span>导出数据</a>
+                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
                 <a onclick="IESerch()"><span class="iterm8"></span>&nbsp;快件查询</a>
                 <a onclick="$('#fileImport1').dialog('open')" style="display:none;"><span class="iterm1"></span>插发货时间数据 </a>
-                  <span class="myself_btn" style="position:absolute;right:4px;top:21px;">收缩</span>	
+                  <span class="myself_btn">收缩</span>	
 			
 			</div>
 

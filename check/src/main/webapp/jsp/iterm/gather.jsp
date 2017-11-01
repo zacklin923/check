@@ -263,14 +263,12 @@ border:1px solid lightgray;}
 	<div data-options="region:'north',split:false" style="overflow: hidden">
     <div class="layout-header" style="position: relative">
         <div class="logo"></div>
-        <div class="layout-title">
-            <h4>深圳市韵达速递有限公司</h4>
-        </div>
+       
         <div class="self_title">
             <a href="">成本导入收集</a>
         </div>
-        <div class="my_help"><a  href="../../../view/firstPage.html">返回首页</a>
-            | <a  href="../../../view/index.html">退出登录 |
+        <div class="my_help">
+            <a  href="../../../view/index.html">退出 |
             </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
     </div>
 
@@ -286,9 +284,9 @@ border:1px solid lightgray;}
                 <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
                 <a onclick="deleteAll()"><span class="iterm3"></span>批量删除</a>
-                <a onclick="export_excel()"><span class="iterm4"></span>导出</a>
-                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
-                <span class="myself_btn" style="position:absolute;right:5px;top:23px;">收缩</span>	
+                <a onclick="export_excel()"><span class="iterm4"></span>导出数据</a>
+                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
+                <span class="myself_btn">收缩</span>	
 			
 			</div>
 
