@@ -168,43 +168,6 @@ function moduleEdit(){
 	});
 }
 </script>
-<!-- <style>
-.panel-body {border-color: #E6E6E6; border:none;}
-	#menulist{height:30px;}
-	#mypanel{border:1px solid lightgray;}
-</style>
-	<div data-options="region:'north',split:false" style="height:87px;overflow: hidden">
-
-		<div class="layout-header" style="position: relative">
-			<div class="layout-title">
-				<h3><a>深圳韵达有限公司</a></h3>
-			</div>
-			<div class="self_title">
-				<a href="">大客户信息</a>
-			</div>
-			<div class="layout-help" style="position: absolute;">
-				<a onclick="$('#dlg_help').dialog('open')">帮助</a>
-			</div>
-            <div class="self-tool-btn" style="margin-top:50px;">
-                <span class="myself_btn">收缩</span>	
-            </div>
-			<div id="menulist">
-			<div>
-                <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
-                <a onclick="addObj()"><span class="iterm2"></span>添加客户</a>
-                <a onclick="updateObj()"><span class="iterm3"></span>编辑客户</a>
-                <a onclick="deleteObj()"><span class="iterm4"></span>删除客户</a>
-                <a  onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
-                <a onclick="excel_export()"><span class="iterm7"></span>导出</a>
-                <a onclick="$('#mbedit').dialog('open')"><span class="iterm6"></span>编辑模板</a>
-			</div>
-			</div>
-			
-		</div>
-	</div>
-
- -->
- 
 <style>
 .panel-body {border-color: #E6E6E6; border:none;}
   .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
@@ -221,20 +184,14 @@ border:1px solid lightgray;}
 </style>
 	<div data-options="region:'north',split:false" style="overflow: hidden">
     <div class="layout-header" style="position: relative">
-      
         <div class="logo"></div>
-        <div class="layout-title">
-            <h4>深圳市韵达速递有限公司</h4>
-        </div>
         <div class="self_title">
             <a>大客户信息</a>
         </div>
         <div class="my_help">
-            <a href="../../../view/firstPage.html">返回首页</a>
-            | <a  href="../../../view/index.html">退出登录 |
+          	<a href="../../../view/index.html">退出|
             </a><a onclick="$('#dlg_help').dialog('open')" >帮助</a></div>
-    </div>
-
+    	</div>
 </div>
 
 
@@ -246,10 +203,10 @@ border:1px solid lightgray;}
                 <a onclick="addObj()"><span class="iterm2"></span>添加客户</a>
                 <a onclick="updateObj()"><span class="iterm3"></span>编辑客户</a>
                 <a onclick="deleteObj()"><span class="iterm4"></span>删除客户</a>
-                <a  onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
-                <a onclick="excel_export()"><span class="iterm7"></span>导出</a>
+                <a onclick="excel_export()"><span class="iterm7"></span>导出数据</a>
                 <a onclick="$('#mbedit').dialog('open')"><span class="iterm6"></span>编辑模板</a>
-                <span class="myself_btn" style="position:absolute;right:31px;top:23px;">收缩</span>	
+                <a  onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
+                <span class="myself_btn">收缩</span>	
              </div>  
 			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
 			

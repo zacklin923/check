@@ -164,14 +164,12 @@ border:1px solid lightgray;}
     <div class="layout-header" style="position: relative">
        
         <div class="logo"></div>
-        <div class="layout-title" >
-            <h4>深圳市韵达速递有限公司</h4>
-        </div>
+        
         <div class="self_title">
             <a href="">时效控制信息</a>
         </div>
-        <div class="my_help"><a href="../../../view/firstPage.html">返回首页</a>
-            | <a href="../../../view/index.html">退出登录 |
+        <div class="my_help">
+           <a href="../../../view/index.html">退出 |
             </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
     </div>
 
@@ -185,10 +183,10 @@ border:1px solid lightgray;}
                  <a onclick="addObj()"><span class="iterm1"></span>添加时效 </a>
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑时效</a>
                 <a onclick="deleteObj()"><span class="iterm3"></span>删除时效</a>
-                <a onclick="search_toolbar()"><span class="iterm5"></span>查询</a>
-                <a><span class="iterm4"></span>统计</a>
-             	<a onclick="excel_export()"><span class="iterm6"></span>导出</a>
-                <span class="myself_btn" style="position:absolute;right:5px;top:23px;">收缩</span>	
+                <!-- <a><span class="iterm4"></span>统计数据</a> -->
+             	<a onclick="excel_export()"><span class="iterm6"></span>导出数据</a>
+             	<a onclick="search_toolbar()"><span class="iterm5"></span>查询数据</a>
+                <span class="myself_btn">收缩</span>	
              </div>  
 			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
 			
