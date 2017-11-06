@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
-import com.zs.entity.CheckLog;
 import com.zs.entity.SourceImport;
 import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;

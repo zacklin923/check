@@ -115,11 +115,28 @@ function upload(){
 		urlf:"/check/api/zmReturnData/zm/import",
 		type:"GET",
 		fid:"fmfile",
-		success:function(data){
+		superSuccess:function(data){
 			hiden_hint();
-			$('#dg').datagrid('reload');
-			$("#fileImport").dialog("close");					
-		}
+			var json;
+			if(isJson(data)){
+				json=data;
+			}else{
+				json = eval('('+data+')');
+			}
+			if(json){
+				var r;
+				if(json.result=='success'){
+					r='导入成功';
+				}else{
+					r='导入失败';
+				}
+				$.messager.alert('导入结果通知', '结果：'+r+'<br>状态码：'+json.code+'<br>状态参数详情：'+json.data, 'info');
+				$('#dg').datagrid('reload');
+			}else{
+				$.messager.alert('导入结果通知', '未知错误', 'error');
+				$('#dg').datagrid('reload');
+			}
+		}		
 	});
 }
 function search_toolbar1(){
@@ -194,42 +211,6 @@ function IESerch(){
 	}
 }
 </script>
-<!-- <style>
- .panel-body {border-color: #E6E6E6; border:none;}
-	#menulist{height:30px;}
-	#mypanel{border:1px solid lightgray;}
-</style>
-	<div data-options="region:'north',split:false" style="height:87px;overflow: hidden">
-
-		<div class="layout-header" style="position: relative">
-			<div class="layout-title">
-				<h3><a>深圳韵达有限公司</a></h3>
-			</div>
-			<div class="self_title">
-				<a href="">运单信息查询</a>
-			</div>
-			<div class="layout-help" style="position: absolute;">
-				<a onclick="$('#dlg_help').dialog('open')">帮助</a>
-			</div>
-            <div class="self-tool-btn" style="margin-top:50px;">
-                <span class="myself_btn">收缩</span>	
-            </div>
-			<div id="menulist">
-			<div>
-                <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
-                <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
-                <a onclick="$('#mbedit').dialog('open')"><span class="iterm3"></span>编辑模板</a>
-                <a onclick="accept()"><span class="iterm4"></span>保存</a>
-                <a style="opacity: 0.7;"><span class="iterm6"></span>统计</a>
-                <a onclick="$('#exportdiv').dialog('open')""><span class="iterm7"></span>导出</a>
-                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询</a>
-                <a onclick="IESerch()"><span class="iterm8"></span>&nbsp;快件查询</a>
-			</div>
-			</div>
-		</div>
-	</div>
-
- -->
  <style>
 .panel-body {border-color: #E6E6E6; border:none;}
   .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
@@ -251,8 +232,8 @@ border:1px solid lightgray;}
             <a href="">运单信息查询</a>
         </div>
         <div class="my_help">
-            | <a href="../../../view/index.html">退出 |
-            </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
+            <a href="javascript:window.opener=null;window.open('','_self');window.close();">关闭|
+            </a><a onclick="$('#dlg_help').dialog('open')" style="right:0px;">帮助</a></div>
     </div>
 
 </div>
@@ -264,9 +245,9 @@ border:1px solid lightgray;}
                 <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
                 <a onclick="$('#mbedit').dialog('open')"><span class="iterm3"></span>编辑模板</a>
-                <a onclick="accept()"><span class="iterm4"></span>保存数据</a>
-                <a onclick="$('#exportdiv').dialog('open')""><span class="iterm7"></span>导出数据</a>
+                <a onclick="accept()"><span class="iterm6"></span>保存数据</a>
                 <a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
+                <a onclick="$('#exportdiv').dialog('open')""><span class="iterm7"></span>导出数据</a>
                 <a onclick="IESerch()"><span class="iterm8"></span>&nbsp;快件查询</a>
                  <span class="myself_btn">收缩</span>	
 			</div>

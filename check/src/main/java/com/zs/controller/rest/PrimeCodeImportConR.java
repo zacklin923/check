@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.zs.controller.rest.BaseRestController.Code;
-import com.zs.entity.CheckLog;
 import com.zs.entity.PrimeCodeReport;
-import com.zs.entity.StaffUser;
 import com.zs.entity.other.EasyUIAccept;
 import com.zs.entity.other.EasyUIPage;
 import com.zs.entity.other.Result;
@@ -63,11 +61,11 @@ public class PrimeCodeImportConR{
 	public Result<String> doUpdate(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
 				PrimeCodeReport obj = g.fromJson(data, PrimeCodeReport.class);
-				PrimeCodeReport ols = primeCodeImportSer.get(obj.getId()+"");
+//				PrimeCodeReport ols = primeCodeImportSer.get(obj.getId()+"");
 				Integer i = primeCodeImportSer.update(obj);
-				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
-				CheckLog clog = new CheckLog(null, obj.getId()+"", null, "prime_code_import",new Gson().toJson(ols) , null,user.getStuNum() , "修改单条");
-				checkLogSer.add(clog);
+//				StaffUser user =  (StaffUser) req.getSession().getAttribute("user");
+//				CheckLog clog = new CheckLog(null, obj.getId()+"", null, "prime_code_import",new Gson().toJson(ols) , null,user.getStuNum() , "修改单条");
+//				checkLogSer.add(clog);
 				return new Result<String>("success",  Code.SUCCESS, "修改成功");
 			} catch (Exception e) {
 				e.printStackTrace();

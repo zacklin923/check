@@ -5,7 +5,8 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<link rel="shortcut icon" href="<%=path %>/jsp/iterm/images/favicon.ico"/>
+<link rel="bookmark" href="<%=path %>/jsp/iterm/images/favicon.ico"/>
 <link rel="stylesheet" type="text/css" href="<%=path %>/framework/jquery-easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="<%=path %>/framework/jquery-easyui/themes/icon.css">
 <link rel="stylesheet" type="text/css" href="<%=path %>/framework/jquery-easyui/demo/demo.css">

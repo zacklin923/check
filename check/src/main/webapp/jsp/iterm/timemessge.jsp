@@ -169,7 +169,7 @@ border:1px solid lightgray;}
             <a href="">时效控制信息</a>
         </div>
         <div class="my_help">
-           <a href="../../../view/index.html">退出 |
+           <a href="javascript:window.opener=null;window.open('','_self');window.close();">关闭|
             </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
     </div>
 
@@ -185,7 +185,7 @@ border:1px solid lightgray;}
                 <a onclick="deleteObj()"><span class="iterm3"></span>删除时效</a>
                 <!-- <a><span class="iterm4"></span>统计数据</a> -->
              	<a onclick="excel_export()"><span class="iterm6"></span>导出数据</a>
-             	<a onclick="search_toolbar()"><span class="iterm5"></span>查询数据</a>
+             	<a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
                 <span class="myself_btn">收缩</span>	
              </div>  
 			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
@@ -195,10 +195,10 @@ border:1px solid lightgray;}
                         <!--提交表单栏开始-->
                         <div class="center">
                             <ul>
-                                <li>  <label for=""">到达省份</label>
+                                <li>  <label>到达省份</label>
                                     <input type="text" style="margin-left: 22px"   name ="str2" >
                                 </li>
-                                <li><label for="">始发中转站</label>
+                                <li><label>始发中转站</label>
                                     <input type="text"   name ="str1">
                                 </li>
                                   

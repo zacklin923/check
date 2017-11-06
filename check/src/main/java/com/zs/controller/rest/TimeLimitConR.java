@@ -96,7 +96,7 @@ public class TimeLimitConR extends BaseRestController<TimeLimit,BigDecimal>{
 	public Result<String> excelExport(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
 				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
-				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
+//				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>(SUCCESS,  Code.SUCCESS, timeLimitSer.exportData(accept,req));
 			} catch (Exception e) {
 				e.printStackTrace();

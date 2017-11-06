@@ -189,7 +189,7 @@ border:1px solid lightgray;}
             <a>大客户信息</a>
         </div>
         <div class="my_help">
-          	<a href="../../../view/index.html">退出|
+          	<a href="javascript:window.opener=null;window.open('','_self');window.close();">关闭|
             </a><a onclick="$('#dlg_help').dialog('open')" >帮助</a></div>
     	</div>
 </div>
@@ -324,11 +324,11 @@ border:1px solid lightgray;}
 		</div>
 		<div class="fitem">
 			<label>开通时间:</label>
-			<input name="openDate" class="Wdate" onFocus="WdatePicker({dateFmt:'yyyy/MM/dd'})" >
+			<input name="openDate" class="Wdate" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" >
 		</div>
 		<div class="fitem">
 			<label>暂停时间:</label>
-			<input name="outDate" class="Wdate" onFocus="WdatePicker({dateFmt:'yyyy/MM/dd'})" >
+			<input name="outDate" class="Wdate" onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" >
 		</div>
 		<div class="fitem">
 			<label>业务负责人:</label>
