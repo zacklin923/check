@@ -121,11 +121,28 @@ function upload(){
 		urlf:"/check/api/zmReturnData/tp/import",
 		type:"GET",
 		fid:"fmfile",
-		success:function(data){
+		superSuccess:function(data){
 			hiden_hint();
-			$('#dg').datagrid('reload');
-			$("#fileImport").dialog("close");					
-		}
+			var json;
+			if(isJson(data)){
+				json=data;
+			}else{
+				json = eval('('+data+')');
+			}
+			if(json){
+				var r;
+				if(json.result=='success'){
+					r='导入成功';
+				}else{
+					r='导入失败';
+				}
+				$.messager.alert('导入结果通知', '结果：'+r+'<br>状态码：'+json.code+'<br>状态参数详情：'+json.data, 'info');
+				$('#dg').datagrid('reload');
+			}else{
+				$.messager.alert('导入结果通知', '未知错误', 'error');
+				$('#dg').datagrid('reload');
+			}
+		}		
 	});
 }
 function search_toolbar1(){
@@ -234,40 +251,6 @@ function IESerch(){
 	}
 }
 
-<%-- function upload1(){
-	$("#fileImport1").dialog("close");
-	show_hint([]);
-	$("#fmfile1").form("submit",{
-		url:"<%=path %>/api/zmReturnData/tp/feeTimeImport",		
-		onSubmit:function(){
-			return $(this).form('validate');
-		},
-		success:function(data){
-			console.log(data);
-			if(data){
-				var json;
-				if(isJson(data)){
-					json=data;
-				}else{
-					json = eval('('+data+')');
-				}
-				if(json.result=='success'){
-					hiden_hint();
-					$('#dg').datagrid('reload');
-					$("#fileImport1").dialog("close");
-					alert("导入成功");
-				}else{
-					hiden_hint();
-					$("#fileImport1").dialog("close");	
-					alert("错误:"+json.code+"错误原因："+json.data);
-				}
-			}else{
-				hiden_hint();
-				alert("错误:网络错误");
-			}
-		}
-	});
-} --%>
 </script>
 	<style>
 .panel-body {border-color: #E6E6E6; border:none;}
@@ -290,7 +273,7 @@ border:1px solid lightgray;}
             <a href="">运单状态查询</a>
         </div>
           <div class="my_help"> 
-            <a href="../../../view/index.html">退出|
+            <a href="../../../view/index.html">关闭|
             </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
     </div>
 
@@ -306,10 +289,10 @@ border:1px solid lightgray;}
                 <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
                 <a onclick="$('#mbedit').dialog('open')"><span class="iterm3"></span>编辑模板</a>
-                <a onclick="accept()"><span class="iterm4"></span>保存数据</a>
+                <a onclick="accept()"><span class="iterm6"></span>保存数据</a>
 <!--                 <a ><span class="iterm6"></span>统计</a> -->
-                <a onclick="$('#exportdiv').dialog('open');"><span class="iterm7"></span>导出数据</a>
                 <a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
+                <a onclick="$('#exportdiv').dialog('open');"><span class="iterm7"></span>导出数据</a>
                 <a onclick="IESerch()"><span class="iterm8"></span>&nbsp;快件查询</a>
                 <a onclick="$('#fileImport1').dialog('open')" style="display:none;"><span class="iterm1"></span>插发货时间数据 </a>
                   <span class="myself_btn">收缩</span>	

@@ -138,7 +138,7 @@ input {
     text-decoration-line: none;
     border:1px solid  rgb(204, 204, 204);
     vertical-align: middle;
-    width: 65px;
+    width: 70px;
     height: 32px;
     display: inline-block;
     padding-left: 20px;
@@ -146,9 +146,13 @@ input {
     line-height: 30px;
     text-decoration-line: none;
     position: relative;
-    color: slategray;
+    color: #333;
    	float: left;
    	border-radius:5px;
+   	font-weight:500;
+   	font-size:14px;
+   	margin-right:4px;
+   	
 
 }
 
@@ -157,7 +161,7 @@ input {
     height: 16px;
     position: absolute;
     top: 6px;
-    left: 10px
+    left: 6px
 }
 #menulist >div{
 	height:30px;
@@ -165,32 +169,32 @@ input {
 
 #menulist >a:nth-child(1):hover{
     background-color: rgb(250, 180, 0);
-    color:white;
+    
     cursor: pointer;
 }
 #menulist> a:nth-child(2):hover{
     background-color: rgb(255, 180, 0);
-      color:white;
+     
        cursor: pointer;
 }
 #menulist > a:nth-child(3):hover{
     background-color: rgb(255, 180, 0);
-     color:white;
+    
        cursor: pointer;
 }
 #menulist > a:nth-child(4):hover{
     background-color: rgb(255, 180, 0);
-    color:white;
+    
        cursor: pointer;
 }
 #menulist> a:nth-child(5):hover{
     background-color:rgb(255, 180, 0);
-    color:white;
+   
        cursor: pointer;
 }
 #menulist > a:nth-child(6):hover{
     background-color: rgb(255, 180, 0);
-     color:white;
+    
        cursor: pointer;
 }
 #menulist > a:nth-child(7):hover{
