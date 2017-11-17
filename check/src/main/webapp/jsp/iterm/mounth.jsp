@@ -142,8 +142,8 @@ border:1px solid lightgray;}
 		<div id="toolsbars">
 		<div id="menulist" style="padding-top: 10px;position:raletiver">
 			
-                <a onclick="refrence()"><span class="iterm1"></span>重新生成 </a>
-                <a onclick="excel_export()"><span class="iterm2"></span>导出数据</a>
+                <a onclick="refrence()"><span class="iterm10"></span>重新生成 </a>
+                <a onclick="excel_export()"><span class="iterm1"></span>导出数据</a>
                 <a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
                  <span class="myself_btn">收缩</span>	
 			
