@@ -204,11 +204,11 @@ border:1px solid lightgray;}
 
 		<div id="toolsbars">
 			<div id="menulist" style="padding-top: 10px;position:raletiver">
-                <a onclick="addObj()"><span class="iterm1"></span>添加数据</a>
+                <a onclick="addObj()"><span class="iterm10"></span>添加数据</a>
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
                 <a onclick="deleteObj()"><span class="iterm3"></span>删除数据</a>
-                <a onclick="excel_export()"><span class="iterm4"></span>导出数据</a>
-                <a onclick="accept()"><span class="iterm6"></span>保存数据</a>
+                <a onclick="excel_export()"><span class="iterm7"></span>导出数据</a>
+                <a onclick="accept()"><span class="iterm9"></span>保存数据</a>
                 <a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
                 <span class="myself_btn">收缩</span>	
              </div>  

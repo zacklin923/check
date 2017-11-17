@@ -184,7 +184,7 @@ border:1px solid lightgray;}
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑时效</a>
                 <a onclick="deleteObj()"><span class="iterm3"></span>删除时效</a>
                 <!-- <a><span class="iterm4"></span>统计数据</a> -->
-             	<a onclick="excel_export()"><span class="iterm6"></span>导出数据</a>
+             	<a onclick="excel_export()"><span class="iterm7"></span>导出数据</a>
              	<a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
                 <span class="myself_btn">收缩</span>	
              </div>  

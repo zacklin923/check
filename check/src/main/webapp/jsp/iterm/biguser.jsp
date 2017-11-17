@@ -200,9 +200,9 @@ border:1px solid lightgray;}
 		<div id="toolsbars">
 			<div id="menulist" style="padding-top: 10px;position:raletiver">
                	 <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
-                <a onclick="addObj()"><span class="iterm2"></span>添加客户</a>
-                <a onclick="updateObj()"><span class="iterm3"></span>编辑客户</a>
-                <a onclick="deleteObj()"><span class="iterm4"></span>删除客户</a>
+                <a onclick="addObj()"><span class="iterm10"></span>添加客户</a>
+                <a onclick="updateObj()"><span class="iterm2"></span>编辑客户</a>
+                <a onclick="deleteObj()"><span class="iterm3"></span>删除客户</a>
                 <a onclick="excel_export()"><span class="iterm7"></span>导出数据</a>
                 <a onclick="$('#mbedit').dialog('open')"><span class="iterm6"></span>编辑模板</a>
                 <a  onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
@@ -269,6 +269,7 @@ border:1px solid lightgray;}
              <!--  <a onclick="search_toolbar1()"  id="my_search" style="top: 99px;margin-left:910px;">查询</a>
              <a onclick="search_toolbar1()"  id="my_search" style="top:21px;margin-left:1000px;"><span class="fSearchIcon"></span>查询</a> -->
             </div>
+            <div style="height:10px;background:white;"></div>
 		</div>
      <table id="dg" border="true"
 		method="get" toolbar="#toolsbars"
