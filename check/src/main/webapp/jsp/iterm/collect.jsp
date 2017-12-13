@@ -97,7 +97,7 @@ border:1px solid lightgray;}
             <a href="">成本导入汇总</a>
         </div>
         <div class="my_help">
-          	 <a href="../../../view/index.html">退出|</a>
+          	 <a href="javascript:window.opener=null;window.open('','_self');window.close();">关闭|</a>
             <a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
     </div>
 
@@ -107,7 +107,7 @@ border:1px solid lightgray;}
 
 		<div id="toolsbars">
 		<div id="menulist" style="padding-top: 10px;position:raletiver">
-                <a onclick="export_excel()"><span class="iterm4"></span>导出数据</a>
+                <a onclick="export_excel()"><span class="iterm7"></span>导出数据</a>
                 <a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
 		  		<span class="myself_btn">收缩</span>	
              </div>  

@@ -148,7 +148,7 @@ function search_toolbar1(){
             <a href="">错误数据</a>
         </div>
         <div class="my_help">
-            <a href="../../../view/index.html">退出 |
+            <a href="javascript:window.opener=null;window.open('','_self');window.close();">关闭|
             </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
     </div>
 
@@ -157,9 +157,9 @@ function search_toolbar1(){
 
 		<div id="toolsbars">
 		<div id="menulist" id="menulist" style="padding-top: 10px;position:raletiver">
-                <a onclick="deleteAll()"><span class="iterm1"></span>批量删除 </a>
-                <a onclick="deleteAllData()"><span class="iterm2"></span>删除所有</a>
-                <a onclick="excel_export()"><span class="iterm3"></span>导出数据</a>
+                <a onclick="deleteAll()"><span class="iterm3"></span>批量删除 </a>
+                <a onclick="deleteAllData()"><span class="iterm4"></span>删除所有</a>
+                <a onclick="excel_export()"><span class="iterm7"></span>导出数据</a>
                 <a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
                  <span class="myself_btn">收缩</span>	
 			

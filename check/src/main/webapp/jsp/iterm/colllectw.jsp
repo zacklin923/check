@@ -99,7 +99,7 @@ border:1px solid lightgray;}
             <a href="">成本按导入人</a>
         </div>
        <div class="my_help">
-           <a  href="../../../view/index.html">退出登|
+           <a  href="javascript:window.opener=null;window.open('','_self');window.close();">关闭|
             </a><a onclick="$('#dlg_help').dialog('open')">帮助</a></div>
     </div>
 
@@ -110,8 +110,8 @@ border:1px solid lightgray;}
 		<div id="toolsbars">
 			<div id="menulist" style="padding-top: 10px;position:raletiver">
 			
-                <a onclick="export_excel1()"><span class="iterm4"></span>导出数据</a>
-                <a onclick="search_toolbar()"><span class="iterm5"></span>查询数据</a>
+                <a onclick="export_excel()"><span class="iterm7"></span>导出数据</a>
+                <a onclick="search_toolbar1()"><span class="iterm5"></span>查询数据</a>
 			   <span class="myself_btn">收缩</span>	
              </div>  
 			<div id="mypanel" class="easyui-panel" style="padding-top:10px;padding-bottom:2px;box-sizing: border-box;margin-top: 5px;width: 100%;margin: 0 auto;margin-top: 5px;" >
