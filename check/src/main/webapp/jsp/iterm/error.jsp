@@ -156,7 +156,7 @@ function search_toolbar1(){
 	<div data-options="region:'center',split:false" style="padding-left:20px;padding-right:30px;padding-top:1px;padding-bottom:10px">
 
 		<div id="toolsbars">
-		<div id="menulist" id="menulist" style="padding-top: 10px;position:raletiver">
+		<div id="menulist" id="menulist" style="padding-top: 5px;position:raletiver">
                 <a onclick="deleteAll()"><span class="iterm3"></span>批量删除 </a>
                 <a onclick="deleteAllData()"><span class="iterm4"></span>删除所有</a>
                 <a onclick="excel_export()"><span class="iterm7"></span>导出数据</a>

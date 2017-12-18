@@ -140,7 +140,7 @@ border:1px solid lightgray;}
 		<div data-options="region:'center',split:false" style="padding-left:20px;padding-right:30px;padding-top:1px;padding-bottom:10px">
 
 		<div id="toolsbars">
-		<div id="menulist" style="padding-top: 10px;position:raletiver">
+		<div id="menulist" style="padding-top: 5px;position:raletiver">
 			
                 <a onclick="refrence()"><span class="iterm10"></span>重新生成 </a>
                 <a onclick="excel_export()"><span class="iterm1"></span>导出数据</a>
