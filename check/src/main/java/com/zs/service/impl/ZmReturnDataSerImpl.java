@@ -15,8 +15,6 @@ import com.google.gson.Gson;
 import com.zs.dao.CustomerMapper;
 import com.zs.dao.ItCommonUserMapper;
 import com.zs.dao.NoUpdateMapper;
-import com.zs.dao.StaffRoleMapper;
-import com.zs.dao.StaffUserMapper;
 import com.zs.dao.ZmReturnDataMapper;
 import com.zs.entity.CheckLog;
 import com.zs.entity.Customer;
@@ -25,7 +23,6 @@ import com.zs.entity.ItCommonUser;
 import com.zs.entity.ItCommonUserExample;
 import com.zs.entity.NoUpdate;
 import com.zs.entity.NoUpdateKey;
-import com.zs.entity.SourceImport;
 import com.zs.entity.StaffUser;
 import com.zs.entity.TimeLimit;
 import com.zs.entity.ZmReturnData;
@@ -56,8 +53,6 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 	private CustomerMapper custormerMapper;
 	@Resource
 	private TimeLimitSer timeLimitSer;
-	@Resource
-	private StaffUserMapper userMapper;
 	@Resource
 	private ItCommonUserMapper itCommonUserMapper;
 	
@@ -241,8 +236,12 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 		for (int i = 0; i < list.size(); i++) {
 			ZmReturnData tp=(ZmReturnData) list.get(i);
 			if(tp.getUpdateMan()!=null&&!tp.getUpdateMan().equals("")){
-				StaffUser us = userMapper.selectByPrimaryKey(tp.getUpdateMan());
-				tp.setUpdateMan(us.getStuName());
+				ItCommonUserExample icexample= new ItCommonUserExample();
+				icexample.createCriteria().andUsernumberEqualTo(tp.getUpdateMan());
+				List<ItCommonUser> suer = itCommonUserMapper.selectByExample(icexample);
+				tp.setUpdateMan(suer.get(0).getName()==null?"":suer.get(0).getName());
+			}else{
+				tp.setUpdateMan("");
 			}
 		}
 		String[] obj ={"所属大区","所属区部","所属分部","所属分拨点","客户条码","客户名称","快递单号","发货日期","省份","地址","客户店铺","收件人","联系方式","重量","快递公司","物品价值","物品","创建日期","状态","订单编号","超时时间","系统接收时间","修改人"};
@@ -679,5 +678,13 @@ public class ZmReturnDataSerImpl implements ZmReturnDataSer{
 			return new Gson().toJson(err)+"行导入失败";
 		}
 		return "导入成功";
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		String str ="123456789";
+		System.out.println(str.substring(0, 3));
+		System.out.println(str.substring(3, 6));
 	}
 }
