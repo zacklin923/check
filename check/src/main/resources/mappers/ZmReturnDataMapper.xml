@@ -815,7 +815,7 @@
 		 			and send_date >= #{date1}
 				</if>
 				<if test="date2!=null">
-		 			and send_date &lt;= #{date2}
+		 			and send_date &lt; #{date2}
 				</if>
 		    	<if test="str1!=null and str1!=''">
 			  		and CTM_BAR_CODE in (${str1})
@@ -904,7 +904,7 @@
  			and send_date >= #{date1}
 		</if>
 		<if test="date2!=null">
- 			and send_date &lt;= #{date2}
+ 			and send_date &lt; #{date2}
 		</if>
     	<if test="str1!=null and str1!=''">
 	  		and CTM_BAR_CODE in (${str1})

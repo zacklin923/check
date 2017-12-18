@@ -8,7 +8,19 @@
 //var URL_PATH="http://web.szexpress.com.cn:15507";//url的前面部分，包含协议、ip、端口。——张顺，2017-9-12
 //var URL_PATH="http://172.16.1.37:8080";//黄光辉
 //var URL_PATH="http://web.szexpress.com.cn:15506";//正式库的地址
-var URL_PATH="http://127.0.0.1:8080";//正式库的地址
+//var URL_PATH="http://127.0.0.1:8080";//正式库的地址
+
+var URL_PATH;
+
+/*张顺，2017-11-28，由于一些列原因（具体问黄光辉），现在需要改为第一次点击时获取浏览器上的地址来得到url_path*/
+if(!URL_PATH){
+	URL_PATH="http://"+window.location.host;
+	console.log(URL_PATH);
+	if(URL_PATH=="http://"){
+		alert("你的打开方式不对，不要以文件形式打开，以网络请求的方式打开，具体请看浏览器的协议头是file还是http");
+	}
+}
+
 /**获取token*/
 function getToken(){
 	var tokenNuber =  window.localStorage.getItem("token");
@@ -154,7 +166,7 @@ function jsonObjTransToUrlparam(param){
 
 function rowisNullClear(row){
 	$.each(row, function(name,value) {    
-		if(value==null){
+		if(value==null || value==''){
 			delete row[name];
 		}
 	});

@@ -750,7 +750,7 @@
   	from prime_code_report
   	<where>
   		<if test="str1!=null">
-	  	 	 and stu_num in (select usernumber from IT_COMMON_USER where name in (${str4}))
+	  	 	 and stu_num in (select usernumber from IT_COMMON_USER where name in (${str1}))
   		</if>
   		<if test="date1!=null">
 	  		and CREATE_DATE >= #{date1}

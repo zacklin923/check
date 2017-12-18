@@ -116,6 +116,9 @@ public class CustomerConR extends BaseRestController<Customer,String>{
 	public Result<String> excelExport(String uid,String data, HttpServletRequest req, HttpServletResponse resp) {
 			try {
 				EasyUIAccept accept = g.fromJson(data, EasyUIAccept.class); 
+				if(accept.getStr1()!=null){
+					accept.setStr1(BatchString.oldbatchstr(accept.getStr1()));
+				}
 				accept.setSort(ColumnName.transToUnderline(accept.getSort()));
 				return new Result<String>(SUCCESS,  Code.SUCCESS, customerSer.exportData(accept,req));
 			} catch (Exception e) {
