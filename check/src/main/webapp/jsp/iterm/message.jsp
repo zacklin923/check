@@ -241,7 +241,7 @@ border:1px solid lightgray;}
 	<div data-options="region:'center',split:false" style="padding-left:20px;padding-right:30px;padding-top:1px;padding-bottom:10px">
 
 		<div id="toolsbars">
-			<div id="menulist" style="padding-top: 10px;position:raletiver">
+			<div id="menulist" style="padding-top: 5px;position:raletiver">
                 <a onclick="$('#fileImport').dialog('open')"><span class="iterm1"></span>导入数据 </a>
                 <a onclick="$('#exportdiv').dialog('open')""><span class="iterm7"></span>导出数据</a>
                 <a onclick="updateObj()"><span class="iterm2"></span>编辑数据</a>
